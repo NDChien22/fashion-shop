@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    /* Gradient chéo từ xanh cyan sang tím hồng giống ảnh */
+    background: linear-gradient(45deg, #00dbde 0%, #fc00ff 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.login-container {
+    background: #fff;
+    width: 400px;
+    padding: 60px 50px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    min-height: 700px;
+}
+
+.login-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 35px;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 25px;
+    padding: auto;
+    
+}
+
+.input-group label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.input-with-icon {
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-bottom: 2px solid #d9d9d9;
+}
+
+/* Icon giả lập (User/Lock) */
+.input-with-icon::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    opacity: 0.5;
+}
+
+.input-with-icon input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px 5px 10px 30px;
+    font-size: 15px;
+}
+
+.forgot-pass {
+    text-align: right;
+    margin-top: 8px;
+}
+    
+.forgot-pass a {
+    text-decoration: none; 
+    color: #666; 
+    font-size: 13px;
+    transition: 0.2s; 
+}
+
+.forgot-pass a:hover {
+    text-decoration: underline;
+    color: #333; 
+}
+
+/* Nút Login với Gradient */
+.btn-login {
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(to right, #00dbde, #fc00ff);
+    color: white;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: 0.4s;
+    filter: brightness(1.1);
+}
+
+.btn-login:hover {
+    filter: brightness(0.8);
+}
+
+/* Social Login Section */
+.social-section {
+    text-align: center;
+    margin-top: 45px;
+    
+}
+
+.social-section p, .signup-section p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.facebook { background-color: #3b5998; }
+.twitter { background-color: #1da1f2; }
+.google { background-color: #ea4335; }
+
+.signup-section {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.signup-link {
+    text-decoration: none;
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+    padding: 5px 15px;      
+    border-radius: 20px;    
+    
+}
+
+.signup-link:hover {
+    background-color: rgba(176, 173, 173, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+    color: #000;            
+    cursor: pointer;
+}

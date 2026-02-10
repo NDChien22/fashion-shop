@@ -15,7 +15,7 @@ body {
 }
 
 
-.login-container {
+.auth-login-container {
     background: #fff;
     width: 400px;
     padding: 60px 50px;
@@ -24,7 +24,7 @@ body {
     min-height: 700px;
 }
 
-.login-title {
+.auth-login-title {
     text-align: center;
     font-size: 30px;
     font-weight: 700;
@@ -32,20 +32,18 @@ body {
     color: #333;
 }
 
-.input-group {
-    margin-bottom: 25px;
+.auth-input-group {
     padding: auto;
 
 }
 
-.input-group label {
+.auth-input-group label {
     font-size: 14px;
     color: #333;
-    margin-bottom: 10px;
     display: block;
 }
 
-.input-with-icon {
+.auth-input-with-icon {
     display: flex;
     align-items: center;
     position: relative;
@@ -53,7 +51,7 @@ body {
 }
 
 /* Icon giả lập (User/Lock) */
-.input-with-icon::before {
+.auth-input-with-icon::before {
     content: '';
     position: absolute;
     left: 0;
@@ -64,7 +62,7 @@ body {
     opacity: 0.5;
 }
 
-.input-with-icon input {
+.auth-input-with-icon input {
     width: 100%;
     border: none;
     outline: none;

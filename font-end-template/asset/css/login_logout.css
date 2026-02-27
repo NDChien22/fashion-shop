@@ -2,12 +2,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* Đổi sang font Inter cho sang trọng hoặc giữ nguyên Poppins tùy bạn */
     font-family: 'Inter', sans-serif; 
 }
 
 body {
-    /* Thay gradient xanh tím bằng màu xám nhẹ đồng bộ với Admin main-bg */
     background: #f4f4f4; 
     height: 100vh;
     display: flex;
@@ -20,7 +18,6 @@ body {
     width: 400px;
     padding: 60px 50px;
     border-radius: 10px;
-    /* Đổ bóng mảnh và nhẹ hơn */
     box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
     min-height: 700px;
 }
@@ -30,7 +27,6 @@ body {
     font-size: 30px;
     font-weight: 700;
     margin-bottom: 35px;
-    /* Màu đen sâu của Admin text-main */
     color: #1a1a1a; 
 }
 
@@ -41,7 +37,6 @@ body {
 
 .input-group label {
     font-size: 14px;
-    /* Màu chữ mờ của Admin text-muted */
     color: #888; 
     margin-bottom: 10px;
     display: block;
@@ -51,11 +46,9 @@ body {
     display: flex;
     align-items: center;
     position: relative;
-    /* Viền mảnh đồng bộ border-color */
     border-bottom: 2px solid #eeeeee; 
 }
 
-/* Icon giả lập (User/Lock) */
 .input-with-icon::before {
     content: '';
     position: absolute;
@@ -90,17 +83,16 @@ body {
 
 .forgot-pass a:hover {
     text-decoration: underline;
-    /* Hover ra màu vàng cát của Admin accent */
     color: #b5966d; 
 }
 
-/* Nút Login - Thay Gradient bằng màu Đen/Vàng cát */
+
 .btn-login {
     width: 100%;
     height: 45px;
     border: none;
     border-radius: 25px;
-    /* Màu đen tối giản chuyên nghiệp */
+   
     background: #1a1a1a; 
     color: white;
     font-weight: 600;
@@ -111,11 +103,10 @@ body {
 }
 
 .btn-login:hover {
-    /* Hover ra màu vàng cát */
     background: #b5966d; 
 }
 
-/* Social Login Section */
+
 .social-section{
     margin-top: 20px;
 }
@@ -174,7 +165,7 @@ body {
 }
 
 .signup-section a {
-    /* Màu vàng cát đồng nhất */
+    
     color: #b5966d; 
     text-decoration: none;
     font-weight: bold;
@@ -193,7 +184,7 @@ body {
     margin-bottom: 10px; 
 }
 
-/* Nút Register phía dưới */
+
 .btn-login-outline {
     display: inline-block;
     padding: 10px 40px;
@@ -201,7 +192,7 @@ body {
     font-weight: 600;
     text-decoration: none;
     text-transform: uppercase;
-    /* Chuyển sang viền đen cho thanh thoát */
+   
     background: transparent;
     border: 1px solid #1a1a1a;
     border-radius: 25px;

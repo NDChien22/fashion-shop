@@ -1,0 +1,261 @@
+:root {
+    --sidebar-bg: #f9f9f9;
+    --main-bg: #ffffff;
+    --accent: #b5966d;
+    --text-main: #4b4646;
+    --text-muted: #888888;
+    --white: #ffffff;
+    --border-color: #eeeeee;
+    
+   
+    --icon-revenue: #d4a373;  
+    --icon-orders: #8da9c4;   
+    --icon-warning: #c97c7c; 
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.02em;
+}
+
+body {
+    background: var(--main-bg);
+    color: var(--text-main);
+}
+
+.admin-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 260px;
+    background: var(--sidebar-bg);
+    color: var(--text-main);
+    padding: 20px 0;
+    position: fixed;
+    height: 100vh;
+    border-right: 1px solid var(--border-color);
+}
+
+.sidebar-header {
+    text-align: center;
+    padding-bottom: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.nav-menu {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.nav-item {
+    padding: 15px 25px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Màu icon ở Sidebar */
+.nav-item i {
+    margin-right: 12px;
+    width: 20px;
+    color: var(--accent);
+    opacity: 0.8;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    background: #f0f0f0;
+    color: var(--text-main);
+    border-left: 4px solid var(--accent);
+}
+
+.nav-item:hover i,
+.nav-item.active i {
+    opacity: 1;
+    color: var(--text-main);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    padding: 40px;
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.search-bar input {
+    padding: 10px 20px;
+    border-radius: 0;
+    border: 1px solid var(--border-color);
+    width: 350px;
+    outline: none;
+    font-size: 13px;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: transparent;
+    padding: 8px 0;
+}
+
+.role-tag {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.admin-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    object-fit: cover;
+}
+
+/* Thẻ thống kê & Icon Màu */
+.dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.stat-card {
+    background: var(--white);
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+}
+
+/* Áp dụng màu cụ thể cho từng icon thống kê */
+.stat-card:nth-child(1) i {
+    color: var(--icon-revenue) !important;
+}
+
+.stat-card:nth-child(2) i {
+    color: var(--icon-orders) !important;
+}
+
+.stat-card:nth-child(3) i {
+    color: var(--icon-warning) !important;
+}
+
+.stat-card i {
+    font-size: 24px;
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+/* Bảng dữ liệu */
+.data-table-section {
+    background: var(--white);
+    padding: 0;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    padding: 15px;
+    border-bottom: 2px solid var(--text-main);
+    text-align: left;
+    color: var(--text-main);
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.admin-table td {
+    padding: 20px 15px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 14px;
+}
+
+/* Badge & Buttons */
+.badge {
+    padding: 4px 10px;
+    border-radius: 0;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.active-bg {
+    background: #f5f5f5;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+}
+
+.low-bg {
+    background: #fafafa;
+    color: #999;
+}
+
+.btn-add {
+    background: var(--text-main);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background: var(--accent);
+}
+
+/* Tab Logic */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ thống Quản trị - Fashion Shop</title>
+    <link rel="stylesheet" href="/asset/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3>FS ADMIN</h3>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-target="overview"><i class="fas fa-chart-line"></i> Tổng quan</li>
+                <li class="nav-item" data-target="products"><i class="fas fa-box"></i> Sản phẩm</li>
+                <li class="nav-item" data-target="skus"><i class="fas fa-warehouse"></i> Kho hàng (SKUs)</li>
+                <li class="nav-item" data-target="customers"><i class="fas fa-users"></i> Khách hàng</li>
+                <li class="nav-item" data-target="orders"><i class="fas fa-shopping-cart"></i> Đơn hàng</li>
+                <li class="nav-item" data-target="vouchers"><i class="fas fa-ticket-alt"></i> Khuyến mãi</li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Tìm kiếm hệ thống...">
+                </div>
+                <div class="admin-profile">
+                    <div class="profile-text">
+                        <span class="welcome-msg">Chào, <strong>Admin!</strong></span>
+                        <small class="role-tag">Quản trị viên</small>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=7d2ae8&color=fff" alt="Avatar" class="admin-avatar">
+                </div>
+            </header>
+
+            <div id="main-display-area">
+                <section id="overview" class="tab-content active">
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-info"><p>Doanh thu tháng</p></div>
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info"><p>Đơn hàng mới</p></div>
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info"><p>Sản phẩm sắp hết</p></div>
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="products" class="tab-content">
+                    <div class="data-table-section">
+                        <div class="section-header">
+                            <h3>Danh sách sản phẩm</h3>
+                            <button class="btn-add">+ Thêm sản phẩm mới</button>
+                        </div>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Ảnh</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Danh mục</th>
+                                    <th>Giá </th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id=""></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                
+                <section id="skus" class="tab-content">
+                    <div class="data-table-section">
+                        <div class="section-header">
+                            <h3>Danh sách sản phẩm</h3>
+                            <button class="btn-add">+ Thêm sản phẩm mới</button>
+                        </div>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã kho</th>
+                                    <th>ID Sản phẩm</th>
+                                    <th>Màu sắc</th>
+                                    <th>Kích thước</th>
+                                    <th>Tồn kho</th>
+                                    <th>Giá</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id=""></tbody>
+                        </table>
+                    </div>
+                </section>
+
+
+                <section id="customers" class="tab-content">
+                    <div class="data-table-section">
+                        <div class="section-header">
+                            <h3>Danh sách khách hàng</h3>
+                            <button class="btn-add">+ Thêm khách hàng</button>
+                        </div>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã kho</th>
+                                    <th>ID Sản phẩm</th>
+                                    <th>Màu sắc</th>
+                                    <th>Kích thước</th>
+                                    <th>Tồn kho</th>
+                                    <th>Giá</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody id=""></tbody>
+                        </table>
+                    </div>
+                </section>
+
+
+                <section id="orders" class="tab-content">
+                    <div class="data-table-section">
+                        <div class="section-header">
+                            <h3>Danh sách đơn hàng</h3>
+                            <button class="btn-add">+ Thêm đơn hàng</button>
+                        </div>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Thanh toán</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Trạng thái</th>
+                                    <th>Chi tiết</th>
+                                </tr>
+                            </thead>
+                            <tbody ></tbody>
+                        </table>
+                    </div>
+                </section>
+
+        
+                <section id="vouchers" class="tab-content">
+                    <div class="data-table-section">
+                        <div class="section-header">
+                            <h3>Mã giảm giá (Vouchers)</h3>
+                            <button class="btn-add">+ Tạo Voucher</button>
+                        </div>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã Code</th>
+                                    <th>Loại</th>
+                                    <th>Giá trị</th>
+                                    <th>Tối thiểu</th>
+                                    <th>Đã dùng</th>
+                                    <th>Hết hạn</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="/asset/js/admin-logic.js"></script>
+</body>
+</html>

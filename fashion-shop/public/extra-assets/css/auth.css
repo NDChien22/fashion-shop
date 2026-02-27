@@ -7,7 +7,7 @@
 
 body {
     /* Gradient chéo từ xanh cyan sang tím hồng giống ảnh */
-    background: linear-gradient(45deg, #00dbde 0%, #fc00ff 100%);
+    background: #f4f4f4;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -29,7 +29,7 @@ body {
     font-size: 30px;
     font-weight: 700;
     margin-bottom: 35px;
-    color: #333;
+    color: #1a1a1a;
 }
 
 .auth-input-group {
@@ -39,7 +39,7 @@ body {
 
 .auth-input-group label {
     font-size: 14px;
-    color: #333;
+    color: #888;
     display: block;
 }
 
@@ -47,7 +47,7 @@ body {
     display: flex;
     align-items: center;
     position: relative;
-    border-bottom: 2px solid #d9d9d9;
+    border-bottom: 2px solid #eeeeee;
 }
 
 /* Icon giả lập (User/Lock) */
@@ -68,6 +68,7 @@ body {
     outline: none;
     padding: 10px 5px 10px 30px;
     font-size: 15px;
+    color: #1a1a1a;
 }
 
 .forgot-pass {
@@ -77,14 +78,14 @@ body {
 
 .forgot-pass a {
     text-decoration: none;
-    color: #666;
+    color: #888;
     font-size: 13px;
     transition: 0.2s;
 }
 
 .forgot-pass a:hover {
     text-decoration: underline;
-    color: #333;
+    color: #b5966d;
 }
 
 /* Nút Login với Gradient */
@@ -93,18 +94,18 @@ body {
     height: 45px;
     border: none;
     border-radius: 25px;
-    background: linear-gradient(to right, #00dbde, #fc00ff);
+
+    background: #b5966d;
     color: white;
     font-weight: 600;
     letter-spacing: 1px;
     cursor: pointer;
     margin-top: 30px;
     transition: 0.4s;
-    filter: brightness(1.1);
 }
 
 .btn-login:hover {
-    filter: brightness(0.8);
+    background: #61605f;
 }
 
 /* Social Login Section */
@@ -115,7 +116,7 @@ body {
 
 .social-section p.divider-text {
     font-size: 14px;
-    color: #888;
+    color: #bbb;
     margin: 25px 0;
     display: flex;
     align-items: center;
@@ -147,10 +148,10 @@ body {
     gap: 10px;
 
     background-color: #ffffff;
-    border: 1px solid #ddd;
+    border: 1px solid #eeeeee;
     border-radius: 25px;
 
-    color: #444;
+    color: #1a1a1a;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -159,10 +160,8 @@ body {
 }
 
 .social-btn.google-btn:hover {
-    background-color: #f8f9fa;
-    border-color: #ccc;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fafafa;
+    border-color: #b5966d;
 }
 
 .social-btn.google-btn img {
@@ -172,12 +171,12 @@ body {
 
 .signup-section p {
     font-size: 14px;
-    color: #666;
+    color: #888;
     text-align: center;
 }
 
 .signup-section a {
-    color: #7d2ae8;
+    color: #b5966d;
     text-decoration: none;
     font-weight: bold;
     margin-left: 5px;
@@ -196,7 +195,7 @@ body {
 
 .signup-footer p {
     font-size: 14px;
-    color: #666;
+    color: #888;
     margin-bottom: 10px;
 }
 
@@ -207,13 +206,16 @@ body {
     font-weight: 600;
     text-decoration: none;
     text-transform: uppercase;
-    background: linear-gradient(to right, #00dbde, #fc00ff);
+
+    background: transparent;
+    border: 1px solid #b5966d;
     border-radius: 25px;
-    color: white;
+    color: #1a1a1a;
     cursor: pointer;
-    filter: brightness(1.1);
+    transition: 0.3s;
 }
 
 .btn-login-outline:hover {
-    filter: brightness(0.8);
+    background: #b5966d;
+    color: #fff;
 }

@@ -68,14 +68,14 @@ class AuthController extends Controller
             'password_confirmation.required' => 'Vui lòng xác nhận mật khẩu',
         ]);
 
-        // Create user
+        // Tạo người dùng mới
         $user = new User();
         $user->username = $request->username;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->save();
 
-        // Redirect to login with success message
+        // Redirect về trang đăng nhập 
         return redirect()->route('login')->with('toast', 'Đăng ký tài khoản thành công!');
     }
 

@@ -2,25 +2,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+    /* Đổi sang font Inter cho sang trọng hoặc giữ nguyên Poppins tùy bạn */
+    font-family: 'Inter', sans-serif; 
 }
 
 body {
-    /* Gradient chéo từ xanh cyan sang tím hồng giống ảnh */
-    background: linear-gradient(45deg, #00dbde 0%, #fc00ff 100%);
+    /* Thay gradient xanh tím bằng màu xám nhẹ đồng bộ với Admin main-bg */
+    background: #f4f4f4; 
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-
 .login-container {
     background: #fff;
     width: 400px;
     padding: 60px 50px;
     border-radius: 10px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    /* Đổ bóng mảnh và nhẹ hơn */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
     min-height: 700px;
 }
 
@@ -29,18 +30,19 @@ body {
     font-size: 30px;
     font-weight: 700;
     margin-bottom: 35px;
-    color: #333;
+    /* Màu đen sâu của Admin text-main */
+    color: #1a1a1a; 
 }
 
 .input-group {
     margin-bottom: 25px;
     padding: auto;
-    
 }
 
 .input-group label {
     font-size: 14px;
-    color: #333;
+    /* Màu chữ mờ của Admin text-muted */
+    color: #888; 
     margin-bottom: 10px;
     display: block;
 }
@@ -49,7 +51,8 @@ body {
     display: flex;
     align-items: center;
     position: relative;
-    border-bottom: 2px solid #d9d9d9;
+    /* Viền mảnh đồng bộ border-color */
+    border-bottom: 2px solid #eeeeee; 
 }
 
 /* Icon giả lập (User/Lock) */
@@ -70,6 +73,7 @@ body {
     outline: none;
     padding: 10px 5px 10px 30px;
     font-size: 15px;
+    color: #1a1a1a;
 }
 
 .forgot-pass {
@@ -79,44 +83,46 @@ body {
     
 .forgot-pass a {
     text-decoration: none; 
-    color: #666; 
+    color: #888; 
     font-size: 13px;
     transition: 0.2s; 
 }
 
 .forgot-pass a:hover {
     text-decoration: underline;
-    color: #333; 
+    /* Hover ra màu vàng cát của Admin accent */
+    color: #b5966d; 
 }
 
-/* Nút Login với Gradient */
+/* Nút Login - Thay Gradient bằng màu Đen/Vàng cát */
 .btn-login {
     width: 100%;
     height: 45px;
     border: none;
     border-radius: 25px;
-    background: linear-gradient(to right, #00dbde, #fc00ff);
+    /* Màu đen tối giản chuyên nghiệp */
+    background: #1a1a1a; 
     color: white;
     font-weight: 600;
     letter-spacing: 1px;
     cursor: pointer;
     margin-top: 30px;
     transition: 0.4s;
-    filter: brightness(1.1);
 }
 
 .btn-login:hover {
-    filter: brightness(0.8);
+    /* Hover ra màu vàng cát */
+    background: #b5966d; 
 }
 
 /* Social Login Section */
-
 .social-section{
     margin-top: 20px;
 }
+
 .social-section p.divider-text {
     font-size: 14px;
-    color: #888;
+    color: #bbb;
     margin: 25px 0;
     display: flex;
     align-items: center;
@@ -146,48 +152,34 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    
     background-color: #ffffff;
-    border: 1px solid #ddd; 
+    border: 1px solid #eeeeee; 
     border-radius: 25px;
-    
-    color: #444;
+    color: #1a1a1a;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
 }
 
 .social-btn.google-btn:hover {
-    background-color: #f8f9fa;
-    border-color: #ccc;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #fafafa;
+    border-color: #b5966d;
 }
-
-.social-btn.google-btn img {
-    width: 18px;
-}
-
 
 .signup-section p {
     font-size: 14px;
-    color: #666;
+    color: #888;
     text-align: center;
 }
 
 .signup-section a {
-    color: #7d2ae8; 
+    /* Màu vàng cát đồng nhất */
+    color: #b5966d; 
     text-decoration: none;
     font-weight: bold;
     margin-left: 5px;
     transition: 0.3s;
-}
-
-.signup-section a:hover {
-    text-decoration: underline;
-    opacity: 0.8;
 }
 
 .signup-footer {
@@ -197,10 +189,11 @@ body {
 
 .signup-footer p {
     font-size: 14px;
-    color: #666;
+    color: #888;
     margin-bottom: 10px; 
 }
 
+/* Nút Register phía dưới */
 .btn-login-outline {
     display: inline-block;
     padding: 10px 40px;
@@ -208,12 +201,16 @@ body {
     font-weight: 600;
     text-decoration: none;
     text-transform: uppercase;
-    background: linear-gradient(to right, #00dbde, #fc00ff);
+    /* Chuyển sang viền đen cho thanh thoát */
+    background: transparent;
+    border: 1px solid #1a1a1a;
     border-radius: 25px;
-    color: white;
+    color: #1a1a1a;
     cursor: pointer;
-    filter: brightness(1.1);
+    transition: 0.3s;
 }
+
 .btn-login-outline:hover {
-    filter: brightness(0.8);
+    background: #1a1a1a;
+    color: #fff;
 }

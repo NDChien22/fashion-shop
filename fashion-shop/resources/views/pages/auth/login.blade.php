@@ -2,7 +2,7 @@
 @section('title', 'Đăng nhập')
 @section('content')
 
-    @if (session('toast'))
+    @if (session('toast') || session('success') || session('error'))
         <x-toast :message="session('toast')" />
     @endif
 
@@ -35,7 +35,7 @@
                     <span class="text-danger ml-1">{{ $message }}</span>
                 @enderror
                 <div class="forgot-pass">
-                    <a href="{{ route('forgot-password') }}">Quên mật khẩu?</a>
+                    <a href="{{ route('forgot_password') }}">Quên mật khẩu?</a>
                 </div>
 
 

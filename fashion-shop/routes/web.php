@@ -31,7 +31,11 @@ Route::middleware('guest')->group(function(){
     //Forgot Password
     Route::get('/forgot-password', function(){
         return view('pages.auth.forgot-password');
-    })->name('forgot-password');
+    })->name('forgot_password');
+    Route::post('/forgot-password', [AuthController::class, 'sendPasswordResetEmail'])->name('send_reset_password_email');
+
+    Route::get('/password/reset/{token}', [AuthController::class, 'resetPasswordForm'])->name('password_reset');
+    Route::post('/password/reset', [AuthController::class, 'resetPasswordHandler'])->name('reset_password');
 });
 
 Route::middleware('auth')->group(function(){

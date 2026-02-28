@@ -366,16 +366,23 @@ document.addEventListener('DOMContentLoaded', () => {
     new LoginForm1();
 });
 
-// Handle page visibility changes for better UX
-document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-        // Re-focus on email field if user returns to page
-        const activeElement = document.activeElement;
-        if (activeElement && activeElement.tagName !== 'INPUT') {
-            const emailInput = document.querySelector('#email');
-            if (emailInput && !emailInput.value) {
-                setTimeout(() => emailInput.focus(), 100);
-            }
-        }
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('profileToggle');
+    const menu = document.getElementById('dropdownMenu');
+
+    // Click vào profile để hiện menu
+    toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menu.classList.toggle('show');
+    });
+
+    // Click ra ngoài để đóng menu
+    document.addEventListener('click', () => {
+        menu.classList.remove('show');
+    });
+
+    // Ngăn menu bị đóng khi click vào bên trong nó
+    menu.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
 });

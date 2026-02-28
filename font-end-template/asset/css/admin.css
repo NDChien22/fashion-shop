@@ -30,7 +30,7 @@ body {
     position: sticky;
     top: 0;
     border-right: 1px solid #eef0f2;
-    padding: 25px;
+    padding: 15px;
 }
 
 .brand {
@@ -97,7 +97,7 @@ body {
     border-radius: 20px;
 }
 
-/* MAIN CONTENT */
+
 .main-content { 
     flex: 1; 
 }
@@ -129,50 +129,145 @@ body {
     width: 100%; 
 }
 
-.user-area { 
-    display: flex; 
-    align-items: center; 
-    gap: 30px; 
+
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-.notifications { 
-    position: relative; 
-    font-size: 22px; 
-    color: var(--text-gray); 
+.profile-container {
+    position: relative;
 }
 
-.dot {
-    position: absolute; 
-    top: 2px; 
-    right: 2px;
-    width: 9px; 
-    height: 9px; 
-    background: #f83f37;
-    border-radius: 50%; 
-    border: 2px solid #fff;
+.profile-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 5px 10px;
+    border-radius: 50px; 
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none !important;
+    color: var(--text-dark) !important;
 }
 
-.profile { 
-    display: flex; 
-    align-items: center; 
-    gap: 14px; 
+.profile-link:hover {
+    background-color: #f1f3f4;
 }
 
-.profile img { 
-    width: 42px; 
-    border-radius: 12px;
-}
-.profile .info .name { 
-    display: block; 
-    font-weight: 700; 
-    font-size: 14px; 
-}
-.profile .info .role { 
-    font-size: 11px; 
-    color: var(--text-gray); 
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    background-color: var(--primary); 
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
 }
 
-/* DASHBOARD BODY & TAB SYSTEM */
+
+.profile-link .info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.profile-link .name {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.profile-link .role {
+    font-size: 11px;
+    color: var(--text-gray);
+}
+
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+    width: 320px;
+    background: white;
+    border-radius: 28px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    padding: 20px;
+    display: none; 
+    z-index: 1000;
+    border: 1px solid #e0e0e0;
+}
+
+.dropdown-menu.show {
+    display: block;
+    animation: fadeIn 0.2s ease-out;
+}
+
+
+.dropdown-user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 15px;
+}
+
+.large-avatar {
+    width: 60px;
+    height: 60px;
+    background-color: #b5966d;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.text-info { text-align: center; }
+.full-name { display: block; font-weight: 600; font-size: 16px; }
+.email { font-size: 13px; color: var(--text-gray); }
+
+
+.btn-manage {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #dadce0;
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-size: 14px;
+    margin: 15px 0;
+}
+
+.btn-manage:hover { background-color: #f8f9fa; }
+
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    text-decoration: none;
+    color: var(--text-dark);
+    border-radius: 10px;
+}
+
+.menu-item:hover { background-color: #f1f3f4; }
+.divider { height: 1px; background: #eee; margin: 8px 0; }
+.logout-link { color: #d93025; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
 .dashboard-body { 
     padding: 35px; 
 }
@@ -225,7 +320,7 @@ body {
     transform: translateY(-2px); 
     box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
-/* STATS */
+
 .stats-grid {
     display: grid; 
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
@@ -272,7 +367,7 @@ body {
     color: #ed8936; 
 }
 
-/* TABLE CARD */
+
 .data-card {
     background: var(--white); 
     padding: 25px;

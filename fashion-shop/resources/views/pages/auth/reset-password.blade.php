@@ -9,7 +9,7 @@
         <div class="auth-login-container">
             <h2 class="auth-login-title">Đặt lại mật khẩu</h2>
 
-            <form id="changePasswordForm" action="{{ route('password_update') }}" method="POST">
+            <form id="changePasswordForm" action="{{ route('reset_password') }}" method="POST">
                 @csrf
                 <input type="hidden" name="token" value="{{ $token }}">
                 <input type="hidden" name="email" value="{{ $email }}">

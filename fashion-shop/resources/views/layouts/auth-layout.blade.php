@@ -11,11 +11,23 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="/extra-assets/css/auth.css">
 </head>
-<header>
-</header>
-
 <body>
-    @yield('content')
+
+    <header class="main-header">
+        <div class="header-left">
+            <div class="brand">
+                <div class="logo-box">
+                    <i class="fa-solid fa-shirt"></i>
+                </div>
+                <span>FAST FASHION</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="auth-login-wrapper">
+        @yield('content')
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
@@ -23,8 +35,5 @@
 
     @stack('scripts')
 </body>
-<footer>
-
-</footer>
 
 </html>

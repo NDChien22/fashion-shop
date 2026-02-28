@@ -5,7 +5,7 @@
         <x-toast :message="session('toast')" />
     @endif
 
-    <div class="login-wrapper reset-password">
+    <div class="reset-password">
         <div class="auth-login-container">
             <h2 class="auth-login-title">Đặt lại mật khẩu</h2>
 

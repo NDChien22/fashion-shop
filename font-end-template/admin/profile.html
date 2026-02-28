@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Shop Admin - FAST FASHION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../asset/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="Admin Avatar" class="avatar-img">
+            </div>
+
+            <nav class="nav-menu">
+                <p class="nav-title"></p>
+                <div class="nav-item active" data-target="thong-tin">
+                    <i class="fa-solid fa-gauge-high"></i> <span>Thông tin hồ sơ</span>
+                </div>
+            </nav>
+           
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-spacer"></div>
+                <div class="user-area mm">
+                    <div class="notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="dot"></span>
+                    </div>
+
+                    <div class="profile-container">
+                        <div class="profile-link" id="profileToggle">
+                            <div class="avatar" id="userAvatar">AC</div>
+                            <div class="info">
+                                <span class="name" id="userName">Admin</span>
+                                <span class="role" id="userRole">Chủ cửa hàng</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                        </div>
+
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <div class="dropdown-user-info">
+                                <div class="large-avatar">AC</div>
+                                <div class="text-info">
+                                    <span class="full-name">Nguyễn Văn Admin</span>
+                                    <span class="email">admin@fastfashion.com</span>
+                                </div>
+                            </div>
+                            <div class="menu-actions">
+                                <a href="/admin/account-management.html" class="btn-manage">Quản lý tài khoản của bạn</a>
+                            </div>
+                            <div class="menu-items">
+                                <a href="#" class="menu-item" id="goToProfile">
+                                    <i class="fa-regular fa-user"></i> <span>Hồ sơ cá nhân</span>
+                                </a>
+                                <div class="divider"></div>
+                                <a href="/login_logout/login.html" class="menu-item logout-link">
+                                    <i class="fa-solid fa-right-from-bracket"></i> <span>Đăng xuất</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div id="main-content-area" class="content-wrapper">
+                
+                <div class="profile-section card">
+                    <a href="/admin/index.html" class="btn-back-square">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        <span>Quay lại</span>
+                    </a>
+                    <div class="profile-header">
+                        <h2>Hồ sơ cá nhân</h2>
+                        <p>Quản lý thông tin chi tiết cá nhân của bạn để bảo mật tài khoản</p>
+                    </div>
+                    
+                    <div class="profile-body">
+                        <div class="avatar-edit-section">
+                            <div class="avatar-large">AC</div>
+                            <div class="avatar-actions">
+                                <button class="btn-outline">
+                                    <i class="fa-solid fa-camera"></i> Thay đổi ảnh
+                                </button>
+                                <p class="hint-text">JPG, PNG. Tối đa 2MB.</p>
+                            </div>
+                        </div>
+
+                        <form class="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Họ và tên</label>
+                                    <input type="text" value="Nguyễn Văn Admin" placeholder="Nhập họ tên">
+                                </div>
+                                <div class="form-group">
+                                    <label>Địa chỉ Email</label>
+                                    <input type="email" value="admin@fastfashion.com" readonly class="readonly-input">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Số điện thoại</label>
+                                    <input type="text" value="0987 654 321" placeholder="Số điện thoại">
+                                </div>
+                                <div class="form-group">
+                                    <label>Giới tính</label>
+                                    <select>
+                                        <option value="male" selected>Nam</option>
+                                        <option value="female">Nữ</option>
+                                        <option value="other">Khác</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label>Địa chỉ liên hệ</label>
+                                <input type="text" placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố">
+                            </div>
+
+                            <div class="form-footer">
+                                <button type="submit" class="btn-primary">Lưu thay đổi</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                </div>
+        </main>
+    </div>
+
+    <script src="/asset/js/admin-logic.js"></script>
+</body>
+</html>

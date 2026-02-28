@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý tài khoản - FAST FASHION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../asset/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <main class="main-content">
+            <div class="content-wrapper">
+                <div class="account-card">  
+                    <div class="account-header" style="text-align: center;">
+                        <h2>Cài đặt tài khoản & Bảo mật</h2>
+                        <p>Cập nhật mật khẩu và quản lý các thiết lập an toàn cho tài khoản của bạn</p>
+                    </div>
+
+                    <div class="account-body">
+                        <section class="account-section">
+                            <h3 class="section-title"><i class="fa-solid fa-key"></i> Đổi mật khẩu</h3>
+                            <form class="password-form">
+                                <div class="form-group">
+                                    <label>Mật khẩu hiện tại</label>
+                                    <input type="password" placeholder="••••••••">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Mật khẩu mới</label>
+                                        <input type="password" placeholder="Nhập mật khẩu mới">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Xác nhận mật khẩu mới</label>
+                                        <input type="password" placeholder="Xác nhận lại mật khẩu">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary">Cập nhật mật khẩu</button>
+                            </form>
+                        </section>
+
+                        <hr class="divider">
+
+                        <section class="account-section">
+                            <h3 class="section-title"><i class="fa-solid fa-shield-halved"></i> Bảo mật tài khoản</h3>
+                            
+                            <div class="security-list">
+                                <div class="security-item">
+                                    <div class="security-info">
+                                        <h4>Xác thực hai yếu tố (2FA)</h4>
+                                        <p>Thêm một lớp bảo mật bằng cách yêu cầu mã từ điện thoại của bạn.</p>
+                                    </div>
+                                    <button class="btn-outline">Thiết lập</button>
+                                </div>
+
+                                <div class="security-item">
+                                    <div class="security-info">
+                                        <h4>Lịch sử đăng nhập</h4>
+                                        <p>Kiểm tra các thiết bị và địa điểm đã đăng nhập vào tài khoản này.</p>
+                                    </div>
+                                    <button class="btn-outline">Xem chi tiết</button>
+                                </div>
+
+                                <div class="security-item">
+                                    <div class="security-info text-danger">
+                                        <h4>Vô hiệu hóa tài khoản</h4>
+                                        <p>Tạm thời đóng tài khoản của bạn. Bạn có thể mở lại bất cứ lúc nào.</p>
+                                    </div>
+                                    <button class="btn-danger-outline">Vô hiệu hóa</button>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <a href="index.html" class="btn-back-square">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        <span>Quay lại trang chủ</span>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

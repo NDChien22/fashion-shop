@@ -8,14 +8,59 @@
 body {
     /* Gradient chéo từ xanh cyan sang tím hồng giống ảnh */
     background: #f4f4f4;
-    height: 100vh;
+    min-height: 100vh;
+    padding-top: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+/* Header */
+
+.main-header {
+    background: #ffffff;
+    height: 70px;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
 
 
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-box {
+    width: 35px;
+    height: 35px;
+    background: #b5966d;
+    color: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.brand span {
+    font-size: 20px;
+    font-weight: 800;
+    color: #b5966d;
+    letter-spacing: 0.5px;
+}
+
+
+/* Content */
 .auth-login-container {
+    margin-top: auto;
     background: #fff;
     width: 400px;
     padding: 60px 50px;

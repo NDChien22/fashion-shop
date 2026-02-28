@@ -3,9 +3,8 @@
 
 @section('content')
 
-    <div class="auth-login-wrapper">
         <div class="auth-login-container">
-            <h2 class="login-title">Đăng ký</h2>
+            <h2 class="auth-login-title">Đăng ký</h2>
 
             <form action="{{ route('register') }}" method="POST">
                 @csrf
@@ -61,6 +60,4 @@
                 </div>
             </form>
         </div>
-    </div>
-
 @endsection

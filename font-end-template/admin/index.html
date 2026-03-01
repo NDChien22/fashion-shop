@@ -10,44 +10,10 @@
 </head>
 <body>
     <div class="admin-layout">
-        <aside class="sidebar">
-            <div class="brand">
-                <img src="/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="Admin Avatar" class="avatar-img">
-            </div>
-
-            <nav class="nav-menu">
-                <p class="nav-title">CHÍNH</p>
-                <div class="nav-item active" data-target="tong-quan">
-                    <i class="fa-solid fa-gauge-high"></i> <span>Tổng quan</span>
+        <header class="main-header">
+                <div class="brand">
+                    <img src="/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="Admin Avatar" class="avatar-img">
                 </div>
-
-                <p class="nav-title">SẢN PHẨM</p>
-                <div class="nav-item" data-target="danh-sach-mau">
-                    <i class="fa-solid fa-list"></i> <span>Danh sách mẫu</span>
-                </div>
-                <div class="nav-item" data-target="them-san-pham">
-                    <i class="fa-solid fa-plus"></i> <span>Thêm sản phẩm</span>
-                </div>
-                <div class="nav-item" data-target="phan-loai">
-                    <i class="fa-solid fa-layer-group"></i> <span>Phân loại</span>
-                </div>
-
-                <p class="nav-title">KINH DOANH</p>
-                <div class="nav-item" data-target="don-hang">
-                    <i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span>
-                    <span class="nav-badge">5</span>
-                </div>
-                <div class="nav-item" data-target="khach-hang">
-                    <i class="fa-solid fa-users"></i> <span>Khách hàng</span>
-                </div>
-                <div class="nav-item" data-target="doanh-thu">
-                    <i class="fa-solid fa-chart-line"></i> <span>Doanh thu</span>
-                </div>
-            </nav>
-        </aside>
-
-        <main class="main-content">
-            <header class="main-header">
                 <div class="search-area">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <input type="text" placeholder="Tìm kiếm đơn hàng, khách hàng...">
@@ -82,11 +48,6 @@
                             </div>
 
                             <div class="menu-items">
-                                <a href="/admin/profile.html" class="menu-item">
-                                    <i class="fa-regular fa-user"></i> <span>Hồ sơ cá nhân</span>
-                                </a>
-
-                                <div class="divider"></div>
                                 <a href="#" class="menu-item logout-link">
                                     <i class="fa-solid fa-right-from-bracket"></i> <span>Đăng xuất</span>
                                 </a>
@@ -94,105 +55,138 @@
                         </div>
                     </div>
                 </div>
-            </header>
+        </header>
+        <div class="admin-body-wrapper" style="display: flex;"> 
+            <aside class="sidebar">
 
-            <div class="dashboard-body">
-                <section id="tong-quan" class="tab-content active">
-                    <div class="welcome-banner">
-                        <div class="banner-text">
-                            <h3>Chào mừng trở lại,</h3>
-                            <p>Hôm nay cửa hàng có <strong>12 đơn hàng mới</strong>. Đừng quên kiểm tra kho cho bộ sưu tập Mùa Hè nhé!</p>
-                            <button class="btn-primary">Xem đơn hàng</button>
-                        </div>
+                <nav class="nav-menu">
+                    <p class="nav-title">CHÍNH</p>
+                    <div class="nav-item active" data-target="tong-quan">
+                        <i class="fa-solid fa-gauge-high"></i> <span>Tổng quan</span>
                     </div>
 
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="icon-circle blue"><i class="fa-solid fa-wallet"></i></div>
-                            <div class="data">
-                                <span class="label">Doanh thu ngày</span>
-                                <span class="value">5.200.000đ</span>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="icon-circle green"><i class="fa-solid fa-box"></i></div>
-                            <div class="data">
-                                <span class="label">Sản phẩm bán ra</span>
-                                <span class="value">42</span>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="icon-circle red"><i class="fa-solid fa-user-tag"></i></div>
-                            <div class="data">
-                                <span class="label">Khách hàng mới</span>
-                                <span class="value">15</span>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="icon-circle orange"><i class="fa-solid fa-star"></i></div>
-                            <div class="data">
-                                <span class="label">Đánh giá tốt</span>
-                                <span class="value">98%</span>
-                            </div>
-                        </div>
+                    <p class="nav-title">SẢN PHẨM</p>
+                    <div class="nav-item" data-target="danh-sach-mau">
+                        <i class="fa-solid fa-list"></i> <span>Danh sách mẫu</span>
                     </div>
-                </section>
-
-                <section id="danh-sach-mau" class="tab-content">
-                    <div class="data-card">
-                        <h3>Danh sách mẫu sản phẩm</h3>
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Mã SP</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Giá</th>
-                                    <th>Tồn kho</th>
-                                    <th>Trạng thái</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#FS-101</td>
-                                    <td>Váy lụa Satin</td>
-                                    <td>850.000đ</td>
-                                    <td>24</td>
-                                    <td><span class="status-badge" style="background:#e6fffa; color:#20c997;">Còn hàng</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="nav-item" data-target="them-san-pham">
+                        <i class="fa-solid fa-plus"></i> <span>Thêm sản phẩm</span>
                     </div>
-                </section>
-
-                <section id="don-hang" class="tab-content">
-                    <div class="data-card">
-                        <h3>Đơn hàng mới chờ duyệt</h3>
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Mã Đơn</th>
-                                    <th>Khách hàng</th>
-                                    <th>Tổng tiền</th>
-                                    <th>Ngày đặt</th>
-                                    <th>Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#ORD-5542</td>
-                                    <td>Nguyễn Văn A</td>
-                                    <td>1.250.000đ</td>
-                                    <td>Vừa xong</td>
-                                    <td><button class="btn-primary" style="margin:0; padding:5px 15px;">Duyệt</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="nav-item" data-target="phan-loai">
+                        <i class="fa-solid fa-layer-group"></i> <span>Phân loại</span>
                     </div>
-                </section>
 
-                
-            </div>
-        </main>
+                    <p class="nav-title">KINH DOANH</p>
+                    <div class="nav-item" data-target="don-hang">
+                        <i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span>
+                        <span class="nav-badge">5</span>
+                    </div>
+                    <div class="nav-item" data-target="khach-hang">
+                        <i class="fa-solid fa-users"></i> <span>Khách hàng</span>
+                    </div>
+                    <div class="nav-item" data-target="doanh-thu">
+                        <i class="fa-solid fa-chart-line"></i> <span>Doanh thu</span>
+                    </div>
+                </nav>
+            </aside>
+        
+            <main class="main-content">
+                <div class="dashboard-body">
+                    <section id="tong-quan" class="tab-content active">
+                        <div class="welcome-banner">
+                            <div class="banner-text">
+                                <h3>Chào mừng trở lại,</h3>
+                                <p>Hôm nay cửa hàng có <strong>12 đơn hàng mới</strong>. Đừng quên kiểm tra kho cho bộ sưu tập Mùa Hè nhé!</p>
+                                <button class="btn-primary">Xem đơn hàng</button>
+                            </div>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="icon-circle blue"><i class="fa-solid fa-wallet"></i></div>
+                                <div class="data">
+                                    <span class="label">Doanh thu ngày</span>
+                                    <span class="value">5.200.000đ</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="icon-circle green"><i class="fa-solid fa-box"></i></div>
+                                <div class="data">
+                                    <span class="label">Sản phẩm bán ra</span>
+                                    <span class="value">42</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="icon-circle red"><i class="fa-solid fa-user-tag"></i></div>
+                                <div class="data">
+                                    <span class="label">Khách hàng mới</span>
+                                    <span class="value">15</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="icon-circle orange"><i class="fa-solid fa-star"></i></div>
+                                <div class="data">
+                                    <span class="label">Đánh giá tốt</span>
+                                    <span class="value">98%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="danh-sach-mau" class="tab-content">
+                        <div class="data-card">
+                            <h3>Danh sách mẫu sản phẩm</h3>
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã SP</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Giá</th>
+                                        <th>Tồn kho</th>
+                                        <th>Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#FS-101</td>
+                                        <td>Váy lụa Satin</td>
+                                        <td>850.000đ</td>
+                                        <td>24</td>
+                                        <td><span class="status-badge" style="background:#e6fffa; color:#20c997;">Còn hàng</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section id="don-hang" class="tab-content">
+                        <div class="data-card">
+                            <h3>Đơn hàng mới chờ duyệt</h3>
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mã Đơn</th>
+                                        <th>Khách hàng</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Ngày đặt</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#ORD-5542</td>
+                                        <td>Nguyễn Văn A</td>
+                                        <td>1.250.000đ</td>
+                                        <td>Vừa xong</td>
+                                        <td><button class="btn-primary" style="margin:0; padding:5px 15px;">Duyệt</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </section> 
+                </div>
+            </main>
+        </div>
     </div>
 
     <script src="/asset/js/admin-logic.js"></script>

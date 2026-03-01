@@ -20,17 +20,30 @@ body {
     overflow-x: hidden;
 }
 
-.admin-layout { display: flex; }
+.admin-layout { 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100vh;
+}
+
+.admin-body-wrapper {
+    display: flex;
+    flex: 1; 
+}
 
 /* SIDEBAR */
 .sidebar {
     width: var(--sidebar-w);
     background: var(--white);
-    height: 100vh;
+    height: calc(100vh - 75px); 
     position: sticky;
-    top: 0;
+    top: 75px; 
     border-right: 1px solid #eef0f2;
-    padding: 15px;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    z-index: 99;
+
 }
 
 .brand {
@@ -43,12 +56,13 @@ body {
 
 
 .brand img {
-    width: 150px;        
-    height: 80px;      
+    width: 120px;        
+    height: 70px;      
     border-radius: 10px;
     object-fit: cover;   
     display: block;
     margin: auto;
+    
 }
 
 .brand:hover {
@@ -68,24 +82,32 @@ body {
 .nav-item {
     display: flex; 
     align-items: center; 
-    gap: 15px;
+    gap: 12px;
     padding: 12px 18px; 
     border-radius: 12px;
     cursor: pointer; 
-    transition: var(--transition);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     color: #5c677d; 
     font-weight: 500; 
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
-
-.nav-item:hover { 
-    background: #fcf9f5; 
-    color: var(--primary); }
 
 .nav-item.active {
     background: var(--primary); 
     color: white;
-    box-shadow: 0 6px 15px rgba(181, 150, 109, 0.4);
+    margin-top: 0; 
+    box-shadow: 0 8px 15px rgba(181, 150, 109, 0.3);
+    transform: translateY(-1px);
+}
+
+.nav-item.active i {
+    color: white;
+}
+
+.nav-item:not(.active):hover {
+    background: #f8f9fa;
+    color: var(--primary);
+    padding-left: 22px;
 }
 
 .nav-badge {
@@ -97,7 +119,6 @@ body {
     border-radius: 20px;
 }
 
-
 .main-content { 
     flex: 1; 
 }
@@ -105,11 +126,16 @@ body {
 .main-header {
     background: var(--white); 
     height: 75px;
-    padding: 0 35px; 
+    padding-left: 60px;
+    padding-right: 30px;
     display: flex;
     align-items: center; 
     justify-content: space-between;
     border-bottom: 1px solid #eef0f2;
+    width: 100%; 
+    position: sticky;
+    top: 0;
+    z-index: 1000; 
 }
 .header-spacer {
     flex: 1;
@@ -448,14 +474,14 @@ body {
     gap: 20px;
     margin-bottom: 35px;
     padding: 20px;
-    background: #fdfaf7; /* Nền vàng cực nhạt */
+    background: #fdfaf7; 
     border-radius: 12px;
 }
 
 .avatar-large {
     width: 80px;
     height: 80px;
-    background: #b5966d; /* Màu thương hiệu của bạn */
+    background: #b5966d; 
     color: white;
     border-radius: 50%;
     display: flex;
@@ -545,7 +571,8 @@ body {
 .form-footer {
     margin-top: 30px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    
 }
 
 @keyframes fadeIn {
@@ -566,7 +593,7 @@ body {
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 20px; 
+    margin-top: 25px; 
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }

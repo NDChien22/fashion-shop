@@ -71,75 +71,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-const input = document.getElementById('dobInput');
 
-input.addEventListener('input', function(e) {
-    let cursorPosition = e.target.selectionStart;
-    let value = e.target.value.replace(/\D/g, '');
-    let formattedValue = "";
 
-    if (value.length > 0) {
-        // 1. Xử lý NGÀY: Nếu gõ số 4-9 thì tự biến thành 04-09
-        let day = value.substring(0, 2);
-        if (day.length === 1 && parseInt(day) > 3) {
-            day = '0' + day;
-            value = day + value.substring(1);
-        }
-        formattedValue = day;
 
-        // 2. Xử lý THÁNG: Nếu gõ số 2-9 cho tháng thì tự biến thành 02-09
-        if (value.length > 2) {
-            let month = value.substring(2, 4);
-            if (month.length === 1 && parseInt(month) > 1) {
-                month = '0' + month;
-                value = value.substring(0, 2) + month + value.substring(3);
-            }
-            formattedValue += '/' + month;
-        }
-
-        if (value.length > 4) {
-            formattedValue += '/' + value.substring(4, 8);
-        }
-    }
-
-    e.target.value = formattedValue;
-
-    if (e.inputType === 'deleteContentBackward') {
-        e.target.setSelectionRange(cursorPosition, cursorPosition);
-    }
-});
 
 // Sử lý menu
-document.addEventListener("DOMContentLoaded", function() {
-    const menuBtn = document.getElementById('menuBtn'); // Nút 3 gạch
-    const sidebar = document.querySelector('.sidebar');
-    
-    // Tạo lớp phủ mờ tự động
-    const overlay = document.createElement('div');
-    overlay.className = 'menu-overlay';
-    document.body.appendChild(overlay);
+const menuBtn = document.getElementById('mobile-menu-btn');
+const sidebar = document.querySelector('.sidebar');
 
-    // Hàm mở/đóng menu
-    function toggleMenu() {
+if (menuBtn) {
+    menuBtn.addEventListener('click', () => {
         sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
+    });
+}
+
+// Bấm ra ngoài Sidebar thì tự đóng lại
+document.addEventListener('click', (e) => {
+    if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+        sidebar.classList.remove('active');
     }
-
-    // Sự kiện nhấn vào nút 3 gạch
-    menuBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        toggleMenu();
-    });
-
-    // Nhấn ra ngoài vùng menu (lớp phủ) để đóng menu
-    overlay.addEventListener('click', toggleMenu);
-
-    // Đóng menu khi chọn một mục bên trong
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-        });
-    });
 });

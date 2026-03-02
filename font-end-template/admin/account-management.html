@@ -6,7 +6,8 @@
     <title>Fashion Shop Admin - FAST FASHION</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="../asset/css/admin.css">
+    <link rel="stylesheet" href="/asset/css/account-manager.css">
+    <link rel="stylesheet" href="/asset/css/admin-manager.css">
 </head>
 <body>
     <div class="admin-layout">
@@ -14,8 +15,7 @@
                 <div class="brand">
                     <img src="/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="Admin Avatar" class="avatar-img">
                 </div>
-                <div class="header-spacer"></div>
-                <div class="user-area mm">
+                <div class="user-area ">
                     <div class="notifications">
                         <i class="fa-regular fa-bell"></i>
                         <span class="dot"></span>
@@ -58,14 +58,13 @@
                         <div class="nav-item active" data-target="thong-tin">
                             <i class="fa-solid fa-gauge-high"></i> <span>Thông tin hồ sơ</span>
                         </div>
-                        <div class="nav-item active" data-target="tai-khoan">
+                        <div class="nav-item " data-target="tai-khoan">
                             <i class="fa-solid fa-gears"></i> <span>Quản lý tài khoản</span>
                         </div>
                     </nav>
                 </aside>
 
                 <main class="main-content">
-
                     <div id="main-content-area" class="content-wrapper">
                         <div id="thong-tin" class="tab-content active">
                             <div class="profile-section card">
@@ -111,6 +110,16 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                       <div class="form-group">
+                                            <label>Ngày sinh </label>
+                                            <input type="text" 
+                                                id="dobInput" 
+                                                placeholder="dd/mm/yyyy" 
+                                                maxlength="10"
+                                                inputmode="numeric">
+                                        </div>
+
 
                                         <div class="form-group full-width">
                                             <label>Địa chỉ liên hệ</label>

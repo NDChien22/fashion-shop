@@ -88,18 +88,18 @@
                                         <div class="form-row">
                                             <div class="form-group">
                                                 <label>Họ và tên</label>
-                                                <input type="text" value="Nguyễn Văn Admin" placeholder="Nhập họ tên">
+                                                <input type="text" value="" placeholder="Nhập họ tên">
                                             </div>
                                             <div class="form-group">
                                                 <label>Địa chỉ Email</label>
-                                                <input type="email" value="admin@fastfashion.com" readonly class="readonly-input">
+                                                <input type="email" value="" readonly class="readonly-input">
                                             </div>
                                         </div>
 
                                         <div class="form-row">
                                             <div class="form-group">
                                                 <label>Số điện thoại</label>
-                                                <input type="text" value="0987 654 321" placeholder="Số điện thoại">
+                                                <input type="text" value="" placeholder="Số điện thoại">
                                             </div>
                                             <div class="form-group">
                                                 <label>Giới tính</label>
@@ -110,17 +110,26 @@
                                                 </select>
                                             </div>
                                         </div>
+                                            <div class="form-row">
+                                                <div class="form-group">
+                                                <label>Ngày sinh </label>
+                                                <input type="text" 
+                                                    id="dobInput" 
+                                                    placeholder="dd/mm/yyyy" 
+                                                    maxlength="10"
+                                                    inputmode="numeric">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Chức vụ</label>
+                                                <select>
+                                                    <option value="male" selected>Khách hàng</option>
+                                                    <option value="female">Quản lý</option>
+                                                    <option value="other">Nhân viên</option>
+                                                </select>
+                                            </div>
 
-                                       <div class="form-group">
-                                            <label>Ngày sinh </label>
-                                            <input type="text" 
-                                                id="dobInput" 
-                                                placeholder="dd/mm/yyyy" 
-                                                maxlength="10"
-                                                inputmode="numeric">
                                         </div>
-
-
+                                       
                                         <div class="form-group full-width">
                                             <label>Địa chỉ liên hệ</label>
                                             <input type="text" placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố">

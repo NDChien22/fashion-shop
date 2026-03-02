@@ -23,7 +23,7 @@ body {
 .admin-layout { 
     display: flex; 
     flex-direction: column; 
-    height: 100vh; /* Cố định chiều cao toàn màn hình */
+    height: 100vh; 
     overflow: hidden; /* Ngăn cuộn toàn trang gây vỡ layout */
 }
 
@@ -227,7 +227,7 @@ body {
 .admin-body-wrapper {
     display: flex;
     flex: 1; 
-    width: 100%;
+    overflow: hidden;
 }
 
 .sidebar {
@@ -241,7 +241,7 @@ body {
     display: flex;
     flex-direction: column;
     z-index: 99;
-
+    overflow-y: auto;
 }
 
 

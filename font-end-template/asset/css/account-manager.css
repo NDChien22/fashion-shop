@@ -298,7 +298,44 @@ body {
 
 
 
+@media (max-width: 768px) {
+    #menuBtn {
+        display: block !important; 
+        position: fixed;
+        top: 100px;
+        left: 15px;
+        z-index: 1001; 
+        color: #333;
+        background: #fff;
+        padding: 8px 12px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
 
+    .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        width: 260px;
+        height: 100vh;
+        background: #fff;
+        z-index: 1000;
+        transition: 0.3s ease-in-out;
+        box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+        padding-top: 70px; 
+    }
+
+
+    .sidebar.active {
+        left: 0;
+    }
+
+
+    .main-content {
+        width: 100%;
+        padding-top: 60px; 
+    }
+}
 
 
 

@@ -108,3 +108,38 @@ input.addEventListener('input', function(e) {
         e.target.setSelectionRange(cursorPosition, cursorPosition);
     }
 });
+
+// Sử lý menu
+document.addEventListener("DOMContentLoaded", function() {
+    const menuBtn = document.getElementById('menuBtn'); // Nút 3 gạch
+    const sidebar = document.querySelector('.sidebar');
+    
+    // Tạo lớp phủ mờ tự động
+    const overlay = document.createElement('div');
+    overlay.className = 'menu-overlay';
+    document.body.appendChild(overlay);
+
+    // Hàm mở/đóng menu
+    function toggleMenu() {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+
+    // Sự kiện nhấn vào nút 3 gạch
+    menuBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleMenu();
+    });
+
+    // Nhấn ra ngoài vùng menu (lớp phủ) để đóng menu
+    overlay.addEventListener('click', toggleMenu);
+
+    // Đóng menu khi chọn một mục bên trong
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    });
+});

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title')</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../extra-assets/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="../images/logo/logo.jpg" alt="logo" class="avatar-img">
+            </div>
+
+            <nav class="nav-menu">
+                <p class="nav-title">CHÍNH</p>
+                <div class="nav-item active" data-target="tong-quan">
+                    <i class="fa-solid fa-gauge-high"></i> <span>Tổng quan</span>
+                </div>
+
+                <p class="nav-title">SẢN PHẨM</p>
+                <div class="nav-item" data-target="danh-sach-mau">
+                    <i class="fa-solid fa-list"></i> <span>Danh sách mẫu</span>
+                </div>
+                <div class="nav-item" data-target="them-san-pham">
+                    <i class="fa-solid fa-plus"></i> <span>Thêm sản phẩm</span>
+                </div>
+                <div class="nav-item" data-target="phan-loai">
+                    <i class="fa-solid fa-layer-group"></i> <span>Phân loại</span>
+                </div>
+
+                <p class="nav-title">KINH DOANH</p>
+                <div class="nav-item" data-target="don-hang">
+                    <i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span>
+                    <span class="nav-badge">5</span>
+                </div>
+                <div class="nav-item" data-target="khach-hang">
+                    <i class="fa-solid fa-users"></i> <span>Khách hàng</span>
+                </div>
+                <div class="nav-item" data-target="doanh-thu">
+                    <i class="fa-solid fa-chart-line"></i> <span>Doanh thu</span>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="search-area">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Tìm kiếm đơn hàng, khách hàng...">
+                </div>
+                <div class="user-area">
+                    <div class="notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="dot"></span>
+                    </div>
+
+                    <div class="profile-container">
+                        <div class="profile-link" id="profileToggle">
+                            <div class="avatar" id="userAvatar">AC</div>
+                            <div class="info">
+                                <span class="name" id="userName">Admin</span>
+                                <span class="role" id="userRole">Chủ cửa hàng</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                        </div>
+
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <div class="dropdown-user-info">
+                                <div class="large-avatar" id="menuAvatar">AC</div>
+                                <div class="text-info">
+                                    <span class="full-name" id="menuFullName">Nguyễn Văn Admin</span>
+                                    <span class="email" id="userEmail">admin@fastfashion.com</span>
+                                </div>
+                            </div>
+                            
+                            <div class="menu-actions">
+                                <a href="" class="btn-manage">Quản lý tài khoản của bạn</a>
+                            </div>
+
+                            <div class="menu-items">
+                                <a href="" class="menu-item">
+                                    <i class="fa-regular fa-user"></i> <span>Hồ sơ cá nhân</span>
+                                </a>
+
+                                <div class="divider"></div>
+                                <a href="{{ route('logout')}}" class="menu-item logout-link">
+                                    <i class="fa-solid fa-right-from-bracket"></i> <span>Đăng xuất</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-body">
+                <section id="tong-quan" class="tab-content active">
+                    <div class="welcome-banner">
+                        <div class="banner-text">
+                            <h3>Chào mừng trở lại,</h3>
+                            <p>Hôm nay cửa hàng có <strong>12 đơn hàng mới</strong>. Đừng quên kiểm tra kho cho bộ sưu tập Mùa Hè nhé!</p>
+                            <button class="btn-primary">Xem đơn hàng</button>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="icon-circle blue"><i class="fa-solid fa-wallet"></i></div>
+                            <div class="data">
+                                <span class="label">Doanh thu ngày</span>
+                                <span class="value">5.200.000đ</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon-circle green"><i class="fa-solid fa-box"></i></div>
+                            <div class="data">
+                                <span class="label">Sản phẩm bán ra</span>
+                                <span class="value">42</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon-circle red"><i class="fa-solid fa-user-tag"></i></div>
+                            <div class="data">
+                                <span class="label">Khách hàng mới</span>
+                                <span class="value">15</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="icon-circle orange"><i class="fa-solid fa-star"></i></div>
+                            <div class="data">
+                                <span class="label">Đánh giá tốt</span>
+                                <span class="value">98%</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="danh-sach-mau" class="tab-content">
+                    <div class="data-card">
+                        <h3>Danh sách mẫu sản phẩm</h3>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã SP</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Tồn kho</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#FS-101</td>
+                                    <td>Váy lụa Satin</td>
+                                    <td>850.000đ</td>
+                                    <td>24</td>
+                                    <td><span class="status-badge" style="background:#e6fffa; color:#20c997;">Còn hàng</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="don-hang" class="tab-content">
+                    <div class="data-card">
+                        <h3>Đơn hàng mới chờ duyệt</h3>
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Mã Đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Tổng tiền</th>
+                                    <th>Ngày đặt</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD-5542</td>
+                                    <td>Nguyễn Văn A</td>
+                                    <td>1.250.000đ</td>
+                                    <td>Vừa xong</td>
+                                    <td><button class="btn-primary" style="margin:0; padding:5px 15px;">Duyệt</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                
+            </div>
+        </main>
+    </div>
+
+    <script src="../asset/js/admin-logic.js"></script>
+</body>
+</html>

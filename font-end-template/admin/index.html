@@ -10,9 +10,38 @@
 </head>
 <body>
     <div class="admin-layout">
-        <header class="main-header">
-                <div class="brand">
-                    <img src="/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="Admin Avatar" class="avatar-img">
+        <aside class="sidebar">
+            <div class="brand">
+                <img src="../asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="Admin Avatar" class="avatar-img">
+            </div>
+
+            <nav class="nav-menu">
+                <p class="nav-title">CHÍNH</p>
+                <div class="nav-item active" data-target="tong-quan">
+                    <i class="fa-solid fa-gauge-high"></i> <span>Tổng quan</span>
+                </div>
+
+                <p class="nav-title">SẢN PHẨM</p>
+                <div class="nav-item" data-target="danh-sach-mau">
+                    <i class="fa-solid fa-list"></i> <span>Danh sách mẫu</span>
+                </div>
+                <div class="nav-item" data-target="them-san-pham">
+                    <i class="fa-solid fa-plus"></i> <span>Thêm sản phẩm</span>
+                </div>
+                <div class="nav-item" data-target="phan-loai">
+                    <i class="fa-solid fa-layer-group"></i> <span>Phân loại</span>
+                </div>
+
+                <p class="nav-title">KINH DOANH</p>
+                <div class="nav-item" data-target="don-hang">
+                    <i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span>
+                    <span class="nav-badge">5</span>
+                </div>
+                <div class="nav-item" data-target="khach-hang">
+                    <i class="fa-solid fa-users"></i> <span>Khách hàng</span>
+                </div>
+                <div class="nav-item" data-target="doanh-thu">
+                    <i class="fa-solid fa-chart-line"></i> <span>Doanh thu</span>
                 </div>
                 <div class="search-area">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -44,10 +73,15 @@
                             </div>
                             
                             <div class="menu-actions">
-                                <a href="/admin/account-management.html" class="btn-manage">Quản lý tài khoản của bạn</a>
+                                <a href="../admin/account-management.html" class="btn-manage">Quản lý tài khoản của bạn</a>
                             </div>
 
                             <div class="menu-items">
+                                <a href="/admin/profile.html" class="menu-item">
+                                    <i class="fa-regular fa-user"></i> <span>Hồ sơ cá nhân</span>
+                                </a>
+
+                                <div class="divider"></div>
                                 <a href="#" class="menu-item logout-link">
                                     <i class="fa-solid fa-right-from-bracket"></i> <span>Đăng xuất</span>
                                 </a>
@@ -189,6 +223,6 @@
         </div>
     </div>
 
-    <script src="/asset/js/admin-logic.js"></script>
+    <script src="../asset/js/admin-logic.js"></script>
 </body>
 </html>

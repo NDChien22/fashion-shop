@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,4 +42,12 @@ Route::middleware('guest')->group(function(){
 Route::middleware('auth')->group(function(){
     //Logout
     Route::post('/logout', [AuthController::class, 'logoutHandler'])->name('logout');
+});
+
+//Admin routes
+Route::prefix('admin')->name('admin.')->group(function(){
+    Route::middleware('auth')->group(function(){
+        Route::get('/profile', [AdminController::class, 'ProfileView'])->name('admin-profile');
+        Route::get('/account-manager', [AdminController::class, 'AccountManagerView'])->name('account-manager');
+    });
 });

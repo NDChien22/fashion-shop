@@ -91,3 +91,57 @@ document.addEventListener('click', (e) => {
         sidebar.classList.remove('active');
     }
 });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const navItems = document.querySelectorAll('.nav-item');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const pageTitle = document.getElementById('page-title');
+    const breadcrumbActive = document.getElementById('breadcrumb-active');
+    
+    // Sử dụng querySelector để tìm khối header
+    const pageHeader = document.querySelector('.ff-page-header');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-target');
+            const targetName = this.querySelector('span').innerText;
+
+            // 1. Xử lý Active Sidebar
+            navItems.forEach(nav => nav.classList.remove('active'));
+            this.classList.add('active');
+
+            // 2. Ẩn tất cả tab-content
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // 3. Hiện tab-content được chọn
+            const activeContent = document.getElementById(targetId);
+            if (activeContent) {
+                activeContent.style.display = 'block';
+            }
+
+            // 4. ĐIỀU KIỆN QUAN TRỌNG: Kiểm tra trang Tổng quan
+            if (targetId === 'tong-quan') {
+                // Nếu là Tổng quan thì ẩn hẳn header đi
+                if (pageHeader) pageHeader.style.setProperty('display', 'none', 'important');
+            } else {
+                // Nếu KHÔNG PHẢI Tổng quan thì buộc phải hiện lại
+                if (pageHeader) {
+                    pageHeader.style.setProperty('display', 'block', 'important');
+                    
+                    // Cập nhật nội dung tiêu đề sau khi đã hiện
+                    if (pageTitle) pageTitle.innerText = "Quản lý " + targetName.toLowerCase();
+                    if (breadcrumbActive) breadcrumbActive.innerText = targetName;
+                }
+            }
+        });
+    });
+
+    // Kiểm tra mặc định khi vừa load trang
+    const currentActive = document.querySelector('.nav-item.active');
+    if (currentActive && currentActive.getAttribute('data-target') === 'tong-quan') {
+        if (pageHeader) pageHeader.style.display = 'none';
+    }
+});

@@ -2,7 +2,7 @@
 /* Main content */
 .main-content { 
     flex: 1; 
-    overflow-y: auto; /* Chỉ cuộn nội dung chính ở đây */
+    overflow-y: auto; 
     background-color: var(--bg-body);
 }
 
@@ -246,7 +246,7 @@
 
 
 
-
+/* Trang tổng */
 
 .dashboard-body { 
     padding: 35px; 
@@ -325,151 +325,333 @@
 }
 
 
-.data-card {
-    background: var(--white); 
-    padding: 25px;
-    border-radius: 20px; 
-    margin-top: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --- Variables --- */
+
+
+.ff-section {
+    padding: 40px;
+    background-color: var(--gray-bg);
+    min-height: 100vh;
+    
 }
 
-.admin-table { 
-    width: 100%; 
-    border-collapse: collapse; 
-    margin-top: 20px; 
-}
-
-.admin-table th { 
-    text-align: left; 
-    padding: 15px; 
-    border-bottom: 2px solid #f8f9fa; 
-    color: var(--text-gray); 
-    font-size: 13px; 
-}
-
-.admin-table td { 
-    padding: 15px; 
-    border-bottom: 1px solid #f8f9fa; 
-    font-size: 14px; 
-}
-
-.status-badge { 
-    padding: 4px 12px; 
-    border-radius: 20px; 
-    font-size: 12px; 
-    font-weight: 600; 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.section-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #2d3748;
+/* --- Header Section --- */
+.ff-page-header {
     margin-bottom: 25px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    padding: 10px 0;
+    display: none !important;
+
 }
 
-.section-title i {
-    color: #b5966d; 
-}
-
-.security-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.security-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background: #fcfcfd;
-    border: 1px solid #f1f1f5;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-}
-
-.security-item:hover {
-    border-color: #b5966d;
-    background: #fff;
-    box-shadow: 0 4px 12px rgba(181, 150, 109, 0.08);
-}
-
-.security-info h4 {
-    font-size: 16px;
-    font-weight: 600;
-    color: #2d3748;
+.ff-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
     margin-bottom: 4px;
 }
 
-.security-info p {
-    font-size: 13px;
-    color: #a0aec0;
+.ff-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
 }
 
-.btn-outline {
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    color: #4a5568;
-    padding: 8px 18px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
+.ff-breadcrumb a {
+    color: var(--text-gray);
+    text-decoration: none;
+    transition: var(--transition);
 }
 
-.btn-outline:hover {
-    border-color: #b5966d;
-    color: #b5966d;
-    background: #fdfaf7;
+.ff-breadcrumb a:hover {
+    color: var(--primary);
 }
 
-.text-danger h4 { color: #e53e3e; }
-.btn-danger-outline {
-    background: #fff;
-    border: 1px solid #fed7d7;
-    color: #e53e3e;
-    padding: 8px 18px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
+.ff-breadcrumb .divider {
+    color: #cbd5e1;
 }
 
-.btn-danger-outline:hover {
-    background: #fff5f5;
-    border-color: #e53e3e;
+.ff-breadcrumb .active {
+    color: var(--text-gray);
+    font-weight: 500;
 }
 
-.divider {
-    border: none;
-    height: 1px;
-    background: #f1f1f5;
-    margin: 40px 0;
+/* --- Filter Bar --- */
+.ff-action-bar {
+    display: flex;
+    gap: 20px; /* Tạo khoảng cách để các khối hiện riêng lẻ */
+    margin-bottom: 30px;
+    align-items: stretch;
+    justify-content: flex-end;
 }
 
-.password-form {
-    background: #fafbfc;
-    padding: 25px;
+/* Base style cho từng khối riêng lẻ */
+.ff-card-tool {
+    background: var(--white);
     border-radius: 12px;
-    border: 1px solid #f1f3f5;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); /* Đổ bóng nhẹ để tách nền */
+    transition: var(--transition);
+    border: 1px solid transparent;
 }
+
+/* Hiệu ứng khi hover hoặc click vào từng khối */
+.ff-card-tool:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border-color: var(--primary-light);
+}
+
+/* Khối tìm kiếm chiếm không gian lớn nhất */
+.ff-search-box {
+    flex: 2;
+}
+
+.ff-search-box i {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+}
+
+.ff-search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    margin-left: 12px;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    background: transparent;
+}
+
+/* Khối danh mục */
+.ff-category-box {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px;
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid transparent;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+    transition: var(--transition);
+    outline: none;
+}
+
+.ff-category-box:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.ff-category-box .ff-label {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.ff-selected-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.ff-icon-arrow {
+    color: var(--primary);
+    font-size: 0.8rem;
+    transition: var(--transition);
+}
+
+.ff-dropdown-list {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 8px;
+    margin: 0;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: var(--transition);
+}
+
+
+.ff-category-box:focus-within .ff-dropdown-list {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.ff-category-box:focus-within .ff-icon-arrow {
+    transform: rotate(180deg);
+}
+
+.ff-option {
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    transition: 0.2s;
+}
+
+.ff-option:hover {
+    background: var(--bg-body);
+    color: var(--primary);
+}
+
+.ff-option.active {
+    background: var(--primary);
+    color: var(--white);
+}
+
+/* Khối Lọc */
+.ff-filter-box {
+    padding: 0;
+    cursor: pointer;
+}
+
+.btn-filter {
+    background: transparent;
+    border: none;
+    height: 100%;
+    width: 100%;
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.btn-filter i {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.ff-card-tool:focus-within {
+    border-color: var(--primary);
+    background: #fff;
+}
+
+
+/* --- Table Styles --- */
+.ff-table-container {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+
+.ff-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ff-table thead th {
+    background: #fafafa;
+    padding: 15px 20px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+}
+
+.ff-table tbody td {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    text-align: center;
+}
+
+.ff-product-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.ff-product-img img {
+    width: 50px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.ff-product-info .name {
+    display: block;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.ff-product-info .sku {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+
+.ff-badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.ff-badge.active {
+    background: #e6fcf5;
+    color: #0ca678;
+    
+}
+
+.ff-action-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: var(--text-muted);
+    cursor: pointer;
+    margin-left: 10px;
+    transition: 0.2s;
+}
+
+.ff-action-btn:hover { color: var(--dark); }
+.ff-action-btn.delete:hover { color: #fa5252; }
+
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.fw-600 { font-weight: 600; }

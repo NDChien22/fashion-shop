@@ -16,9 +16,13 @@ return new class extends Migration
             $table->string('username');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('role')->default('customer');
-            $table->string('membership_level')->default('basic');
             $table->string('password');
+            $table->string('full_name')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->string('address')->nullable();
+            $table->dateTime('birthday')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('role')->default('customer');
             $table->rememberToken();
             $table->timestamps();
         });

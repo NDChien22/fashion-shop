@@ -178,12 +178,21 @@
                                 </ul>
                             </div>
 
-                            <div class="ff-card-tool ff-filter-box">
-                                <button class="btn-filter">
-                                    <i class="bi bi-sliders"></i>
-                                    <span>Lọc</span>
-                                </button>
+                            <div class="ff-category-box" tabindex="0">
+                                <span class="ff-label"></span>
+                                <div class="ff-selected-display">
+                                    <span class="current-text">Giá tiền</span>
+                                    <i class="bi bi-chevron-down ff-icon-arrow"></i>
+                                </div>
+                                
+                                <ul class="ff-dropdown-list">
+                                    <li class="ff-option active">Giá từ thấp đến cao</li>
+                                    <li class="ff-option">Giá từ cao đến thấp</li>
+                                    
+                                </ul>
                             </div>
+
+                            
                         </div>
 
                         
@@ -209,7 +218,7 @@
                                                 </div>
                                                 <div class="ff-product-info">
                                                     <span class="name">Classic Wool Coat</span>
-                                                    <span class="sku">SKU: FW2026-001</span>
+                                                    <span class="sku">Mã sản phẩm: FW2026-001</span>
                                                 </div>
                                             </div>
                                         </td>
@@ -234,7 +243,113 @@
                         </div>
                     </section>
 
-                    <section id="don-hang" class="tab-content"></section> 
+                    <section> 
+                        <div id="them-san-pham" class="tab-content">
+                            <div class="ff-form-container">
+                                <div class="ff-form-main">
+                                    <div class="ff-form-card">
+                                        <h4 class="card-title">Thông tin cơ bản</h4>
+                                        <div class="form-group">
+                                            <label>Tên sản phẩm</label>
+                                            <input type="text" placeholder="Ví dụ: Áo sơ mi lụa cao cấp" class="ff-input">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Mô tả sản phẩm</label>
+                                            <textarea placeholder="Nhập mô tả chi tiết về chất liệu, kiểu dáng..." class="ff-textarea"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="ff-form-card">
+                                        <h4 class="card-title">Hình ảnh sản phẩm</h4>
+                                        <div class="image-upload-area">
+                                            <div class="upload-placeholder">
+                                                <i class="bi bi-cloud-arrow-up"></i>
+                                                <p>Kéo thả ảnh vào đây hoặc <span>chọn file</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ff-form-card">
+                                        <h4 class="card-title">Biến thể sản phẩm</h4>
+                                        
+                                        <div class="form-group">
+                                            <label>Kích thước (Size)</label>
+                                            <div class="ff-variant-wrapper" id="size-wrapper">
+                                                <div class="ff-variant-selector">
+                                                    <label class="variant-item"><input type="checkbox" name="size" value="S"><span>S</span></label>
+                                                    <label class="variant-item"><input type="checkbox" name="size" value="M"><span>M</span></label>
+                                                    <label class="variant-item"><input type="checkbox" name="size" value="L"><span>L</span></label>
+                                                </div>
+                                                <input type="text" class="ff-add-variant-input" placeholder="+ Thêm size khác..." data-type="size">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Màu sắc</label>
+                                            <div class="ff-variant-wrapper" id="color-wrapper">
+                                                <div class="ff-variant-selector">
+                                                    <label class="variant-item"><input type="checkbox" name="color" value="Đen"><span>Đen</span></label>
+                                                    <label class="variant-item"><input type="checkbox" name="color" value="Beige"><span>Beige</span></label>
+                                                </div>
+                                                <input type="text" class="ff-add-variant-input" placeholder="+ Thêm màu khác..." data-type="color">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ff-form-sidebar">
+                                    <div class="ff-form-card">
+                                        <h4 class="card-title">Trạng thái</h4>
+                                        <select class="ff-select">
+                                            <option>Đang bán</option>
+                                            <option>Bản nháp</option>
+                                            <option>Ngừng kinh doanh</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="ff-form-card">
+                                        <h4 class="card-title">Giá & Kho</h4>
+                                        <div class="form-group">
+                                            <label>Giá bán (VNĐ)</label>
+                                            <input type="number" placeholder="0" class="ff-input">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Giá gốc</label>
+                                            <input type="number" placeholder="0" class="ff-input">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Mã sản phẩm</label>
+                                            <input type="text" placeholder="" class="ff-input">
+                                        </div>
+                                    </div>
+
+                                    <div class="ff-form-card">
+                                        <h4 class="card-title">Phân loại</h4>
+                                        <label>Danh mục</label>
+                                        <select class="ff-select">
+                                            <option>Áo khoác</option>
+                                            <option>Váy đầm</option>
+                                            <option>Phụ kiện</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-actions">
+                                        <button class="btn-cancel">Hủy</button>
+                                        <button class="btn-submit">Thêm sản phẩm</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <section id="don-hang" class="tab-content">
+
+
+
+
+
+                    </section> 
                 </div>
             </main>
         </div>

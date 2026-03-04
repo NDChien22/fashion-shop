@@ -1,0 +1,635 @@
+/* --- Variables --- */
+
+
+.ff-section {
+    padding: 40px;
+    background-color: var(--gray-bg);
+    min-height: 100vh;
+    
+}
+
+/* --- Header Section --- */
+.ff-page-header {
+    margin-bottom: 25px;
+    padding: 10px 0;
+    display: none !important;
+
+}
+
+.ff-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.ff-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+}
+
+.ff-breadcrumb a {
+    color: var(--text-gray);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.ff-breadcrumb a:hover {
+    color: var(--primary);
+}
+
+.ff-breadcrumb .divider {
+    color: #cbd5e1;
+}
+
+.ff-breadcrumb .active {
+    color: var(--text-gray);
+    font-weight: 500;
+}
+
+/* --- Filter Bar --- */
+.ff-action-bar {
+    display: flex;
+    gap: 20px; /* Tạo khoảng cách để các khối hiện riêng lẻ */
+    margin-bottom: 30px;
+    align-items: stretch;
+    justify-content: flex-end;
+}
+
+/* Base style cho từng khối riêng lẻ */
+.ff-card-tool {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); 
+    transition: var(--transition);
+    border: 1px solid transparent;
+}
+
+
+.ff-card-tool:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border-color: var(--primary-light);
+}
+
+
+.ff-search-box {
+    flex: 2;
+}
+
+.ff-search-box i {
+    color: var(--text-gray);
+    font-size: 1.1rem;
+}
+
+.ff-search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    margin-left: 12px;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    background: transparent;
+}
+
+/* Khối danh mục */
+.ff-category-box {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px;
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid transparent;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+    transition: var(--transition);
+    outline: none;
+}
+
+.ff-category-box:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.ff-category-box .ff-label {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+.ff-selected-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.ff-icon-arrow {
+    color: var(--primary);
+    font-size: 0.8rem;
+    transition: var(--transition);
+}
+
+.ff-dropdown-list {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 8px;
+    margin: 0;
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: var(--transition);
+}
+
+
+.ff-category-box:focus-within .ff-dropdown-list {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.ff-category-box:focus-within .ff-icon-arrow {
+    transform: rotate(180deg);
+}
+
+.ff-option {
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    transition: 0.2s;
+}
+
+.ff-option:hover {
+    background: var(--bg-body);
+    color: var(--primary);
+}
+
+.ff-option.active {
+    background: var(--primary);
+    color: var(--white);
+}
+
+
+
+/* --- Table Styles --- */
+.ff-table-container {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+
+.ff-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ff-table thead th {
+    background: #fafafa;
+    padding: 15px 20px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+}
+
+.ff-table tbody td {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+    text-align: center;
+}
+
+.ff-product-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.ff-product-img img {
+    width: 50px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.ff-product-info .name {
+    display: block;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.ff-product-info .sku {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+
+.ff-badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.ff-badge.active {
+    background: #e6fcf5;
+    color: #0ca678;
+    
+}
+
+.ff-action-btn {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: var(--text-muted);
+    cursor: pointer;
+    margin-left: 10px;
+    transition: 0.2s;
+}
+
+.ff-action-btn:hover { 
+    color: var(--dark); 
+}
+
+.ff-action-btn.delete:hover { 
+    color: #fa5252; 
+}
+
+.text-left { 
+    text-align: left; 
+}
+
+.text-center { 
+    text-align: center; 
+}
+
+.text-right { 
+    text-align: right; 
+}
+
+.fw-600 { 
+    font-weight: 600; 
+}
+
+
+
+
+/* Mặc định ẩn tất cả các tab content */
+.tab-content {
+    display: none;
+}
+
+/* Chỉ hiển thị tab nào có class 'active' */
+.tab-content.active {
+    display: block !important;
+}
+
+
+
+
+
+
+
+
+/* Container chính cho Form */
+.ff-form-container {
+    display: flex;
+    gap: 25px;
+    padding-top: 10px;
+}
+
+.ff-form-main { 
+    flex: 2; 
+}
+
+.ff-form-sidebar { 
+    flex: 1; 
+}
+
+/* Thẻ bao bọc mỗi phần (Card) */
+.ff-form-card {
+    background: var(--white);
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    margin-bottom: 25px;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+}
+
+/* Các thành phần input */
+.form-group { 
+    margin-bottom: 15px; 
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.ff-input, .ff-select, .ff-textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-family: inherit;
+    transition: 0.3s;
+}
+
+.ff-textarea { 
+    height: 120px; 
+    resize: none; 
+}
+
+.ff-input:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(181, 150, 109, 0.1);
+}
+
+/* Khu vực upload ảnh */
+.ff-image-upload-wrapper {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.ff-upload-section label {
+    display: block;
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+
+.upload-box {
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.upload-box:hover { 
+    border-color: var(--primary); 
+    background: #fdfaf5; 
+}
+
+.upload-box.single { 
+    width: 180px; 
+    height: 180px; 
+}
+
+
+.upload-content { 
+    text-align: center; 
+    color: #94a3b8; 
+}
+
+.upload-content i { 
+    font-size: 2rem; 
+    color: var(--primary); 
+}
+
+
+.gallery-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.gallery-grid { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 12px; }
+
+.gallery-item {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 1px solid #e2e8f0;
+}
+
+.upload-box.multi { 
+    width: 100px; 
+    height: 100px; 
+}
+
+/* Container chính cho mỗi phần ảnh */
+.image-edit-section .d-flex {
+    display: flex;
+    align-items: center; /* Căn giữa các nút theo chiều dọc của ảnh */
+    gap: 16px; /* Giãn cách giữa khung ảnh và cụm nút */
+    margin-top: 8px;
+}
+
+/* Khung xem trước ảnh */
+.main-image-preview, #edit-album-grid {
+    flex-shrink: 0; /* Đảm bảo khung ảnh không bị bóp méo */
+    width: 100px;
+    height: 100px;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Cụm nút điều khiển bên cạnh */
+.image-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Khoảng cách giữa các nút */
+    flex-grow: 1;
+}
+
+/* Tùy chỉnh nút bấm theo style Fast Fashion */
+.ff-btn-edit-small {
+    width: 100%; /* Cho nút dài bằng phần diện tích còn lại */
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid #8b735b;
+    background: #fff;
+    color: #8b735b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+/* Nút chính (Nâu) */
+.ff-btn-edit-small.primary {
+    background: #8b735b;
+    color: #fff;
+}
+
+/* Nút phụ/Xóa (Viền xám) */
+.ff-btn-edit-small.outline {
+    border-color: #ddd;
+    color: #666;
+}
+
+.ff-btn-edit-small:hover {
+    transform: translateX(3px); /* Hiệu ứng nhẹ khi di chuột */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+
+/* Size/Color/Số lượng */
+.ff-variant-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.variant-item {
+    cursor: pointer;
+    position: relative;
+}
+
+.variant-item input {
+    display: none; 
+}
+
+.variant-item span {
+    display: inline-block;
+    padding: 8px 20px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    color: #495057;
+    background: #f8f9fa;
+}
+
+
+.variant-item input:checked + span {
+    background-color: #b5966d;
+    border-color: #b5966d;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.variant-item span:hover {
+    border-color: #b5966d;
+}
+
+
+.ff-add-variant-input {
+    width: 100%;
+    border: 1px dashed #ced4da;
+    padding: 8px 12px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.ff-add-variant-input:focus {
+    border-style: solid;
+    border-color: #b5966d;
+}
+
+
+.ff-quantity-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    width: fit-content;
+    padding: 4px 12px;
+    background: #fff;
+}
+
+.ff-quantity-input {
+    border: none;
+    outline: none;
+    width: 100px;
+    font-size: 16px;
+    padding: 5px;
+}
+
+.ff-unit {
+    color: #6c757d;
+    padding-left: 10px;
+    border-left: 1px solid #dee2e6;
+    font-size: 14px;
+}
+
+/* Nút bấm thêm, hủy sản phẩm */
+.form-actions { 
+    display: flex; 
+    gap: 15px; 
+}
+
+.btn-submit {
+    flex: 1;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-submit:hover { 
+    transform: translateY(-3px); 
+    box-shadow: 0 5px 15px rgba(181, 150, 109, 0.3); 
+}
+
+.btn-cancel {
+    padding: 15px 25px;
+    background: var(--primary);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-cancel:hover  { 
+    transform: translateY(-3px); 
+    box-shadow: 0 5px 15px rgba(181, 150, 109, 0.3); 
+}

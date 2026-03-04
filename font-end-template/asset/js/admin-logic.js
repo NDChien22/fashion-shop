@@ -145,3 +145,71 @@ document.addEventListener('DOMContentLoaded', function() {
         if (pageHeader) pageHeader.style.display = 'none';
     }
 });
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const editButtons = document.querySelectorAll('.edit-btn');
+    const breadcrumbActive = document.getElementById('breadcrumb-active');
+    const pageTitle = document.getElementById('page-title');
+
+    // Lấy 2 phần chính của bạn
+    const danhSachSection = document.getElementById('danh-sach-mau');
+    const editSection = document.getElementById('chinh-sua-san-pham');
+
+    editButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // 1. Ẩn triệt để phần Danh sách
+            if (danhSachSection) {
+                danhSachSection.style.display = 'none'; 
+                danhSachSection.classList.remove('active');
+            }
+
+            // 2. Hiện triệt để phần Chỉnh sửa
+            if (editSection) {
+                editSection.style.display = 'block';
+                editSection.classList.add('active');
+            }
+
+            // 3. Cập nhật Breadcrumb và Tiêu đề
+            pageTitle.innerText = "Chỉnh sửa sản phẩm";
+            breadcrumbActive.innerText = "Chỉnh sửa sản phẩm";
+            
+            window.scrollTo(0, 0);
+        });
+    });
+
+    // Xử lý cho nút "Quay lại danh sách" bên trong form sửa
+    const backBtn = document.querySelector('.btn-back'); // Đảm bảo nút của bạn có class này
+    if (backBtn) {
+        backBtn.addEventListener('click', function() {
+            showTab('danh-sach-mau');
+        });
+    }
+});
+
+// Hàm bổ trợ để chuyển đổi giữa các tab và thay thế giao diện
+function showTab(tabId) {
+    // Ẩn tất cả các section trước
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.style.display = 'none';
+        tab.classList.remove('active');
+    });
+
+    // Hiện đúng tab được yêu cầu
+    const targetTab = document.getElementById(tabId);
+    if (targetTab) {
+        targetTab.style.display = 'block';
+        targetTab.classList.add('active');
+    }
+    
+    // Cập nhật lại tiêu đề khi quay về danh sách
+    if(tabId === 'danh-sach-mau') {
+        document.getElementById('page-title').innerText = "Quản lý sản phẩm";
+        document.getElementById('breadcrumb-active').innerText = "Danh sách mẫu";
+    }
+}

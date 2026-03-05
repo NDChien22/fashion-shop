@@ -47,6 +47,10 @@ Route::middleware('auth')->group(function(){
 //Admin routes
 Route::prefix('admin')->name('admin.')->group(function(){
     Route::middleware('auth')->group(function(){
+        Route::get('/', function(){
+            return view('pages.admin.dashboard');
+        })->name('dashboard');
+
         Route::get('/profile', [AdminController::class, 'ProfileView'])->name('admin-profile');
         Route::get('/account-manager', [AdminController::class, 'AccountManagerView'])->name('account-manager');
     });

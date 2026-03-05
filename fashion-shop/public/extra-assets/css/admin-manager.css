@@ -2,7 +2,6 @@
 .main-content {
     flex: 1;
     overflow-y: auto;
-    /* Chỉ cuộn nội dung chính ở đây */
     background-color: var(--bg-body);
 }
 
@@ -53,7 +52,6 @@
 
 .avatar-edit-section {
     display: flex;
-    align-items: center;
     gap: 20px;
     margin-bottom: 35px;
     padding: 20px;
@@ -251,6 +249,11 @@
     font-size: 12px;
 }
 
+
+
+
+/* Trang tổng */
+
 .dashboard-body {
     padding: 35px;
 }
@@ -278,6 +281,9 @@
     margin-bottom: 35px;
     box-shadow: 0 10px 25px rgba(181, 150, 109, 0.2);
 }
+
+
+
 
 .stats-grid {
     display: grid;
@@ -323,141 +329,4 @@
 .icon-circle.orange {
     background: #fffaf0;
     color: #ed8936;
-}
-
-
-.data-card {
-    background: var(--white);
-    padding: 25px;
-    border-radius: 20px;
-    margin-top: 25px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-}
-
-.admin-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.admin-table th {
-    text-align: left;
-    padding: 15px;
-    border-bottom: 2px solid #f8f9fa;
-    color: var(--text-gray);
-    font-size: 13px;
-}
-
-.admin-table td {
-    padding: 15px;
-    border-bottom: 1px solid #f8f9fa;
-    font-size: 14px;
-}
-
-.status-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-}
-
-.section-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #2d3748;
-    margin-bottom: 25px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.section-title i {
-    color: #b5966d;
-}
-
-.security-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.security-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background: #fcfcfd;
-    border: 1px solid #f1f1f5;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-}
-
-.security-item:hover {
-    border-color: #b5966d;
-    background: #fff;
-    box-shadow: 0 4px 12px rgba(181, 150, 109, 0.08);
-}
-
-.security-info h4 {
-    font-size: 16px;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 4px;
-}
-
-.security-info p {
-    font-size: 13px;
-    color: #a0aec0;
-}
-
-.btn-outline {
-    background: #fff;
-    border: 1px solid #e2e8f0;
-    color: #4a5568;
-    padding: 8px 18px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn-outline:hover {
-    border-color: #b5966d;
-    color: #b5966d;
-    background: #fdfaf7;
-}
-
-.text-danger h4 {
-    color: #e53e3e;
-}
-
-.btn-danger-outline {
-    background: #fff;
-    border: 1px solid #fed7d7;
-    color: #e53e3e;
-    padding: 8px 18px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.btn-danger-outline:hover {
-    background: #fff5f5;
-    border-color: #e53e3e;
-}
-
-.divider {
-    border: none;
-    height: 1px;
-    background: #f1f1f5;
-    margin: 40px 0;
-}
-
-.password-form {
-    background: #fafbfc;
-    padding: 25px;
-    border-radius: 12px;
-    border: 1px solid #f1f3f5;
 }

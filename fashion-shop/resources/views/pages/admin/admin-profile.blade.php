@@ -5,7 +5,7 @@
     <div id="thong-tin" class="tab-content active">
         <div class="profile-section card">
             <div class="profile-header">
-                <h2>Hồ sơ cá nhân</h2>
+                <h2><strong>Hồ sơ cá nhân</strong></h2>
                 <p>Quản lý thông tin chi tiết cá nhân của bạn để bảo mật tài khoản</p>
             </div>
 

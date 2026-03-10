@@ -13,22 +13,29 @@
 
     <div id="content-area" style="transition: opacity 0.15s ease-in-out;">
     </div>
+
+
     <template id="tpl-product-list">
-        <div class="flex gap-4 mb-6">
-            <div class="flex-1 relative">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
-                <input type="text" placeholder="Tìm kiếm sản phẩm..." class="w-full bg-white border border-gray-100 rounded-xl py-2.5 pl-10 pr-4 text-xs focus:ring-1 focus:ring-[#bc9c75] outline-none shadow-sm">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex gap-4 flex-1">
+                <div class="relative w-full max-w-[50%]">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                    <input type="text" placeholder="Tìm kiếm sản phẩm..." class="w-full bg-white border border-gray-100 rounded-xl py-2.5 pl-10 pr-4 text-xs focus:ring-1 focus:ring-[#bc9c75] outline-none shadow-sm">
+                </div>
+                
+                <select class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-40 text-gray-600">
+                    <option>Tất cả sản phẩm</option>
+                    <option>Áo khoác</option>
+                </select>
+
+                <select class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-40 text-gray-600">
+                    <option>Danh mục</option>
+                </select>
             </div>
-            <select class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-48 text-gray-600">
-                <option>Tất cả sản phẩm</option>
-                <option>Áo khoác</option>
-                <option>Quần</option>
-            </select>
-            <select class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-48 text-gray-600">
-                <option>Giá tiền</option>
-                <option>Thấp đến cao</option>
-                <option>Cao đến thấp</option>
-            </select>
+
+            <button onclick="loadPage('add-product')" class="px-5 py-2.5 bg-[#bc9c75] text-white rounded-xl text-xs font-bold shadow-md shadow-[#bc9c75]/20 hover:opacity-90 transition-all flex items-center gap-2">
+                <i class="fa-solid fa-plus text-[10px]"></i> Thêm sản phẩm
+            </button>
         </div>
     
         <div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
@@ -46,7 +53,10 @@
                 <tbody class="divide-y divide-gray-50 text-gray-600">
                     <tr class="hover:bg-gray-50/50 transition">
                         <td class="px-6 py-4 flex items-center gap-3">
-                            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=100" class="w-10 h-12 object-cover rounded-lg">
+                            
+                            <div onclick="loadPage()" class="cursor-pointer hover:bg-gray-50 transition-all p-4 rounded-2xl">
+                                <img src="/asset/img/product.jpg" class="w-12 h-12 rounded-lg">
+                            </div>
                             <div>
                                 <p class="font-bold text-gray-800">Classic Wool Coat</p>
                                 <p class="text-[10px] text-gray-400">Mã: FW2026-001</p>
@@ -74,19 +84,9 @@
 
 
     <template id="tpl-add-product">
-        <!-- ACTION -->
-        <div class="mb-6 flex justify-between items-center">
-            <div class="flex gap-3">
-                <button class="px-6 py-2 bg-[#bc9c75] text-white rounded-xl text-xs font-semibold shadow-sm hover:opacity-90">Thêm sản phẩm</button>
-            </div>
-        </div>
-
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
             <div class="lg:col-span-2 space-y-6">
-
                 <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
-
                     <h3 class="text-sm font-bold text-gray-800">Thông tin cơ bản</h3>
                     <div>
                         <label class="text-[11px] font-bold text-gray-400 uppercase">Mã sản phẩm</label>
@@ -123,15 +123,12 @@
                                 <option>Quần</option>
                             </select>
                         </div>
-
                     </div>
-
                 </div>
 
-
                 <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
-
                     <h3 class="text-sm font-bold text-gray-800">Biến thể sản phẩm</h3>
+                    
                     <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                         <select id="size" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
                             <option value="">Size</option>
@@ -140,7 +137,6 @@
                             <option>L</option>
                             <option>XL</option>
                         </select>
-
 
                         <select id="color" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
                             <option value="">Màu</option>
@@ -154,11 +150,8 @@
                         placeholder="Số lượng"
                         class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
 
-
                         <button onclick="addVariant()"class="bg-[#bc9c75] text-white rounded-xl text-xs py-2">Thêm</button>
-
                     </div>
-
 
                     <div class="overflow-x-auto">
                         <table class="w-full text-xs mt-3">
@@ -176,15 +169,12 @@
                 </div>
             </div>
 
-
             <div class="space-y-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border">
                     <h3 class="text-sm font-bold text-gray-800 mb-4">Hình ảnh sản phẩm</h3>
 
                     <div class="relative group rounded-2xl overflow-hidden border border-gray-100 mb-4">
-
-                        <img
-                        src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400"
+                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400"
                         class="w-full h-48 object-cover">
 
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
@@ -196,45 +186,79 @@
                             <button class="w-8 h-8 bg-white rounded-full text-red-500 text-xs shadow">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
-
                         </div>
-
                     </div>
-
 
                     <div class="border-2 border-dashed border-gray-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-50">
                         <i class="fa-solid fa-plus text-[#bc9c75]"></i>
-
                         <p class="text-[10px] text-gray-400 font-medium"> Thay đổi ảnh khác</p>
-
                     </div>
 
+                    <div class="mt-8">
+                        <label class="text-[14px] font-semibold text-gray-700 ml-1 mb-3 block">Album hình ảnh</label>
+                        
+                        <div class="flex gap-4">
+                            <div onclick="openAlbumModal()" class="relative w-24 h-24 rounded-2xl cursor-pointer group">
+                                <div class="absolute inset-0 bg-gray-200 rounded-2xl translate-x-2 -translate-y-2 z-0"></div>
+                                <div class="absolute inset-0 bg-gray-100 rounded-2xl translate-x-1 -translate-y-1 z-10"></div>
+                                <div class="absolute inset-0 rounded-2xl overflow-hidden border-2 border-white shadow-md z-20">
+                                    <img src="/asset/img/product-1.jpg" class="w-full h-full object-cover" alt="Album">
+                                    <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white">
+                                        <span class="text-[16px] font-bold">+12</span>
+                                        <span class="text-[10px]">Xem tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-24 h-24 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-[#bc9c75] hover:bg-[#fffbf7] transition-all group">
+                                <i class="fa-solid fa-plus text-[#bc9c75] text-sm"></i>
+                                <span class="text-[11px] font-semibold text-gray-400 group-hover:text-[#bc9c75]">Thêm mới</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="albumModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+                        <div class="bg-white w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden">
+                            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                                <h3 class="text-[16px] font-bold text-gray-800">Tất cả hình ảnh (12)</h3>
+                                <button onclick="closeAlbumModal()" class="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center">
+                                    <i class="fa-solid fa-xmark text-gray-400"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="p-6 max-h-[60vh] overflow-y-auto">
+                                <div class="grid grid-cols-3 md:grid-cols-4 gap-4" id="albumGrid">
+                                    <div class="relative aspect-square rounded-xl overflow-hidden border border-gray-100 group">
+                                        <img src="/asset/img/product-1.jpg" class="w-full h-full object-cover">
+                                        <button class="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <i class="fa-solid fa-trash-can text-[10px]"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-6 bg-gray-50 flex justify-end gap-3">
+                                <button onclick="closeAlbumModal()" class="px-6 py-2.5 rounded-xl text-[14px] font-semibold text-gray-500 hover:bg-gray-200 transition-all">Đóng</button>
+                                <button class="px-6 py-2.5 rounded-xl text-[14px] font-semibold bg-[#bc9c75] text-white shadow-lg shadow-[#bc9c75]/20">Thêm ảnh mới</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                <div class="mb-6 flex justify-between items-center">
+                    <div class="flex gap-3">
+                        <button onclick="loadPage('product-list')" class="px-6 py-2 border border-gray-200 rounded-xl text-xs font-semibold text-gray-500 hover:bg-gray-50">Quay lại</button>
+                        <button class="px-6 py-2 bg-[#bc9c75] text-white rounded-xl text-xs font-semibold shadow-sm hover:opacity-90">Thêm sản phẩm</button>
+                    </div>
+                </div>
             </div>
-
         </div>
-
     </template>
 
 
     <template id="tpl-edit-product">
-        <div class="mb-6 flex justify-between items-center">
-            <div class="flex gap-3">
-                <button onclick="loadPage('product-list')" class="px-6 py-2 border border-gray-200 rounded-xl text-xs font-semibold text-gray-500 hover:bg-gray-50">Hủy thay đổi</button>
-                <button class="px-6 py-2 bg-[#bc9c75] text-white rounded-xl text-xs font-semibold shadow-sm hover:opacity-90">Lưu cập nhật</button>
-            </div>
-        </div>
-
-
-        <!-- LAYOUT -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            <!-- LEFT -->
             <div class="lg:col-span-2 space-y-6">
-
-
-                <!-- THÔNG TIN CƠ BẢN -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
 
                     <h3 class="text-sm font-bold text-gray-800">Thông tin cơ bản</h3>
@@ -251,14 +275,12 @@
                     </div>
 
                     <div>
-
                         <label class="text-[11px] font-bold text-gray-400 uppercase">Mô tả sản phẩm</label>
                         <textarea rows="4"
                         class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs"></textarea>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
                         <div>
                             <label class="text-[11px] font-bold text-gray-400 uppercase">Giá bán</label>
                             <input type="number"
@@ -273,15 +295,10 @@
                                 <option>Quần</option>
                             </select>
                         </div>
-
                     </div>
-
                 </div>
 
-
-                <!-- BIẾN THỂ -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
-
                     <h3 class="text-sm font-bold text-gray-800">Biến thể sản phẩm</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
                         <select id="size" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
@@ -291,7 +308,6 @@
                             <option>L</option>
                             <option>XL</option>
                         </select>
-
 
                         <select id="color" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
                             <option value="">Màu</option>
@@ -305,13 +321,9 @@
                         placeholder="Số lượng"
                         class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
 
-
                         <button onclick="addVariant()"class="bg-[#bc9c75] text-white rounded-xl text-xs py-2">Thêm</button>
-
                     </div>
 
-
-                    <!-- TABLE -->
                     <div class="overflow-x-auto">
                         <table class="w-full text-xs mt-3">
                             <thead class="border-b text-gray-500">
@@ -328,16 +340,13 @@
                 </div>
             </div>
 
-
-            <!-- RIGHT -->
             <div class="space-y-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border">
                     <h3 class="text-sm font-bold text-gray-800 mb-4">Hình ảnh sản phẩm</h3>
 
                     <div class="relative group rounded-2xl overflow-hidden border border-gray-100 mb-4">
 
-                        <img
-                        src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400"
+                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400"
                         class="w-full h-48 object-cover">
 
                         <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
@@ -349,27 +358,79 @@
                             <button class="w-8 h-8 bg-white rounded-full text-red-500 text-xs shadow">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
-
                         </div>
-
                     </div>
-
 
                     <div class="border-2 border-dashed border-gray-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-50">
                         <i class="fa-solid fa-plus text-[#bc9c75]"></i>
-
                         <p class="text-[10px] text-gray-400 font-medium"> Thay đổi ảnh khác</p>
 
                     </div>
 
+                    <div class="mt-8">
+                        <label class="text-[14px] font-semibold text-gray-700 ml-1 mb-3 block">Album hình ảnh</label>
+                        
+                        <div class="flex gap-4">
+                            <div onclick="openAlbumModal()" class="relative w-24 h-24 rounded-2xl cursor-pointer group">
+                                <div class="absolute inset-0 bg-gray-200 rounded-2xl translate-x-2 -translate-y-2 z-0"></div>
+                                <div class="absolute inset-0 bg-gray-100 rounded-2xl translate-x-1 -translate-y-1 z-10"></div>
+                                <div class="absolute inset-0 rounded-2xl overflow-hidden border-2 border-white shadow-md z-20">
+                                    <img src="/asset/img/product-1.jpg" class="w-full h-full object-cover" alt="Album">
+                                    <div class="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white">
+                                        <span class="text-[16px] font-bold">+12</span>
+                                        <span class="text-[10px]">Xem tất cả</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-24 h-24 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-[#bc9c75] hover:bg-[#fffbf7] transition-all group">
+                                <i class="fa-solid fa-plus text-[#bc9c75] text-sm"></i>
+                                <span class="text-[11px] font-semibold text-gray-400 group-hover:text-[#bc9c75]">Thêm mới</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="albumModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+                        <div class="bg-white w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden">
+                            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+                                <h3 class="text-[16px] font-bold text-gray-800">Tất cả hình ảnh (12)</h3>
+                                <button onclick="closeAlbumModal()" class="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center">
+                                    <i class="fa-solid fa-xmark text-gray-400"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="p-6 max-h-[60vh] overflow-y-auto">
+                                <div class="grid grid-cols-3 md:grid-cols-4 gap-4" id="albumGrid">
+                                    <div class="relative aspect-square rounded-xl overflow-hidden border border-gray-100 group">
+                                        <img src="/asset/img/product-1.jpg" class="w-full h-full object-cover">
+                                        <button class="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <i class="fa-solid fa-trash-can text-[10px]"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-6 bg-gray-50 flex justify-end gap-3">
+                                <button onclick="closeAlbumModal()" class="px-6 py-2.5 rounded-xl text-[14px] font-semibold text-gray-500 hover:bg-gray-200 transition-all">Đóng</button>
+                                <button class="px-6 py-2.5 rounded-xl text-[14px] font-semibold bg-[#bc9c75] text-white shadow-lg shadow-[#bc9c75]/20">Thêm ảnh mới</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
+                <div class="mb-6 flex justify-between items-center">
+                    <div class="flex gap-3">
+                        <button onclick="loadPage('product-list')" class="px-6 py-2 border border-gray-200 rounded-xl text-xs font-semibold text-gray-500 hover:bg-gray-50">Quay lại</button>
+                        <button class="px-6 py-2 bg-[#bc9c75] text-white rounded-xl text-xs font-semibold shadow-sm hover:opacity-90">Lưu cập nhật</button>
+                    </div>
+                </div>
             </div>
-
         </div>
-
     </template>
 
+
+
+    
 
         <template id="tpl-vouchers">
             <div class="mb-6 flex justify-between items-center">
@@ -420,22 +481,11 @@
             </div>
         </template>
 
+
+
+
     <template id="tpl-edit-voucher">
-        <div class="mb-6 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <button onclick="loadPage('vouchers')" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-100 text-gray-400 hover:text-[#bc9c75] hover:border-[#bc9c75] transition-all shadow-sm">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <div>
-                    <h2 class="text-xl font-bold text-gray-800">Chỉnh sửa Voucher</h2>
-                    <p class="text-[11px] text-gray-400 font-medium">Cập nhật thông tin mã giảm giá của bạn</p>
-                </div>
-            </div>
-            <div class="flex gap-3">
-                <button onclick="loadPage('vouchers')" class="px-6 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-500 hover:bg-gray-50 transition">Hủy</button>
-                <button class="px-6 py-2.5 bg-[#bc9c75] text-white rounded-xl text-xs font-bold shadow-md shadow-[#bc9c75]/20 hover:opacity-90 transition">Lưu thay đổi</button>
-            </div>
-        </div>
+        
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div class="lg:col-span-2 space-y-6">
@@ -492,26 +542,20 @@
                         <p class="text-[10px] font-mono font-bold bg-white/20 w-fit px-2 py-1 rounded">SUMMER2026</p>
                     </div>
                 </div>
+
+                
+                <button onclick="loadPage('vouchers')" class="px-6 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-500 hover:bg-gray-50 transition">Hủy</button>
+                <button class="px-6 py-2.5 bg-[#bc9c75] text-white rounded-xl text-xs font-bold shadow-md shadow-[#bc9c75]/20 hover:opacity-90 transition">Lưu thay đổi</button>
+            </div>
             </div>
         </div>
     </template>
 
+
+
+
     <template id="tpl-add-voucher">
-        <div class="mb-8 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <button onclick="loadPage('vouchers')" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-gray-100 text-gray-400 hover:text-[#bc9c75] hover:border-[#bc9c75] transition-all shadow-sm">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <div>
-                    <h2 class="text-xl font-black text-gray-800 uppercase tracking-tight">Tạo Voucher Mới</h2>
-                    <p class="text-[11px] text-gray-400 font-medium">Thiết lập mã giảm giá cho chương trình khuyến mãi</p>
-                </div>
-            </div>
-            <div class="flex gap-3">
-                <button onclick="loadPage('vouchers')" class="px-6 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-500 hover:bg-gray-50 transition">Hủy bỏ</button>
-                <button class="px-6 py-2.5 bg-[#bc9c75] text-white rounded-xl text-xs font-bold shadow-md shadow-[#bc9c75]/20 hover:opacity-90 transition">Kích hoạt Voucher</button>
-            </div>
-        </div>
+        
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 space-y-6">
@@ -628,6 +672,9 @@
                         <li class="flex gap-2">• <span class="flex-1">Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày hiện tại để voucher có hiệu lực ngay.</span></li>
                     </ul>
                 </div>
+
+                <button onclick="loadPage('vouchers')" class="px-6 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-500 hover:bg-gray-50 transition">Hủy bỏ</button>
+                <button class="px-6 py-2.5 bg-[#bc9c75] text-white rounded-xl text-xs font-bold shadow-md shadow-[#bc9c75]/20 hover:opacity-90 transition">Tạo Voucher</button>
             </div>
         </div>
     </template>

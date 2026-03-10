@@ -95,3 +95,23 @@ display:block;
 .custom-scrollbar:hover::-webkit-scrollbar-thumb { background: #bc9c75; }
 
 
+@media print {
+    /* Ẩn mọi thứ trừ hóa đơn */
+    body * {
+        visibility: hidden;
+    }
+
+    /* Hiển thị vùng hóa đơn và mọi con của nó */
+    #invoice-container, #invoice-container * {
+        visibility: visible;
+    }
+
+    /* Đưa hóa đơn lên vị trí tuyệt đối sát mép giấy */
+    #invoice-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        visibility: visible !important;
+    }
+}

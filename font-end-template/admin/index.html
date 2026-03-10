@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../asset/css/admin.css">
+    <link rel="stylesheet" href="/font-end-template/asset/css/admin.css">
 
     
 </head>
@@ -17,7 +17,7 @@
     <header id="header" class="h-16 flex-none bg-white border-b border-gray-100 flex items-center justify-between px-3 sm:px-6 md:px-8 gap-6 sticky top-0 z-40">
         <div class="flex items-center gap-3">
             <img 
-            src="/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg"
+            src="/font-end-template/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg"
             alt="FastFashion Logo"
             class="h-10 sm:h-12 md:h-16 ml-4 md:ml-7 object-contain">
         </div>
@@ -51,7 +51,7 @@
                         <p class="text-sm text-gray-400">admin@fastfashion.com</p>
 
                         <button onclick="loadPage('account-management')" class="mt-5 w-full border border-gray-200 rounded-lg py-2 text-sm hover:bg-gray-50 transition block text-center">
-                            <a href="/admin/account-management.html" class="btn-manage">Quản lý tài khoản của bạn</a>
+                            <a href="/font-end-template/admin/account-management.html" class="btn-manage">Quản lý tài khoản của bạn</a>
                         </button>
 
                         <button class="mt-5 text-red-500 flex items-center gap-2 text-sm hover:opacity-80">
@@ -90,12 +90,12 @@
                         </div>
                         <span class="font-medium">Danh sách mẫu</span>
                     </div>
-                    <div data-page="add-product" onclick="loadPage('add-product')" class="nav-item group">
+                    <!-- <div data-page="add-product" onclick="loadPage('add-product')" class="nav-item group">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-circle-plus text-[15px]"></i>
                         </div>
                         <span class="font-medium">Thêm sản phẩm</span>
-                    </div>
+                    </div> -->
                     <div data-page="vouchers" onclick="loadPage('vouchers')" class="nav-item group">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-ticket text-[15px]"></i>
@@ -144,7 +144,6 @@
         </aside>
 
         <div class="flex-1 flex flex-col overflow-y-auto custom-scrollbar">
-
             <div class="ff-page-header px-8 pt-6 pb-2">
                 <h1 id="page-title" class="text-xl font-semibold text-gray-800">
                     Tổng quan
@@ -159,10 +158,9 @@
                     <span id="breadcrumb-current" class="text-[#bc9c75] font-medium"></span>
                 </p>
             </div>
-
             <main id="content-area" class="p-8 transition-opacity duration-200"></main>
-
         </div>
+
 
             <template id="tpl-dashboard">
                 <div class="space-y-6">
@@ -178,12 +176,11 @@
                                 Đừng quên kiểm tra kho cho bộ sưu tập Mùa Hè nhé!
                             </p>
 
-                            <button class="mt-3 bg-[#bc9c75] text-white px-4 py-2 rounded-lg text-sm hover:opacity-90">
+                            <button onclick="loadPage('orders')" class="mt-3 bg-[#bc9c75] text-white px-4 py-2 rounded-lg text-sm hover:opacity-90">
                                 Xem đơn hàng
                             </button>
                         </div>
                     </div>
-
 
                     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
@@ -215,6 +212,6 @@
 
     </div>
     
-    <script src="/asset/js/admin.js"></script>
+    <script src="/font-end-template/asset/js/admin.js"></script>
 </body>
 </html>

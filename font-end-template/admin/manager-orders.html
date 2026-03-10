@@ -16,22 +16,7 @@
 
     <!-- Hóa đơn -->
     <template id="tpl-orders">
-        <div class="mb-6 flex justify-between items-center">
-            <div>
-                <h2 class="text-xl font-bold text-gray-800">Quản lý Đơn hàng</h2>
-                <p class="text-[11px] text-gray-400 font-medium">Theo dõi và xử lý luồng đơn hàng từ hệ thống</p>
-            </div>
-            <div class="flex gap-3">
-                <div class="bg-orange-50 border border-orange-100 px-4 py-2 rounded-xl flex items-center gap-3">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                    </span>
-                    <span class="text-[11px] font-bold text-orange-600 uppercase tracking-tight">05 Đơn mới cần duyệt</span>
-                </div>
-            </div>
-        </div>
-
+        
         <div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
             <div class="overflow-x-auto custom-scrollbar">
             <table class="w-full  text-left border-collapse">
@@ -69,13 +54,27 @@
                             <span class="px-2.5 py-1 bg-blue-50 text-blue-500 rounded-lg font-black text-[9px] uppercase tracking-tighter">Chờ xử lý</span>
                         </td>
                        
-                        <td class="px-6 py-4 text-center space-x-2">
-                            <button onclick="loadPage('order-detail')" class="text-gray-400 hover:text-[#bc9c75]">
-                                <i class="fa-regular fa-eye"></i>
-                            </button>
-                            <button class="text-gray-400 hover:text-[#bc9c75]">
-                                <i class="fa-solid fa-print text-[10px]"></i>
-                            </button>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center justify-center gap-2">
+                                <button onclick="loadPage('order-detail')" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm"
+                                        title="Xem chi tiết">
+                                    <i class="fa-regular fa-eye text-sm"></i>
+                                </button>
+
+                                <button onclick="window.print()" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-xl bg-gray-50 text-gray-600 hover:bg-gray-600 hover:text-white transition-all shadow-sm"
+                                        title="In hóa đơn">
+                                    <i class="fa-solid fa-print text-sm"></i>
+                                </button>
+
+                                <button onclick="" 
+                                        class="w-9 h-9 flex items-center justify-center rounded-xl bg-green-50 text-green-600 hover:bg-green-600 hover:text-white transition-all shadow-sm" 
+                                        title="Xác nhận đơn hàng">
+                                    <i class="fa-solid fa-check text-sm"></i>
+                                </button>
+
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -83,6 +82,7 @@
             </div>
         </div>
     </template>
+
 
 
     <!-- Chi tiết hóa đơn  -->
@@ -95,9 +95,6 @@
                 <div class="flex gap-3">
                     <button onclick="window.print()" class="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm hover:bg-gray-50 flex items-center gap-2">
                         <i class="fa-solid fa-print"></i> In hóa đơn
-                    </button>
-                    <button class="bg-[#bc9c75] text-white px-4 py-2 rounded-lg text-sm hover:opacity-90 flex items-center gap-2">
-                        <i class="fa-solid fa-check"></i> Xác nhận đơn hàng
                     </button>
                 </div>
             </div>
@@ -193,7 +190,70 @@
     </template>
 
 
+    <div id="invoice-container" class="bg-white p-10 max-w-[900px] mx-auto">
+        <div class="flex justify-between items-start mb-10 pb-8 border-b border-dashed border-gray-200">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-800">HÓA ĐƠN BÁN HÀNG</h1>
+                <p class="text-gray-400 mt-2">Mã đơn hàng: <span class="print-order-id text-gray-700 font-medium">#ORD-2026-001</span></p>
+                <p class="text-gray-400">Ngày đặt: <span class="print-date text-gray-700 font-medium">09/03/2026</span></p>
+            </div>
+            <div class="text-right">
+                <div class="flex items-center justify-end gap-2 mb-2">
+                    <span class="font-bold text-gray-800">Fast Fashion Store</span>
+                    <img src="/asset/img/logo.png" class="h-8">
+                </div>
+                <p class="text-gray-500 text-sm">Hà Nội, Việt Nam</p>
+            </div>
+        </div>
 
+        <div class="grid grid-cols-2 gap-10 mb-10">
+            <div>
+                <h3 class="text-gray-400 uppercase text-xs font-bold mb-3 tracking-widest">Thông tin khách hàng</h3>
+                <p class="print-cust-name font-bold text-gray-800">Đang tải...</p>
+                <p class="print-cust-phone text-gray-600">SĐT: ...</p>
+                <p class="print-cust-email text-gray-600 text-sm">Email: ...</p>
+            </div>
+            <div>
+                <h3 class="text-gray-400 uppercase text-xs font-bold mb-3 tracking-widest">Địa chỉ nhận hàng</h3>
+                <p class="print-cust-address text-gray-600 leading-relaxed">...</p>
+            </div>
+        </div>
+
+        <table class="w-full mb-10">
+            <thead class="border-b border-gray-100">
+                <tr>
+                    <th class="text-left py-4 text-gray-400 font-bold text-xs uppercase">#</th>
+                    <th class="text-left py-4 text-gray-400 font-bold text-xs uppercase">Sản phẩm</th>
+                    <th class="text-center py-4 text-gray-400 font-bold text-xs uppercase">Số lượng</th>
+                    <th class="text-right py-4 text-gray-400 font-bold text-xs uppercase">Đơn giá</th>
+                    <th class="text-right py-4 text-gray-400 font-bold text-xs uppercase">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody class="print-items divide-y divide-gray-50">
+                </tbody>
+        </table>
+
+        <div class="flex justify-end pt-5 border-t border-gray-100">
+            <div class="w-full max-w-[280px] space-y-3 text-sm">
+                <div class="flex justify-between text-gray-500">
+                    <span>Tạm tính:</span>
+                    <span class="print-subtotal font-medium text-gray-800">0đ</span>
+                </div>
+                <div class="flex justify-between text-red-500">
+                    <span>Giảm giá:</span>
+                    <span class="print-discount">-0đ</span>
+                </div>
+                <div class="flex justify-between text-gray-500 pb-3 border-b border-gray-100">
+                    <span>Phí vận chuyển:</span>
+                    <span class="print-shipping">0đ</span>
+                </div>
+                <div class="flex justify-between items-center pt-2">
+                    <span class="text-base font-bold text-gray-800">Tổng cộng:</span>
+                    <span class="print-total text-xl font-bold text-[#bc9c75]">0đ</span>
+                </div>
+            </div>
+        </div>
+    </div>
    
 
 

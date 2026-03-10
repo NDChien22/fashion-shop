@@ -24,13 +24,13 @@ const PAGES = {
     'add-voucher': { title: 'Tạo voucher', file: 'manage-products.html', tpl: 'tpl-add-voucher' },
     'edit-voucher': { title: 'Chỉnh sửa Voucher', file: 'manage-products.html', tpl: 'tpl-edit-voucher' },
 
-    'orders': { title: 'Đơn hàng', file: 'order.html', tpl: 'tpl-orders' },
-    'order-detail': { title: 'Chi tiết đơn hàng', file: 'order.html', tpl: 'tpl-order-detail' },
-    'revenue': { title: 'Doanh thu', file: 'order.html', tpl: 'tpl-revenue' },
+    'orders': { title: 'Đơn hàng', file: 'manage-orders.html', tpl: 'tpl-orders' },
+    'order-detail': { title: 'Chi tiết đơn hàng', file: 'manage-orders.html', tpl: 'tpl-order-detail' },
+    'revenue': { title: 'Doanh thu', file: 'manage-orders.html', tpl: 'tpl-revenue' },
 
-    'customers': { title: 'Khách hàng', file: 'customers.html', tpl: 'tpl-customers' },
-    'support': { title: 'Hỗ trợ khách hàng', file: 'customers.html', tpl: 'tpl-support' },
-    'hr': { title: 'Quản lý nhân sự', file: 'customers.html', tpl: 'tpl-hr' },
+    'customers': { title: 'Khách hàng', file: 'manage-users.html', tpl: 'tpl-customers' },
+    'support': { title: 'Hỗ trợ khách hàng', file: 'manage-users.html', tpl: 'tpl-support' },
+    'hr': { title: 'Quản lý nhân sự', file: 'manage-users.html', tpl: 'tpl-hr' },
 
     'quan-ly': { title: 'Hồ sơ cá nhân', file: 'account-management.html', tpl: 'tpl-quan-ly' },
     'thong-tin': { title: 'Hồ sơ cá nhân', file: 'account-management.html', tpl: 'tpl-tn' },

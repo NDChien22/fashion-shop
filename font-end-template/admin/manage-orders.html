@@ -42,7 +42,7 @@
                         <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Thanh toán</th>
                         <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Tổng (Final)</th>
                         <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Trạng thái</th>
-                        <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-right">Thao tác</th>
+                        <th class="px-6 py-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50 text-[12px]">
@@ -68,15 +68,14 @@
                         <td class="px-6 py-4 text-center">
                             <span class="px-2.5 py-1 bg-blue-50 text-blue-500 rounded-lg font-black text-[9px] uppercase tracking-tighter">Chờ xử lý</span>
                         </td>
-                        <td class="px-6 py-4 text-right">
-                            <div class="flex justify-end gap-1">
-                                <button  onclick="loadPage('order-detail')" title="Chi tiết" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-[#bc9c75]/10 hover:text-[#bc9c75] transition-all">
-                                    <i class="fa-regular fa-eye"></i>
-                                </button>
-                                <button title="In hóa đơn" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 transition-all">
-                                    <i class="fa-solid fa-print text-[10px]"></i>
-                                </button>
-                            </div>
+                       
+                        <td class="px-6 py-4 text-center space-x-2">
+                            <button onclick="loadPage('order-detail')" class="text-gray-400 hover:text-[#bc9c75]">
+                                <i class="fa-regular fa-eye"></i>
+                            </button>
+                            <button class="text-gray-400 hover:text-[#bc9c75]">
+                                <i class="fa-solid fa-print text-[10px]"></i>
+                            </button>
                         </td>
                     </tr>
                 </tbody>

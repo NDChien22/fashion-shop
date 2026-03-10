@@ -30,11 +30,8 @@
         </div>
 
         <div class="flex items-center gap-6">
-
             <i class="fa-regular fa-bell text-gray-400 text-lg cursor-pointer hover:text-gray-600"></i>
-
             <div class="relative">
-
                 <div onclick="toggleUserMenu()" class="flex items-center gap-3 cursor-pointer">
 
                     <div class="w-9 h-9 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-sm font-bold"> AC</div>
@@ -43,27 +40,20 @@
                         <p class="font-semibold text-gray-800">Admin</p>
                         <p class="text-gray-400">Chủ cửa hàng</p>
                     </div>
-                    <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
+                    
                 </div>
             </div>
         </div>
-            <div id="userMenu"
-                class="hidden absolute top-10 right-0 mt-4 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
-
-                    <div class="flex flex-col items-center text-center">
-
-                        <div class="w-16 h-16 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-lg font-bold">AC</div>
-
+            <div id="userMenu" class="hidden absolute top-10 right-0 mt-4 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-16 h-16 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-lg font-bold">AC</div>
                         <p class="mt-4 font-semibold text-gray-800 text-[15px]">Nguyễn Văn Admin</p>
-
                         <p class="text-sm text-gray-400">admin@fastfashion.com</p>
 
                         <button onclick="loadPage('account-management')" class="mt-5 w-full border border-gray-200 rounded-lg py-2 text-sm hover:bg-gray-50 transition block text-center">
                             <a href="/admin/account-management.html" class="btn-manage">Quản lý tài khoản của bạn</a>
                         </button>
 
-                        
-                            
                         <button class="mt-5 text-red-500 flex items-center gap-2 text-sm hover:opacity-80">
                             <i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</button>
                     </div>

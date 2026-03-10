@@ -118,11 +118,14 @@ function updateSidebarUI(pageId){
             item.classList.add('active');
         }else{
             item.classList.remove('active');
+            
         }
 
     });
 
 }
+
+
 
 
 
@@ -132,7 +135,6 @@ window.addEventListener("DOMContentLoaded", () => {
     const savedPage = localStorage.getItem("currentPage");
 
     const page = hash || savedPage || "dashboard";
-
     loadPage(page, false);
     
 

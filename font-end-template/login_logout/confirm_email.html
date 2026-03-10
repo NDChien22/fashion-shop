@@ -1,60 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xác nhận Đặt lại mật khẩu</title>
-    <link rel="stylesheet" href="../asset/css/login_logout.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body>
-    <header class="main-header">
-        <div class="header-left">
-            <div class="brand">
-                <div class="brand">
-                <img src="/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="Confirm-email" class="avatar-img">
-            </div>
-            </div>
-        </div>
-    </header>
+    <title>Xác nhận Đặt lại mật khẩu - FAST FASHION</title>
     
-    <div class="login-wrapper">
-        <div class="login-container email-template">
-            
-            <div class="email-header">
-                <i class="fa-solid fa-lock" style="color: #ffcc00; margin-right: 10px;"></i>
-                <h2>Đặt lại mật khẩu</h2>
-                <p>Yêu cầu đặt lại mật khẩu cho tài khoản TCTravel</p>
-            </div>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="../asset/css/login.css">
+    
+</head>
+<body class="bg-[#f8f9fa] min-h-screen flex flex-col">
 
-            <div class="email-body">
-                <p>Xin chào ...</p>
-                <p>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn. Nhấp vào nút bên dưới để tạo mật khẩu mới.</p>
-                
-                <div class="center-btn">
-                    <button class="btn-email-action">Đặt lại mật khẩu</button>
-                </div>
-
-                <div class="warning-box">
-                    <p><strong>Lưu ý:</strong></p>
-                    <p>Liên kết đặt lại mật khẩu sẽ hết hạn sau <strong>15 phút</strong> kể từ khi email này được gửi. Nếu bạn không yêu cầu, vui lòng bỏ qua email này.</p>
-                </div>
-
-                <div class="fallback-link">
-                    
-                   
-                </div>
-
-                <p class="safety-note">Vì sự an toàn của bạn, không chia sẻ liên kết này cho bất kỳ ai.</p>
-            </div>
-
-            <div class="email-footer">
-                <p><strong>TCTravel - Hỗ trợ đặt lại mật khẩu</strong></p>
-                <p>© 2025 TCTravel. Tất cả quyền lợi được bảo vệ.</p>
-                <p>Đây là email tự động. Vui lòng không trả lời email này.</p>
-            </div>
-
+    <div class="w-full max-w-[550px] bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
+        
+        <div class="bg-white p-8 text-center border-b border-gray-50">
+            <h2 class="text-2xl font-bold text-gray-900 uppercase tracking-tight">Đặt lại mật khẩu</h2>
+            <p class="text-gray-400 text-sm mt-1 uppercase tracking-widest font-medium">Yêu cầu bảo mật tài khoản</p>
         </div>
+
+        <div class="p-8 md:p-10">
+            <div class="text-gray-600 space-y-4 leading-relaxed">
+                <p class="text-gray-800 font-semibold text-lg">Xin chào khách hàng,</p>
+                <p>Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho tài khoản của bạn tại <span class="font-bold text-gray-800">FAST FASHION</span>. Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này.</p>
+                
+                <div class="py-6 text-center">
+                    <button type="button" 
+                        onclick=""
+                        class="w-full sm:w-auto bg-[#bc9c75] text-white px-12 py-4 rounded-xl font-bold hover:opacity-90 transition shadow-md shadow-[#bc9c75]/30 active:scale-[0.98] uppercase text-sm tracking-wider">
+                        Xác nhận đặt lại mật khẩu
+                    </button>
+                </div>
+
+                <div class="bg-amber-50 border-l-4 border-amber-400 p-5 rounded-r-xl">
+                    <div class="flex gap-3">
+                        <i class="fa-solid fa-circle-exclamation text-amber-500 mt-1"></i>
+                        <div class="text-sm text-amber-800">
+                            <p class="font-bold mb-1">Lưu ý quan trọng:</p>
+                            <p>Liên kết đặt lại mật khẩu này sẽ hết hạn sau <span class="font-bold">15 phút</span> kể từ khi được gửi đi.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-center text-xs text-gray-400 italic pt-4">
+                    Vì sự an toàn của bạn, tuyệt đối không chia sẻ liên kết này cho bất kỳ ai khác.
+                </p>
+            </div>
+        </div>
+
+        <div class="bg-gray-50 p-8 text-center border-t border-gray-100">
+            <p class="text-sm font-bold text-gray-800">FAST FASHION - Hỗ trợ khách hàng</p>
+            <p class="text-[11px] text-gray-400 mt-1 uppercase tracking-widest">© 2026 FAST FASHION. Tất cả quyền lợi được bảo vệ.</p>
+            <div class="flex justify-center gap-4 mt-4 text-gray-300">
+                <i class="fa-brands fa-facebook hover:text-[#bc9c75] cursor-pointer transition"></i>
+                <i class="fa-brands fa-instagram hover:text-[#bc9c75] cursor-pointer transition"></i>
+                <i class="fa-brands fa-tiktok hover:text-[#bc9c75] cursor-pointer transition"></i>
+            </div>
+        </div>
+
     </div>
+
 </body>
 </html>

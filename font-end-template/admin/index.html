@@ -3,482 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fashion Shop Admin - FAST FASHION</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Fast Fashion Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/asset/css/account-manager.css">
-    <link rel="stylesheet" href="/asset/css/admin-manager.css">
-    <link rel="stylesheet" href="/asset/css/product-manager.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../asset/css/admin.css">
+
+    
 </head>
-<body>
-    <div class="admin-layout">
-        <header class="main-header">
-                <div class="brand">
-                    <img src="/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="Admin Avatar" class="avatar-img">
+
+<body class="bg-[#f8f9fa] h-screen flex flex-col">
+
+    <header id="header" class="h-16 flex-none bg-white border-b border-gray-100 flex items-center justify-between px-3 sm:px-6 md:px-8 gap-6 sticky top-0 z-40">
+        <div class="flex items-center gap-3">
+            <img 
+            src="/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg"
+            alt="FastFashion Logo"
+            class="h-10 sm:h-12 md:h-16 ml-4 md:ml-7 object-contain">
+        </div>
+
+        <div class="relative w-96">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+            <input type="text" 
+            placeholder="Tìm kiếm đơn hàng, khách hàng..."
+            class="w-full bg-gray-100 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-[#bc9c75]">
+        </div>
+
+        <div class="flex items-center gap-6">
+
+            <i class="fa-regular fa-bell text-gray-400 text-lg cursor-pointer hover:text-gray-600"></i>
+
+            <div class="relative">
+
+                <div onclick="toggleUserMenu()" class="flex items-center gap-3 cursor-pointer">
+
+                    <div class="w-9 h-9 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-sm font-bold"> AC</div>
+
+                    <div class="text-[12px] leading-tight">
+                        <p class="font-semibold text-gray-800">Admin</p>
+                        <p class="text-gray-400">Chủ cửa hàng</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
                 </div>
-                <div class="search-area">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Tìm kiếm đơn hàng, khách hàng...">
-                </div>
-                <div class="user-area">
-                    <div class="notifications">
-                        <i class="fa-regular fa-bell"></i>
-                        <span class="dot"></span>
-                    </div>
+            </div>
+        </div>
+            <div id="userMenu"
+                class="hidden absolute top-10 right-0 mt-4 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
 
-                    <div class="profile-container">
-                        <div class="profile-link" id="profileToggle">
-                            <div class="avatar" id="userAvatar">AC</div>
-                            <div class="info">
-                                <span class="name" id="userName">Admin</span>
-                                <span class="role" id="userRole">Chủ cửa hàng</span>
-                            </div>
-                            <i class="fa-solid fa-chevron-down arrow-icon"></i>
-                        </div>
+                    <div class="flex flex-col items-center text-center">
 
-                        <div class="dropdown-menu" id="dropdownMenu">
-                            <div class="dropdown-user-info">
-                                <div class="large-avatar" id="menuAvatar">AC</div>
-                                <div class="text-info">
-                                    <span class="full-name" id="menuFullName">Nguyễn Văn Admin</span>
-                                    <span class="email" id="userEmail">admin@fastfashion.com</span>
-                                </div>
-                            </div>
-                            
-                            <div class="menu-actions">
-                                <a href="/admin/account-management.html" class="btn-manage">Quản lý tài khoản của bạn</a>
-                            </div>
+                        <div class="w-16 h-16 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-lg font-bold">AC</div>
 
-                            <div class="menu-items">
-                                <a href="#" class="menu-item logout-link">
-                                    <i class="fa-solid fa-right-from-bracket"></i> <span>Đăng xuất</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        </header>
-        <div class="admin-body-wrapper" style="display: flex;"> 
-           
-            <aside class="sidebar">
+                        <p class="mt-4 font-semibold text-gray-800 text-[15px]">Nguyễn Văn Admin</p>
 
-                <nav class="nav-menu">
-                    <p class="nav-title">CHÍNH</p>
-                    <div class="nav-item active" data-target="tong-quan">
-                        <i class="fa-solid fa-gauge-high"></i> <span>Tổng quan</span>
-                    </div>
+                        <p class="text-sm text-gray-400">admin@fastfashion.com</p>
 
-                    <p class="nav-title">SẢN PHẨM</p>
-                    <div class="nav-item" data-target="danh-sach-mau">
-                        <i class="fa-solid fa-list"></i> <span>Danh sách mẫu</span>
-                    </div>
-                    <div class="nav-item" data-target="them-san-pham">
-                        <i class="fa-solid fa-plus"></i> <span>Thêm sản phẩm</span>
-                    </div>
-                    <div class="nav-item" data-target="phan-loai">
-                        <i class="fa-solid fa-layer-group"></i> <span>Phân loại</span>
-                    </div>
-
-                    <p class="nav-title">KINH DOANH</p>
-                    <div class="nav-item" data-target="don-hang">
-                        <i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span>
-                        <span class="nav-badge">5</span>
-                    </div>
-                    <div class="nav-item" data-target="khach-hang">
-                        <i class="fa-solid fa-users"></i> <span>Khách hàng</span>
-                    </div>
-                    <div class="nav-item" data-target="doanh-thu">
-                        <i class="fa-solid fa-chart-line"></i> <span>Doanh thu</span>
-                    </div>
-                    <div class="nav-item" data-target="ho-tro-khach-hang">
-                        <i class="fa-solid fa-comment-dots"></i> <span>Hỗ trợ khách hàng</span>
-                    </div>
-                    <div class="nav-item" data-target="quan-ly-nhan-su">
-                        <i class="fa-solid fa-users-gear"></i> <span>Quản lý nhân sự</span>
-                    </div>
-                </nav>
-            </aside>
-        
-            <main class="main-content">
-                <div class="dashboard-body">
-                    <div id="tong-quan" class="tab-content active">
-                        <div class="welcome-banner">
-                            <div class="banner-text">
-                                <h3>Chào mừng trở lại,</h3>
-                                <p>Hôm nay cửa hàng có <strong>12 đơn hàng mới</strong>. Đừng quên kiểm tra kho cho bộ sưu tập Mùa Hè nhé!</p>
-                                <button class="btn-primary">Xem đơn hàng</button>
-                            </div>
-                        </div>
-
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <div class="icon-circle blue"><i class="fa-solid fa-wallet"></i></div>
-                                <div class="data">
-                                    <span class="label">Doanh thu ngày</span>
-                                    <span class="value">5.200.000đ</span>
-                                </div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="icon-circle green"><i class="fa-solid fa-box"></i></div>
-                                <div class="data">
-                                    <span class="label">Sản phẩm bán ra</span>
-                                    <span class="value">42</span>
-                                </div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="icon-circle red"><i class="fa-solid fa-user-tag"></i></div>
-                                <div class="data">
-                                    <span class="label">Khách hàng mới</span>
-                                    <span class="value">15</span>
-                                </div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="icon-circle orange"><i class="fa-solid fa-star"></i></div>
-                                <div class="data">
-                                    <span class="label">Đánh giá tốt</span>
-                                    <span class="value">98%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="ff-page-header">
-                            <div class="ff-header-left">
-                                <h2 class="ff-title" id="page-title">Quản lý sản phẩm</h2>
-                                <nav class="ff-breadcrumb">
-                                    <a href="#">Trang chính</a> / <span id="breadcrumb-active"></span>
-                                </nav>
-                            </div>
-                    </div>
-
-
-                    <section id="danh-sach-mau" class="tab-content">
-                       <div class="ff-action-bar">
-                            <div class="ff-card-tool ff-search-box">
-                                <i class="bi bi-search"></i>
-                                <input type="text" placeholder="Tìm kiếm sản phẩm...">
-                            </div>
-
-                            <div class="ff-category-box" tabindex="0">
-                                <span class="ff-label"></span>
-                                <div class="ff-selected-display">
-                                    <span class="current-text">Tất cả sản phẩm</span>
-                                    <i class="bi bi-chevron-down ff-icon-arrow"></i>
-                                </div>
-                                
-                                <ul class="ff-dropdown-list">
-                                    <li class="ff-option active">Tất cả sản phẩm</li>
-                                    <li class="ff-option">Bộ sưu tập mới</li>
-                                    <li class="ff-option">Đồ mùa đông</li>
-                                    <li class="ff-option">Phụ kiện</li>
-                                </ul>
-                            </div>
-
-                            <div class="ff-category-box" tabindex="0">
-                                <span class="ff-label"></span>
-                                <div class="ff-selected-display">
-                                    <span class="current-text">Giá tiền</span>
-                                    <i class="bi bi-chevron-down ff-icon-arrow"></i>
-                                </div>
-                                
-                                <ul class="ff-dropdown-list">
-                                    <li class="ff-option active">Giá từ thấp đến cao</li>
-                                    <li class="ff-option">Giá từ cao đến thấp</li>
-                                    
-                                </ul>
-                            </div>
-                        </div>
+                        <button onclick="loadPage('account-management')" class="mt-5 w-full border border-gray-200 rounded-lg py-2 text-sm hover:bg-gray-50 transition block text-center">
+                            <a href="/admin/account-management.html" class="btn-manage">Quản lý tài khoản của bạn</a>
+                        </button>
 
                         
-
-                        <div class="ff-table-container">
-                            <table class="ff-table">
-                                <thead>
-                                    <tr>
-                                        <th class="text-left">Sản phẩm</th>
-                                        <th class="text-center">Danh mục</th>
-                                        <th class="text-center">Giá bán</th>
-                                        <th class="text-center">Tồn kho</th>
-                                        <th class="text-center">Trạng thái</th>
-                                        <th class="text-center">Thao tác</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="ff-product-item">
-                                                <div class="ff-product-img">
-                                                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=150&auto=format&fit=crop" alt="">
-                                                </div>
-                                                <div class="ff-product-info">
-                                                    <span class="name">Classic Wool Coat</span>
-                                                    <span class="sku">Mã sản phẩm: FW2026-001</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td >Áo khoác</td>
-                                        <td >2.450.000₫</td>
-                                        <td >12</td>
-                                        <td><span class="ff-badge active">Đang bán</span></td>
-                                        <td >
-                                            <div class="ff-actions-container">
-                                                <button class="ff-action-btn edit-btn" title="Sửa">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </button>
-                                                
-                                                <button class="ff-action-btn delete-btn" title="Xóa">
-                                                    <i class="bi bi-trash3"></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </section>
-
-                    <section> 
-                        <div id="them-san-pham" class="tab-content">
-                            <div class="ff-form-container">
-                                <div class="ff-form-main">
-                                    <div class="ff-form-card">
-                                        <h4 class="card-title">Thông tin cơ bản</h4>
-                                        <div class="form-group">
-                                            <label>Mã sản phẩm</label>
-                                            <input type="text" placeholder="" class="ff-input">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Tên sản phẩm</label>
-                                            <input type="text" placeholder="Ví dụ: Áo sơ mi lụa cao cấp" class="ff-input">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Mô tả sản phẩm</label>
-                                            <textarea placeholder="Nhập mô tả chi tiết về chất liệu, kiểu dáng..." class="ff-textarea"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Giá bán (VNĐ)</label>
-                                            <input type="number" placeholder="0" class="ff-input">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Phân loại</label>
-                                            <select class="ff-select">
-                                                <option>Áo khoác</option>
-                                                <option>Váy đầm</option>
-                                                <option>Phụ kiện</option>
-                                            </select>
-                                        </div>
-                                        
-                                    </div>
-
-                
-                                    <div class="ff-form-card">
-                                        <h4 class="card-title">Biến thể sản phẩm</h4>
-                                        <div class="form-group">
-                                            <label>Kích thước (Size)</label>
-                                            <div class="ff-variant-wrapper" id="size-wrapper">
-                                                <div class="ff-variant-selector" id="size-list">
-                                                    <label class="variant-item"><input type="checkbox" name="size" value="S"><span>S</span></label>
-                                                    <label class="variant-item"><input type="checkbox" name="size" value="M"><span>M</span></label>
-                                                    <label class="variant-item"><input type="checkbox" name="size" value="L"><span>L</span></label>
-                                                </div>
-                                                <input type="text" class="ff-add-variant-input" placeholder="+ Thêm size khác..." data-type="size">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Màu sắc</label>
-                                            <div class="ff-variant-wrapper" id="color-wrapper">
-                                                <div class="ff-variant-selector" id="color-list">
-                                                    <label class="variant-item"><input type="checkbox" name="color" value="Đen"><span>Đen</span></label>
-                                                    <label class="variant-item"><input type="checkbox" name="color" value="Beige"><span>Beige</span></label>
-                                                </div>
-                                                <input type="text" class="ff-add-variant-input" placeholder="+ Thêm màu khác..." data-type="color">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Số lượng kho</label>
-                                            <div class="ff-quantity-wrapper">
-                                                <input type="number" class="ff-quantity-input" placeholder="0" min="0">
-                                                <span class="ff-unit">Sản phẩm</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="ff-form-sidebar">
-                                    <div class="ff-form-card">
-                                    <h4 class="card-title">Hình ảnh sản phẩm</h4>
-                                    <div class="ff-image-upload-wrapper">
-                                        <div class="ff-upload-section main-photo">
-                                            <label>Ảnh đại diện sản phẩm</label>
-                                            <div class="upload-box single" id="main-photo-box" onclick="document.getElementById('input-main').click()">
-                                                <div class="upload-content">
-                                                    <i class="bi bi-image"></i>
-                                                    <p>Tải ảnh bìa</p>
-                                                </div>
-                                                <img id="preview-main" src="" alt="" style="display:none;">
-                                            </div>
-                                            <input type="file" id="input-main" hidden accept="image/*" onchange="previewImage(this, 'preview-main')">
-                                        </div>
-
-                                        <div class="ff-upload-section gallery-photo">
-                                            <label>Album ảnh chi tiết (Nhiều ảnh)</label>
-                                            <div class="gallery-container">
-                                                <div class="gallery-grid" id="gallery-grid">
-                                                    </div>
-                                                <div class="upload-box multi" onclick="document.getElementById('input-gallery').click()">
-                                                    <div class="upload-content">
-                                                        <i class="bi bi-plus-circle"></i>
-                                                        <p>Thêm ảnh</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <input type="file" id="input-gallery" hidden multiple accept="image/*" onchange="previewGallery(this)">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                    <div class="form-actions">
-                                        <button class="btn-cancel">Hủy</button>
-                                        <button class="btn-submit">Thêm sản phẩm</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section id="chinh-sua-san-pham" class="tab-content">
-                        <div class="ff-form-container">
-                            <div class="ff-form-main">
-                                <div class="ff-form-card">
-                                    <h4 class="card-title">Chỉnh sửa thông tin: </h4>
-                                    <div class="form-group">
-                                        <label>Mã sản phẩm</label>
-                                        <input type="text" id="edit-sku" class="ff-input" value="FW2026-001">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Tên sản phẩm</label>
-                                        <input type="text" id="edit-name" class="ff-input" value="Classic Wool Coat">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Mô tả</label>
-                                        <input type="text" id="edit-name" class="ff-input" value="...">
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                        <label>Giá bán (VNĐ)</label>
-                                        <input type="number" id="edit-price" class="ff-input" value="2450000">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Phân loại</label>
-                                        <select class="ff-select">
-                                            <option>Áo khoác</option>
-                                            <option>Váy đầm</option>
-                                            <option>Phụ kiện</option>
-                                        </select>
-                                    </div>                                                                  
-                                </div>
-
-                                <div class="ff-form-card">
-                                    <h4 class="card-title">Biến thể & Kho hàng</h4>
-                                    <div class="form-group">
-                                        <label>Kích thước (Size)</label>
-                                        <div class="ff-variant-wrapper">
-                                            <div class="ff-variant-selector">
-                                                <label class="variant-item"><input type="checkbox" checked><span>S</span></label>
-                                                <label class="variant-item"><input type="checkbox" checked><span>M</span></label>
-                                                <label class="variant-item"><input type="checkbox"><span>L</span></label>
-                                            </div>
-                                            <input type="text" class="ff-add-variant-input" placeholder="+ Thêm size...">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Số lượng kho hiện tại</label>
-                                        <div class="ff-quantity-wrapper">
-                                            <input type="number" class="ff-quantity-input" value="12">
-                                            <span class="ff-unit">Sản phẩm</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="ff-form-sidebar">
-                                <div class="ff-form-card">
-                                    <h4 class="card-title">Hình ảnh sản phẩm</h4>
-
-                                    <div class="image-edit-section mb-4">
-                                        <label class="d-block mb-2">Ảnh đại diện chính</label>
-                                        <div class="d-flex align-items-start gap-3">
-                                            <div class="main-image-preview">
-                                                <img id="edit-img-main" src="" alt="Thumbnail">
-                                                <div id="main-empty-state"><i class="fas fa-image"></i></div>
-                                            </div>
-                                            <div class="image-controls">
-                                                <input type="file" id="input-main-image" hidden accept="image/*">
-                                                <button type="button" class="ff-btn-edit-small" onclick="document.getElementById('input-main-image').click()">
-                                                    <i class="fas fa-camera"></i> Thay đổi ảnh
-                                                </button>
-                    
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <hr class="my-4" style="border-top: 1px solid #eee;">
-
-                                    <div class="image-edit-section">
-                                        <label class="d-block mb-2">Album ảnh chi tiết</label>
-                                        <div class="d-flex align-items-start gap-3">
-                                            <div id="edit-album-grid">
-                                                </div>
-                                            <div class="image-controls">
-                                                <input type="file" id="input-album-images" hidden multiple accept="image/*">
-                                                <button type="button" class="ff-btn-edit-small primary" onclick="document.getElementById('input-album-images').click()">
-                                                    <i class="fas fa-plus"></i> Thêm ảnh mới
-                                                </button>
-                                                <button type="button" class="ff-btn-edit-small outline" onclick="clearAllAlbum()">
-                                                    <i class="fas fa-trash-alt"></i> Xóa tất cả
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="ff-form-card">
-                                    <h4 class="card-title">Trạng thái hiển thị</h4>
-                                    <select class="ff-select">
-                                        <option selected>Đang bán</option>
-                                        <option>Tạm ẩn</option>
-                                        <option>Hết hàng</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-actions" style="display: flex; flex-direction: column; gap: 10px;">
-                                    <button class="btn-submit" style="width: 100%;">Lưu thay đổi</button>
-                                    <button class="btn-cancel" onclick="showTab('danh-sach-mau')" style="width: 100%;">Quay lại danh sách</button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-
-                    <section id="don-hang" class="tab-content">
-
-
-
-
-
-                    </section> 
+                            
+                        <button class="mt-5 text-red-500 flex items-center gap-2 text-sm hover:opacity-80">
+                            <i class="fa-solid fa-right-from-bracket"></i>Đăng xuất</button>
+                    </div>
                 </div>
-            </main>
+            </div>
         </div>
+    </header>
+
+    <div class="bg-[#f8f9fa] px-4 py-2 lg:hidden">
+        <button onclick="toggleSidebar()" class="text-2xl p-2 text-gray-600 hover:text-black">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </div>
 
-    <script src="/asset/js/admin-logic.js"> 
-        
-    </script>
+    <div class="flex flex-1 overflow-hidden">
+        <aside id="sidebar" class="fixed lg:static top-16 w-64 lg:w-72 bg-white border-r border-gray-100 h-[calc(100vh-64px)] lg:h-full flex flex-col transition-all duration-300 -translate-x-full lg:translate-x-0 z-40 overflow-y-auto custom-scrollbar">
+
+            <nav class="flex-1 px-4 space-y-1">
+                <div class="py-2">
+                    <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Chính</p>
+                    <div data-page="dashboard" onclick="loadPage('dashboard')" class="nav-item group active">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-house"></i>
+                        </div>
+                        <span class="font-medium">Tổng quan</span>
+                    </div>
+                </div>
+
+                <div class="py-2">
+                    <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Sản phẩm</p>
+                    <div data-page="product-list" onclick="loadPage('product-list')" class="nav-item group">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-box-archive text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Danh sách mẫu</span>
+                    </div>
+                    <div data-page="add-product" onclick="loadPage('add-product')" class="nav-item group">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-circle-plus text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Thêm sản phẩm</span>
+                    </div>
+                    <div data-page="vouchers" onclick="loadPage('vouchers')" class="nav-item group">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-ticket text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Voucher</span>
+                    </div>
+                </div>
+
+                <div class="py-2">
+                    <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Kinh doanh</p>
+                    <div data-page="orders" onclick="loadPage('orders')" class="nav-item group justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="nav-icon-box">
+                                <i class="fa-solid fa-cart-shopping text-[15px]"></i>
+                            </div>
+                            <span class="font-medium">Đơn hàng</span>
+                        </div>
+                        <span class="bg-red-50 text-red-500 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-red-100">05</span>
+                    </div>
+                    <div data-page="customers" onclick="loadPage('customers')" class="nav-item group">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-user-group text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Khách hàng</span>
+                    </div>
+                    <div data-page="revenue" onclick="loadPage('revenue')" class="nav-item group">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-chart-pie text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Doanh thu</span>
+                    </div>
+                    <div data-page="support" onclick="loadPage('support')" class="nav-item group ">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-headset text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Trợ giúp & Hỗ trợ</span>
+                    </div>
+                    <div data-page="hr" onclick="loadPage('hr')" class="nav-item group ">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-user-tie text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Quản lý nhân sự</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="flex-1 flex flex-col overflow-y-auto custom-scrollbar">
+
+            <div class="ff-page-header px-8 pt-6 pb-2">
+                <h1 id="page-title" class="text-xl font-semibold text-gray-800">
+                    Tổng quan
+                </h1>
+
+                <p class="text-xs text-gray-400 mt-1">
+                    <span 
+                        onclick="loadPage('dashboard')" 
+                        class="cursor-pointer hover:text-[#bc9c75] transition">
+                        Trang chính
+                    </span> /
+                    <span id="breadcrumb-current" class="text-[#bc9c75] font-medium"></span>
+                </p>
+            </div>
+
+            <main id="content-area" class="p-8 transition-opacity duration-200"></main>
+
+        </div>
+
+            <template id="tpl-dashboard">
+                <div class="space-y-6">
+
+                    <div class="bg-[#e6c9ad] rounded-2xl p-6 flex justify-between items-center">
+                        <div class="max-w-xl">
+                            <h2 class="text-xl font-semibold text-[#4a3a2a] mb-2">
+                                Chào mừng trở lại
+                            </h2>
+
+                            <p class="text-[#5d4a37] text-sm">
+                                Hôm nay cửa hàng có <b>12 đơn hàng mới</b>. 
+                                Đừng quên kiểm tra kho cho bộ sưu tập Mùa Hè nhé!
+                            </p>
+
+                            <button class="mt-3 bg-[#bc9c75] text-white px-4 py-2 rounded-lg text-sm hover:opacity-90">
+                                Xem đơn hàng
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+                        <div class="bg-white rounded-xl shadow-sm p-5">
+                            <p class="text-sm text-gray-400">Doanh thu ngày</p>
+                            <h3 class="text-xl font-semibold mt-1">5.200.000đ</h3>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm p-5">
+                            <p class="text-sm text-gray-400">Sản phẩm bán ra</p>
+                            <h3 class="text-xl font-semibold mt-1">42</h3>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm p-5">
+                            <p class="text-sm text-gray-400">Khách hàng mới</p>
+                            <h3 class="text-xl font-semibold mt-1">15</h3>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-sm p-5">
+                            <p class="text-sm text-gray-400">Đánh giá tốt</p>
+                            <h3 class="text-xl font-semibold mt-1">98%</h3>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </template>
+
+    </div>
     
+    <script src="/asset/js/admin.js"></script>
 </body>
 </html>

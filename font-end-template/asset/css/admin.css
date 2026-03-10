@@ -1,0 +1,95 @@
+
+body { 
+    font-family: 'Inter', sans-serif; 
+    overflow: auto;
+}
+
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    margin: 2px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #64748b; /* Slate-500 */
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+
+.nav-item:hover {
+    background-color: #e6c9ad;
+    color: #312c25;
+}
+
+
+.nav-item.active {
+    background-color: #e6c9ad; 
+    color: #312c25;
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    height: 20px;
+    width: 4px;
+    background-color: #b59a7d;
+    border-radius: 0 4px 4px 0;
+}
+
+
+.nav-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.nav-item.active .nav-icon-box {
+    background-color: white;
+    box-shadow: 0 4px 6px -1px rgba(181, 154, 125, 0.1);
+}
+
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.profile-shadow {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+#main-content {
+    transition: opacity 0.2s ease-in-out;
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+
+.tab-content{
+display:none;
+}
+
+.tab-content.active{
+display:block;
+}
+
+
+
+/* CSS để thanh cuộn siêu mỏng và mượt */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+.custom-scrollbar:hover::-webkit-scrollbar-thumb { background: #bc9c75; }

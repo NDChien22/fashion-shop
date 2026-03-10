@@ -1,63 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Form</title>
-    <link rel="stylesheet" href="../asset/css/login_logout.css">
+    <title>Đăng nhập - FAST FASHION</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="../asset/css/login.css">
+    
+    
 </head>
-<body>
-    <header class="main-header">
-        <div class="header-left">
-            <div class="brand">
-                <img src="/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="Login" class="avatar-img">
-            </div>
+<body class="bg-[#f8f9fa] min-h-screen flex flex-col">
+    <header id="header" class="h-16 flex-none bg-white border-b border-gray-100 flex items-center justify-between px-3 sm:px-6 md:px-8 gap-6 sticky top-0 z-40">
+        <div class="flex items-center gap-3">
+            <img 
+            src="/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg"
+            alt="FastFashion Logo"
+            class="h-10 sm:h-12 md:h-16 ml-4 md:ml-7 object-contain">
         </div>
     </header>
-    
-    <div class="login-wrapper">
-    <div class="login-container">
-        <h2 class="login-title">Login</h2>
 
-        <form id="loginForm">
-            <div class="input-group">
-                <label>Username</label>
-                <div class="input-with-icon">
-                    <i class="fa-regular fa-user"></i>
-                    <input type="text" placeholder="Type your username" required>
-                </div>
+    <div class=" flex-grow flex items-center justify-center p-4">
+        <div class="w-full max-w-[420px] bg-white rounded-[1.5rem] sm:rounded-[2rem] shadow-sm border border-gray-100 p-6 sm:p-8 md:p-10">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-900">Đăng nhập</h2>
+                <p class="text-gray-400 text-sm mt-2">Chào mừng bạn quay trở lại!</p>
             </div>
 
-            <div class="input-group">
-                <label>Password</label>
-                <div class="input-with-icon">
-                    <i class="fa-solid fa-lock"></i>
-                    <input type="password" placeholder="Type your password" required>
+            <form id="loginForm" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Tên đăng nhập</label>
+                    <div class="relative group">
+                        <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bc9c75] transition-colors"></i>
+                        <input type="text" id="username" placeholder="Nhập username" 
+                            class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:border-[#bc9c75] focus:ring-1 focus:ring-[#bc9c75] transition-all text-sm" required>
+                    </div>
                 </div>
-                <div class="forgot-pass">
-                    <a href="forgot-password.html">Forgot password?</a>
+
+                <div>
+                    <div class="flex justify-between mb-2 ml-1">
+                        <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Mật khẩu</label>
+                        
+                    </div>
+                    <div class="relative group">
+                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bc9c75] transition-colors"></i>
+                        <input type="password" id="password" placeholder="••••••••" 
+                            class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:border-[#bc9c75] focus:ring-1 focus:ring-[#bc9c75] transition-all text-sm" required>
+                    </div>
+                    <a href="forgot-password.html" class="text-xs font-medium text-[#bc9c75] hover:underline">Quên mật khẩu?</a>
                 </div>
-            </div>
 
-            <button type="submit" class="btn-login">LOGIN</button>
+                <button type="submit" class="w-full bg-[#bc9c75] text-white py-4 rounded-xl font-bold hover:opacity-90 transition shadow-md shadow-[#bc9c75]/20 active:scale-[0.98] mt-2">
+                    ĐĂNG NHẬP
+                </button>
 
-            <div class="social-section">
-                <p class="divider-text">or continue with</p>
-                <div class="social-icons">
-                    <button class="social-btn google-btn">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google">
-                        Google
-                    </button>
+                <div class="relative flex items-center py-2">
+                    <div class="flex-grow border-t border-gray-100"></div>
+                    <span class="flex-shrink mx-4 text-gray-300 text-[10px] uppercase tracking-[0.2em]">Hoặc</span>
+                    <div class="flex-grow border-t border-gray-100"></div>
                 </div>
-            </div>
 
-            <div class="signup-section">
-                <p>Don't have an account? <a href="register.html">Sign up</a></p>
-            </div>
-        </form>
+                <button type="button" class="w-full flex items-center justify-center gap-3 py-3.5 border border-gray-100 rounded-xl hover:bg-gray-50 transition font-semibold text-gray-600 text-sm">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-5 h-5" alt="Google">
+                    Tiếp tục với Google
+                </button>
+            </form>
+
+            <p class="text-center mt-10 text-sm text-gray-400">
+                Chưa có tài khoản? <a href="register.html" class="font-bold text-gray-800 hover:text-[#bc9c75] transition">Đăng ký ngay</a>
+            </p>
+        </div>
     </div>
-</div>
-  
+
+    <script src="../asset/js/login.js"></script>
 </body>
 </html>
+

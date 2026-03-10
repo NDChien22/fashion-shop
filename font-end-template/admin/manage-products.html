@@ -3,130 +3,635 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast Fashion Admin - Quản lý sản phẩm</title>
-    
+    <title>Quản lý danh sách mẫu - Fast Fashion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/asset/css/admin.css">
 </head>
-<body>
+<body class="bg-[#f8f9fa] font-['Inter']">
 
-    <div class="container-fluid">
-        <div class="row">
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-5 main-wrapper">
-                
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-5 pb-4 mb-4">
+    <div id="content-area" style="transition: opacity 0.15s ease-in-out;">
+    </div>
+    <template id="tpl-product-list">
+        <div class="flex gap-4 mb-6">
+            <div class="flex-1 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                <input type="text" placeholder="Tìm kiếm sản phẩm..." class="w-full bg-white border border-gray-100 rounded-xl py-2.5 pl-10 pr-4 text-xs focus:ring-1 focus:ring-[#bc9c75] outline-none shadow-sm">
+            </div>
+            <select class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-48 text-gray-600">
+                <option>Tất cả sản phẩm</option>
+                <option>Áo khoác</option>
+                <option>Quần</option>
+            </select>
+            <select class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-48 text-gray-600">
+                <option>Giá tiền</option>
+                <option>Thấp đến cao</option>
+                <option>Cao đến thấp</option>
+            </select>
+        </div>
+    
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+            <table class="w-full text-left text-[12px]">
+                <thead class="bg-[#fcfaf8] border-b border-gray-50 text-gray-400 font-bold uppercase tracking-wider text-[10px]">
+                    <tr>
+                        <th class="px-6 py-4">Sản phẩm</th>
+                        <th class="px-6 py-4 text-center">Danh mục</th>
+                        <th class="px-6 py-4 text-center">Giá bán</th>
+                        <th class="px-6 py-4 text-center">Tồn kho</th>
+                        <th class="px-6 py-4 text-center">Trạng thái</th>
+                        <th class="px-6 py-4 text-right">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50 text-gray-600">
+                    <tr class="hover:bg-gray-50/50 transition">
+                        <td class="px-6 py-4 flex items-center gap-3">
+                            <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=100" class="w-10 h-12 object-cover rounded-lg">
+                            <div>
+                                <p class="font-bold text-gray-800">Classic Wool Coat</p>
+                                <p class="text-[10px] text-gray-400">Mã: FW2026-001</p>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center">Áo khoác</td>
+                        <td class="px-6 py-4 text-center font-semibold">2.450.000đ</td>
+                        <td class="px-6 py-4 text-center">12</td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="bg-green-50 text-green-500 px-2 py-1 rounded-full font-bold text-[10px]">Đang bán</span>
+                        </td>
+                        <td class="px-6 py-4 text-right space-x-2">
+                            <button onclick="loadPage('edit-product')" class="text-gray-400 hover:text-[#bc9c75]">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </button>
+                            <button class="text-gray-400 hover:text-red-500">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+
+
+    <template id="tpl-add-product">
+        <!-- ACTION -->
+        <div class="mb-6 flex justify-between items-center">
+            <div class="flex gap-3">
+                <button class="px-6 py-2 bg-[#bc9c75] text-white rounded-xl text-xs font-semibold shadow-sm hover:opacity-90">Thêm sản phẩm</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <div class="lg:col-span-2 space-y-6">
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
+
+                    <h3 class="text-sm font-bold text-gray-800">Thông tin cơ bản</h3>
                     <div>
-                        <h2 class="h3 fw-bold mb-1">Quản lý sản phẩm</h2>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="#" class="text-decoration-none text-muted">Admin</a></li>
-                                <li class="breadcrumb-item active fw-medium">Sản phẩm</li>
-                            </ol>
-                        </nav>
+                        <label class="text-[11px] font-bold text-gray-400 uppercase">Mã sản phẩm</label>
+                        <input type="text" class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs">
                     </div>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <button type="button" class="btn btn-dark px-4 py-2 shadow-sm rounded-0">
-                            <i class="bi bi-plus-lg me-2"></i> THÊM SẢN PHẨM
-                        </button>
+
+                    <div>
+                        <label class="text-[11px] font-bold text-gray-400 uppercase">Tên sản phẩm</label>
+                        <input type="text"
+                        placeholder="Ví dụ: Áo sơ mi lụa cao cấp"
+                        class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs">
                     </div>
+
+                    <div>
+
+                        <label class="text-[11px] font-bold text-gray-400 uppercase">Mô tả sản phẩm</label>
+                        <textarea rows="4"
+                        class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-400 uppercase">Giá bán</label>
+                            <input type="number"
+                            class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs">
+                        </div>
+
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-400 uppercase">Phân loại</label>
+                            <select class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs">
+                                <option>Áo khoác</option>
+                                <option>Áo thun</option>
+                                <option>Quần</option>
+                            </select>
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="card border-0 shadow-sm mb-5 p-2 rounded-3">
-                    <div class="card-body">
-                        <div class="row g-3 align-items-center">
-                            <div class="col-md-5">
-                                <div class="input-group search-box">
-                                    <span class="input-group-text border-0 bg-transparent ps-3"><i class="bi bi-search"></i></span>
-                                    <input type="text" class="form-control border-0 bg-transparent shadow-none" placeholder="Tìm kiếm sản phẩm...">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <select class="form-select border-0 bg-light-gray shadow-none">
-                                    <option selected>Danh mục</option>
-                                    <option>Bộ sưu tập mới</option>
-                                    <option>Đồ đông</option>
-                                    <option>Phụ kiện</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2 text-md-end">
-                                <button class="btn btn-outline-dark border-0 w-100 fw-medium">
-                                    Lọc <i class="bi bi-sliders ms-2"></i>
-                                </button>
-                            </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
+
+                    <h3 class="text-sm font-bold text-gray-800">Biến thể sản phẩm</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                        <select id="size" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
+                            <option value="">Size</option>
+                            <option>S</option>
+                            <option>M</option>
+                            <option>L</option>
+                            <option>XL</option>
+                        </select>
+
+
+                        <select id="color" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
+                            <option value="">Màu</option>
+                            <option>Đen</option>
+                            <option>Trắng</option>
+                            <option>Beige</option>
+                        </select>
+
+                        <input id="qty"
+                        type="number"
+                        placeholder="Số lượng"
+                        class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
+
+
+                        <button onclick="addVariant()"class="bg-[#bc9c75] text-white rounded-xl text-xs py-2">Thêm</button>
+
+                    </div>
+
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs mt-3">
+                            <thead class="border-b text-gray-500">
+                                <tr>
+                                    <th class="text-left py-2">Size</th>
+                                    <th class="text-left">Màu</th>
+                                    <th class="text-left">Số lượng</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="variantList"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                    <h3 class="text-sm font-bold text-gray-800 mb-4">Hình ảnh sản phẩm</h3>
+
+                    <div class="relative group rounded-2xl overflow-hidden border border-gray-100 mb-4">
+
+                        <img
+                        src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400"
+                        class="w-full h-48 object-cover">
+
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+
+                            <button class="w-8 h-8 bg-white rounded-full text-gray-800 text-xs shadow">
+                                <i class="fa-solid fa-rotate"></i>
+                            </button>
+
+                            <button class="w-8 h-8 bg-white rounded-full text-red-500 text-xs shadow">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="border-2 border-dashed border-gray-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-50">
+                        <i class="fa-solid fa-plus text-[#bc9c75]"></i>
+
+                        <p class="text-[10px] text-gray-400 font-medium"> Thay đổi ảnh khác</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+
+    <template id="tpl-edit-product">
+        <div class="mb-6 flex justify-between items-center">
+            <div class="flex gap-3">
+                <button onclick="loadPage('product-list')" class="px-6 py-2 border border-gray-200 rounded-xl text-xs font-semibold text-gray-500 hover:bg-gray-50">Hủy thay đổi</button>
+                <button class="px-6 py-2 bg-[#bc9c75] text-white rounded-xl text-xs font-semibold shadow-sm hover:opacity-90">Lưu cập nhật</button>
+            </div>
+        </div>
+
+
+        <!-- LAYOUT -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- LEFT -->
+            <div class="lg:col-span-2 space-y-6">
+
+
+                <!-- THÔNG TIN CƠ BẢN -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
+
+                    <h3 class="text-sm font-bold text-gray-800">Thông tin cơ bản</h3>
+                    <div>
+                        <label class="text-[11px] font-bold text-gray-400 uppercase">Mã sản phẩm</label>
+                        <input type="text" class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs">
+                    </div>
+
+                    <div>
+                        <label class="text-[11px] font-bold text-gray-400 uppercase">Tên sản phẩm</label>
+                        <input type="text"
+                        placeholder="Ví dụ: Áo sơ mi lụa cao cấp"
+                        class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs">
+                    </div>
+
+                    <div>
+
+                        <label class="text-[11px] font-bold text-gray-400 uppercase">Mô tả sản phẩm</label>
+                        <textarea rows="4"
+                        class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs"></textarea>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-400 uppercase">Giá bán</label>
+                            <input type="number"
+                            class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs">
+                        </div>
+
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-400 uppercase">Phân loại</label>
+                            <select class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs">
+                                <option>Áo khoác</option>
+                                <option>Áo thun</option>
+                                <option>Quần</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BIẾN THỂ -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
+
+                    <h3 class="text-sm font-bold text-gray-800">Biến thể sản phẩm</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                        <select id="size" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
+                            <option value="">Size</option>
+                            <option>S</option>
+                            <option>M</option>
+                            <option>L</option>
+                            <option>XL</option>
+                        </select>
+
+
+                        <select id="color" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
+                            <option value="">Màu</option>
+                            <option>Đen</option>
+                            <option>Trắng</option>
+                            <option>Beige</option>
+                        </select>
+
+                        <input id="qty"
+                        type="number"
+                        placeholder="Số lượng"
+                        class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
+
+
+                        <button onclick="addVariant()"class="bg-[#bc9c75] text-white rounded-xl text-xs py-2">Thêm</button>
+
+                    </div>
+
+
+                    <!-- TABLE -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs mt-3">
+                            <thead class="border-b text-gray-500">
+                                <tr>
+                                    <th class="text-left py-2">Size</th>
+                                    <th class="text-left">Màu</th>
+                                    <th class="text-left">Số lượng</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="variantList"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- RIGHT -->
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                    <h3 class="text-sm font-bold text-gray-800 mb-4">Hình ảnh sản phẩm</h3>
+
+                    <div class="relative group rounded-2xl overflow-hidden border border-gray-100 mb-4">
+
+                        <img
+                        src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400"
+                        class="w-full h-48 object-cover">
+
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+
+                            <button class="w-8 h-8 bg-white rounded-full text-gray-800 text-xs shadow">
+                                <i class="fa-solid fa-rotate"></i>
+                            </button>
+
+                            <button class="w-8 h-8 bg-white rounded-full text-red-500 text-xs shadow">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="border-2 border-dashed border-gray-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-50">
+                        <i class="fa-solid fa-plus text-[#bc9c75]"></i>
+
+                        <p class="text-[10px] text-gray-400 font-medium"> Thay đổi ảnh khác</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </template>
+
+
+        <template id="tpl-vouchers">
+            <div class="mb-6 flex justify-between items-center">
+                <div class="relative w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-[10px]"></i>
+                    <input type="text" placeholder="Tìm mã voucher..." class="w-full bg-white border border-gray-100 rounded-xl py-2 pl-9 pr-4 text-xs focus:ring-1 focus:ring-[#bc9c75] outline-none shadow-sm">
+                </div>
+                <button onclick="loadPage('add-voucher')" class="px-4 py-2 bg-[#bc9c75] text-white rounded-xl text-xs font-semibold shadow-sm hover:opacity-90 transition">
+                    <i class="fa-solid fa-plus mr-2"></i> Tạo mã mới
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-50 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-16 h-16 bg-[#bc9c75]/10 rounded-bl-full flex items-center justify-center">
+                        <i class="fa-solid fa-ticket text-[#bc9c75]"></i>
+                    </div>
+                    
+                    <div class="flex flex-col gap-1">
+                        <span class="text-[10px] font-black text-[#bc9c75] uppercase tracking-wider">CODE: SUMMER2026</span>
+                        <h3 class="text-base font-bold text-gray-800">Giảm 10%</h3>
+                        <p class="text-[11px] text-gray-400">Đơn tối thiểu: 500.000đ</p>
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-t border-gray-50 space-y-3">
+                        <div class="flex justify-between text-[10px]">
+                            <span class="text-gray-400 uppercase font-bold tracking-tighter">Tiến độ: 45/100</span>
+                            <span class="text-gray-500 font-bold tracking-tighter">Hết hạn: 30/08/2026</span>
+                        </div>
+                        <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                            <div class="bg-[#bc9c75] h-full" style="width: 45%"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-4">
+                        <span class="text-[9px] text-green-500 font-bold bg-green-50 px-2 py-1 rounded-full border border-green-100 uppercase">Hoạt động</span>
+                        
+                        <div class="flex items-center gap-2">
+                            <button onclick="loadPage('edit-voucher')" class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-[#bc9c75]/10 hover:text-[#bc9c75] transition-all">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </button>
+                            <button class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:bg-red-50 hover:text-red-500 transition-all">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    <template id="tpl-edit-voucher">
+        <div class="mb-6 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <button onclick="loadPage('vouchers')" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white border border-gray-100 text-gray-400 hover:text-[#bc9c75] hover:border-[#bc9c75] transition-all shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800">Chỉnh sửa Voucher</h2>
+                    <p class="text-[11px] text-gray-400 font-medium">Cập nhật thông tin mã giảm giá của bạn</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="loadPage('vouchers')" class="px-6 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-500 hover:bg-gray-50 transition">Hủy</button>
+                <button class="px-6 py-2.5 bg-[#bc9c75] text-white rounded-xl text-xs font-bold shadow-md shadow-[#bc9c75]/20 hover:opacity-90 transition">Lưu thay đổi</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-gray-50 shadow-sm space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                            <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Tên chương trình</label>
+                            <input type="text" value="Giảm giá mùa hè 2026" class="w-full mt-1.5 bg-gray-50 border-none rounded-xl py-2.5 px-4 text-xs focus:ring-1 focus:ring-[#bc9c75] outline-none">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-bold text-[#bc9c75] uppercase tracking-wider">Mã Code</label>
+                            <input type="text" value="SUMMER2026" class="w-full mt-1.5 bg-gray-50 border-none rounded-xl py-2.5 px-4 text-xs font-mono font-bold focus:ring-1 focus:ring-[#bc9c75] outline-none">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Giá trị giảm (%)</label>
+                            <input type="number" value="10" class="w-full mt-1.5 bg-gray-50 border-none rounded-xl py-2.5 px-4 text-xs focus:ring-1 focus:ring-[#bc9c75] outline-none">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Đơn tối thiểu</label>
+                            <input type="number" value="500000" class="w-full mt-1.5 bg-gray-50 border-none rounded-xl py-2.5 px-4 text-xs focus:ring-1 focus:ring-[#bc9c75] outline-none">
+                        </div>
+                        <div>
+                            <label class="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Số lượng</label>
+                            <input type="number" value="100" class="w-full mt-1.5 bg-gray-50 border-none rounded-xl py-2.5 px-4 text-xs focus:ring-1 focus:ring-[#bc9c75] outline-none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-gray-50 shadow-sm">
+                    <h3 class="text-sm font-bold text-gray-800 mb-4">Trạng thái</h3>
+                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-xl border border-green-100 mb-4">
+                        <span class="text-xs font-bold text-green-600">Đang kích hoạt</span>
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="space-y-3 text-[11px]">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Ngày tạo:</span>
+                            <span class="text-gray-600 font-medium">12/05/2026</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Lần sửa cuối:</span>
+                            <span class="text-gray-600 font-medium">Vừa xong</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="card border-0 shadow-sm overflow-hidden rounded-3 mb-5">
-                    <div class="table-responsive">
-                        <table class="table align-middle table-hover mb-0">
-                            <thead class="bg-light-gray">
-                                <tr>
-                                    <th class="ps-4 py-3 text-uppercase small tracking-wider text-muted">Sản phẩm</th>
-                                    <th class="py-3 text-uppercase small tracking-wider text-muted">Danh mục</th>
-                                    <th class="py-3 text-uppercase small tracking-wider text-muted">Giá bán</th>
-                                    <th class="py-3 text-uppercase small tracking-wider text-muted text-center">Tồn kho</th>
-                                    <th class="py-3 text-uppercase small tracking-wider text-muted">Trạng thái</th>
-                                    <th class="pe-4 py-3 text-end text-uppercase small tracking-wider text-muted">Thao tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="ps-4">
-                                        <div class="d-flex align-items-center">
-                                            <div class="product-thumb me-3 rounded-2 shadow-sm border overflow-hidden">
-                                                <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=150&auto=format&fit=crop" alt="product" width="50" height="65" style="object-fit: cover;">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0 fw-bold">Classic Wool Coat</h6>
-                                                <span class="text-muted small">SKU: FW2026-001</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Áo khoác</td>
-                                    <td class="fw-medium">2.450.000₫</td>
-                                    <td class="text-center">12</td>
-                                    <td><span class="status-badge status-active">Đang bán</span></td>
-                                    <td class="pe-4 text-end">
-                                        <button class="btn btn-icon me-2"><i class="bi bi-pencil-square"></i></button>
-                                        <button class="btn btn-icon text-danger"><i class="bi bi-trash3"></i></button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="ps-4">
-                                        <div class="d-flex align-items-center">
-                                            <div class="product-thumb me-3 rounded-2 shadow-sm border overflow-hidden">
-                                                <img src="https://images.unsplash.com/photo-1548624313-0396c75e4b1a?q=80&w=150&auto=format&fit=crop" alt="product" width="50" height="65" style="object-fit: cover;">
-                                            </div>
-                                            <div>
-                                                <h6 class="mb-0 fw-bold">Silk Maxi Dress</h6>
-                                                <span class="text-muted small">SKU: DR-0098</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>Váy đầm</td>
-                                    <td class="fw-medium">1.890.000₫</td>
-                                    <td class="text-center">05</td>
-                                    <td><span class="status-badge status-out">Hết hàng</span></td>
-                                    <td class="pe-4 text-end">
-                                        <button class="btn btn-icon me-2"><i class="bi bi-pencil-square"></i></button>
-                                        <button class="btn btn-icon text-danger"><i class="bi bi-trash3"></i></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="bg-[#bc9c75] p-5 rounded-2xl shadow-lg shadow-[#bc9c75]/20 relative overflow-hidden text-white">
+                    <i class="fa-solid fa-ticket absolute -right-4 -bottom-4 text-white/10 text-7xl rotate-12"></i>
+                    <p class="text-[9px] font-bold uppercase tracking-widest opacity-80">Voucher Preview</p>
+                    <h4 class="text-xl font-black mt-1 uppercase">Giảm 10%</h4>
+                    <div class="mt-4 pt-4 border-t border-white/20">
+                        <p class="text-[10px] font-mono font-bold bg-white/20 w-fit px-2 py-1 rounded">SUMMER2026</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-add-voucher">
+        <div class="mb-8 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <button onclick="loadPage('vouchers')" class="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-gray-100 text-gray-400 hover:text-[#bc9c75] hover:border-[#bc9c75] transition-all shadow-sm">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <div>
+                    <h2 class="text-xl font-black text-gray-800 uppercase tracking-tight">Tạo Voucher Mới</h2>
+                    <p class="text-[11px] text-gray-400 font-medium">Thiết lập mã giảm giá cho chương trình khuyến mãi</p>
+                </div>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="loadPage('vouchers')" class="px-6 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-500 hover:bg-gray-50 transition">Hủy bỏ</button>
+                <button class="px-6 py-2.5 bg-[#bc9c75] text-white rounded-xl text-xs font-bold shadow-md shadow-[#bc9c75]/20 hover:opacity-90 transition">Kích hoạt Voucher</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-8 rounded-3xl border border-gray-50 shadow-sm space-y-8">
+                    
+                    <div>
+                        <h4 class="text-[11px] font-black text-[#bc9c75] uppercase mb-5 flex items-center gap-2">
+                             Thông tin cơ bản
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Mã giảm giá (Code)</label>
+                                <input type="text" placeholder="Ví dụ: QUY2_2026" class="w-full mt-2 bg-gray-50 border-none rounded-2xl py-3.5 px-5 text-xs font-mono font-bold focus:ring-2 focus:ring-[#bc9c75]/20 outline-none uppercase placeholder:text-gray-300">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Loại chiết khấu (Type)</label>
+                                <select class="w-full mt-2 bg-gray-50 border-none rounded-2xl py-3.5 px-5 text-xs font-bold focus:ring-2 focus:ring-[#bc9c75]/20 outline-none appearance-none cursor-pointer">
+                                    <option value="fixed">Số tiền cố định (VNĐ)</option>
+                                    <option value="percent">Phần trăm (%)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 border-t border-gray-50">
+                        <h4 class="text-[11px] font-black text-[#bc9c75] uppercase mb-5 flex items-center gap-2">
+                             Giá trị & Hạn mức
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Mức giảm (Value)</label>
+                                <div class="relative mt-2">
+                                    <input type="number" placeholder="0" class="w-full bg-gray-50 border-none rounded-2xl py-3.5 px-5 text-xs font-bold focus:ring-2 focus:ring-[#bc9c75]/20 outline-none">
+                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold text-gray-300 uppercase">Đơn vị</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Đơn tối thiểu (Min Order)</label>
+                                <input type="number" placeholder="0" class="w-full mt-2 bg-gray-50 border-none rounded-2xl py-3.5 px-5 text-xs font-bold focus:ring-2 focus:ring-[#bc9c75]/20 outline-none">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Giảm tối đa (Max Discount)</label>
+                                <input type="number" 
+                                placeholder="Không giới hạn" 
+                                class="w-full mt-2 bg-gray-50 border-none rounded-2xl py-3.5 px-5 text-xs font-bold focus:ring-2 focus:ring-[#bc9c75]/20 outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 border-t border-gray-50">
+                        <h4 class="text-[11px] font-black text-[#bc9c75] uppercase mb-5 flex items-center gap-2">
+                            Thời gian & Giới hạn
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Ngày bắt đầu</label>
+                                <input type="date" 
+                                class="w-full mt-2 bg-gray-50 border-none rounded-2xl py-3.5 px-5 text-[11px] font-bold focus:ring-2 focus:ring-[#bc9c75]/20 outline-none">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Ngày kết thúc</label>
+                                <input type="date" 
+                                class="w-full mt-2 bg-gray-50 border-none rounded-2xl py-3.5 px-5 text-[11px] font-bold focus:ring-2 focus:ring-[#bc9c75]/20 outline-none">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Số lượng phát hành</label>
+                                <input type="number" 
+                                placeholder="Ví dụ: 100" 
+                                class="w-full mt-2 bg-gray-50 border-none rounded-2xl py-3.5 px-5 text-xs font-bold focus:ring-2 focus:ring-[#bc9c75]/20 outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-3xl border border-gray-50 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xs font-black text-gray-800 uppercase tracking-widest">Trạng thái (Active)</h3>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="v-status" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#bc9c75]"></div>
+                        </label>
+                    </div>
+                    <p class="text-[10px] text-gray-400 font-medium leading-relaxed">Khi kích hoạt, khách hàng có thể áp dụng mã này ngay lập tức nếu thỏa mãn điều kiện.</p>
+                </div>
+
+                <div class="bg-[#bc9c75] p-6 rounded-[2rem] shadow-xl shadow-[#bc9c75]/20 relative overflow-hidden text-white min-h-[180px] flex flex-col justify-between">
+                    <i class="fa-solid fa-ticket absolute -right-6 -top-6 text-white/10 text-9xl rotate-12"></i>
+                    
+                    <div class="relative z-10">
+                        <span class="text-[9px] font-black uppercase tracking-[0.2em] px-2 py-1 bg-white/20 rounded">Preview Voucher</span>
+                        <h4 class="text-2xl font-black mt-4 uppercase tracking-tighter" id="pre-val">Giảm --%</h4>
+                        <p class="text-[10px] opacity-80 mt-1 font-medium" id="pre-min">Cho đơn hàng từ 0đ</p>
+                    </div>
+
+                    <div class="relative z-10 pt-4 border-t border-white/20 flex justify-between items-end">
+                        <div>
+                            <p class="text-[10px] font-bold opacity-60 uppercase">Mã: <span id="pre-code" class="text-white ml-1">CHƯA NHẬP</span></p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[9px] opacity-60 uppercase font-bold text-white/50 italic">Hết hạn: --/--/----</p>
+                        </div>
                     </div>
                 </div>
 
-            </main>
+                <div class="bg-blue-50/50 border border-blue-100/50 p-6 rounded-3xl">
+                    <div class="flex items-center gap-3 mb-3 text-blue-500">
+                        <i class="fa-solid fa-circle-info text-sm"></i>
+                        <span class="text-[11px] font-black uppercase tracking-wider">Lưu ý</span>
+                    </div>
+                    <ul class="text-[10px] text-blue-400 space-y-2 font-medium">
+                        <li class="flex gap-2">• <span class="flex-1">Trường "Giảm tối đa" chỉ áp dụng khi chọn loại "Phần trăm".</span></li>
+                        <li class="flex gap-2">• <span class="flex-1">Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày hiện tại để voucher có hiệu lực ngay.</span></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </div>
+    </template>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 </html>

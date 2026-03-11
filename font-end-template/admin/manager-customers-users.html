@@ -19,47 +19,67 @@
 
     <!-- Khách hàng -->
     <template id="tpl-customers">
-        <div class="mb-6 flex justify-between items-center">
-            <h2 class="text-xl font-bold text-gray-800">Danh sách Khách hàng</h2>
-            <div class="relative w-72">
-                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
-                <input type="text" placeholder="Tìm theo tên, email hoặc SĐT..." class="w-full bg-white border border-gray-100 rounded-xl py-2.5 pl-10 pr-4 text-[11px] outline-none shadow-sm focus:ring-1 focus:ring-[#bc9c75]">
+    <div class="mb-8 flex justify-between items-end">
+        
+        
+        <div class="flex gap-4">
+            <div class="relative w-80">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                <input type="text" placeholder="Tìm kiếm khách hàng..." 
+                       class="w-full bg-white border border-gray-100 rounded-2xl py-3 pl-11 pr-4 text-[11px] outline-none shadow-sm focus:ring-2 focus:ring-[#bc9c75]/10 focus:border-[#bc9c75] transition-all">
             </div>
         </div>
+    </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <div class="bg-white p-5 rounded-2xl border border-gray-50 shadow-sm hover:border-[#bc9c75]/30 transition-all group">
-                <div class="flex items-start justify-between mb-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 bg-[#fcfaf8] rounded-2xl flex items-center justify-center border border-gray-50 group-hover:border-[#bc9c75]/20 transition-all">
-                            <i class="fa-solid fa-user-tie text-[#bc9c75] text-lg"></i>
+    <div class="bg-white rounded-[32px] shadow-sm border border-gray-50 overflow-hidden">
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="border-b border-gray-50">
+                    <th class="text-left py-5 px-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Khách hàng</th>
+                    <th class="text-left py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Hạng</th>
+                    <th class="text-left py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Liên hệ</th>
+                    <th class="text-left py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Đơn hàng</th>
+                    <th class="text-right py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Tổng chi tiêu</th>
+                    <th class="py-5 px-8"></th>
+                </tr>
+            </thead>
+            <tbody id="customer-list-tbody">
+                <tr class="border-b border-gray-50 hover:bg-[#fffbf7]/50 transition-all group">
+                    <td class="py-4 px-8">
+                        <div class="flex items-center gap-4">
+                            <div class="w-11 h-11 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100 group-hover:border-[#bc9c75]/30 overflow-hidden">
+                                <i class="fa-solid fa-user-tie text-[#bc9c75] text-base"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-[13px] font-black text-gray-800 uppercase tracking-tight">Nguyễn Hoàng Nam</h4>
+                                <p class="text-[10px] text-gray-400 font-medium italic">hoangnam@gmail.com</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="text-sm font-black text-gray-800 uppercase tracking-tight">Nguyễn Hoàng Nam</h4>
-                            <p class="text-[10px] text-gray-400">hoangnam@gmail.com</p>
-                        </div>
-                    </div>
-                    <span class="bg-[#bc9c75]/10 text-[#bc9c75] px-2 py-0.5 rounded text-[8px] font-black uppercase">Gold Member</span>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-3 py-3 border-y border-gray-50 border-dashed">
-                    <div>
-                        <p class="text-[9px] text-gray-400 font-bold uppercase tracking-tighter">Tổng chi tiêu</p>
-                        <p class="text-[13px] font-black text-gray-800">12.850.000đ</p>
-                    </div>
-                    <div>
-                        <p class="text-[9px] text-gray-400 font-bold uppercase tracking-tighter">Số đơn mua</p>
-                        <p class="text-[13px] font-black text-gray-800">24 đơn</p>
-                    </div>
-                </div>
-
-                <div class="mt-4 flex justify-between items-center">
-                    <span class="text-[10px] text-gray-400 font-medium">SĐT: 0912.xxx.456</span>
-                    <button class="text-[10px] font-bold text-[#bc9c75] hover:underline uppercase tracking-widest">Xem lịch sử <i class="fa-solid fa-chevron-right ml-1 text-[8px]"></i></button>
-                </div>
-            </div>
-        </div>
-    </template>
+                    </td>
+                    <td class="py-4 px-4">
+                        <span class="bg-[#fffbf2] text-[#bc9c75] border border-[#bc9c75]/20 px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-wider">
+                            Gold Member
+                        </span>
+                    </td>
+                    <td class="py-4 px-4">
+                        <div class="text-[11px] text-gray-500 font-bold">0912.xxx.456</div>
+                    </td>
+                    <td class="py-4 px-4 text-center">
+                        <div class="text-[12px] font-black text-gray-700">24 <span class="text-[9px] font-medium text-gray-400 ml-0.5">đơn</span></div>
+                    </td>
+                    <td class="py-4 px-4 text-right">
+                        <div class="text-[13px] font-black text-[#bc9c75]">12.850.000đ</div>
+                    </td>
+                    <td class="py-4 px-8 text-right">
+                        <button class="p-2 hover:bg-white rounded-xl transition-all text-gray-300 hover:text-[#bc9c75] shadow-none hover:shadow-sm">
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+        </table>
+    </div>
+</template>
 
    
 

@@ -26,10 +26,13 @@
                 <select class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-40 text-gray-600">
                     <option>Tất cả sản phẩm</option>
                     <option>Áo khoác</option>
+                    <option>Quần âu</option>
                 </select>
 
                 <select class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-40 text-gray-600">
                     <option>Danh mục</option>
+                    <option>...</option>
+                    <option>...</option>
                 </select>
             </div>
 
@@ -364,7 +367,6 @@
                     <div class="border-2 border-dashed border-gray-100 rounded-2xl p-4 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-50">
                         <i class="fa-solid fa-plus text-[#bc9c75]"></i>
                         <p class="text-[10px] text-gray-400 font-medium"> Thay đổi ảnh khác</p>
-
                     </div>
 
                     <div class="mt-8">
@@ -483,10 +485,7 @@
 
 
 
-
     <template id="tpl-edit-voucher">
-        
-
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div class="lg:col-span-2 space-y-6">
                 <div class="bg-white p-6 rounded-2xl border border-gray-50 shadow-sm space-y-4">
@@ -542,7 +541,6 @@
                         <p class="text-[10px] font-mono font-bold bg-white/20 w-fit px-2 py-1 rounded">SUMMER2026</p>
                     </div>
                 </div>
-
                 
                 <button onclick="loadPage('vouchers')" class="px-6 py-2.5 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-500 hover:bg-gray-50 transition">Hủy</button>
                 <button class="px-6 py-2.5 bg-[#bc9c75] text-white rounded-xl text-xs font-bold shadow-md shadow-[#bc9c75]/20 hover:opacity-90 transition">Lưu thay đổi</button>
@@ -555,8 +553,6 @@
 
 
     <template id="tpl-add-voucher">
-        
-
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 space-y-6">
                 <div class="bg-white p-8 rounded-3xl border border-gray-50 shadow-sm space-y-8">
@@ -679,6 +675,6 @@
         </div>
     </template>
 
-    
+    <script src="/font-end-template/asset/js/admin.js"></script>
 </body>
 </html>

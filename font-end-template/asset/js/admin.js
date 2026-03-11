@@ -35,6 +35,8 @@ const PAGES = {
     'hr': { title: 'Quản lý nhân sự', file: 'manager-customers-users.html', tpl: 'tpl-hr' },
     'user-detail': { title: 'Chi tiết nhân viên', file: 'manager-customers-users.html', tpl: 'tpl-user-detail' },
     'add-employee': { title: 'Thêm nhân viên', file: 'manager-customers-users.html', tpl: 'tpl-add-employee' },
+    'edit-employee': { title: 'Sửa nhân viên', file: 'manager-customers-users.html', tpl: 'tpl-edit-employee' },
+    'role-management': { title: 'Thêm chức vụ', file: 'manager-customers-users.html', tpl: 'tpl-role-management' },
 
     'quan-ly': { title: 'Hồ sơ cá nhân', file: 'account-management.html', tpl: 'tpl-quan-ly' },
     'thong-tin': { title: 'Hồ sơ cá nhân', file: 'account-management.html', tpl: 'tpl-tn' },
@@ -113,16 +115,10 @@ function updateSidebarUI(pageId){
 
     document.querySelectorAll('.nav-item').forEach(item => {
 
-        const isMatch =
-            item.dataset.page === pageId ||
-            (item.getAttribute('onclick') &&
-             item.getAttribute('onclick').includes(`'${pageId}'`));
-
-        if(isMatch){
-            item.classList.add('active');
+        if(item.dataset.page === pageId){
+            item.classList.add("active");
         }else{
-            item.classList.remove('active');
-            
+            item.classList.remove("active");
         }
 
     });
@@ -130,15 +126,65 @@ function updateSidebarUI(pageId){
 }
 
 
+function switchTab(tabName){
+
+    // 1. Ẩn tất cả tab
+    document.querySelectorAll('.tab-content').forEach(tab=>{
+        tab.classList.remove('active');
+    });
+
+    // 2. Hiện tab được chọn
+    const tab = document.getElementById('tab-' + tabName);
+    if(tab){
+        tab.classList.add('active');
+    }
+
+    // 3. Reset sidebar active
+    document.querySelectorAll('.nav-item').forEach(item=>{
+        item.classList.remove('active');
+    });
+
+    // 4. Active menu tương ứng
+    const menu = document.getElementById(tabName);
+    if(menu){
+        menu.classList.add('active');
+    }
+
+}
+
+const employeeData = {
+
+name: "TRẦN QUỐC BẢO",
+birth: "1999-03-10",
+gender: "Nam",
+role: "Quản lý",
+phone: "0988888888",
+address: "Hà Nội"
+
+};
+
+
+function openEmployee(emp){
+
+    document.getElementById("employeeModal").classList.remove("hidden");
+    document.getElementById("empName").value = emp.name;
+    document.getElementById("empBirth").value = emp.birth;
+    document.getElementById("empGender").value = emp.gender;
+    document.getElementById("empRole").value = emp.role;
+    document.getElementById("empPhone").value = emp.phone;
+    document.getElementById("empAddress").value = emp.address;
+
+}
+
 
 window.addEventListener("DOMContentLoaded", () => {
 
-    const hash = window.location.hash.replace("#", "#");
+    const hash = window.location.hash.replace("#", "");
     const savedPage = localStorage.getItem("currentPage");
 
     const page = hash || savedPage || "dashboard";
+
     loadPage(page, false);
-    
 
 });
 
@@ -261,6 +307,9 @@ function closeProductModal() {
     modal.classList.remove('flex');
     document.body.style.overflow = 'auto';
 }
+
+
+
 
 
 

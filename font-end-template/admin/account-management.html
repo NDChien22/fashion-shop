@@ -69,15 +69,19 @@
         </div>
     </header>
 
+
     <div class="bg-[#f8f9fa] px-4 py-2 lg:hidden">
         <button onclick="toggleSidebar()" class="text-2xl p-2 text-gray-600 hover:text-black">
             <i class="fa-solid fa-bars"></i>
         </button>
     </div>
 
+
+    
+
     <div class="flex flex-1 overflow-hidden">
         <aside id="sidebar" class="fixed lg:static top-16 w-64 lg:w-72 bg-white border-r border-gray-100 h-[calc(100vh-64px)] lg:h-full flex flex-col transition-all duration-300 -translate-x-full lg:translate-x-0 z-40 overflow-y-auto custom-scrollbar">
-            <nav class=" flex-1 px-4 space-y-1">
+            <nav class=" flex-1 px-4 space-y-1 mt-6">
                     <div id="thong-tin" onclick="switchTab('thong-tin')" class="nav-item group active">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-box-archive text-[15px]"></i>
@@ -152,7 +156,7 @@
 
                         <div class="mt-10 pt-8 border-t border-gray-100 flex justify-between items-center">
                             <a href="/font-end-template/admin/index.html" class="text-gray-400 hover:text-gray-600 font-semibold text-sm transition-all flex items-center gap-2">
-                                <i class="fa-solid fa-arrow-left-long"></i> Thoát
+                                <i class="fa-solid fa-arrow-left-long"></i> Quay lại
                             </a>
                             <button type="submit" class="bg-[#bc9c75] text-white px-10 py-3 rounded-xl font-bold shadow-lg shadow-[#bc9c75]/20 hover:scale-[1.02] active:scale-95 transition-all">
                                 Lưu thay đổi
@@ -187,48 +191,16 @@
                             Cập nhật mật khẩu
                         </button>
 
-                        <button onclick="switchTab('thong-tin')" class="w-full text-sm text-gray-400 hover:text-[#bc9c75] font-medium transition-all">
-                            Quay lại hồ sơ
-                        </button>
+                        <a href="/font-end-template/admin/index.html" class="text-gray-400 hover:text-gray-600 font-semibold text-sm transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-arrow-left-long"></i> Quay lại
+                            </a>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <script>
-        // Toggle User Dropdown
-        function toggleUserMenu() {
-            const menu = document.getElementById('userMenu');
-            menu.classList.toggle('hidden');
-        }
+    <script src="/font-end-template/asset/js/admin.js"></script>
 
-        // Switch Tabs Logic
-        function switchTab(tabName) {
-            // 1. Ẩn tất cả tab và nút active
-            const contents = document.querySelectorAll('.tab-content');
-            const buttons = document.querySelectorAll('.nav-btn');
-            
-            contents.forEach(content => content.classList.remove('active'));
-            buttons.forEach(btn => btn.classList.remove('active-link'));
-
-            // 2. Hiện tab được chọn
-            const targetTab = document.getElementById('tab-' + tabName);
-            const targetBtn = document.getElementById('btn-' + tabName);
-
-            if (targetTab) targetTab.classList.add('active');
-            if (targetBtn) targetBtn.classList.add('active-link');
-        }
-
-        // Đóng menu khi click ra ngoài
-        window.onclick = function(event) {
-            if (!event.target.closest('.relative')) {
-                const userMenu = document.getElementById('userMenu');
-                if (userMenu && !userMenu.classList.contains('hidden')) {
-                    userMenu.classList.add('hidden');
-                }
-            }
-        }
-    </script>
 </body>
 </html>

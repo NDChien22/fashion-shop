@@ -78,12 +78,20 @@ body {
 }
 
 
+
+
+
 .tab-content{
 display:none;
+opacity:0;
+transform:translateY(8px);
+transition:all .25s ease;
 }
 
 .tab-content.active{
 display:block;
+opacity:1;
+transform:translateY(0);
 }
 
 

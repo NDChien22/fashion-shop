@@ -133,40 +133,24 @@
                     <h3 class="text-sm font-bold text-gray-800">Biến thể sản phẩm</h3>
                     
                     <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                        <select id="size" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
-                            <option value="">Size</option>
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                            <option>XL</option>
-                        </select>
-
-                        <select id="color" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
-                            <option value="">Màu</option>
-                            <option>Đen</option>
-                            <option>Trắng</option>
-                            <option>Beige</option>
-                        </select>
-
-                        <input id="qty"
-                        type="number"
-                        placeholder="Số lượng"
-                        class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
-
-                        <button onclick="addVariant()"class="bg-[#bc9c75] text-white rounded-xl text-xs py-2">Thêm</button>
+                        <input id="size" type="text" placeholder="Size (VD: M, L, 42)" class="bg-gray-50 rounded-xl py-2 px-3 text-xs border focus:outline-none focus:ring-1 focus:ring-[#bc9c75]">
+                        <input id="color" type="text" placeholder="Màu (VD: Đen, Trắng)" class="bg-gray-50 rounded-xl py-2 px-3 text-xs border focus:outline-none focus:ring-1 focus:ring-[#bc9c75]">
+                        <input id="qty" type="number" placeholder="Số lượng" class="bg-gray-50 rounded-xl py-2 px-3 text-xs border focus:outline-none focus:ring-1 focus:ring-[#bc9c75]">
+                        <button onclick="addVariant()" class="bg-[#bc9c75] text-white rounded-xl text-xs py-2 hover:bg-[#a68a68] transition-colors">Thêm</button>
                     </div>
 
                     <div class="overflow-x-auto">
                         <table class="w-full text-xs mt-3">
-                            <thead class="border-b text-gray-500">
+                            <thead class="border-b text-gray-500 font-medium">
                                 <tr>
                                     <th class="text-left py-2">Size</th>
                                     <th class="text-left">Màu</th>
                                     <th class="text-left">Số lượng</th>
-                                    <th></th>
+                                    <th class="text-right">Hành động</th>
                                 </tr>
                             </thead>
-                            <tbody id="variantList"></tbody>
+                            <tbody id="variantList">
+                                </tbody>
                         </table>
                     </div>
                 </div>
@@ -302,43 +286,30 @@
                 </div>
 
                 <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
-                    <h3 class="text-sm font-bold text-gray-800">Biến thể sản phẩm</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                        <select id="size" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
-                            <option value="">Size</option>
-                            <option>S</option>
-                            <option>M</option>
-                            <option>L</option>
-                            <option>XL</option>
-                        </select>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border space-y-4">
+                        <h3 class="text-sm font-bold text-gray-800">Biến thể sản phẩm</h3>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                            <input id="size" type="text" placeholder="Size (VD: M, L, 42)" class="bg-gray-50 rounded-xl py-2 px-3 text-xs border focus:outline-none focus:ring-1 focus:ring-[#bc9c75]">
+                            <input id="color" type="text" placeholder="Màu (VD: Đen, Trắng)" class="bg-gray-50 rounded-xl py-2 px-3 text-xs border focus:outline-none focus:ring-1 focus:ring-[#bc9c75]">
+                            <input id="qty" type="number" placeholder="Số lượng" class="bg-gray-50 rounded-xl py-2 px-3 text-xs border focus:outline-none focus:ring-1 focus:ring-[#bc9c75]">
+                            <button onclick="addVariant()" class="bg-[#bc9c75] text-white rounded-xl text-xs py-2 hover:bg-[#a68a68] transition-colors">Thêm</button>
+                        </div>
 
-                        <select id="color" class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
-                            <option value="">Màu</option>
-                            <option>Đen</option>
-                            <option>Trắng</option>
-                            <option>Beige</option>
-                        </select>
-
-                        <input id="qty"
-                        type="number"
-                        placeholder="Số lượng"
-                        class="bg-gray-50 rounded-xl py-2 px-3 text-xs">
-
-                        <button onclick="addVariant()"class="bg-[#bc9c75] text-white rounded-xl text-xs py-2">Thêm</button>
-                    </div>
-
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-xs mt-3">
-                            <thead class="border-b text-gray-500">
-                                <tr>
-                                    <th class="text-left py-2">Size</th>
-                                    <th class="text-left">Màu</th>
-                                    <th class="text-left">Số lượng</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="variantList"></tbody>
-                        </table>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-xs mt-3">
+                                <thead class="border-b text-gray-500 font-medium">
+                                    <tr>
+                                        <th class="text-left py-2" style="width: 25%">Size</th>
+                                        <th class="text-left" style="width: 25%">Màu</th>
+                                        <th class="text-left" style="width: 25%">Số lượng</th>
+                                        <th class="text-right" style="width: 25%">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="variantList">
+                                    </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

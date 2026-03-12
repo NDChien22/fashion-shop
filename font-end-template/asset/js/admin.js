@@ -44,10 +44,9 @@ const PAGES = {
 
 };
 
-
-const fileCache = {}; 
-
 // 3. Hàm tải trang chính (Sửa lỗi logic)
+const fileCache = {};
+
 async function loadPage(pageId) {
     const contentArea = document.getElementById("content-area");
     if (!contentArea) return;
@@ -112,7 +111,6 @@ async function loadPage(pageId) {
 
 // 4. Cập nhật Sidebar
 function updateSidebarUI(pageId){
-
     document.querySelectorAll('.nav-item').forEach(item => {
 
         if(item.dataset.page === pageId){
@@ -126,8 +124,8 @@ function updateSidebarUI(pageId){
 }
 
 
-function switchTab(tabName){
 
+function switchTab(tabName){
     // 1. Ẩn tất cả tab
     document.querySelectorAll('.tab-content').forEach(tab=>{
         tab.classList.remove('active');
@@ -152,29 +150,9 @@ function switchTab(tabName){
 
 }
 
-const employeeData = {
-
-name: "TRẦN QUỐC BẢO",
-birth: "1999-03-10",
-gender: "Nam",
-role: "Quản lý",
-phone: "0988888888",
-address: "Hà Nội"
-
-};
 
 
-function openEmployee(emp){
 
-    document.getElementById("employeeModal").classList.remove("hidden");
-    document.getElementById("empName").value = emp.name;
-    document.getElementById("empBirth").value = emp.birth;
-    document.getElementById("empGender").value = emp.gender;
-    document.getElementById("empRole").value = emp.role;
-    document.getElementById("empPhone").value = emp.phone;
-    document.getElementById("empAddress").value = emp.address;
-
-}
 
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -187,6 +165,8 @@ window.addEventListener("DOMContentLoaded", () => {
     loadPage(page, false);
 
 });
+
+
 
 
 // Hàm hỗ trợ chuyển đổi giao diện trên các thiết bị
@@ -221,10 +201,6 @@ window.addEventListener('resize', () => {
     }
 });
 
-
-
-
-
 document.querySelectorAll(".nav-item").forEach(item => {
 
     item.addEventListener("click", () => {
@@ -237,7 +213,6 @@ document.querySelectorAll(".nav-item").forEach(item => {
     });
 
 });
-
 
 document.addEventListener("click", function(e){
 
@@ -254,10 +229,13 @@ document.addEventListener("click", function(e){
 
 });
 
-// xem chi tiết đơn hàng
-function viewOrderDetail(orderId) {
-    loadPage('order-detail');
-}
+
+
+
+
+
+
+
 
 
 // album
@@ -267,7 +245,6 @@ function openAlbumModal() {
     modal.classList.add('flex');
     document.body.style.overflow = 'hidden'; // Chống cuộn trang khi mở modal
 }
-
 function closeAlbumModal() {
     const modal = document.getElementById('albumModal');
     modal.classList.add('hidden');
@@ -285,126 +262,98 @@ window.onclick = function(event) {
 
 
 
-function openProductModal(product = mockProduct) {
-    const modal = document.getElementById('productDetailModal');
+
+
+
+
+
+
+
+
+let variants = [];
+
+// 1. Thêm mới (Luôn giữ nguyên chức năng này)
+function addVariant() {
+    const size = document.getElementById('size').value.trim();
+    const color = document.getElementById('color').value.trim();
+    const qty = document.getElementById('qty').value;
+
+    if (!size || !color || !qty) return alert("Vui lòng nhập đủ thông tin!");
+
+    variants.push({ id: Date.now(), size, color, qty, isEditing: false });
+    renderTable();
     
-    // Đổ dữ liệu vào các trường
-    document.getElementById('detail-name').innerText = product.name;
-    document.getElementById('detail-sku').innerText = "Mã: " + product.sku;
-    document.getElementById('detail-price').value = product.price;
-    document.getElementById('detail-desc').value = product.desc;
-    document.getElementById('detail-img').src = product.img;
-
-    // Hiển thị modal
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
+    // Reset input
+    document.getElementById('size').value = '';
+    document.getElementById('color').value = '';
+    document.getElementById('qty').value = '';
 }
 
-function closeProductModal() {
-    const modal = document.getElementById('productDetailModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = 'auto';
-}
-
-
-
-
-
-
-function handlePrint(orderId) {
-    const order = ordersData.find(o => o.id === orderId);
-    if (!order) return;
-
-    // Đổ dữ liệu text
-    document.querySelector('.print-order-id').innerText = `#${order.id}`;
-    document.querySelector('.print-date').innerText = order.date;
-    document.querySelector('.print-cust-name').innerText = order.customer.name;
-    document.querySelector('.print-cust-phone').innerText = `SĐT: ${order.customer.phone}`;
-    document.querySelector('.print-cust-address').innerText = order.customer.address;
-
-    // Đổ danh sách sản phẩm
-    const tbody = document.querySelector('.print-items');
-    tbody.innerHTML = order.items.map((item, index) => `
-        <tr>
-            <td class="py-4">${String(index + 1).padStart(2, '0')}</td>
-            <td class="py-4 font-bold text-gray-800">${item.name} <br><small class='font-normal text-gray-400'>${item.variant}</small></td>
-            <td class="text-center">${item.qty}</td>
-            <td class="text-right">${item.price.toLocaleString()}đ</td>
-            <td class="text-right font-bold">${(item.qty * item.price).toLocaleString()}đ</td>
-        </tr>
-    `).join('');
-
-    // Đổ số tiền
-    document.querySelector('.print-subtotal').innerText = `${order.subtotal.toLocaleString()}đ`;
-    document.querySelector('.print-discount').innerText = `-${order.discount.toLocaleString()}đ`;
-    document.querySelector('.print-total').innerText = `${order.total.toLocaleString()}đ`;
-
-    // Đợi 500ms để trình duyệt vẽ xong dữ liệu lên trang rồi mới gọi lệnh In
-    setTimeout(() => {
-        window.print();
-    }, 500);
-}
-
-
-
-
-
-function openUserDetail(user) {
-    // 1. Truy xuất template từ ID
-    const template = document.getElementById('tpl-user-detail');
-    if (!template) return;
-
-    // 2. Tạo một bản sao (clone) của template
-    const clone = template.content.cloneNode(true);
-
-    // 3. Đổ dữ liệu vào các vị trí tương ứng trong bản sao
-    clone.querySelector('.js-detail-img').src = user.img || '/asset/img/default-avatar.png';
-    clone.querySelector('.js-detail-name').innerText = user.name;
-    clone.querySelector('.js-detail-role').innerText = user.role || 'Thành viên';
-    clone.querySelector('.js-detail-dob').innerText = user.dob || '--/--/----';
-    clone.querySelector('.js-detail-gender').innerText = user.gender || 'Chưa xác định';
-    clone.querySelector('.js-detail-phone').innerText = user.phone;
-    clone.querySelector('.js-detail-email').innerText = user.email;
-    clone.querySelector('.js-detail-address').innerText = user.address || 'Chưa cập nhật';
-    clone.querySelector('.js-detail-join-date').innerText = user.joinDate || '--/--/----';
-
-    // 4. Đưa bản sao đã có dữ liệu vào trang web
-    document.body.appendChild(clone);
-}
-
-
-
-// Hàm đóng Modal
-function closeModal() {
-    const modal = document.querySelector('.fixed.inset-0'); // Tìm overlay
-    if (modal) {
-        modal.classList.add('animate-out', 'fade-out', 'zoom-out'); // Thêm hiệu ứng đóng (nếu có)
-        setTimeout(() => modal.remove(), 200); // Xóa khỏi DOM
+// 2. Chuyển dòng sang chế độ Sửa
+function toggleEdit(id) {
+    const index = variants.findIndex(v => v.id === id);
+    if (index !== -1) {
+        variants[index].isEditing = true;
+        renderTable();
     }
 }
 
-
-function xemChiTietSanPham(data) {
-    // 1. Lấy template thông tin (không phải template sửa)
-    const temp = document.getElementById('tpl-productDetailModal');
-    const clone = temp.content.cloneNode(true);
-    
-    // 2. Đổ dữ liệu vào các thẻ text (không dùng input)
-    // clone.querySelector('#view-name').innerText = data.name; ...
-
-    // 3. QUAN TRỌNG: Thêm trực tiếp vào body thay vì loadPage
-    // Điều này giúp danh sách mẫu bên dưới không bị mất đi
-    document.body.appendChild(clone);
-    
-    // 4. Thêm hiệu ứng khóa cuộn trang sau
-    document.body.style.overflow = 'hidden';
+// 3. Lưu giá trị sau khi sửa tại dòng
+function saveEdit(id) {
+    const index = variants.findIndex(v => v.id === id);
+    if (index !== -1) {
+        const row = document.querySelector(`tr[data-id="${id}"]`);
+        variants[index].size = row.querySelector('.edit-size').value;
+        variants[index].color = row.querySelector('.edit-color').value;
+        variants[index].qty = row.querySelector('.edit-qty').value;
+        variants[index].isEditing = false;
+        renderTable();
+    }
 }
 
-function closeProductModal() {
-    // Tìm và xóa lớp phủ ra khỏi màn hình
-    const modal = document.querySelector('#product-modal-container');
-    if (modal) modal.remove();
-    document.body.style.overflow = 'auto';
+// 4. Xóa
+function removeVariant(id) {
+    variants = variants.filter(v => v.id !== id);
+    renderTable();
+}
+
+// 5. Vẽ lại bảng (Hỗ trợ 2 chế độ: Hiển thị và Chỉnh sửa)
+function renderTable() {
+    const tbody = document.getElementById('variantList');
+    tbody.innerHTML = variants.map(v => {
+        if (v.isEditing) {
+            // Chế độ đang SỬA: Hiện input ngay trong TD
+            return `
+                <tr class="border-b bg-blue-50" data-id="${v.id}">
+                    <td class="py-2 px-2"> <input type="text" 
+                        class="edit-size w-full bg-white rounded-xl py-1.5 px-3 text-xs border border-gray-200 focus:outline-none focus:ring-1 focus:ring-[#bc9c75]" 
+                        value="${v.size}">
+                    </td>
+                    <td class="py-2 px-2"> <input type="text" 
+                        class="edit-color w-full bg-white rounded-xl py-1.5 px-3 text-xs border border-gray-200 focus:outline-none focus:ring-1 focus:ring-[#bc9c75]" 
+                        value="${v.color}">
+                    </td>
+                    <td class="py-2 px-2"> <input type="number" 
+                        class="edit-qty w-full bg-white rounded-xl py-1.5 px-3 text-xs border border-gray-200 focus:outline-none focus:ring-1 focus:ring-[#bc9c75]" 
+                        value="${v.qty}">
+                    </td>
+                    <td class="py-2 text-right space-x-2 px-2">
+                        <button onclick="saveEdit(${v.id})" class="text-green-600 font-bold">Lưu</button>
+                        <button onclick="removeVariant(${v.id})" class="text-red-500">Xóa</button>
+                    </td>
+                </tr>`;
+        } else {
+            // Chế độ HIỂN THỊ bình thường
+            return `
+                <tr class="border-b hover:bg-gray-50" data-id="${v.id}">
+                    <td class="py-3">${v.size}</td>
+                    <td class="py-3">${v.color}</td>
+                    <td class="py-3">${v.qty}</td>
+                    <td class="py-3 text-right space-x-3 px-2">
+                        <button onclick="toggleEdit(${v.id})" class="text-blue-500 font-semibold">Sửa</button>
+                        <button onclick="removeVariant(${v.id})" class="text-red-500 font-semibold">Xóa</button>
+                    </td>
+                </tr>`;
+        }
+    }).join('');
 }

@@ -17,7 +17,7 @@ class AccountManager extends Component
     {
         $validatedData = $this->validate([
             'current_password' => ['required', 'current_password'],
-            'new_password' => ['required', 'confirmed', Password::min(8)],
+            'new_password' => ['required', 'confirmed', Password::min(6)],
             'new_password_confirmation' => ['required'],
         ], [
             'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
@@ -44,6 +44,6 @@ class AccountManager extends Component
 
     public function render()
     {
-        return view('livewire.admin.account-manager');
+        return view('livewire.admin.account-manager.account-manager');
     }
 }

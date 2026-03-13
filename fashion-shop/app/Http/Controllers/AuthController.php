@@ -174,6 +174,8 @@ class AuthController extends Controller
 
             return redirect()->route('login')->with('success', 'Liên kết đặt lại mật khẩu đã được gửi đến email của bạn. Vui lòng kiểm tra email.');
         } catch (\Throwable $e) {
+            report($e);
+
             return redirect()->route('forgot_password')->with('error', 'Không thể gửi email đặt lại mật khẩu lúc này. Vui lòng thử lại sau.');
         }
     }
@@ -215,6 +217,17 @@ class AuthController extends Controller
             'password_confirmation.required' => 'Vui lòng xác nhận mật khẩu',
         ]);
 
+        $passwordReset = DB::table('password_reset_tokens')
+            ->where('email', $request->email)
+            ->where('token', $request->token)
+            ->first();
+
+        if (!$passwordReset || now()->greaterThan(
+            Carbon::parse($passwordReset->created_at)->addMinutes(15)
+        )) {
+            return redirect()->route('forgot_password')->with('error', 'Liên kết đặt lại mật khẩu đã hết hạn. Vui lòng yêu cầu lại.');
+        }
+
         $user = User::where('email', $request->email)->first();
 
         $user->password = Hash::make($request->password);
@@ -223,6 +236,7 @@ class AuthController extends Controller
 
         DB::table('password_reset_tokens')
             ->where('email', $request->email)
+            ->where('token', $request->token)
             ->delete();
 
         return redirect()->route('login')->with('success', 'Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại.');

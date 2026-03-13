@@ -4,115 +4,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fashion Shop Admin - FAST FASHION</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Fast Fashion Admin</title>
+    <link rel="shortcut icon" href="/images/logo/logo.jpg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../extra-assets/css/account-manager.css">
-    <link rel="stylesheet" href="../extra-assets/css/admin-manager.css">
-    {{-- <link rel="stylesheet" href="../extra-assets/css/product-manager.css"> --}}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/extra-assets/css/admin.css">
+    @vite('resources/css/app.css')
+
+
 </head>
 
-<body>
-    <div class="admin-layout">
-        <header class="main-header">
-            <div class="brand">
-                <img src="../images/logo/logo.jpg" alt="Logo"
-                    class="avatar-img">
-            </div>
-            <div class="search-area">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Tìm kiếm đơn hàng, khách hàng...">
-            </div>
-            <div class="user-area">
-                <div class="notifications">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="dot"></span>
-                </div>
+<body class="bg-[#f8f9fa] h-screen flex flex-col">
+    @php
+        $authUser = Auth::user();
+        $displayName = $authUser->full_name ?: $authUser->username;
+        $avatarPath = (string) ($authUser->avatar ?? '');
 
-                <div class="profile-container">
-                    <div class="profile-link" id="profileToggle">
-                        <div class="avatar" id="userAvatar">AC</div>
-                        <div class="info">
-                            <span class="name" id="userName">Admin</span>
-                            <span class="role" id="userRole">Chủ cửa hàng</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-down arrow-icon"></i>
-                    </div>
+        if ($avatarPath !== '' && !\Illuminate\Support\Str::startsWith($avatarPath, ['http://', 'https://', '/'])) {
+            $avatarPath = '/storage/' . $avatarPath;
+        }
 
-                    <div class="dropdown-menu" id="dropdownMenu">
-                        <div class="dropdown-user-info">
-                            <div class="large-avatar" id="menuAvatar">AC</div>
-                            <div class="text-info">
-                                <span class="full-name" id="menuFullName">Nguyễn Văn Admin</span>
-                                <span class="email" id="userEmail">admin@fastfashion.com</span>
-                            </div>
-                        </div>
+        $avatarInitials = \Illuminate\Support\Str::of(trim($displayName ?: $authUser->email))
+            ->explode(' ')
+            ->filter()
+            ->take(2)
+            ->map(fn(string $part) => \Illuminate\Support\Str::upper(\Illuminate\Support\Str::substr($part, 0, 1)))
+            ->implode('');
+    @endphp
 
-                        <div class="menu-actions">
-                            <a href="/admin/account-management.html" class="btn-manage">Quản lý tài khoản của bạn</a>
-                        </div>
+    <header id="header"
+        class="h-16 flex-none bg-white border-b border-gray-100 flex items-center justify-between px-3 sm:px-6 md:px-8 gap-6 sticky top-0 z-40">
+        <x-logo></x-logo>
 
-                        <div class="menu-items">
-                            <a href="#" class="menu-item logout-link">
-                                <i class="fa-solid fa-right-from-bracket"></i> <span>Đăng xuất</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <div class="admin-body-wrapper" style="display: flex;">
-
-            <aside class="sidebar">
-
-                <nav class="nav-menu">
-                    <p class="nav-title">CHÍNH</p>
-                    <div class="nav-item active" data-target="tong-quan">
-                        <a href=""><i class="fa-solid fa-gauge-high"></i> <span>Tổng quan</span></a>
-                    </div>
-
-                    <p class="nav-title">SẢN PHẨM</p>
-                    <div class="nav-item" data-target="danh-sach-mau">
-                        <a href=""><i class="fa-solid fa-list"></i> <span>Danh sách mẫu</span></a>
-                    </div>
-                    <div class="nav-item" data-target="them-san-pham">
-                        <a href=""><i class="fa-solid fa-plus"></i> <span>Thêm sản phẩm</span></a>
-                    </div>
-                    <div class="nav-item" data-target="phan-loai">
-                        <a href=""><i class="fa-solid fa-layer-group"></i> <span>Phân loại</span></a>
-                    </div>
-
-                    <p class="nav-title">KINH DOANH</p>
-                    <div class="nav-item" data-target="don-hang">
-                        <a href=""><i class="fa-solid fa-cart-shopping"></i> <span>Đơn hàng</span>
-                        <span class="nav-badge">5</span></a>
-                    </div>
-                    <div class="nav-item" data-target="khach-hang">
-                        <a href=""><i class="fa-solid fa-users"></i> <span>Khách hàng</span></a>
-                    </div>
-                    <div class="nav-item" data-target="doanh-thu">
-                        <a href=""><i class="fa-solid fa-chart-line"></i> <span>Doanh thu</span></a>
-                    </div>
-                    <div class="nav-item" data-target="ho-tro-khach-hang">
-                        <a href=""><i class="fa-solid fa-comment-dots"></i> <span>Hỗ trợ khách hàng</span></a>
-                    </div>
-                    <div class="nav-item" data-target="quan-ly-nhan-su">
-                        <a href=""><i class="fa-solid fa-users-gear"></i> <span>Quản lý nhân sự</span></a>
-                    </div>
-                </nav>
-            </aside>
-
-            <main class="main-content">
-                <div class="dashboard-body">
-                    @yield('content')
-                </div>
-            </main>
+        <div class="relative w-96">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+            <input type="text" placeholder="Tìm kiếm đơn hàng, khách hàng..."
+                class="w-full bg-gray-100 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-[#bc9c75]">
         </div>
+
+        <div class="flex items-center gap-6">
+            <i class="fa-regular fa-bell text-gray-400 text-lg cursor-pointer hover:text-gray-600"></i>
+            <div class="relative">
+                <div onclick="toggleUserMenu()" class="flex items-center gap-3 cursor-pointer">
+
+                    <div class="w-9 h-9">
+                        @if ($avatarPath)
+                            <img src="{{ $avatarPath }}" alt="Avatar"
+                                style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                        @else
+                            <div
+                                class="w-9 h-9 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-sm font-bold">
+                                {{ $avatarInitials }}</div>
+                        @endif
+                    </div>
+
+                    <div class="text-[12px] leading-tight">
+                        <p class="font-semibold text-gray-800">{{ $displayName }}</p>
+                        <p class="text-gray-400">Chủ cửa hàng</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="userMenu"
+            class="hidden absolute top-10 right-0 mt-4 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+            <div class="flex flex-col items-center text-center">
+                <div
+                    class="w-16 h-16 ">
+                    @if ($avatarPath)
+                        <img src="{{ $avatarPath }}" alt="Avatar"
+                            style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+                    @else
+                        <div
+                            class="w-16 h-16 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-lg font-bold">
+                            {{ $avatarInitials }}
+                        </div>
+                    @endif
+                </div>
+                <p class="mt-4 font-semibold text-gray-800 text-[15px]">{{ $displayName }}</p>
+                <p class="text-sm text-gray-400">{{ $authUser->email }}</p>
+
+                <a href="{{ route('admin.admin-profile') }}" class="mt-5 w-full border border-gray-200 rounded-lg py-2 text-sm hover:bg-gray-50 transition block text-center">
+                    Quản lý tài khoản của bạn
+                </a>
+
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="mt-5 text-red-500 flex items-center gap-2 text-sm hover:opacity-80">
+                        <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="bg-[#f8f9fa] px-4 py-2 lg:hidden">
+        <button onclick="toggleSidebar()" class="text-2xl p-2 text-gray-600 hover:text-black">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </div>
 
-    <script src="../extra-assets/js/admin.js"></script>
+    <div class="flex flex-1 overflow-hidden">
+        <aside id="sidebar"
+            class="fixed lg:static top-16 w-64 lg:w-72 bg-white border-r border-gray-100 h-[calc(100vh-64px)] lg:h-full flex flex-col transition-all duration-300 -translate-x-full lg:translate-x-0 z-40 overflow-y-auto custom-scrollbar">
 
+            <nav class="flex-1 px-4 space-y-1">
+                <div class="py-2">
+                    <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Chính</p>
+                    <div data-page="dashboard" onclick="loadPage('dashboard')" class="nav-item group active">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-house"></i>
+                        </div>
+                        <span class="font-medium">Tổng quan</span>
+                    </div>
+                </div>
+
+                <div class="py-2">
+                    <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Sản phẩm</p>
+                    <div data-page="product-list" onclick="loadPage('product-list')" class="nav-item group">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-box-archive text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Danh sách mẫu</span>
+                    </div>
+                    <div data-page="collection" onclick="loadPage('collection')" class="nav-item group">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-images text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Bộ sưu tập</span>
+                    </div>
+                    <div data-page="vouchers" onclick="loadPage('vouchers')" class="nav-item group">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-ticket text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Voucher</span>
+                    </div>
+                    <div data-page="flash-sale" onclick="loadPage('flash-sale')" class="nav-item group">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-gift text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Chương trình khuyến mãi</span>
+                    </div>
+                </div>
+
+                <div class="py-2">
+                    <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Kinh doanh</p>
+                    <div data-page="orders" onclick="loadPage('orders')" class="nav-item group justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="nav-icon-box">
+                                <i class="fa-solid fa-cart-shopping text-[15px]"></i>
+                            </div>
+                            <span class="font-medium">Đơn hàng</span>
+                        </div>
+                        <span
+                            class="bg-red-50 text-red-500 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-red-100">05</span>
+                    </div>
+                    <div data-page="customers" onclick="loadPage('customers')" class="nav-item group">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-user-group text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Khách hàng</span>
+                    </div>
+                    <div data-page="revenue" onclick="loadPage('revenue')" class="nav-item group">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-chart-pie text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Doanh thu</span>
+                    </div>
+                    <div data-page="support" onclick="loadPage('support')" class="nav-item group ">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-headset text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Trợ giúp & Hỗ trợ</span>
+                    </div>
+                    <div data-page="hr" onclick="loadPage('hr')" class="nav-item group ">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-user-tie text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Quản lý nhân sự</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="flex-1 flex flex-col overflow-y-auto custom-scrollbar">
+            <div class="ff-page-header px-8 pt-6 pb-2">
+                <h1 id="page-title" class="text-xl font-semibold text-gray-800">
+                    Tổng quan
+                </h1>
+
+                <p class="text-xs text-gray-400 mt-1">
+                    <span onclick="loadPage('dashboard')" class="cursor-pointer hover:text-[#bc9c75] transition">
+                        Trang chính
+                    </span> /
+                    <span id="breadcrumb-current" class="text-[#bc9c75] font-medium"></span>
+                </p>
+            </div>
+            <main id="content-area" class="p-8 transition-opacity duration-200"></main>
+        </div>
+
+
+        <template id="tpl-dashboard">
+            <div class="space-y-6">
+
+                <div class="bg-[#e6c9ad] rounded-2xl p-6 flex justify-between items-center">
+                    <div class="max-w-xl">
+                        <h2 class="text-xl font-semibold text-[#4a3a2a] mb-2">
+                            Chào mừng trở lại
+                        </h2>
+
+                        <p class="text-[#5d4a37] text-sm">
+                            Hôm nay cửa hàng có <b>12 đơn hàng mới</b>.
+                            Đừng quên kiểm tra kho cho bộ sưu tập Mùa Hè nhé!
+                        </p>
+
+                        <button onclick="loadPage('orders')"
+                            class="mt-3 bg-[#bc9c75] text-white px-4 py-2 rounded-lg text-sm hover:opacity-90">
+                            Xem đơn hàng
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+                    <div class="bg-white rounded-xl shadow-sm p-5">
+                        <p class="text-sm text-gray-400">Doanh thu ngày</p>
+                        <h3 class="text-xl font-semibold mt-1">5.200.000đ</h3>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm p-5">
+                        <p class="text-sm text-gray-400">Sản phẩm bán ra</p>
+                        <h3 class="text-xl font-semibold mt-1">42</h3>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm p-5">
+                        <p class="text-sm text-gray-400">Khách hàng mới</p>
+                        <h3 class="text-xl font-semibold mt-1">15</h3>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm p-5">
+                        <p class="text-sm text-gray-400">Đánh giá tốt</p>
+                        <h3 class="text-xl font-semibold mt-1">98%</h3>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </template>
+
+    </div>
+
+    <script src="/extra-assets/js/admin.js"></script>
 </body>
 
 </html>

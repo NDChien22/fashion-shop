@@ -1,215 +1,265 @@
+/** * 1. CẤU HÌNH & KHỞI TẠO 
+ */
+const PAGES = {
+    'dashboard': { title: 'Tổng quan' },
 
-document.addEventListener('DOMContentLoaded', () => {
-    handleTabSwitch();
-    renderProducts();
-});
+    'product-list': { title: 'Danh sách mẫu', file: 'manager-products.html', tpl: 'tpl-product-list' },
+    'add-product': { title: 'Thêm sản phẩm', file: 'manager-products.html', tpl: 'tpl-add-product' },
+    'edit-product': { title: 'Sửa sản phẩm', file: 'manager-products.html', tpl: 'tpl-edit-product' },
+    'productDetailModal': { title: 'Sửa sản phẩm', file: 'manager-products.html', tpl: 'tpl-productDetailModal' },
+    'collection': { title: 'Bộ sưu tập', file: 'manager-products.html', tpl: 'tpl-collection' },
+    'collection-detail': { title: 'Các sản phẩm ', file: 'manager-products.html', tpl: 'tpl-collection-detail' },
+    'add-collection': { title: 'Thêm bộ sưu tập', file: 'manager-products.html', tpl: 'tpl-add-collection' },
 
-// 1. Xử lý chuyển đổi Tab
-function handleTabSwitch() {
-    const navItems = document.querySelectorAll('.nav-item');
-    const contents = document.querySelectorAll('.tab-content');
+    'vouchers': { title: 'Voucher', file: 'voucher.html', tpl: 'tpl-vouchers' },
+    'add-voucher': { title: 'Tạo voucher', file: 'voucher.html', tpl: 'tpl-add-voucher' },
+    'edit-voucher': { title: 'Chỉnh sửa Voucher', file: 'voucher.html', tpl: 'tpl-edit-voucher' },
+    'flash-sale': { title: 'Chương trình khuyến mãi', file: 'voucher.html', tpl: 'tpl-flash-sale' },
 
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            // Xóa active ở các nút cũ
-            navItems.forEach(nav => nav.classList.remove('active'));
-            item.classList.add('active');
-
-            // Hiển thị nội dung tương ứng
-            const target = item.getAttribute('data-target');
-            contents.forEach(content => {
-                content.classList.remove('active');
-                if (content.id === target) {
-                    content.classList.add('active');
-                }
-            });
-        });
-    });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.getElementById('profileToggle');
-    const menu = document.getElementById('dropdownMenu');
-
-    // Click vào profile để hiện menu
-    toggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menu.classList.toggle('show');
-    });
-
-    // Click ra ngoài để đóng menu
-    document.addEventListener('click', () => {
-        menu.classList.remove('show');
-    });
-
-    // Ngăn menu bị đóng khi click vào bên trong nó
-    menu.addEventListener('click', (e) => {
-        e.stopPropagation();
-    });
-});
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Khai báo các vùng nội dung
-    const dashboardView = document.getElementById('dashboard-view'); 
-    const profileView = document.getElementById('profile-view');     
-    const btnBack = document.getElementById('btnBackToAdmin');
-    const navItems = document.querySelectorAll('.nav-item');
-
-    // Hàm thực hiện quay lại
-    btnBack.onclick = function() {
-
-        profileView.style.display = 'none';
-        dashboardView.style.display = 'block';
-
-        navItems.forEach(item => item.classList.remove('active'));
-        document.querySelector('[data-target="tong-quan"]').classList.add('active');
-        
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-});
-
-
-
-
-
-
-
-// Sử lý menu
-const menuBtn = document.getElementById('mobile-menu-btn');
-const sidebar = document.querySelector('.sidebar');
-
-if (menuBtn) {
-    menuBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
-    });
-}
-
-// Bấm ra ngoài Sidebar thì tự đóng lại
-document.addEventListener('click', (e) => {
-    if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
-        sidebar.classList.remove('active');
-    }
-});
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const navItems = document.querySelectorAll('.nav-item');
-    const tabContents = document.querySelectorAll('.tab-content');
-    const pageTitle = document.getElementById('page-title');
-    const breadcrumbActive = document.getElementById('breadcrumb-active');
+    'orders': { title: 'Đơn hàng', file: 'manager-orders.html', tpl: 'tpl-orders' },
+    'order-detail': { title: 'Chi tiết đơn hàng', file: 'manager-orders.html', tpl: 'tpl-order-detail' },
+    'revenue': { title: 'Doanh thu', file: 'manager-orders.html', tpl: 'tpl-revenue' },
     
-    // Sử dụng querySelector để tìm khối header
-    const pageHeader = document.querySelector('.ff-page-header');
 
-    navItems.forEach(item => {
-        item.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
-            const targetName = this.querySelector('span').innerText;
+    'customers': { title: 'Khách hàng', file: 'manager-customers.html', tpl: 'tpl-customers' },
+    'support': { title: 'Hỗ trợ khách hàng', file: 'manager-customers.html', tpl: 'tpl-support' },
 
-            // 1. Xử lý Active Sidebar
-            navItems.forEach(nav => nav.classList.remove('active'));
-            this.classList.add('active');
+    'hr': { title: 'Quản lý nhân sự', file: 'manager-employee.html', tpl: 'tpl-hr' },
+    'user-detail': { title: 'Chi tiết nhân viên', file: 'manager-employee.html', tpl: 'tpl-user-detail' },
+    'add-employee': { title: 'Thêm nhân viên', file: 'manager-employee.html', tpl: 'tpl-add-employee' },
+    'edit-employee': { title: 'Sửa nhân viên', file: 'manager-employee.html', tpl: 'tpl-edit-employee' },
+    'role-management': { title: 'Thêm chức vụ', file: 'manager-employee.html', tpl: 'tpl-role-management' },
+    
+    'quan-ly': { title: 'Hồ sơ cá nhân', file: 'account-management.html', tpl: 'tpl-quan-ly' },
+    'thong-tin': { title: 'Hồ sơ cá nhân', file: 'account-management.html', tpl: 'tpl-tn' },
+    'account': { title: 'Cài đặt tài khoản', file: 'account-management.html', tpl: 'tpl-account' },
+};
 
-            // 2. Ẩn tất cả tab-content
-            tabContents.forEach(content => {
-                content.style.display = 'none';
-            });
 
-            // 3. Hiện tab-content được chọn
-            const activeContent = document.getElementById(targetId);
-            if (activeContent) {
-                activeContent.style.display = 'block';
-            }
 
-            // 4. ĐIỀU KIỆN QUAN TRỌNG: Kiểm tra trang Tổng quan
-            if (targetId === 'tong-quan') {
-                // Nếu là Tổng quan thì ẩn hẳn header đi
-                if (pageHeader) pageHeader.style.setProperty('display', 'none', 'important');
+
+
+const fileCache = {};
+let variants = [];
+
+/** * 2. ĐIỀU HƯỚNG TRANG (SPA LOGIC) 
+ */
+async function loadPage(pageId) {
+    const contentArea = document.getElementById("content-area");
+    if (!contentArea) return;
+
+    const config = PAGES[pageId] || PAGES['dashboard'];
+    const activePageId = PAGES[pageId] ? pageId : 'dashboard';
+
+    // Cập nhật trạng thái trình duyệt
+    window.location.hash = activePageId;
+    localStorage.setItem("currentPage", activePageId);
+
+    contentArea.style.opacity = "0.6"; 
+    contentArea.style.pointerEvents = "none";
+
+    try {
+        let template = null;
+        if (activePageId === "dashboard") {
+            template = document.getElementById("tpl-dashboard");
+        } else if (config.file) {
+            let doc;
+            if (fileCache[config.file]) {
+                doc = fileCache[config.file];
             } else {
-                // Nếu KHÔNG PHẢI Tổng quan thì buộc phải hiện lại
-                if (pageHeader) {
-                    pageHeader.style.setProperty('display', 'block', 'important');
-                    
-                    // Cập nhật nội dung tiêu đề sau khi đã hiện
-                    if (pageTitle) pageTitle.innerText = "Quản lý " + targetName.toLowerCase();
-                    if (breadcrumbActive) breadcrumbActive.innerText = targetName;
-                }
+                const response = await fetch(config.file);
+                if (!response.ok) throw new Error("Lỗi tải file");
+                const htmlText = await response.text();
+                doc = new DOMParser().parseFromString(htmlText, "text/html");
+                fileCache[config.file] = doc;
             }
-        });
-    });
+            template = doc.getElementById(config.tpl);
+        }
 
-    // Kiểm tra mặc định khi vừa load trang
-    const currentActive = document.querySelector('.nav-item.active');
-    if (currentActive && currentActive.getAttribute('data-target') === 'tong-quan') {
-        if (pageHeader) pageHeader.style.display = 'none';
+        contentArea.innerHTML = "";
+        if (template) {
+            const node = (template.tagName === "TEMPLATE") ? template.content.cloneNode(true) : template.cloneNode(true);
+            contentArea.appendChild(node);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            contentArea.innerHTML = `<div class="p-10 text-center text-gray-400">Trang đang được xây dựng...</div>`;
+        }
+
+        updateHeaderUI(config.title, activePageId);
+        updateSidebarUI(activePageId);
+
+    } catch (err) {
+        console.error(err);
+        contentArea.innerHTML = `<div class="p-10 text-center text-red-500">Lỗi nạp trang. Vui lòng thử lại.</div>`;
+    } finally {
+        contentArea.style.opacity = "1";
+        contentArea.style.pointerEvents = "auto";
+    }
+}
+
+function updateHeaderUI(title, pageId) {
+    const pageTitle = document.getElementById("page-title");
+    const breadcrumb = document.getElementById("breadcrumb-current");
+    const pageHeader = document.querySelector(".ff-page-header");
+
+    if (pageHeader) pageHeader.style.display = (pageId === "dashboard") ? "none" : "block";
+    if (pageTitle) pageTitle.innerText = title;
+    if (breadcrumb) breadcrumb.innerHTML = `<span class="text-[#bc9c75] font-medium">${title}</span>`;
+}
+
+//  3. GIAO DIỆN SIDEBAR & MENU 
+
+function updateSidebarUI(pageId){
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.toggle("active", item.dataset.page === pageId);
+    });
+}
+
+function toggleSidebar(){
+    document.getElementById("sidebar").classList.toggle("-translate-x-full");
+}
+
+function toggleUserMenu(){
+    document.getElementById("userMenu").classList.toggle("hidden");
+}
+
+// Đóng sidebar/menu khi click ra ngoài
+document.addEventListener("click", function(e){
+    const sidebar = document.getElementById("sidebar");
+    const menu = document.getElementById("userMenu");
+    const userArea = e.target.closest(".relative");
+    const toggleBtn = e.target.closest("button[onclick='toggleSidebar()']");
+
+    // Đóng User Menu
+    if(!userArea && menu) menu.classList.add("hidden");
+
+    // Đóng Sidebar Mobile
+    if(sidebar && !sidebar.contains(e.target) && !toggleBtn && window.innerWidth < 1024){
+        sidebar.classList.add("-translate-x-full");
     }
 });
 
 
+function switchTab(tabName){
 
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const editButtons = document.querySelectorAll('.edit-btn');
-    const breadcrumbActive = document.getElementById('breadcrumb-active');
-    const pageTitle = document.getElementById('page-title');
-
-    // Lấy 2 phần chính của bạn
-    const danhSachSection = document.getElementById('danh-sach-mau');
-    const editSection = document.getElementById('chinh-sua-san-pham');
-
-    editButtons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-
-            // 1. Ẩn triệt để phần Danh sách
-            if (danhSachSection) {
-                danhSachSection.style.display = 'none'; 
-                danhSachSection.classList.remove('active');
-            }
-
-            // 2. Hiện triệt để phần Chỉnh sửa
-            if (editSection) {
-                editSection.style.display = 'block';
-                editSection.classList.add('active');
-            }
-
-            // 3. Cập nhật Breadcrumb và Tiêu đề
-            pageTitle.innerText = "Chỉnh sửa sản phẩm";
-            breadcrumbActive.innerText = "Chỉnh sửa sản phẩm";
-            
-            window.scrollTo(0, 0);
-        });
-    });
-
-    // Xử lý cho nút "Quay lại danh sách" bên trong form sửa
-    const backBtn = document.querySelector('.btn-back'); // Đảm bảo nút của bạn có class này
-    if (backBtn) {
-        backBtn.addEventListener('click', function() {
-            showTab('danh-sach-mau');
-        });
-    }
-});
-
-// Hàm bổ trợ để chuyển đổi giữa các tab và thay thế giao diện
-function showTab(tabId) {
-    // Ẩn tất cả các section trước
-    document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.style.display = 'none';
+    // 1. Ẩn tất cả tab
+    document.querySelectorAll('.tab-content').forEach(tab=>{
         tab.classList.remove('active');
     });
 
-    // Hiện đúng tab được yêu cầu
-    const targetTab = document.getElementById(tabId);
-    if (targetTab) {
-        targetTab.style.display = 'block';
-        targetTab.classList.add('active');
+    // 2. Hiện tab được chọn
+    const tab = document.getElementById('tab-' + tabName);
+    if(tab){
+        tab.classList.add('active');
     }
-    
-    // Cập nhật lại tiêu đề khi quay về danh sách
-    if(tabId === 'danh-sach-mau') {
-        document.getElementById('page-title').innerText = "Quản lý sản phẩm";
-        document.getElementById('breadcrumb-active').innerText = "Danh sách mẫu";
+
+    // 3. Reset sidebar active
+    document.querySelectorAll('.nav-item').forEach(item=>{
+        item.classList.remove('active');
+    });
+
+    // 4. Active menu tương ứng
+    const menu = document.getElementById(tabName);
+    if(menu){
+        menu.classList.add('active');
     }
 }
+
+
+
+
+// 4. QUẢN LÝ BIẾN THỂ (VARIANTS) 
+ 
+function renderTable() {
+    const tbody = document.getElementById('variantList');
+    if (!tbody) return;
+    tbody.innerHTML = variants.map(v => v.isEditing ? `
+        <tr class="border-b bg-blue-50" data-id="${v.id}">
+            <td class="py-2 px-2"><input type="text" class="edit-size w-full rounded-xl p-1.5 border" value="${v.size}"></td>
+            <td class="py-2 px-2"><input type="text" class="edit-color w-full rounded-xl p-1.5 border" value="${v.color}"></td>
+            <td class="py-2 px-2"><input type="number" class="edit-qty w-full rounded-xl p-1.5 border" value="${v.qty}"></td>
+            <td class="py-2 text-right px-2">
+                <button onclick="saveEdit(${v.id})" class="text-green-600 font-bold">Lưu</button>
+                <button onclick="removeVariant(${v.id})" class="text-red-500">Xóa</button>
+            </td>
+        </tr>` : `
+        <tr class="border-b hover:bg-gray-50" data-id="${v.id}">
+            <td class="py-3">${v.size}</td>
+            <td class="py-3">${v.color}</td>
+            <td class="py-3">${v.qty}</td>
+            <td class="py-3 text-right space-x-3 px-2">
+                <button onclick="toggleEdit(${v.id})" class="text-blue-500 font-semibold">Sửa</button>
+                <button onclick="removeVariant(${v.id})" class="text-red-500 font-semibold">Xóa</button>
+            </td>
+        </tr>`).join('');
+}
+
+function addVariant() {
+    const size = document.getElementById('size').value.trim();
+    const color = document.getElementById('color').value.trim();
+    const qty = document.getElementById('qty').value;
+
+    if (!size || !color || !qty) return alert("Vui lòng nhập đầy đủ thông tin!");
+
+    variants.push({ id: Date.now(), size, color, qty: Number(qty), isEditing: false });
+    renderTable();
+    ['size', 'color', 'qty'].forEach(id => document.getElementById(id).value = '');
+}
+
+function toggleEdit(id) {
+    const v = variants.find(v => v.id === id);
+    if (v) { v.isEditing = true; renderTable(); }
+}
+
+function saveEdit(id) {
+    const v = variants.find(v => v.id === id);
+    if (v) {
+        const row = document.querySelector(`tr[data-id="${id}"]`);
+        v.size = row.querySelector('.edit-size').value;
+        v.color = row.querySelector('.edit-color').value;
+        v.qty = row.querySelector('.edit-qty').value;
+        v.isEditing = false;
+        renderTable();
+    }
+}
+
+function removeVariant(id) {
+    if(confirm("Xóa biến thể này?")) {
+        variants = variants.filter(v => v.id !== id);
+        renderTable();
+    }
+}
+
+//  5. MODALS & KHÁC 
+
+function openProductDetail(name, sku, price, img) {
+    const modal = document.getElementById('productModal');
+    document.getElementById('modalName').innerText = name;
+    document.getElementById('modalSku').innerText = "Mã: " + sku;
+    document.getElementById('modalPrice').innerText = price;
+    document.getElementById('modalImg').src = img;
+
+    modal.classList.remove('hidden');
+    setTimeout(() => modal.style.opacity = "1", 10);
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    const modal = document.getElementById('productModal');
+    modal.style.opacity = "0";
+    setTimeout(() => modal.classList.add('hidden'), 300);
+    document.body.style.overflow = 'auto';
+}
+
+//  6. KHỞI CHẠY 
+
+window.addEventListener("DOMContentLoaded", () => {
+    const hash = window.location.hash.replace("#", "");
+    const savedPage = localStorage.getItem("currentPage");
+    loadPage(hash || savedPage || "dashboard");
+});
+
+window.addEventListener("hashchange", () => {
+    const hash = window.location.hash.replace("#", "");
+    if (hash) loadPage(hash);
+});

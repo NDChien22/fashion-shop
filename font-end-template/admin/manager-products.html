@@ -10,8 +10,10 @@
     <link rel="stylesheet" href="/asset/css/admin.css">
 </head>
 <body class="bg-[#f8f9fa] font-['Inter']">
-
-    <div id="content-area" style="transition: opacity 0.15s ease-in-out;"></div>
+    <main class="flex-1">
+        <div id="content-area" style="transition: opacity 0.15s ease-in-out;"></div>
+    </main>
+    
 
     <template id="tpl-product-list">
         <div class="flex items-center justify-between mb-6">
@@ -20,12 +22,6 @@
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
                     <input type="text" placeholder="Tìm kiếm sản phẩm..." class="w-full bg-white border border-gray-100 rounded-xl py-2.5 pl-10 pr-4 text-xs focus:ring-1 focus:ring-[#bc9c75] outline-none shadow-sm">
                 </div>
-                
-                <select class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-40 text-gray-600">
-                    <option>Tất cả sản phẩm</option>
-                    <option>Áo khoác</option>
-                    <option>Quần âu</option>
-                </select>
 
                 <select class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-40 text-gray-600">
                     <option>Danh mục</option>
@@ -61,9 +57,8 @@
                     <tr class="hover:bg-gray-50/50 transition">
                         <td class="px-6 py-4 flex items-center gap-3">
                             
-                            <div onclick="openProductDetail('Classic Wool Coat', 'FW2026-001', '2.450.000đ', '/asset/img/product.jpg')" 
-                                class="cursor-pointer hover:bg-gray-100 active:scale-95 transition-all p-2 rounded-2xl inline-block">
-                                <img src="/asset/img/product.jpg" class="w-12 h-12 rounded-lg object-cover shadow-sm">
+                            <div>
+                                <img src="..." onclick="openModal('productDetailModal')" class="w-10 h-10 rounded-lg cursor-pointer hover:opacity-80">
                             </div>
                             <div>
                                 <p class="font-bold text-gray-800">Classic Wool Coat</p>
@@ -407,6 +402,7 @@
     </template>
 
 
+    
 
 
     <template id="tpl-collection">
@@ -540,8 +536,15 @@
         </div>
     </template>
 
+
+
     <script src="/font-end-template/asset/js/admin.js"></script>
+
+
+    
+    
 </body>
+
 </html>
 
 

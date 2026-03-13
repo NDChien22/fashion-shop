@@ -6,7 +6,7 @@ const PAGES = {
     'product-list': { title: 'Danh sách mẫu', file: 'manager-products.html', tpl: 'tpl-product-list' },
     'add-product': { title: 'Thêm sản phẩm', file: 'manager-products.html', tpl: 'tpl-add-product' },
     'edit-product': { title: 'Sửa sản phẩm', file: 'manager-products.html', tpl: 'tpl-edit-product' },
-    'productDetailModal': { title: 'Sửa sản phẩm', file: 'manager-products.html', tpl: 'tpl-productDetailModal' },
+    
     'collection': { title: 'Bộ sưu tập', file: 'manager-products.html', tpl: 'tpl-collection' },
     'collection-detail': { title: 'Các sản phẩm ', file: 'manager-products.html', tpl: 'tpl-collection-detail' },
     'add-collection': { title: 'Thêm bộ sưu tập', file: 'manager-products.html', tpl: 'tpl-add-collection' },
@@ -232,24 +232,49 @@ function removeVariant(id) {
 
 //  5. MODALS & KHÁC 
 
-function openProductDetail(name, sku, price, img) {
-    const modal = document.getElementById('productModal');
-    document.getElementById('modalName').innerText = name;
-    document.getElementById('modalSku').innerText = "Mã: " + sku;
-    document.getElementById('modalPrice').innerText = price;
-    document.getElementById('modalImg').src = img;
+/**
+ * Hàm mở Modal dùng chung
+ * @param {string} modalId - ID của thẻ div Modal cần mở
+ */
+function openModal(modalId) {
+    const modal = document.getElementById(modalId);
+    
+    if (!modal) {
+        console.error(`LỖI: Không tìm thấy Modal có ID là "${modalId}"`);
+        return;
+    }
 
     modal.classList.remove('hidden');
-    setTimeout(() => modal.style.opacity = "1", 10);
-    document.body.style.overflow = 'hidden';
+    modal.classList.add('flex');
+    
+    // Chặn cuộn trang nếu modal là 'fixed' (phủ toàn màn hình)
+    if (modal.classList.contains('fixed')) {
+        document.body.style.overflow = 'hidden';
+    }
 }
 
-function closeModal() {
-    const modal = document.getElementById('productModal');
-    modal.style.opacity = "0";
-    setTimeout(() => modal.classList.add('hidden'), 300);
-    document.body.style.overflow = 'auto';
+/**
+ * Hàm đóng Modal dùng chung
+ * @param {string} modalId - ID của thẻ div Modal cần đóng
+ */
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    }
 }
+
+// Lắng nghe phím Esc để đóng Modal đang mở
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        // Tìm tất cả các modal đang không bị ẩn và đóng chúng
+        const openModals = document.querySelectorAll('.flex[id$="Modal"]'); 
+        openModals.forEach(modal => closeModal(modal.id));
+    }
+});
+
 
 //  6. KHỞI CHẠY 
 

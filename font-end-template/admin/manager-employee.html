@@ -31,7 +31,7 @@
                     <i class="fa-solid fa-briefcase text-[10px]"></i> Thêm chức vụ
                 </button>
 
-                <button onclick="loadPage('add-employee')" 
+                <button onclick="openEmployeeForm()" 
                         class="px-5 py-2.5 bg-[#bc9c75] text-white rounded-xl text-xs font-bold shadow-md shadow-[#bc9c75]/20 hover:opacity-90 transition-all flex items-center justify-center gap-2">
                     <i class="fa-solid fa-user-plus text-[10px]"></i> Thêm nhân viên
                 </button>
@@ -75,7 +75,7 @@
                                 <div class="text-gray-400 font-medium">10/01/2026</div>
                             </td>
                             <td class="px-6 py-4 text-center space-x-2">
-                                    <button onclick="loadPage('edit-employee')" class="text-gray-400 hover:text-[#bc9c75] transition-all">
+                                    <button onclick="openEmployeeForm()" class="text-gray-400 hover:text-[#bc9c75] transition-all">
                                         <i class="fa-regular fa-pen-to-square"></i>
                                     </button>
                             </td>
@@ -87,168 +87,83 @@
     </template>
 
 
-
-
-    <template id="tpl-add-employee">
-        <div class="bg-white p-8 rounded-2xl border border-gray-200 max-w-4xl mx-auto">
+    <template id="tpl-employee-form">
+        <div class="bg-white p-8 rounded-2xl border border-gray-200 max-w-4xl mx-auto shadow-sm">
             <div class="bg-[#fffbf7] rounded-2xl p-6 flex items-center gap-6 mb-8 border border-orange-50">
-                <div class="h-20 w-20 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-inner">AC</div>
-                    <div>
-                        <button class="bg-white border border-[#bc9c75] text-[#bc9c75] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#bc9c75] hover:text-white transition-all shadow-sm">
-                            <i class="fa-solid fa-camera mr-2"></i> Thay đổi ảnh
-                        </button>
-                        <p class="text-[10px] text-gray-400 mt-2 uppercase tracking-wider">JPG, PNG • Tối đa 2MB</p>
-                    </div>
+                <div id="form-avatar-preview" class="h-20 w-20 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-inner uppercase">
+                    ??
+                </div>
+                <div>
+                    <button class="bg-white border border-[#bc9c75] text-[#bc9c75] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#bc9c75] hover:text-white transition-all shadow-sm">
+                        <i class="fa-solid fa-camera mr-2"></i> Thay đổi ảnh
+                    </button>
+                    <p class="text-[10px] text-gray-400 mt-2 uppercase tracking-wider">JPG, PNG • Tối đa 2MB</p>
+                </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-5">
+            <div id="employee-form" class="grid grid-cols-2 gap-5">
                 <div>
-                    <label class="text-sm text-gray-600">Họ và tên</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
+                    <label class="text-sm text-gray-600 font-medium">Họ và tên</label>
+                    <input type="text" id="emp-fullname" class="w-full mt-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#bc9c75]/20 outline-none transition-all">
                 </div>
 
                 <div>
-                    <label class="text-sm text-gray-600">Email</label>
-                    <input type="email" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
+                    <label class="text-sm text-gray-600 font-medium">Email</label>
+                    <input type="email" id="emp-email" class="w-full mt-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#bc9c75]/20 outline-none transition-all">
                 </div>
 
                 <div>
-                    <label class="text-sm text-gray-600">Số điện thoại</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
+                    <label class="text-sm text-gray-600 font-medium">Số điện thoại</label>
+                    <input type="text" id="emp-phone" class="w-full mt-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#bc9c75]/20 outline-none transition-all">
                 </div>
 
                 <div>
-                    <label class="text-sm text-gray-600">Giới tính</label>
-                    <select class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                        <option>Nam</option>
-                        <option>Nữ</option>
-                        <option>Khác</option>
+                    <label class="text-sm text-gray-600 font-medium">Giới tính</label>
+                    <select id="emp-gender" class="w-full mt-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#bc9c75]/20 outline-none transition-all">
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                        <option value="Khác">Khác</option>
                     </select>
                 </div>
 
                 <div>
-                    <label class="text-sm text-gray-600">Ngày sinh</label>
-                    <input type="date" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
+                    <label class="text-sm text-gray-600 font-medium">Ngày sinh</label>
+                    <input type="date" id="emp-birthday" class="w-full mt-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#bc9c75]/20 outline-none transition-all">
                 </div>
 
                 <div>
-                    <label class="text-sm text-gray-600">Chức vụ</label>
-                    <select class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                        <option>Admin</option>
-                        <option>Manager</option>
-                        <option>Staff</option>
+                    <label class="text-sm text-gray-600 font-medium">Chức vụ</label>
+                    <select id="emp-role" class="w-full mt-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#bc9c75]/20 outline-none transition-all">
+                        <option value="Admin">Admin</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Staff">Staff</option>
                     </select>
                 </div>
 
                 <div>
-                    <label class="text-sm text-gray-600">Username</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
+                    <label class="text-sm text-gray-600 font-medium">Username</label>
+                    <input type="text" id="emp-username" class="w-full mt-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#bc9c75]/20 outline-none transition-all">
                 </div>
 
                 <div>
-                    <label class="text-sm text-gray-600">Mật khẩu</label>
-                    <input type="password" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
+                    <label class="text-sm text-gray-600 font-medium">Mật khẩu</label>
+                    <input type="password" id="emp-password" class="w-full mt-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#bc9c75]/20 outline-none transition-all" placeholder="Để trống nếu không muốn đổi">
                 </div>
 
                 <div class="col-span-2">
-                    <label class="text-sm text-gray-600">Địa chỉ</label>
-                    <input type="text"
-                        class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
+                    <label class="text-sm text-gray-600 font-medium">Địa chỉ</label>
+                    <input type="text" id="emp-address" class="w-full mt-1 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-[#bc9c75]/20 outline-none transition-all">
                 </div>
             </div>
 
             <div class="flex justify-between items-center mt-8 border-t pt-5">
-                <button onclick="loadPage('hr')" class="text-gray-500 text-sm hover:text-gray-700">
-                    ← Quay lại
+                <button onclick="loadPage('hr')" class="text-gray-400 text-sm hover:text-gray-700 font-medium transition-colors">
+                    ← Quay lại danh sách
                 </button>
-                <button class="bg-[#bc9c75] text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90">
-                    Thêm nhân viên
-                </button>
-            </div>
-
-        </div>
-    </template>
-
-
-
-    <template id="tpl-edit-employee">
-        <div class="bg-white p-8 rounded-2xl border border-gray-200 max-w-4xl mx-auto">
-            <div class="bg-[#fffbf7] rounded-2xl p-6 flex items-center gap-6 mb-8 border border-orange-50">
-                <div class="h-20 w-20 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-inner">AC</div>
-                    <div>
-                        <button class="bg-white border border-[#bc9c75] text-[#bc9c75] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#bc9c75] hover:text-white transition-all shadow-sm">
-                            <i class="fa-solid fa-camera mr-2"></i> Thay đổi ảnh
-                        </button>
-                        <p class="text-[10px] text-gray-400 mt-2 uppercase tracking-wider">JPG, PNG • Tối đa 2MB</p>
-                    </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-5">
-
-                <div>
-                    <label class="text-sm text-gray-600">Họ và tên</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Email</label>
-                    <input type="email" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Số điện thoại</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Giới tính</label>
-                    <select class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                        <option>Nam</option>
-                        <option>Nữ</option>
-                        <option>Khác</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Ngày sinh</label>
-                    <input type="date" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Chức vụ</label>
-                    <select class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                        <option>Admin</option>
-                        <option>Manager</option>
-                        <option>Staff</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Username</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Mật khẩu</label>
-                    <input type="password" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div class="col-span-2">
-                    <label class="text-sm text-gray-600">Địa chỉ</label>
-                    <input type="text"
-                        class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-            </div>
-
-            <div class="flex justify-between items-center mt-8 border-t pt-5">
-                <button onclick="loadPage('hr')" class="text-gray-500 text-sm hover:text-gray-700">
-                    ← Quay lại
-                </button>
-                <button class="bg-[#bc9c75] text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90">
-                    Lưu
+                <button id="btn-submit-employee" class="bg-[#bc9c75] text-white px-8 py-2.5 rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-[#bc9c75]/20 transition-all active:scale-95">
+                    Xác nhận
                 </button>
             </div>
-
         </div>
     </template>
 

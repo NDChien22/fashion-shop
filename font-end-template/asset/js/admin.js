@@ -26,9 +26,8 @@ const PAGES = {
 
     'hr': { title: 'Quản lý nhân sự', file: 'manager-employee.html', tpl: 'tpl-hr' },
     'user-detail': { title: 'Chi tiết nhân viên', file: 'manager-employee.html', tpl: 'tpl-user-detail' },
-    'add-employee': { title: 'Thêm nhân viên', file: 'manager-employee.html', tpl: 'tpl-add-employee' },
-    'edit-employee': { title: 'Sửa nhân viên', file: 'manager-employee.html', tpl: 'tpl-edit-employee' },
     'role-management': { title: 'Thêm chức vụ', file: 'manager-employee.html', tpl: 'tpl-role-management' },
+    'employee-form': { title: 'Thông tin nhân viên', file: 'manager-employee.html', tpl: 'tpl-employee-form' },
     
     'quan-ly': { title: 'Hồ sơ cá nhân', file: 'account-management.html', tpl: 'tpl-quan-ly' },
     'thong-tin': { title: 'Hồ sơ cá nhân', file: 'account-management.html', tpl: 'tpl-tn' },
@@ -288,3 +287,41 @@ window.addEventListener("hashchange", () => {
     const hash = window.location.hash.replace("#", "");
     if (hash) loadPage(hash);
 });
+
+
+
+function openEmployeeForm(data = null) {
+    // 1. Nạp template form vào content-area
+    loadPage('employee-form'); 
+
+    // 2. Cập nhật tiêu đề bên NGOÀI layout chính
+    const mainTitle = document.getElementById('main-page-title');
+    const mainSubtitle = document.getElementById('main-page-subtitle');
+    
+    // Đợi 1 chút để đảm bảo loadPage đã chạy xong
+    setTimeout(() => {
+        const btnSubmit = document.getElementById('btn-submit-employee');
+        
+        if (data) {
+            // --- CHẾ ĐỘ SỬA ---
+            if (mainTitle) mainTitle.innerText = "Chỉnh sửa nhân viên";
+            if (mainSubtitle) mainSubtitle.innerText = "Trang chính / Chỉnh sửa nhân viên";
+            
+            if (btnSubmit) {
+                btnSubmit.innerText = "Lưu thay đổi";
+                btnSubmit.onclick = () => saveEmployeeData(data.id);
+            }
+            // Đổ dữ liệu vào form...
+            fillEmployeeFields(data);
+        } else {
+            // --- CHẾ ĐỘ THÊM MỚI ---
+            if (mainTitle) mainTitle.innerText = "Thêm nhân viên mới";
+            if (mainSubtitle) mainSubtitle.innerText = "Trang chính / Thêm nhân viên";
+            
+            if (btnSubmit) {
+                btnSubmit.innerText = "Xác nhận thêm";
+                btnSubmit.onclick = () => saveEmployeeData(null);
+            }
+        }
+    }, 50);
+}

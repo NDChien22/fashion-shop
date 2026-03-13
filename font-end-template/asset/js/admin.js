@@ -2,28 +2,42 @@
  */
 const PAGES = {
     'dashboard': { title: 'Tổng quan' },
+
     'product-list': { title: 'Danh sách mẫu', file: 'manager-products.html', tpl: 'tpl-product-list' },
     'add-product': { title: 'Thêm sản phẩm', file: 'manager-products.html', tpl: 'tpl-add-product' },
     'edit-product': { title: 'Sửa sản phẩm', file: 'manager-products.html', tpl: 'tpl-edit-product' },
     'productDetailModal': { title: 'Sửa sản phẩm', file: 'manager-products.html', tpl: 'tpl-productDetailModal' },
+    'collection': { title: 'Bộ sưu tập', file: 'manager-products.html', tpl: 'tpl-collection' },
+    'collection-detail': { title: 'Các sản phẩm ', file: 'manager-products.html', tpl: 'tpl-collection-detail' },
+    'add-collection': { title: 'Thêm bộ sưu tập', file: 'manager-products.html', tpl: 'tpl-add-collection' },
+
     'vouchers': { title: 'Voucher', file: 'voucher.html', tpl: 'tpl-vouchers' },
     'add-voucher': { title: 'Tạo voucher', file: 'voucher.html', tpl: 'tpl-add-voucher' },
     'edit-voucher': { title: 'Chỉnh sửa Voucher', file: 'voucher.html', tpl: 'tpl-edit-voucher' },
-    'flash-sale': { title: 'Chương trình khuyến mãi', file: 'manager-products.html', tpl: 'tpl-flash-sale' },
+    'flash-sale': { title: 'Chương trình khuyến mãi', file: 'voucher.html', tpl: 'tpl-flash-sale' },
+
     'orders': { title: 'Đơn hàng', file: 'manager-orders.html', tpl: 'tpl-orders' },
     'order-detail': { title: 'Chi tiết đơn hàng', file: 'manager-orders.html', tpl: 'tpl-order-detail' },
     'revenue': { title: 'Doanh thu', file: 'manager-orders.html', tpl: 'tpl-revenue' },
-    'customers': { title: 'Khách hàng', file: 'manager-customers-users.html', tpl: 'tpl-customers' },
-    'support': { title: 'Hỗ trợ khách hàng', file: 'manager-customers-users.html', tpl: 'tpl-support' },
-    'hr': { title: 'Quản lý nhân sự', file: 'manager-customers-users.html', tpl: 'tpl-hr' },
-    'user-detail': { title: 'Chi tiết nhân viên', file: 'manager-customers-users.html', tpl: 'tpl-user-detail' },
-    'add-employee': { title: 'Thêm nhân viên', file: 'manager-customers-users.html', tpl: 'tpl-add-employee' },
-    'edit-employee': { title: 'Sửa nhân viên', file: 'manager-customers-users.html', tpl: 'tpl-edit-employee' },
-    'role-management': { title: 'Thêm chức vụ', file: 'manager-customers-users.html', tpl: 'tpl-role-management' },
+    
+
+    'customers': { title: 'Khách hàng', file: 'manager-customers.html', tpl: 'tpl-customers' },
+    'support': { title: 'Hỗ trợ khách hàng', file: 'manager-customers.html', tpl: 'tpl-support' },
+
+    'hr': { title: 'Quản lý nhân sự', file: 'manager-employee.html', tpl: 'tpl-hr' },
+    'user-detail': { title: 'Chi tiết nhân viên', file: 'manager-employee.html', tpl: 'tpl-user-detail' },
+    'add-employee': { title: 'Thêm nhân viên', file: 'manager-employee.html', tpl: 'tpl-add-employee' },
+    'edit-employee': { title: 'Sửa nhân viên', file: 'manager-employee.html', tpl: 'tpl-edit-employee' },
+    'role-management': { title: 'Thêm chức vụ', file: 'manager-employee.html', tpl: 'tpl-role-management' },
+    
     'quan-ly': { title: 'Hồ sơ cá nhân', file: 'account-management.html', tpl: 'tpl-quan-ly' },
     'thong-tin': { title: 'Hồ sơ cá nhân', file: 'account-management.html', tpl: 'tpl-tn' },
     'account': { title: 'Cài đặt tài khoản', file: 'account-management.html', tpl: 'tpl-account' },
 };
+
+
+
+
 
 const fileCache = {};
 let variants = [];

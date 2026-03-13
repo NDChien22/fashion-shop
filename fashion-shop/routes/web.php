@@ -8,9 +8,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function(){
-    return view('pages.dashboard');
-})->name('dashboard');
+// Route::get('/dashboard', function(){
+//     return view('pages.dashboard');
+// })->name('dashboard');
 
 Route::middleware('guest')->group(function(){ 
     //Login

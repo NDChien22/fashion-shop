@@ -17,6 +17,7 @@ class Profile extends Component
     #[Validate('required|string|max:255')]
     public string $full_name = '';
 
+    #[Validate('required|email|max:255')]
     public string $email = '';
 
     #[Validate('nullable|string|max:20')]
@@ -89,6 +90,7 @@ class Profile extends Component
 
         $user->update([
             'full_name' => $validatedData['full_name'],
+            'email' => $validatedData['email'],
             'phone_number' => $validatedData['phone_number'] ?: null,
             'gender' => $validatedData['gender'] ?: null,
             'birthday' => $validatedData['birthday_display']
@@ -137,6 +139,6 @@ class Profile extends Component
 
     public function render()
     {
-        return view('livewire.admin.profile');
+        return view('livewire.admin.account-manager.profile');
     }
 }

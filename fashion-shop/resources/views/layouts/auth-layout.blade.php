@@ -1,38 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title')</title>
     <link rel="shortcut icon" href="/images/logo/logo.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="/extra-assets/css/auth.css">
+
+    @vite('resources/css/app.css')
+    
 </head>
-
-<body>
-
-    <header class="main-header">
-        <div class="header-left">
-            <div class="brand">
-                <img src="/images/logo/logo.jpg" alt="Logo" class="avatar-img">
-            </div>
+<body class="bg-[#f8f9fa] min-h-screen flex flex-col">
+    <header id="header" class="h-16 flex-none bg-white border-b border-gray-100 flex items-center justify-between px-3 sm:px-6 md:px-8 gap-6 sticky top-0 z-40">
+        <div class="flex items-center gap-3">
+            <img 
+            src="/images/logo/logo.jpg"
+            alt="FastFashion Logo"
+            class="h-10 sm:h-12 md:h-16 ml-4 md:ml-7 object-contain">
         </div>
     </header>
 
-    <div class="auth-login-wrapper">
+    <div class=" flex-grow flex items-center justify-center p-4">
         @yield('content')
     </div>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-
-    @stack('scripts')
 </body>
-
 </html>
+

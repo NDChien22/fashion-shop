@@ -4,8 +4,7 @@ const PAGES = {
     'dashboard': { title: 'Tổng quan' },
 
     'product-list': { title: 'Danh sách mẫu', file: 'manager-products.html', tpl: 'tpl-product-list' },
-    'add-product': { title: 'Thêm sản phẩm', file: 'manager-products.html', tpl: 'tpl-add-product' },
-    'edit-product': { title: 'Sửa sản phẩm', file: 'manager-products.html', tpl: 'tpl-edit-product' },
+    'product-form': { title: 'Thêm sản phẩm', file: 'manager-products.html', tpl: 'tpl-product-form' },
     
     'collection': { title: 'Bộ sưu tập', file: 'manager-products.html', tpl: 'tpl-collection' },
     'collection-detail': { title: 'Các sản phẩm ', file: 'manager-products.html', tpl: 'tpl-collection-detail' },
@@ -290,38 +289,90 @@ window.addEventListener("hashchange", () => {
 
 
 
-function openEmployeeForm(data = null) {
-    // 1. Nạp template form vào content-area
-    loadPage('employee-form'); 
-
-    // 2. Cập nhật tiêu đề bên NGOÀI layout chính
-    const mainTitle = document.getElementById('main-page-title');
-    const mainSubtitle = document.getElementById('main-page-subtitle');
-    
-    // Đợi 1 chút để đảm bảo loadPage đã chạy xong
-    setTimeout(() => {
-        const btnSubmit = document.getElementById('btn-submit-employee');
-        
-        if (data) {
-            // --- CHẾ ĐỘ SỬA ---
-            if (mainTitle) mainTitle.innerText = "Chỉnh sửa nhân viên";
-            if (mainSubtitle) mainSubtitle.innerText = "Trang chính / Chỉnh sửa nhân viên";
-            
-            if (btnSubmit) {
-                btnSubmit.innerText = "Lưu thay đổi";
-                btnSubmit.onclick = () => saveEmployeeData(data.id);
-            }
-            // Đổ dữ liệu vào form...
-            fillEmployeeFields(data);
-        } else {
-            // --- CHẾ ĐỘ THÊM MỚI ---
-            if (mainTitle) mainTitle.innerText = "Thêm nhân viên mới";
-            if (mainSubtitle) mainSubtitle.innerText = "Trang chính / Thêm nhân viên";
-            
-            if (btnSubmit) {
-                btnSubmit.innerText = "Xác nhận thêm";
-                btnSubmit.onclick = () => saveEmployeeData(null);
-            }
+/**
+ * Hàm mở form dùng chung cho cả Nhân viên và Sản phẩm
+ * @param {string} type - 'employee' hoặc 'product'
+ * @param {object} data - Dữ liệu cần sửa (nếu có)
+ */
+function openForm(type, data = null) {
+    // 1. Xác định cấu hình theo loại form
+    const config = {
+        employee: {
+            page: 'employee-form',
+            btnId: 'btn-submit-employee',
+            titleAdd: 'Thêm nhân viên mới',
+            titleEdit: 'Chỉnh sửa nhân viên',
+            saveFn: (id) => saveEmployeeData(id),
+            fillFn: (d) => fillEmployeeFields(d),
+            clearFn: () => clearEmployeeFields()
+        },
+        product: {
+            page: 'product-form',
+            btnId: 'btn-save-product',
+            titleAdd: 'Thêm sản phẩm mới',
+            titleEdit: 'Chỉnh sửa sản phẩm',
+            saveFn: (id) => saveProductData(id),
+            fillFn: (d) => fillProductFields(d),
+            clearFn: () => clearProductForm()
         }
-    }, 50);
+    };
+
+    const target = config[type];
+    if (!target) return;
+
+    // 2. Nạp trang
+    loadPage(target.page);
+
+    // 3. Xử lý logic sau khi nạp DOM
+    setTimeout(() => {
+        const mainTitle = document.getElementById('page-title');
+        const breadcrumb = document.getElementById('breadcrumb-current');
+        const btnSubmit = document.getElementById(target.btnId);
+
+        if (!mainTitle || !btnSubmit) return;
+
+        if (data) {
+            // Chế độ SỬA
+            mainTitle.innerText = target.titleEdit;
+            if (breadcrumb) breadcrumb.innerText = target.titleEdit;
+            btnSubmit.innerText = type === 'employee' ? "Lưu thay đổi" : "Lưu cập nhật";
+            btnSubmit.onclick = () => target.saveFn(data.id);
+            
+            // Đổ dữ liệu
+            target.fillFn(data);
+        } else {
+            // Chế độ THÊM MỚI
+            mainTitle.innerText = target.titleAdd;
+            if (breadcrumb) breadcrumb.innerText = target.titleAdd.replace(' mới', '');
+            btnSubmit.innerText = type === 'employee' ? "Xác nhận thêm" : "Thêm sản phẩm";
+            btnSubmit.onclick = () => target.saveFn(null);
+            
+            // Xóa form
+            target.clearFn();
+        }
+    }, 150);
 }
+
+function fillProductFields(data) {
+    const mapping = {
+        'prod-id': data.id,
+        'prod-name': data.name,
+        'prod-desc': data.desc,
+        'prod-price': data.price,
+        'prod-cate': data.category
+    };
+
+    for (const [id, value] of Object.entries(mapping)) {
+        const el = document.getElementById(id);
+        if (el) el.value = value || '';
+    }
+    
+    // Nếu có danh sách biến thể, bạn có thể render lại tại đây
+    if (data.variants) {
+        renderVariants(data.variants); 
+    }
+}
+
+
+
+

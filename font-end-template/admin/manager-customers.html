@@ -20,8 +20,6 @@
     <!-- Khách hàng -->
     <template id="tpl-customers">
     <div class="mb-8 flex justify-between items-end">
-        
-        
         <div class="flex gap-4">
             <div class="relative w-80">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
@@ -32,54 +30,50 @@
     </div>
 
     <div class="bg-white rounded-[32px] shadow-sm border border-gray-50 overflow-hidden">
-        <table class="w-full border-collapse">
-            <thead>
-                <tr class="border-b border-gray-50">
-                    <th class="text-left py-5 px-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Khách hàng</th>
-                    <th class="text-left py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Hạng</th>
-                    <th class="text-left py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Liên hệ</th>
-                    <th class="text-left py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Đơn hàng</th>
-                    <th class="text-right py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Tổng chi tiêu</th>
-                    <th class="py-5 px-8"></th>
-                </tr>
-            </thead>
-            <tbody id="customer-list-tbody">
-                <tr class="border-b border-gray-50 hover:bg-[#fffbf7]/50 transition-all group">
-                    <td onclick="openModal('customerDetailModal')" class="py-4 px-8">
-                        <div class="flex items-center gap-4">
-                            <div class="w-11 h-11 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100 group-hover:border-[#bc9c75]/30 overflow-hidden">
-                                <i class="fa-solid fa-user-tie text-[#bc9c75] text-base"></i>
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="border-b border-gray-50">
+                        <th class="text-left py-5 px-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Khách hàng</th>
+                        <th class="text-left py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Hạng</th>
+                        <th class="text-left py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Liên hệ</th>
+                        <th class="text-left py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Đơn hàng</th>
+                        <th class="text-right py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Tổng chi tiêu</th>
+                        <th class="py-5 px-8"></th>
+                    </tr>
+                </thead>
+                <tbody id="customer-list-tbody">
+                    <tr class="border-b border-gray-50 hover:bg-[#fffbf7]/50 transition-all group">
+                        <td onclick="openModal('customerDetailModal')" class="py-4 px-8">
+                            <div class="flex items-center gap-4">
+                                <div class="w-11 h-11 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100 group-hover:border-[#bc9c75]/30 overflow-hidden">
+                                    <i class="fa-solid fa-user-tie text-[#bc9c75] text-base"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-[13px] font-black text-gray-800 uppercase tracking-tight">Nguyễn Hoàng Nam</h4>
+                                    <p class="text-[10px] text-gray-400 font-medium italic">hoangnam@gmail.com</p>
+                                </div>
                             </div>
-                            <div>
-                                <h4 class="text-[13px] font-black text-gray-800 uppercase tracking-tight">Nguyễn Hoàng Nam</h4>
-                                <p class="text-[10px] text-gray-400 font-medium italic">hoangnam@gmail.com</p>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="py-4 px-4">
-                        <span class="bg-[#fffbf2] text-[#bc9c75] border border-[#bc9c75]/20 px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-wider">
-                            Gold Member
-                        </span>
-                    </td>
-                    <td class="py-4 px-4">
-                        <div class="text-[11px] text-gray-500 font-bold">0912.xxx.456</div>
-                    </td>
-                    <td class="py-4 px-4 text-center">
-                        <div class="text-[12px] font-black text-gray-700">24 <span class="text-[9px] font-medium text-gray-400 ml-0.5">đơn</span></div>
-                    </td>
-                    <td class="py-4 px-4 text-right">
-                        <div class="text-[13px] font-black text-[#bc9c75]">12.850.000đ</div>
-                    </td>
-                    <td class="py-4 px-8 text-right">
-                        <button class="p-2 hover:bg-white rounded-xl transition-all text-gray-300 hover:text-[#bc9c75] shadow-none hover:shadow-sm">
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-        </table>
-    </div>
-</template>
+                        </td>
+                        <td class="py-4 px-4">
+                            <span class="bg-[#fffbf2] text-[#bc9c75] border border-[#bc9c75]/20 px-2.5 py-1 rounded-lg text-[8px] font-black uppercase tracking-wider">
+                                Gold Member
+                            </span>
+                        </td>
+                        <td class="py-4 px-4">
+                            <div class="text-[11px] text-gray-500 font-bold">0912.xxx.456</div>
+                        </td>
+                        <td class="py-4 px-4 text-center">
+                            <div class="text-[12px] font-black text-gray-700">24 <span class="text-[9px] font-medium text-gray-400 ml-0.5">đơn</span></div>
+                        </td>
+                        <td class="py-4 px-4 text-right">
+                            <div class="text-[13px] font-black text-[#bc9c75]">12.850.000đ</div>
+                        </td>
+                       
+                    </tr>
+                    </tbody>
+            </table>
+        </div>
+    </template>
 
    
 
@@ -103,8 +97,6 @@
             </div>
 
             <div id="main-chat" class="flex-1 flex flex-col bg-white absolute inset-0 md:relative z-30 translate-x-full md:translate-x-0 transition-transform duration-300">
-
-                
 
                 <div class="p-4 border-b border-gray-50 bg-white flex justify-between items-center z-10 shadow-sm">
                     <div class="flex items-center gap-3">
@@ -148,303 +140,7 @@
     </template>
 
 
-    <!-- Quản lý nhân sự -->
-    <template id="tpl-hr">
-        <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div class="relative w-full sm:w-72">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <i class="fa-solid fa-magnifying-glass text-gray-400 text-[10px]"></i>
-                </span>
-                <input id="searchInput"  
-                    placeholder="Tìm theo tên hoặc mã..." 
-                    class="w-full bg-gray-50 border border-gray-200 rounded-xl py-2.5 pl-10 pr-4 text-xs focus:outline-none focus:ring-1 focus:ring-[#bc9c75] transition-all">
-            </div>
-
-            <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-                <button onclick="loadPage('role-management')" 
-                        class="px-5 py-2.5 bg-[#bc9c75] text-white rounded-xl text-xs font-bold shadow-md shadow-[#bc9c75]/20 hover:opacity-90 transition-all flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-briefcase text-[10px]"></i> Thêm chức vụ
-                </button>
-
-                <button onclick="loadPage('add-employee')" 
-                        class="px-5 py-2.5 bg-[#bc9c75] text-white rounded-xl text-xs font-bold shadow-md shadow-[#bc9c75]/20 hover:opacity-90 transition-all flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-user-plus text-[10px]"></i> Thêm nhân viên
-                </button>
-            </div>
-        </div>
-
-        <div class="bg-white rounded-3xl shadow-sm border border-gray-50 overflow-hidden">
-            <div class="overflow-x-auto custom-scrollbar">
-                <table class="w-full text-left border-collapse min-w-[700px]">
-                    <thead class="bg-[#fcfaf8] border-b border-gray-50">
-                        <tr>
-                            <th class="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">Nhân viên</th>
-                            <th class="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest">CHức vụ</th>
-                            <th class="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Liên hệ</th>
-                            <th class="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Ngày gia nhập</th>
-                            <th class="px-6 py-5 text-[10px] font-black text-gray-400 uppercase tracking-widest text-center">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-50 text-[12px]">
-                        <tr class="hover:bg-gray-50/50 transition-all group">
-                            <td class="px-6 py-4">
-                                <div  onclick="openEmployee(employeeData)"
-                                    class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-full bg-[#bc9c75]/10 flex items-center justify-center text-[#bc9c75] font-black border-2 border-white shadow-sm">
-                                        <i class="fa-solid fa-user-shield"></i>
-                                    </div>
-                                    <div>
-                                        <div class="font-black text-gray-800 uppercase tracking-tighter">Trần Quốc Bảo</div>
-                                        <div class="text-[10px] text-gray-400">bao.tq@company.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-red-50 text-red-500 rounded-lg font-black text-[9px] uppercase tracking-widest border border-red-100">Administrator</span>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <div class="font-bold text-gray-600">0902.xxx.789</div>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <div class="text-gray-400 font-medium">10/01/2026</div>
-                            </td>
-                            <td class="px-6 py-4 text-center space-x-2">
-                                    <button onclick="loadPage('edit-employee')" class="text-gray-400 hover:text-[#bc9c75] transition-all">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </button>
-                            </td>
-                        </tr>
-                        </tbody>
-                </table>
-            </div>
-        </div>
-    </template>
-
-
-
-
-    <template id="tpl-add-employee">
-        <div class="bg-white p-8 rounded-2xl border border-gray-200 max-w-4xl mx-auto">
-            <div class="bg-[#fffbf7] rounded-2xl p-6 flex items-center gap-6 mb-8 border border-orange-50">
-                <div class="h-20 w-20 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-inner">AC</div>
-                    <div>
-                        <button class="bg-white border border-[#bc9c75] text-[#bc9c75] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#bc9c75] hover:text-white transition-all shadow-sm">
-                            <i class="fa-solid fa-camera mr-2"></i> Thay đổi ảnh
-                        </button>
-                        <p class="text-[10px] text-gray-400 mt-2 uppercase tracking-wider">JPG, PNG • Tối đa 2MB</p>
-                    </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-5">
-                <div>
-                    <label class="text-sm text-gray-600">Họ và tên</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Email</label>
-                    <input type="email" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Số điện thoại</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Giới tính</label>
-                    <select class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                        <option>Nam</option>
-                        <option>Nữ</option>
-                        <option>Khác</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Ngày sinh</label>
-                    <input type="date" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Chức vụ</label>
-                    <select class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                        <option>Admin</option>
-                        <option>Manager</option>
-                        <option>Staff</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Username</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Mật khẩu</label>
-                    <input type="password" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div class="col-span-2">
-                    <label class="text-sm text-gray-600">Địa chỉ</label>
-                    <input type="text"
-                        class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-            </div>
-
-            <div class="flex justify-between items-center mt-8 border-t pt-5">
-                <button onclick="loadPage('hr')" class="text-gray-500 text-sm hover:text-gray-700">
-                    ← Quay lại
-                </button>
-                <button class="bg-[#bc9c75] text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90">
-                    Thêm nhân viên
-                </button>
-            </div>
-
-        </div>
-    </template>
-
-
-
-    <template id="tpl-edit-employee">
-        <div class="bg-white p-8 rounded-2xl border border-gray-200 max-w-4xl mx-auto">
-            <div class="bg-[#fffbf7] rounded-2xl p-6 flex items-center gap-6 mb-8 border border-orange-50">
-                <div class="h-20 w-20 bg-[#bc9c75] text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-inner">AC</div>
-                    <div>
-                        <button class="bg-white border border-[#bc9c75] text-[#bc9c75] px-4 py-2 rounded-lg text-xs font-bold hover:bg-[#bc9c75] hover:text-white transition-all shadow-sm">
-                            <i class="fa-solid fa-camera mr-2"></i> Thay đổi ảnh
-                        </button>
-                        <p class="text-[10px] text-gray-400 mt-2 uppercase tracking-wider">JPG, PNG • Tối đa 2MB</p>
-                    </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-5">
-
-                <div>
-                    <label class="text-sm text-gray-600">Họ và tên</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Email</label>
-                    <input type="email" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Số điện thoại</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Giới tính</label>
-                    <select class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                        <option>Nam</option>
-                        <option>Nữ</option>
-                        <option>Khác</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Ngày sinh</label>
-                    <input type="date" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Chức vụ</label>
-                    <select class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                        <option>Admin</option>
-                        <option>Manager</option>
-                        <option>Staff</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Username</label>
-                    <input type="text" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div>
-                    <label class="text-sm text-gray-600">Mật khẩu</label>
-                    <input type="password" class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-
-                <div class="col-span-2">
-                    <label class="text-sm text-gray-600">Địa chỉ</label>
-                    <input type="text"
-                        class="w-full mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                </div>
-            </div>
-
-            <div class="flex justify-between items-center mt-8 border-t pt-5">
-                <button onclick="loadPage('hr')" class="text-gray-500 text-sm hover:text-gray-700">
-                    ← Quay lại
-                </button>
-                <button class="bg-[#bc9c75] text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90">
-                    Lưu
-                </button>
-            </div>
-
-        </div>
-    </template>
-
-
-    <template id="tpl-role-management">
-        <div class="bg-white p-8 rounded-2xl border border-gray-200 max-w-5xl mx-auto">
-            
-            <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-8">
-                <h3 class="text-sm font-semibold text-gray-700 mb-4"> Thêm chức vụ mới </h3>
-                <div class="flex gap-4">
-                    <input  type="text" placeholder="Nhập tên chức vụ (VD: Manager)" class="flex-1 bg-white border border-gray-200 rounded-xl px-4 py-2.5 text-sm">
-                    <button class="bg-[#bc9c75] text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:opacity-90">
-                        Thêm
-                    </button>
-                </div>
-            </div>
-
-            <div class="border border-gray-200 rounded-xl overflow-hidden">
-                <table class="w-full text-sm">
-                    <thead class="bg-gray-50">
-                        <tr class="text-left text-gray-600">
-                            <th class="px-5 py-3">ID</th>
-                            <th class="px-5 py-3">Tên chức vụ</th>
-                            <th class="px-5 py-3 text-right">Hành động</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y">
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-5 py-3">1</td>
-                            <td class="px-5 py-3 font-medium text-gray-700"> Admin </td>
-                            <td class="px-5 py-3 text-right">
-                                <button class="text-red-500 text-sm hover:underline"> Xóa </button>
-                            </td>
-                        </tr>
-
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-5 py-3">2</td>
-                            <td class="px-5 py-3 font-medium text-gray-700"> Manager </td>
-                            <td class="px-5 py-3 text-right">
-                                <button class="text-red-500 text-sm hover:underline"> Xóa </button>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-5 py-3">3</td>
-                            <td class="px-5 py-3 font-medium text-gray-700"> Staff </td>
-                            <td class="px-5 py-3 text-right">
-                                <button class="text-red-500 text-sm hover:underline"> Xóa </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="flex justify-between items-center mt-8 border-t pt-5">
-                <button onclick="loadPage('hr')" class="text-gray-500 text-sm hover:text-gray-700">
-                    ← Quay lại
-                </button>
-            </div>
-            
-        </div>
-    </template>
+    
 <script src="/font-end-template/asset/js/admin.js"></script>
 
 </body>

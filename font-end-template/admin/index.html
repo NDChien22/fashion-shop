@@ -164,6 +164,7 @@
                     <span id="breadcrumb-current" class="text-[#bc9c75] font-medium"></span>
                 </p>
             </div>
+            
             <main id="content-area" class="p-8 transition-opacity duration-200"></main>
         </div>
 
@@ -344,7 +345,6 @@
                         <div class="mt-12">
                             <p class="text-[10px] opacity-60 uppercase tracking-widest">Tên khách hàng</p>
                             <h2 id="cus-full-name" class="text-3xl font-black mt-1 uppercase">Trần Thị Khách Hàng</h2>
-                            <p id="cus-nickname" class="text-sm font-medium opacity-80 mt-1 italic">@tiem_cua_meo</p>
                         </div>
                     </div>
                     
@@ -373,18 +373,26 @@
                         <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Hồ sơ cá nhân</h4>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-6 mb-8">
-                        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100">
+                    <div class="grid grid-cols-2 gap-6 mb-8 bg-gray-50 rounded-2xl border border-gray-100">
+                        <div class="p-4 ">
                             <p class="text-[10px] text-gray-400 font-bold uppercase">Giới tính</p>
                             <p id="cus-gender" class="text-sm font-bold text-gray-700 mt-1">Nữ</p>
                         </div>
-                        <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                            <p class="text-[10px] text-gray-400 font-bold uppercase">Năm sinh</p>
-                            <p id="cus-birth" class="text-sm font-bold text-gray-700 mt-1">1995</p>
+                        <div class="p-4 ">
+                            <p class="text-[10px] text-gray-400 font-bold uppercase">Ngày sinh</p>
+                            <p id="cus-birth" class="text-sm font-bold text-gray-700 mt-1">20/10/1990</p>
                         </div>
-                        <div class="col-span-2 p-4 bg-gray-50 rounded-2xl border border-gray-100">
-                            <p class="text-[10px] text-gray-400 font-bold uppercase">Tên hiển thị trong Shop</p>
-                            <p id="cus-shop-name" class="text-sm font-bold text-[#bc9c75] mt-1">Mèo Con Xinh Xắn</p>
+                        <div class="p-4 ">
+                            <p class="text-[10px] text-gray-400">Email</p>
+                            <p class="text-sm font-semibold">alpha.dev@gmail.com</p>
+                        </div>
+                        <div class="p-4 ">
+                            <p class="text-[10px] text-gray-400">Số điện thoại</p>
+                            <p class="text-sm font-semibold">0908 123 456</p>
+                        </div>
+                        <div class="p-4 col-span-2 ">
+                            <p class="text-[10px] text-gray-400">Địa chỉ thường trú</p>
+                            <p class="text-sm font-semibold text-gray-600 leading-relaxed">123 Đường Láng, Đống Đa, Hà Nội</p>
                         </div>
                     </div>
 
@@ -429,9 +437,9 @@
             <div class="grid grid-cols-1 md:grid-cols-3">
                 <div class="p-8 bg-[#fcfaf8] flex flex-col items-center border-r border-gray-50">
                     <div class="w-32 h-32 rounded-[24px] overflow-hidden border-4 border-white shadow-md mb-4">
-                        <img id="emp-detail-img" src="https://i.pravatar.cc/150?u=emp1" class="w-full h-full object-cover">
+                        <img id="emp-detail-img" src="" class="w-full h-full object-cover">
                     </div>
-                    <h2 id="emp-detail-name" class="text-xl font-bold text-gray-800 text-center">Nguyễn Văn Alpha</h2>
+                    <h2 id="emp-detail-name" class="text-xl font-bold text-gray-800 text-center">Nguyễn Văn A</h2>
                     <span id="emp-detail-role" class="mt-2 px-3 py-1 bg-[#bc9c75]/10 text-[#bc9c75] text-[10px] font-bold rounded-full uppercase">Quản lý kho</span>
                     
                     <div class="mt-8 w-full space-y-3">
@@ -492,6 +500,9 @@
             </div>
         </div>
     </div>
+
+
+    
     <script src="/font-end-template/asset/js/admin.js"></script>
 </body>
 </html>

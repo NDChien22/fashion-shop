@@ -88,7 +88,7 @@
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-box-archive text-[15px]"></i>
                         </div>
-                        <span class="font-medium">Danh sách mẫu</span>
+                        <span class="font-medium">Danh sách sản phẩm</span>
                     </div>
                     <div data-page="collection" onclick="loadPage('collection')" class="nav-item group">
                         <div class="nav-icon-box">
@@ -244,7 +244,7 @@
                     <div class="mb-8 border-b border-gray-50 pb-4">
                         <span class="text-[#bc9c75] font-bold text-[10px] uppercase tracking-widest">Thông tin chi tiết</span>
                         <h2 class="text-2xl font-bold text-gray-800 mt-1">Classic Wool Coat</h2>
-                        <p class="text-xs text-gray-400 font-medium tracking-tighter">ID Hệ thống: #FW2026-001</p>
+                        <p class="text-xs text-gray-400 font-medium tracking-tighter">Mã sản phẩm: xyzabc</p>
                     </div>
 
                      <div>
@@ -316,11 +316,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-8">
-                        <button onclick="closeModal('productDetailModal')" class="w-full py-3 border border-gray-200 text-gray-500 rounded-xl font-bold text-xs hover:bg-gray-50 transition-all uppercase tracking-widest">
-                            Thoát chế độ xem
-                        </button>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -347,25 +343,26 @@
                             <h2 id="cus-full-name" class="text-3xl font-black mt-1 uppercase">Trần Thị Khách Hàng</h2>
                         </div>
                     </div>
-                    
-                    <div class="flex justify-between items-end">
-                        <div class="space-y-4">
-                            <div>
-                                <p class="text-[10px] opacity-60 uppercase">Mã tài khoản</p>
-                                <p id="cus-account-id" class="text-sm font-bold tracking-widest">ACC-998822</p>
-                            </div>
-                            <div class="flex gap-8">
-                                <div>
-                                    <p class="text-[10px] opacity-60">Tổng chi tiêu</p>
-                                    <p class="text-lg font-bold">45.200.000đ</p>
-                                </div>
-                                <div>
-                                    <p class="text-[10px] opacity-60">Điểm tích lũy</p>
-                                    <p class="text-lg font-bold">2,450 pts</p>
-                                </div>
-                            </div>
+                    <div class="flex justify-center my-4"> 
+                        <div class="w-48 h-48 rounded-[24px] overflow-hidden border-4 border-white shadow-md">
+                            <img id="emp-detail-img" src="https://via.placeholder.com/150" class="w-full h-full object-cover">
                         </div>
                     </div>
+                    
+                    <div class="flex justify-between items-end">
+                        <div class="flex gap-20">
+                            <div>
+                                <p class="text-[10px] opacity-60 ">Mã khách hàng</p>
+                                <p id="cus-account-id" class="text-sm font-bold tracking-widest">ACC-998822</p>
+                            </div>
+                            <div>
+                                <p class="text-[10px] opacity-60 ">Tổng chi tiêu</p>
+                                <p class="text-lg font-bold">45.200.000đ</p>
+                            </div>
+                                
+                        </div>
+                    </div>
+                    
                 </div>
 
                 <div class="p-8 max-h-[85vh] overflow-y-auto bg-white">
@@ -413,7 +410,7 @@
                     </div>
 
                     <div class="mt-8 flex gap-3">
-                        <button onclick="openModal('customerOrderHistoryModal')" 
+                        <button onclick="selectOrder()" 
                                 class="flex-1 py-3 bg-[#bc9c75] text-white rounded-xl font-bold text-[10px] hover:shadow-lg transition-all uppercase tracking-widest flex items-center justify-center gap-2">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                             Xem lịch sử các đơn hàng
@@ -501,7 +498,102 @@
         </div>
     </div>
 
+<div class="flex flex-col md:flex-row h-[600px] bg-gray-50 rounded-3xl overflow-hidden hidden shadow-2xl border border-gray-200">
+    
+    <div class="w-full md:w-2/5 bg-white border-r border-gray-100 flex flex-col">
+        <div class="p-6 border-b border-gray-50">
+            <h3 class="text-xl font-black text-gray-800 uppercase italic">Đơn hàng của bạn</h3>
+        </div>
+        
+        <div class="flex-grow overflow-y-auto p-4 space-y-3" id="order-list">
+            <div onclick="selectOrder('ORD-9921')" class="order-item p-4 rounded-2xl cursor-pointer border-2 border-transparent hover:bg-gray-50 transition-all bg-white shadow-sm" data-id="ORD-9921">
+                <div class="flex justify-between items-start">
+                    <span class="font-bold text-gray-800">#ORD-9921</span>
+                    <span class="text-[10px] font-bold px-2 py-1 bg-green-100 text-green-600 rounded">HOÀN THÀNH</span>
+                </div>
+                <div class="flex justify-between items-end mt-2">
+                    <p class="text-xs text-gray-400">10/03/2026</p>
+                    <p class="font-black text-[#8d7558]">1.250.000đ</p>
+                </div>
+            </div>
+            </div>
+    </div>
 
+    <div class="w-full md:w-3/5 p-8 overflow-y-auto bg-white" id="order-detail">
+        <div id="empty-state" class="h-full flex flex-col items-center justify-center text-gray-400">
+            <i class="fa-solid fa-receipt text-6xl mb-4 opacity-20"></i>
+            <p>Chọn một đơn hàng để xem chi tiết</p>
+        </div>
+
+        <div id="detail-content" class="hidden animate-fade-in">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-black text-gray-800" id="det-id">#ORD-9921</h2>
+                    <p class="text-sm text-gray-400" id="det-date">Ngày đặt: 10/03/2026 14:30</p>
+                </div>
+                <div class="text-right">
+                    <span id="det-status" class="px-4 py-2 bg-[#bc9c75] text-white rounded-full text-xs font-bold tracking-widest">ĐANG GIAO</span>
+                </div>
+            </div>
+
+            <div class="space-y-4 mb-8" id="det-items">
+                </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 space-y-3">
+                <div class="flex justify-between text-sm text-gray-500">
+                    <span>Tạm tính</span>
+                    <span id="det-subtotal">1.200.000đ</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-500">
+                    <span>Phí vận chuyển</span>
+                    <span>30.000đ</span>
+                </div>
+                <div class="flex justify-between text-sm text-gray-500">
+                    <span>Giảm giá (Voucher)</span>
+                    <span class="text-red-500">-50.000đ</span>
+                </div>
+                <div class="pt-3 border-t border-gray-200 flex justify-between items-center">
+                    <span class="font-bold text-gray-800">Tổng cộng</span>
+                    <span class="text-2xl font-black text-[#8d7558]" id="det-total">1.180.000đ</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div id="productSelectionModal" class="fixed inset-0 z-[999] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+        <div class="bg-white rounded-[32px] w-full max-w-lg shadow-2xl overflow-hidden flex flex-col transform transition-all border border-gray-100">
+            
+            <div class="p-6 border-b border-gray-50 bg-white">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="font-bold text-gray-800 text-xl">Thêm vào bộ sưu tập</h3>
+                    <button onclick="closeProductSelectionModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400">✕</button>
+                </div>
+                
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-4 flex items-center text-gray-400">
+                        <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                    </span>
+                    <input type="text" 
+                        id="searchInput" 
+                        onkeyup="filterProducts()" 
+                        placeholder="Tìm theo tên hoặc mã sản phẩm..." 
+                        class="w-full pl-11 pr-4 py-3 bg-gray-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-[#bc9c75]/20 focus:bg-white transition-all outline-none">
+                </div>
+            </div>
+
+            <div id="unassignedProductList" class="p-2 max-h-[400px] overflow-y-auto custom-scrollbar">
+                </div>
+
+            <div class="p-6 border-t border-gray-50 bg-gray-50/50 flex gap-3">
+                <button onclick="closeProductSelectionModal()" class="flex-1 py-3 text-sm font-bold text-gray-500 hover:bg-white rounded-2xl transition-all">Hủy</button>
+                <button onclick="confirmAddToCollection()" class="flex-[2] py-3 text-sm font-bold bg-[#bc9c75] text-white rounded-2xl shadow-lg shadow-[#bc9c75]/20 hover:bg-[#a68a68] transition-all">
+                    Xác nhận thêm
+                </button>
+            </div>
+        </div>
+    </div>
     
     <script src="/font-end-template/asset/js/admin.js"></script>
 </body>

@@ -11,27 +11,22 @@
 </head>
 <body class="bg-[#f8f9fa] font-['Inter']">
 
-    <div id="content-area" style="transition: opacity 0.15s ease-in-out;">
-    </div>
-
-    
-
-
+    <div id="content-area" style="transition: opacity 0.15s ease-in-out;"></div>
     <!-- Khách hàng -->
     <template id="tpl-customers">
-    <div class="mb-8 flex justify-between items-end">
-        <div class="flex gap-4">
-            <div class="relative w-80">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
-                <input type="text" placeholder="Tìm kiếm khách hàng..." 
-                       class="w-full bg-white border border-gray-100 rounded-2xl py-3 pl-11 pr-4 text-[11px] outline-none shadow-sm focus:ring-2 focus:ring-[#bc9c75]/10 focus:border-[#bc9c75] transition-all">
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex gap-4 flex-1">
+                <div class="relative w-full max-w-[50%]">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                    <input type="text" placeholder="Tìm kiếm sản phẩm..." class="w-full bg-white border border-gray-100 rounded-xl py-2.5 pl-10 pr-4 text-xs focus:ring-1 focus:ring-[#bc9c75] outline-none shadow-sm">
+                </div>
+
             </div>
         </div>
-    </div>
-
-    <div class="bg-white rounded-[32px] shadow-sm border border-gray-50 overflow-hidden">
+    
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
             <table class="w-full border-collapse">
-                <thead>
+                <thead class="bg-[#fcfaf8] border-b border-gray-50 text-gray-400 font-bold uppercase tracking-wider text-[10px]">
                     <tr class="border-b border-gray-50">
                         <th class="text-left py-5 px-8 text-[10px] font-black text-gray-400 uppercase tracking-widest">Khách hàng</th>
                         <th class="text-left py-5 px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest">Hạng</th>
@@ -50,7 +45,7 @@
                                 </div>
                                 <div>
                                     <h4 class="text-[13px] font-black text-gray-800 uppercase tracking-tight">Nguyễn Hoàng Nam</h4>
-                                    <p class="text-[10px] text-gray-400 font-medium italic">hoangnam@gmail.com</p>
+                                    <p class="text-[10px] text-gray-400 font-medium italic">Mã khách hàng: XQ2141</p>
                                 </div>
                             </div>
                         </td>
@@ -70,9 +65,13 @@
                         </td>
                        
                     </tr>
-                    </tbody>
+                </tbody>
             </table>
         </div>
+        
+    
+       
+
     </template>
 
    

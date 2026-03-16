@@ -167,41 +167,105 @@ function switchTab(tabName){
 
 
 // 4. QUẢN LÝ BIẾN THỂ (VARIANTS) 
- 
+
+// --- LOGIC ALBUM ---
+function openAlbumModal() {
+    const modal = document.getElementById('albumModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    } else {
+        console.error("Lỗi: Không tìm thấy phần tử có ID 'albumModal'. Hãy kiểm tra lại file manager-products.html.");
+    }
+}
+
+function closeAlbumModal() {
+    const modal = document.getElementById('albumModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// --- LOGIC BIẾN THỂ (VARIANTS) ---
+
 function renderTable() {
     const tbody = document.getElementById('variantList');
-    if (!tbody) return;
+    if (!tbody) return; // Tránh lỗi khi đang ở trang không có bảng
+
+    if (variants.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-400 text-[10px]">Chưa có biến thể nào được thêm</td></tr>`;
+        return;
+    }
+
     tbody.innerHTML = variants.map(v => v.isEditing ? `
         <tr class="border-b bg-blue-50" data-id="${v.id}">
-            <td class="py-2 px-2"><input type="text" class="edit-size w-full rounded-xl p-1.5 border" value="${v.size}"></td>
-            <td class="py-2 px-2"><input type="text" class="edit-color w-full rounded-xl p-1.5 border" value="${v.color}"></td>
-            <td class="py-2 px-2"><input type="number" class="edit-qty w-full rounded-xl p-1.5 border" value="${v.qty}"></td>
-            <td class="py-2 text-right px-2">
-                <button onclick="saveEdit(${v.id})" class="text-green-600 font-bold">Lưu</button>
-                <button onclick="removeVariant(${v.id})" class="text-red-500">Xóa</button>
+            <td class="py-2 px-2"><input type="text" class="edit-size w-full rounded-lg p-1.5 border text-xs" value="${v.size}"></td>
+            <td class="py-2 px-2"><input type="text" class="edit-color w-full rounded-lg p-1.5 border text-xs" value="${v.color}"></td>
+            <td class="py-2 px-2"><input type="number" class="edit-qty w-full rounded-lg p-1.5 border text-xs" value="${v.qty}"></td>
+            <td class="py-2 text-right px-2 space-x-2">
+                <button onclick="saveEdit(${v.id})" class="text-green-600 font-bold text-[10px]">LƯU</button>
+                <button onclick="removeVariant(${v.id})" class="text-red-500 text-[10px]">XÓA</button>
             </td>
         </tr>` : `
         <tr class="border-b hover:bg-gray-50" data-id="${v.id}">
-            <td class="py-3">${v.size}</td>
-            <td class="py-3">${v.color}</td>
-            <td class="py-3">${v.qty}</td>
+            <td class="py-3 px-2 text-gray-700">${v.size}</td>
+            <td class="py-3 px-2 text-gray-700">${v.color}</td>
+            <td class="py-3 px-2 text-gray-700">${v.qty}</td>
             <td class="py-3 text-right space-x-3 px-2">
-                <button onclick="toggleEdit(${v.id})" class="text-blue-500 font-semibold">Sửa</button>
-                <button onclick="removeVariant(${v.id})" class="text-red-500 font-semibold">Xóa</button>
+                <button onclick="toggleEdit(${v.id})" class="text-blue-500 font-semibold text-[10px]">SỬA</button>
+                <button onclick="removeVariant(${v.id})" class="text-red-500 font-semibold text-[10px]">XÓA</button>
             </td>
         </tr>`).join('');
 }
 
 function addVariant() {
-    const size = document.getElementById('size').value.trim();
-    const color = document.getElementById('color').value.trim();
-    const qty = document.getElementById('qty').value;
+    // Lấy chính xác các ID từ giao diện Input của bạn
+    const sInput = document.getElementById('size');
+    const cInput = document.getElementById('color');
+    const qInput = document.getElementById('qty');
 
-    if (!size || !color || !qty) return alert("Vui lòng nhập đầy đủ thông tin!");
+    if (!sInput || !cInput || !qInput) {
+        alert("Lỗi hệ thống: Không tìm thấy các ô nhập dữ liệu!");
+        return;
+    }
 
-    variants.push({ id: Date.now(), size, color, qty: Number(qty), isEditing: false });
-    renderTable();
-    ['size', 'color', 'qty'].forEach(id => document.getElementById(id).value = '');
+    const size = sInput.value.trim();
+    const color = cInput.value.trim();
+    const qty = qInput.value;
+
+    if (!size || !color || !qty) {
+        alert("Vui lòng nhập đủ Size, Màu và Số lượng!");
+        return;
+    }
+
+    const isDuplicate = variants.some(v => 
+        v.size.toLowerCase() === size.toLowerCase() && 
+        v.color.toLowerCase() === color.toLowerCase()
+    );
+
+    if (isDuplicate) {
+        alert(`Biến thể [Size: ${size} - Màu: ${color}] đã có trong danh sách!`);
+        return; // Dừng hàm, không thêm vào mảng
+    }
+
+    // Thêm vào mảng tạm
+    variants.push({ 
+        id: Date.now(), 
+        size: size, 
+        color: color, 
+        qty: Number(qty), 
+        isEditing: false 
+    });
+
+    renderTable(); 
+    // Xóa trống để nhập tiếp
+    sInput.value = '';
+    cInput.value = '';
+    qInput.value = '';
+    sInput.focus();
 }
 
 function toggleEdit(id) {
@@ -222,11 +286,21 @@ function saveEdit(id) {
 }
 
 function removeVariant(id) {
-    if(confirm("Xóa biến thể này?")) {
+    if(confirm("Xác nhận xóa biến thể này?")) {
         variants = variants.filter(v => v.id !== id);
         renderTable();
     }
 }
+
+// Xử lý đóng Modal khi click ra ngoài (Dùng Event Listener để tránh ghi đè)
+window.addEventListener('click', function(event) {
+    const albumModal = document.getElementById('albumModal');
+    if (event.target === albumModal) {
+        closeAlbumModal();
+    }
+});
+
+
 
 //  5. MODALS & KHÁC 
 
@@ -289,13 +363,7 @@ window.addEventListener("hashchange", () => {
 
 
 
-/**
- * Hàm mở form dùng chung cho cả Nhân viên và Sản phẩm
- * @param {string} type - 'employee' hoặc 'product'
- * @param {object} data - Dữ liệu cần sửa (nếu có)
- */
 function openForm(type, data = null) {
-    // 1. Xác định cấu hình theo loại form
     const config = {
         employee: {
             page: 'employee-form',
@@ -312,18 +380,16 @@ function openForm(type, data = null) {
             titleAdd: 'Thêm sản phẩm mới',
             titleEdit: 'Chỉnh sửa sản phẩm',
             saveFn: (id) => saveProductData(id),
-            fillFn: (d) => fillProductFields(d),
-            clearFn: () => clearProductForm()
+            fillFn: (d) => fillProductFields(d), // Hàm xử lý khóa trường nằm ở đây
+            clearFn: () => clearProductForm()    // Hàm xử lý mở khóa nằm ở đây
         }
     };
 
     const target = config[type];
     if (!target) return;
 
-    // 2. Nạp trang
     loadPage(target.page);
 
-    // 3. Xử lý logic sau khi nạp DOM
     setTimeout(() => {
         const mainTitle = document.getElementById('page-title');
         const breadcrumb = document.getElementById('breadcrumb-current');
@@ -332,47 +398,152 @@ function openForm(type, data = null) {
         if (!mainTitle || !btnSubmit) return;
 
         if (data) {
-            // Chế độ SỬA
+            // CHẾ ĐỘ SỬA
             mainTitle.innerText = target.titleEdit;
             if (breadcrumb) breadcrumb.innerText = target.titleEdit;
-            btnSubmit.innerText = type === 'employee' ? "Lưu thay đổi" : "Lưu cập nhật";
+            btnSubmit.innerText = "Lưu cập nhật";
             btnSubmit.onclick = () => target.saveFn(data.id);
             
-            // Đổ dữ liệu
-            target.fillFn(data);
+            target.fillFn(data); // Đổ dữ liệu & Khóa trường
         } else {
-            // Chế độ THÊM MỚI
+            // CHẾ ĐỘ THÊM MỚI
             mainTitle.innerText = target.titleAdd;
             if (breadcrumb) breadcrumb.innerText = target.titleAdd.replace(' mới', '');
-            btnSubmit.innerText = type === 'employee' ? "Xác nhận thêm" : "Thêm sản phẩm";
+            btnSubmit.innerText = "Thêm sản phẩm";
             btnSubmit.onclick = () => target.saveFn(null);
             
-            // Xóa form
-            target.clearFn();
+            target.clearFn(); // Xóa form & Mở khóa trường
         }
     }, 150);
 }
 
 function fillProductFields(data) {
+    // 1. Map dữ liệu vào Input
     const mapping = {
         'prod-id': data.id,
         'prod-name': data.name,
         'prod-desc': data.desc,
         'prod-price': data.price,
-        'prod-cate': data.category
+        'prod-cate': data.category_id,
+        'prod-collection': data.collection_id
     };
 
+    // 2. Duyệt qua mapping để điền giá trị và khóa trường
     for (const [id, value] of Object.entries(mapping)) {
         const el = document.getElementById(id);
-        if (el) el.value = value || '';
+        if (el) {
+            el.value = value || '';
+            
+            // Nếu là Phân loại hoặc Bộ sưu tập thì KHÓA (không cho sửa)
+            if (id === 'prod-cate' || id === 'prod-collection') {
+                el.disabled = true;
+                el.classList.add('bg-gray-100', 'cursor-not-allowed', 'opacity-70');
+            }
+        }
     }
     
-    // Nếu có danh sách biến thể, bạn có thể render lại tại đây
+    // 3. Đổ danh sách biến thể vào bảng
     if (data.variants) {
-        renderVariants(data.variants); 
+        variants = [...data.variants]; // Gán vào mảng toàn cục
+        renderTable(); 
     }
+}
+
+
+function clearProductForm() {
+    const fields = ['prod-id', 'prod-name', 'prod-desc', 'prod-price', 'prod-cate', 'prod-collection'];
+    
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.value = '';
+            // MỞ KHÓA lại khi thêm mới sản phẩm
+            el.disabled = false;
+            el.classList.remove('bg-gray-100', 'cursor-not-allowed', 'opacity-70');
+        }
+    });
+
+    // Reset bảng biến thể về trạng thái trống
+    variants = [];
+    renderTable();
 }
 
 
 
 
+// 1. Khai báo data mẫu (Bắt buộc phải có đoạn này)
+let allProducts = [
+    { id: 1, name: "Sản phẩm A", price: 100000, collection_id: null, image_url: "" },
+    { id: 2, name: "Sản phẩm B", price: 200000, collection_id: 1, image_url: "" },
+    { id: 3, name: "Sản phẩm C", price: 150000, collection_id: null, image_url: "" }
+];
+
+let selectedProductIds = [];
+
+// 2. Hàm mở Modal
+function openProductSelectionModal() {
+    console.log("Đang mở modal..."); // Dùng để kiểm tra trong Console xem nút có ăn lệnh không
+    
+    const modal = document.getElementById('productSelectionModal');
+    const list = document.getElementById('unassignedProductList');
+
+    if (!modal || !list) {
+        alert("Lỗi: Không tìm thấy Modal trong HTML!");
+        return;
+    }
+
+    // Lọc sản phẩm chưa có BST (collection_id là null hoặc trống)
+    const available = allProducts.filter(p => !p.collection_id);
+
+    // Hiển thị modal
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+
+    // Vẽ danh sách
+    if (available.length === 0) {
+        list.innerHTML = `<p class="text-center text-gray-400 py-5">Hết sản phẩm để thêm!</p>`;
+    } else {
+        list.innerHTML = available.map(p => `
+            <label class="flex items-center gap-4 p-3 mb-2 rounded-2xl hover:bg-gray-50 cursor-pointer transition-all group border border-transparent hover:border-gray-100">
+                <div class="relative flex items-center">
+                    <input type="checkbox" 
+                        onchange="toggleSelect(${p.id})" 
+                        class="w-5 h-5 rounded-md border-gray-300 text-[#bc9c75] focus:ring-[#bc9c75] cursor-pointer accent-[#bc9c75]">
+                </div>
+
+                <div class="w-12 h-12 rounded-xl bg-gray-50 overflow-hidden border border-gray-100 flex-shrink-0">
+                    <img src="${p.image_url || ''}" 
+                        onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&background=f3f4f6&color=bc9c75'" 
+                        class="w-full h-full object-cover">
+                </div>
+
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-bold text-gray-700 group-hover:text-[#bc9c75] truncate transition-colors">
+                        ${p.name}
+                    </p>
+                    <p class="text-[10px] text-gray-400 font-medium tracking-tight">
+                        Mã sản phẩm: #SP-${p.id}
+                    </p>
+                </div>
+
+                <div class="text-right flex-shrink-0">
+                    <p class="text-xs font-bold text-gray-900">
+                        ${p.price ? p.price.toLocaleString() + 'đ' : '---'}
+                    </p>
+                </div>
+            </label>
+        `).join('');
+    }
+}
+
+function toggleSelect(id) {
+    const idx = selectedProductIds.indexOf(id);
+    if (idx > -1) selectedProductIds.splice(idx, 1);
+    else selectedProductIds.push(id);
+}
+
+function closeProductSelectionModal() {
+    const modal = document.getElementById('productSelectionModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}

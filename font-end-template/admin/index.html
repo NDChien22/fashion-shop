@@ -220,7 +220,7 @@
     </div>
 
 
-
+<!-- Thông tin chi tiết sản phẩm  -->
     <div id="productDetailModal" class="fixed inset-0 z-[100] hidden flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
         <div class="bg-white w-full max-w-4xl rounded-[32px] shadow-2xl overflow-hidden relative animate-in fade-in zoom-in duration-300">
             
@@ -277,7 +277,6 @@
                             </div>
                         </div>
                        
-
                         <div>
                             <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Kích thước & Màu sắc sẵn có</h4>
                             <div class="border border-gray-100 rounded-xl overflow-hidden">
@@ -322,8 +321,7 @@
         </div>
     </div>
 
-
-
+<!-- Thông tin chi tiết khách hàng -->
     <div id="customerDetailModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
         <div class="bg-white w-full max-w-4xl rounded-[32px] shadow-2xl overflow-hidden relative animate-in fade-in zoom-in duration-300">
             
@@ -333,36 +331,40 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2">
                 <div class="p-8 bg-gradient-to-br from-[#bc9c75] to-[#8d7558] text-white flex flex-col justify-between min-h-[450px]">
-                    <div>
-                        <div class="flex justify-between items-start">
-                            <i class="fa-solid fa-crown text-3xl opacity-50"></i>
-                            <span class="px-3 py-1 bg-white/20 rounded-full text-[10px] font-bold tracking-[0.2em]">GOLD MEMBER</span>
+                    <div class="flex justify-between items-center z-10">
+                        <div class="flex items-center gap-2">
+                            <p class="text-[10px] opacity-60 ">Mã khách hàng</p>
+                            <p id="cus-account-id" class="text-sm font-bold tracking-widest">ACC-998822</p>
                         </div>
-                        <div class="mt-12">
-                            <p class="text-[10px] opacity-60 uppercase tracking-widest">Tên khách hàng</p>
-                            <h2 id="cus-full-name" class="text-3xl font-black mt-1 uppercase">Trần Thị Khách Hàng</h2>
+
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-crown text-[#bc9c75]"></i>
+                            <span class="text-[10px] font-black tracking-[0.2em] text-[#bc9c75] uppercase">Gold Member</span>
                         </div>
                     </div>
-                    <div class="flex justify-center my-4"> 
+
+                    <div class="flex flex-col flex-row items-center justify-center text-center flex-grow pt-12 py-8 z-10"> 
+                        <div class="mb-14 w-full px-4">
+                            <p class="text-[10px] opacity-60 uppercase tracking-widest  mb-2">Tên khách hàng</p>
+                            <h2 id="cus-full-name" class="text-3xl font-black uppercase leading-tight tracking-tight">Trần Thị Khách Hàng</h2>
+                        </div>
                         <div class="w-48 h-48 rounded-[24px] overflow-hidden border-4 border-white shadow-md">
                             <img id="emp-detail-img" src="https://via.placeholder.com/150" class="w-full h-full object-cover">
                         </div>
                     </div>
-                    
+
                     <div class="flex justify-between items-end">
                         <div class="flex gap-20">
-                            <div>
-                                <p class="text-[10px] opacity-60 ">Mã khách hàng</p>
-                                <p id="cus-account-id" class="text-sm font-bold tracking-widest">ACC-998822</p>
-                            </div>
                             <div>
                                 <p class="text-[10px] opacity-60 ">Tổng chi tiêu</p>
                                 <p class="text-lg font-bold">45.200.000đ</p>
                             </div>
-                                
+                            <div>
+                                <p class="text-[10px] opacity-60">Điểm tích lũy</p>
+                                <p class="text-lg font-bold">2,450 pts</p>
+                            </div>
                         </div>
                     </div>
-                    
                 </div>
 
                 <div class="p-8 max-h-[85vh] overflow-y-auto bg-white">
@@ -410,20 +412,18 @@
                     </div>
 
                     <div class="mt-8 flex gap-3">
-                        <button onclick="selectOrder()" 
+                        <button onclick="openOrderHistory()" 
                                 class="flex-1 py-3 bg-[#bc9c75] text-white rounded-xl font-bold text-[10px] hover:shadow-lg transition-all uppercase tracking-widest flex items-center justify-center gap-2">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                             Xem lịch sử các đơn hàng
                         </button>
-                        
-                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-
+<!-- Thông tin chi tiết nhân viên  -->
     <div id="employeeDetailModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
         <div class="bg-white w-full max-w-4xl rounded-[32px] shadow-2xl overflow-hidden relative animate-in fade-in zoom-in duration-300">
             
@@ -590,6 +590,60 @@
                 <button onclick="closeProductSelectionModal()" class="flex-1 py-3 text-sm font-bold text-gray-500 hover:bg-white rounded-2xl transition-all">Hủy</button>
                 <button onclick="confirmAddToCollection()" class="flex-[2] py-3 text-sm font-bold bg-[#bc9c75] text-white rounded-2xl shadow-lg shadow-[#bc9c75]/20 hover:bg-[#a68a68] transition-all">
                     Xác nhận thêm
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div id="orderHistoryModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden">
+            <div class="flex justify-between items-center p-6 border-b border-gray-100">
+                <h3 class="text-xl font-bold text-gray-800 uppercase tracking-wide">Lịch sử đơn hàng</h3>
+                <button onclick="closeOrderHistory()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="p-6 max-h-[500px] overflow-y-auto space-y-4">
+                <div onclick="openOrderDetail()" class="flex items-center justify-between p-4 border border-gray-100 rounded-2xl hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-amber-100 p-3 rounded-full text-amber-600">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800">#ORD-9921</p>
+                            <p class="text-sm text-gray-500">10/03/2026 - 14:30</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-gray-800">1.250.000đ</p>
+                        <span class="px-3 py-1 text-xs font-semibold text-green-600 bg-green-100 rounded-full">Hoàn thành</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between p-4 border border-gray-100 rounded-2xl hover:bg-gray-50 transition-colors">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-amber-100 p-3 rounded-full text-amber-600">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-800">#ORD-8850</p>
+                            <p class="text-sm text-gray-500">15/02/2026 - 09:15</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold text-gray-800">3.400.000đ</p>
+                        <span class="px-3 py-1 text-xs font-semibold text-blue-600 bg-blue-100 rounded-full">Đang giao</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 bg-gray-50 text-center">
+                <button onclick="closeOrderHistory()" class="px-6 py-2 bg-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-300 transition">
+                    Đóng
                 </button>
             </div>
         </div>

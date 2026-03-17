@@ -11,9 +11,9 @@ const PAGES = {
     'add-collection': { title: 'Thêm bộ sưu tập', file: 'manager-products.html', tpl: 'tpl-add-collection' },
 
     'vouchers': { title: 'Voucher', file: 'voucher.html', tpl: 'tpl-vouchers' },
-    'add-voucher': { title: 'Tạo voucher', file: 'voucher.html', tpl: 'tpl-add-voucher' },
-    'edit-voucher': { title: 'Chỉnh sửa Voucher', file: 'voucher.html', tpl: 'tpl-edit-voucher' },
+    'voucher-form': { title: 'Tạo voucher', file: 'voucher.html', tpl: 'tpl-voucher-form' },
     'flash-sale': { title: 'Chương trình khuyến mãi', file: 'voucher.html', tpl: 'tpl-flash-sale' },
+    'promotion-form': { title: 'Chương trình khuyến mãi', file: 'voucher.html', tpl: 'tpl-promotion-form' },
 
     'orders': { title: 'Đơn hàng', file: 'manager-orders.html', tpl: 'tpl-orders' },
     'order-detail': { title: 'Chi tiết đơn hàng', file: 'manager-orders.html', tpl: 'tpl-order-detail' },
@@ -25,7 +25,6 @@ const PAGES = {
 
     'hr': { title: 'Quản lý nhân sự', file: 'manager-employee.html', tpl: 'tpl-hr' },
     'user-detail': { title: 'Chi tiết nhân viên', file: 'manager-employee.html', tpl: 'tpl-user-detail' },
-    'role-management': { title: 'Thêm chức vụ', file: 'manager-employee.html', tpl: 'tpl-role-management' },
     'employee-form': { title: 'Thông tin nhân viên', file: 'manager-employee.html', tpl: 'tpl-employee-form' },
     
     'quan-ly': { title: 'Hồ sơ cá nhân', file: 'account-management.html', tpl: 'tpl-quan-ly' },
@@ -167,105 +166,41 @@ function switchTab(tabName){
 
 
 // 4. QUẢN LÝ BIẾN THỂ (VARIANTS) 
-
-// --- LOGIC ALBUM ---
-function openAlbumModal() {
-    const modal = document.getElementById('albumModal');
-    if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-    } else {
-        console.error("Lỗi: Không tìm thấy phần tử có ID 'albumModal'. Hãy kiểm tra lại file manager-products.html.");
-    }
-}
-
-function closeAlbumModal() {
-    const modal = document.getElementById('albumModal');
-    if (modal) {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = 'auto';
-    }
-}
-
-// --- LOGIC BIẾN THỂ (VARIANTS) ---
-
+ 
 function renderTable() {
     const tbody = document.getElementById('variantList');
-    if (!tbody) return; // Tránh lỗi khi đang ở trang không có bảng
-
-    if (variants.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-gray-400 text-[10px]">Chưa có biến thể nào được thêm</td></tr>`;
-        return;
-    }
-
+    if (!tbody) return;
     tbody.innerHTML = variants.map(v => v.isEditing ? `
         <tr class="border-b bg-blue-50" data-id="${v.id}">
-            <td class="py-2 px-2"><input type="text" class="edit-size w-full rounded-lg p-1.5 border text-xs" value="${v.size}"></td>
-            <td class="py-2 px-2"><input type="text" class="edit-color w-full rounded-lg p-1.5 border text-xs" value="${v.color}"></td>
-            <td class="py-2 px-2"><input type="number" class="edit-qty w-full rounded-lg p-1.5 border text-xs" value="${v.qty}"></td>
-            <td class="py-2 text-right px-2 space-x-2">
-                <button onclick="saveEdit(${v.id})" class="text-green-600 font-bold text-[10px]">LƯU</button>
-                <button onclick="removeVariant(${v.id})" class="text-red-500 text-[10px]">XÓA</button>
+            <td class="py-2 px-2"><input type="text" class="edit-size w-full rounded-xl p-1.5 border" value="${v.size}"></td>
+            <td class="py-2 px-2"><input type="text" class="edit-color w-full rounded-xl p-1.5 border" value="${v.color}"></td>
+            <td class="py-2 px-2"><input type="number" class="edit-qty w-full rounded-xl p-1.5 border" value="${v.qty}"></td>
+            <td class="py-2 text-right px-2">
+                <button onclick="saveEdit(${v.id})" class="text-green-600 font-bold">Lưu</button>
+                <button onclick="removeVariant(${v.id})" class="text-red-500">Xóa</button>
             </td>
         </tr>` : `
         <tr class="border-b hover:bg-gray-50" data-id="${v.id}">
-            <td class="py-3 px-2 text-gray-700">${v.size}</td>
-            <td class="py-3 px-2 text-gray-700">${v.color}</td>
-            <td class="py-3 px-2 text-gray-700">${v.qty}</td>
+            <td class="py-3">${v.size}</td>
+            <td class="py-3">${v.color}</td>
+            <td class="py-3">${v.qty}</td>
             <td class="py-3 text-right space-x-3 px-2">
-                <button onclick="toggleEdit(${v.id})" class="text-blue-500 font-semibold text-[10px]">SỬA</button>
-                <button onclick="removeVariant(${v.id})" class="text-red-500 font-semibold text-[10px]">XÓA</button>
+                <button onclick="toggleEdit(${v.id})" class="text-blue-500 font-semibold">Sửa</button>
+                <button onclick="removeVariant(${v.id})" class="text-red-500 font-semibold">Xóa</button>
             </td>
         </tr>`).join('');
 }
 
 function addVariant() {
-    // Lấy chính xác các ID từ giao diện Input của bạn
-    const sInput = document.getElementById('size');
-    const cInput = document.getElementById('color');
-    const qInput = document.getElementById('qty');
+    const size = document.getElementById('size').value.trim();
+    const color = document.getElementById('color').value.trim();
+    const qty = document.getElementById('qty').value;
 
-    if (!sInput || !cInput || !qInput) {
-        alert("Lỗi hệ thống: Không tìm thấy các ô nhập dữ liệu!");
-        return;
-    }
+    if (!size || !color || !qty) return alert("Vui lòng nhập đầy đủ thông tin!");
 
-    const size = sInput.value.trim();
-    const color = cInput.value.trim();
-    const qty = qInput.value;
-
-    if (!size || !color || !qty) {
-        alert("Vui lòng nhập đủ Size, Màu và Số lượng!");
-        return;
-    }
-
-    const isDuplicate = variants.some(v => 
-        v.size.toLowerCase() === size.toLowerCase() && 
-        v.color.toLowerCase() === color.toLowerCase()
-    );
-
-    if (isDuplicate) {
-        alert(`Biến thể [Size: ${size} - Màu: ${color}] đã có trong danh sách!`);
-        return; // Dừng hàm, không thêm vào mảng
-    }
-
-    // Thêm vào mảng tạm
-    variants.push({ 
-        id: Date.now(), 
-        size: size, 
-        color: color, 
-        qty: Number(qty), 
-        isEditing: false 
-    });
-
-    renderTable(); 
-    // Xóa trống để nhập tiếp
-    sInput.value = '';
-    cInput.value = '';
-    qInput.value = '';
-    sInput.focus();
+    variants.push({ id: Date.now(), size, color, qty: Number(qty), isEditing: false });
+    renderTable();
+    ['size', 'color', 'qty'].forEach(id => document.getElementById(id).value = '');
 }
 
 function toggleEdit(id) {
@@ -286,28 +221,15 @@ function saveEdit(id) {
 }
 
 function removeVariant(id) {
-    if(confirm("Xác nhận xóa biến thể này?")) {
+    if(confirm("Xóa biến thể này?")) {
         variants = variants.filter(v => v.id !== id);
         renderTable();
     }
 }
 
-// Xử lý đóng Modal khi click ra ngoài (Dùng Event Listener để tránh ghi đè)
-window.addEventListener('click', function(event) {
-    const albumModal = document.getElementById('albumModal');
-    if (event.target === albumModal) {
-        closeAlbumModal();
-    }
-});
-
 
 
 //  5. MODALS & KHÁC 
-
-/**
- * Hàm mở Modal dùng chung
- * @param {string} modalId - ID của thẻ div Modal cần mở
- */
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     
@@ -325,10 +247,6 @@ function openModal(modalId) {
     }
 }
 
-/**
- * Hàm đóng Modal dùng chung
- * @param {string} modalId - ID của thẻ div Modal cần đóng
- */
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -349,7 +267,6 @@ window.addEventListener('keydown', (e) => {
 
 
 //  6. KHỞI CHẠY 
-
 window.addEventListener("DOMContentLoaded", () => {
     const hash = window.location.hash.replace("#", "");
     const savedPage = localStorage.getItem("currentPage");
@@ -360,6 +277,13 @@ window.addEventListener("hashchange", () => {
     const hash = window.location.hash.replace("#", "");
     if (hash) loadPage(hash);
 });
+
+
+
+
+
+
+
 
 
 
@@ -380,16 +304,36 @@ function openForm(type, data = null) {
             titleAdd: 'Thêm sản phẩm mới',
             titleEdit: 'Chỉnh sửa sản phẩm',
             saveFn: (id) => saveProductData(id),
-            fillFn: (d) => fillProductFields(d), // Hàm xử lý khóa trường nằm ở đây
-            clearFn: () => clearProductForm()    // Hàm xử lý mở khóa nằm ở đây
+            fillFn: (d) => fillProductFields(d),
+            clearFn: () => clearProductForm()
+        },
+        voucher: {
+            page: 'voucher-form',
+            btnId: 'btn-save-voucher',
+            titleAdd: 'Tạo mã giảm giá mới',
+            titleEdit: 'Cập nhật Voucher',
+            saveFn: (id) => saveVoucherData(id),
+            fillFn: (d) => fillVoucherFields(d),
+            clearFn: () => clearVoucherForm()
+        },
+        promotion: {
+            page: 'promotion-form', 
+            btnId: 'btn-save-promotion',
+            titleAdd: 'Thiết lập Flash Sale mới',
+            titleEdit: 'Chỉnh sửa chương trình',
+            saveFn: (id) => savePromotionData(id),
+            fillFn: (d) => fillPromotionFields(d),
+            clearFn: () => clearPromotionForm()
         }
     };
 
     const target = config[type];
     if (!target) return;
 
+    // 1. Chuyển trang/Nạp nội dung form
     loadPage(target.page);
 
+    // 2. Xử lý logic sau khi DOM đã sẵn sàng
     setTimeout(() => {
         const mainTitle = document.getElementById('page-title');
         const breadcrumb = document.getElementById('breadcrumb-current');
@@ -401,72 +345,173 @@ function openForm(type, data = null) {
             // CHẾ ĐỘ SỬA
             mainTitle.innerText = target.titleEdit;
             if (breadcrumb) breadcrumb.innerText = target.titleEdit;
-            btnSubmit.innerText = "Lưu cập nhật";
+            btnSubmit.innerText = "Lưu thay đổi";
             btnSubmit.onclick = () => target.saveFn(data.id);
             
-            target.fillFn(data); // Đổ dữ liệu & Khóa trường
+            // Điền dữ liệu vào form
+            target.fillFn(data);
         } else {
             // CHẾ ĐỘ THÊM MỚI
             mainTitle.innerText = target.titleAdd;
             if (breadcrumb) breadcrumb.innerText = target.titleAdd.replace(' mới', '');
-            btnSubmit.innerText = "Thêm sản phẩm";
+            btnSubmit.innerText = "Xác nhận thêm";
             btnSubmit.onclick = () => target.saveFn(null);
             
-            target.clearFn(); // Xóa form & Mở khóa trường
+            // Làm sạch form
+            target.clearFn();
         }
-    }, 150);
+    }, 150); // Đợi 150ms để trang kịp load
 }
 
+
 function fillProductFields(data) {
-    // 1. Map dữ liệu vào Input
     const mapping = {
-        'prod-id': data.id,
-        'prod-name': data.name,
-        'prod-desc': data.desc,
-        'prod-price': data.price,
-        'prod-cate': data.category_id,
-        'prod-collection': data.collection_id
+        'prod-id': data.id,          // ID sản phẩm (ẩn hoặc dùng để hiển thị)
+        'prod-name': data.name,      // Tên sản phẩm
+        'prod-price': data.price,    // Giá bán
+        'prod-cate': data.category,  // Danh mục (Sơ mi, Quần jean...)
+        'prod-desc': data.desc,      // Mô tả chi tiết sản phẩm
+        'prod-stock': data.stock     // Số lượng tồn kho
     };
 
-    // 2. Duyệt qua mapping để điền giá trị và khóa trường
     for (const [id, value] of Object.entries(mapping)) {
         const el = document.getElementById(id);
-        if (el) {
-            el.value = value || '';
-            
-            // Nếu là Phân loại hoặc Bộ sưu tập thì KHÓA (không cho sửa)
-            if (id === 'prod-cate' || id === 'prod-collection') {
-                el.disabled = true;
-                el.classList.add('bg-gray-100', 'cursor-not-allowed', 'opacity-70');
-            }
-        }
+        if (el) el.value = value || '';
     }
-    
-    // 3. Đổ danh sách biến thể vào bảng
-    if (data.variants) {
-        variants = [...data.variants]; // Gán vào mảng toàn cục
-        renderTable(); 
+}
+
+
+function fillEmployeeFields(data) {
+    const mapping = {
+        'emp-name': data.name,       // Họ và tên
+        'emp-email': data.email,     // Email liên lạc
+        'emp-phone': data.phone,     // Số điện thoại
+        'emp-role': data.role,       // Chức vụ (Quản lý, Bán hàng)
+        'emp-dob': data.dob,         // Ngày sinh
+        'emp-address': data.address  // Địa chỉ thường trú
+    };
+
+    for (const [id, value] of Object.entries(mapping)) {
+        const el = document.getElementById(id);
+        if (el) el.value = value || '';
+    }
+}
+
+
+
+// Cho Voucher
+function fillVoucherFields(data) {
+    const mapping = {
+        'v-code': data.code,
+        'v-discount': data.discount,
+        'v-type': data.type,
+        'v-start': data.startDate,
+        'v-end': data.endDate
+    };
+    for (const [id, val] of Object.entries(mapping)) {
+        const el = document.getElementById(id);
+        if (el) el.value = val || '';
+    }
+}
+
+// Cho Flash Sale (Promotion)
+function fillPromotionFields(data) {
+    const mapping = {
+        'promo-name': data.name,
+        'promo-code': data.code,
+        'promo-value': data.value,
+        'promo-start': data.startDate,
+        'promo-end': data.endDate
+    };
+    for (const [id, val] of Object.entries(mapping)) {
+        const el = document.getElementById(id);
+        if (el) el.value = val || '';
     }
 }
 
 
 function clearProductForm() {
-    const fields = ['prod-id', 'prod-name', 'prod-desc', 'prod-price', 'prod-cate', 'prod-collection'];
-    
-    fields.forEach(id => {
+    const ids = ['prod-id', 'prod-name', 'prod-price', 'prod-cate', 'prod-desc'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+}
+
+
+function clearEmployeeFields() {
+    const ids = ['emp-name', 'emp-email', 'emp-phone', 'emp-role', 'emp-dob', 'emp-address'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+}
+
+
+function clearVoucherFields() {
+    const ids = ['v-code', 'v-name', 'v-type', 'v-value', 'v-min-order', 'v-start', 'v-end'];
+    ids.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-            el.value = '';
-            // MỞ KHÓA lại khi thêm mới sản phẩm
-            el.disabled = false;
-            el.classList.remove('bg-gray-100', 'cursor-not-allowed', 'opacity-70');
+            el.tagName === 'SELECT' ? el.selectedIndex = 0 : el.value = '';
         }
     });
-
-    // Reset bảng biến thể về trạng thái trống
-    variants = [];
-    renderTable();
 }
+
+function clearPromotionFields() {
+    const ids = ['promo-name', 'promo-code', 'promo-discount', 'promo-status', 'promo-start', 'promo-end'];
+    ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -483,7 +528,6 @@ let selectedProductIds = [];
 // 2. Hàm mở Modal
 function openProductSelectionModal() {
     console.log("Đang mở modal..."); // Dùng để kiểm tra trong Console xem nút có ăn lệnh không
-    
     const modal = document.getElementById('productSelectionModal');
     const list = document.getElementById('unassignedProductList');
 
@@ -491,14 +535,11 @@ function openProductSelectionModal() {
         alert("Lỗi: Không tìm thấy Modal trong HTML!");
         return;
     }
-
     // Lọc sản phẩm chưa có BST (collection_id là null hoặc trống)
     const available = allProducts.filter(p => !p.collection_id);
-
     // Hiển thị modal
     modal.classList.remove('hidden');
     modal.classList.add('flex');
-
     // Vẽ danh sách
     if (available.length === 0) {
         list.innerHTML = `<p class="text-center text-gray-400 py-5">Hết sản phẩm để thêm!</p>`;
@@ -547,3 +588,38 @@ function closeProductSelectionModal() {
     modal.classList.add('hidden');
     modal.classList.remove('flex');
 }
+
+
+
+
+function openOrderHistory() {
+    document.getElementById('customerDetailModal').classList.add('hidden');
+    document.getElementById('orderHistoryModal').classList.remove('hidden');
+}
+
+function closeOrderHistory() {
+    document.getElementById('orderHistoryModal').classList.add('hidden');
+    document.getElementById('customerDetailModal').classList.remove('hidden');
+}
+
+function openOrderDetail(orderId) {
+    // 1. Tìm Modal Lịch sử đơn hàng bằng ID và ẩn nó đi
+    const historyModal = document.getElementById('orderHistoryModal'); 
+    if (historyModal) {
+        historyModal.classList.add('hidden'); // Nếu dùng Tailwind
+        // Hoặc: historyModal.style.display = 'none';
+    }
+
+    // 2. Logic hiển thị trang Chi tiết đơn hàng của bạn
+    // Ví dụ: Hiển thị div chi tiết hoặc chuyển trang
+    const detailPage = document.getElementById('orderDetailPage');
+    if (detailPage) {
+        detailPage.classList.remove('hidden');
+    }
+    
+    console.log("Đang mở chi tiết đơn hàng: " + orderId);
+}
+
+
+
+

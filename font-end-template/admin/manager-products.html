@@ -192,8 +192,8 @@
                     </div>   
                     
                     
-                    <div id="albumModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-                        <div class="bg-white w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden">
+                    <div id="albumModal" class="fixed inset-0 z-100 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+                        <div class="bg-white w-full max-w-2xl rounded-4xl shadow-2xl overflow-hidden">
                             <div class="p-6 border-b border-gray-100 flex justify-between items-center">
                                 <h3 class="text-[16px] font-bold text-gray-800">Tất cả hình ảnh (12)</h3>
                                 <button onclick="closeAlbumModal()" class="w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center">
@@ -236,7 +236,7 @@
     <template id="tpl-collection">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div onclick="loadPage('collection-detail')" 
-                class="bg-white p-6 rounded-[24px] border border-gray-100 shadow-sm hover:border-[#bc9c75] transition-all cursor-pointer group">
+                class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:border-[#bc9c75] transition-all cursor-pointer group">
                 <div class="w-full h-40 bg-[#fffbf7] rounded-2xl mb-4 flex items-center justify-center border border-orange-50">
                     <i class="fa-solid fa-images text-4xl text-[#bc9c75]/30 group-hover:scale-110 transition-transform"></i>
                 </div>
@@ -245,7 +245,7 @@
             </div>
 
             <div onclick="viewCollectionDetail('Bộ sưu tập Thu Đông 2025')" 
-                class="bg-white p-6 rounded-[24px] border border-gray-100 shadow-sm hover:border-[#bc9c75] transition-all cursor-pointer group">
+                class="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:border-[#bc9c75] transition-all cursor-pointer group">
                 <div class="w-full h-40 bg-gray-50 rounded-2xl mb-4 flex items-center justify-center border border-gray-100">
                     <i class="fa-solid fa-snowflake text-4xl text-blue-200 group-hover:scale-110 transition-transform"></i>
                 </div>
@@ -253,7 +253,7 @@
                 <p class="text-sm text-gray-400 mt-1">18 sản phẩm • Cập nhật 1 tuần trước</p>
             </div>
 
-            <div onclick="loadPage('add-collection')" class="border-2 border-dashed border-gray-200 rounded-[24px] flex flex-col items-center justify-center p-6 hover:bg-white hover:border-[#bc9c75] transition-all cursor-pointer text-gray-400 hover:text-[#bc9c75]">
+            <div onclick="loadPage('add-collection')" class="border-2 border-dashed border-gray-200 rounded-3xl flex flex-col items-center justify-center p-6 hover:bg-white hover:border-[#bc9c75] transition-all cursor-pointer text-gray-400 hover:text-[#bc9c75]">
                 <i class="fa-solid fa-plus-circle text-3xl mb-2"></i>
                 <span class="font-bold">Tạo BST mới</span>
             </div>
@@ -278,7 +278,7 @@
                 </button>
             </div>
 
-            <div class="bg-white rounded-[24px] border border-gray-100 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
                 <div class="p-6 border-b border-gray-50">
                     <h3 class="text-[10px] uppercase tracking-widest font-bold text-gray-400">Sản phẩm trong bộ sưu tập</h3>
                 </div>
@@ -316,7 +316,7 @@
 
     <template id="tpl-add-collection">
         <div class="max-w-4xl mx-auto space-y-6">
-            <div class="bg-white rounded-[24px] border border-gray-100 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
                 <form id="form-add-collection" class="p-8 space-y-8">
                     <div class="flex flex-col items-center justify-center border-2 border-dashed border-gray-100 rounded-[20px] p-10 bg-gray-50/30 hover:bg-[#fffbf7] hover:border-[#bc9c75]/30 transition-all cursor-pointer group">
                         <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm text-[#bc9c75] mb-4 group-hover:scale-110 transition-transform">

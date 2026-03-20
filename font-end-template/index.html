@@ -4,41 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fast Fashion</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
+    <link href="../dist/output.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
 </head>
 <body>
-    <header id="navbar" class]="bg-white fixed top-0 left-0 z-10 w-full">
+    <header id="navbar" class="bg-white fixed top-0 left-0 z-10 w-full">
         <nav class="container flex items-center justify-between h-16">
+
             <div class="text-xl cursor-pointer">
                 <i class="ri-menu-4-line" id="menu"></i>
             </div>
 
-            <img src="/font-end-template/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="logo" class="w-28">
+            <!-- logo -->
+            <img src="/font-end-template/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="logo" class="w-10">
 
-            <div id="nav-menu" class="bg-red-400 absolute top-0 left-0 min-[80vh] w-full 
+            <!-- menu items -->
+            <div id="nav-menu" class="bg-red-400 absolute top-0 left-[-100%] min-[80vh] w-full 
             border-b border-emerald-800 px-5 duration-500 ease-out overflow-hidden z-20">
                 <ul class="flex flex-col items-center gap-8 pt-20">
-                    <li><a href="#home" class="nav-link">Home</a></li>
-                    <li><a href="#home" class="nav-link">Home</a></li>
-                    <li><a href="#home" class="nav-link">Home</a></li>
-                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li>
+                        <a href="#home" class="nav-link active">Home</a>
+                    </li>
+                    <li>
+                        <a href="#home" class="nav-link">Shop</a>
+                    </li>
+                    <li>
+                        <a href="#home" class="nav-link">Home</a>
+                    </li>
+                    <li>
+                        <a href="#home" class="nav-link">Home</a>
+                    </li>
                 </ul>
 
-                <div>
+                <div class="text-xl cursor-pointer absolute top-5 right-5">
                     <i class="ri-close-large-line"></i>
                 </div>
 
-                <div>
-                    <i class="ri-search-line"></i>
-                    <i class="ri-user-line"></i>
+                <div class="flex items-center gap-5 text-xl cursor-pointer pt-20">
+                    <i class=" hidden  ri-search-line"></i>
+                    <i class="hidden ri-user-line"></i>
                     <div>
-                        <i class="ri-heart-line"></i>
+                        <i class="hidden ri-heart-line"></i>
+                        <span class="font-bold absolute top-0 left-4 bg-firstcolor 
+                        text-white text-xs w-5 h-5 rounded-full grid place-items-center">0</span>
                     </div>
                     <div>
-                        <i class="ri-shopping-cart-line"></i>
+                        <i class="hidden ri-shopping-cart-line"></i>
+                        <span class="font-bold absolute top-0 left-4 bg-firstcolor 
+                        text-white text-xs w-5 h-5 rounded-full grid place-items-center">0</span>
                     </div>
                 </div>
 
@@ -48,6 +63,8 @@
 
 
 
-    <script src="script.js"></script>
+
+
+    <script src="/font-end-template/asset/js/main.js"></script>
 </body>
 </html>

@@ -1,8 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{html,js}"], // Điều chỉnh đường dẫn theo dự án
+  content: [
+    "./font-end-template/**/*.{html,js}",
+    "./font-end-template/admin/*.html",
+    "./font-end-template/user/*.html",
+    "./index.html"
+  ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        
+      },
+    },
   },
   plugins: [],
 }

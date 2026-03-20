@@ -3,42 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fashion Shop </title>
+    <title>Fast Fashion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
 </head>
 <body>
-    <header>
-        <div class="container nav-container">
-            <div class="logo">92<span>WEAR</span></div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="#">SALE</a></li>
-                    <li><a href="#">BÁN CHẠY</a></li>
-                    <li><a href="#">HÀNG MỚI</a></li>
-                    <li><a href="#">BỘ SƯU TẬP</a></li>
-                </ul>
-            </nav>
-            <div class="header-icons">
-                <i class="fas fa-search"></i>
-                <a href="/login_logout/login.html"><i class="far fa-user"></i></a>
-                <div class="cart-btn">
-                    <i class="fas fa-shopping-bag"></i>
-                    <span id="cart-count">0</span>
-                </div>
+    <header id="navbar" class]="bg-white fixed top-0 left-0 z-10 w-full">
+        <nav class="container flex items-center justify-between h-16">
+            <div class="text-xl cursor-pointer">
+                <i class="ri-menu-4-line" id="menu"></i>
             </div>
-        </div>
+
+            <img src="/font-end-template/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="logo" class="w-28">
+
+            <div id="nav-menu" class="bg-red-400 absolute top-0 left-0 min-[80vh] w-full 
+            border-b border-emerald-800 px-5 duration-500 ease-out overflow-hidden z-20">
+                <ul class="flex flex-col items-center gap-8 pt-20">
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                </ul>
+
+                <div>
+                    <i class="ri-close-large-line"></i>
+                </div>
+
+                <div>
+                    <i class="ri-search-line"></i>
+                    <i class="ri-user-line"></i>
+                    <div>
+                        <i class="ri-heart-line"></i>
+                    </div>
+                    <div>
+                        <i class="ri-shopping-cart-line"></i>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
     </header>
 
-    <section class="hero">
-        <div class="hero-overlay">
-            <div class="hero-content">
-                <h2>BẢN SẮC THỜI TRANG</h2>
-                <h1>CHẤT VIỆT</h1>
-                <button class="btn-shop">KHÁM PHÁ NGAY</button>
-            </div>
-        </div>
-    </section>
 
 
     <script src="script.js"></script>

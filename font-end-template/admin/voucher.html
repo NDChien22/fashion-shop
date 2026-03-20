@@ -170,13 +170,13 @@
                         <h3 class="text-xs font-black text-gray-800 uppercase tracking-widest">Trạng thái (Active)</h3>
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" id="v-status" class="sr-only peer" checked>
-                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#bc9c75]"></div>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#bc9c75]"></div>
                         </label>
                     </div>
                     <p class="text-[10px] text-gray-400 font-medium leading-relaxed">Khi kích hoạt, khách hàng có thể áp dụng mã này ngay lập tức nếu thỏa mãn điều kiện.</p>
                 </div>
 
-                <div class="bg-[#bc9c75] p-6 rounded-[2rem] shadow-xl shadow-[#bc9c75]/20 relative overflow-hidden text-white min-h-[180px] flex flex-col justify-between">
+                <div class="bg-[#bc9c75] p-6 rounded-4xl shadow-xl shadow-[#bc9c75]/20 relative overflow-hidden text-white min-h-[180px] flex flex-col justify-between">
                     <i class="fa-solid fa-ticket absolute -right-6 -top-6 text-white/10 text-9xl rotate-12"></i>
                     
                     <div class="relative z-10">
@@ -244,7 +244,7 @@
                 </div>
             </div>
 
-            <div class="bg-white rounded-[24px] border border-gray-100 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
                 <div class="p-6 border-b border-gray-50 flex items-center justify-between">
                     <h3 class="font-bold text-gray-800">Danh sách chương trình</h3>
                     <div class="flex gap-2">
@@ -331,7 +331,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
             <div class="lg:col-span-5 space-y-6">
-                <div class="bg-gray-50/80 p-6 rounded-[32px] border border-gray-100">
+                <div class="bg-gray-50/80 p-6 rounded-4xl border border-gray-100">
                     <p class="text-[10px] font-black text-[#bc9c75] uppercase tracking-widest mb-4 flex items-center gap-2">
                         <span class="w-5 h-5 rounded-full bg-[#bc9c75] text-white flex items-center justify-center text-[8px]">1</span>
                         Cấu hình ưu đãi
@@ -372,21 +372,21 @@
                 </p>
                 
                 <div class="grid grid-cols-3 gap-3">
-                    <button onclick="selectType('product')" id="card-product" class="apply-card p-4 bg-gray-50 rounded-[24px] border-2 border-transparent transition-all flex flex-col items-center gap-2 group hover:bg-white hover:shadow-lg">
+                    <button onclick="selectType('product')" id="card-product" class="apply-card p-4 bg-gray-50 rounded-3xl border-2 border-transparent transition-all flex flex-col items-center gap-2 group hover:bg-white hover:shadow-lg">
                         <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-gray-300 group-hover:text-[#bc9c75] transition-all">
                             <i class="fa-solid fa-tag text-sm"></i>
                         </div>
                         <span class="font-bold text-[9px] uppercase text-gray-400 group-hover:text-gray-700">Sản phẩm</span>
                     </button>
 
-                    <button onclick="selectType('category')" id="card-category" class="apply-card p-4 bg-gray-50 rounded-[24px] border-2 border-transparent transition-all flex flex-col items-center gap-2 group hover:bg-white hover:shadow-lg">
+                    <button onclick="selectType('category')" id="card-category" class="apply-card p-4 bg-gray-50 rounded-3xl border-2 border-transparent transition-all flex flex-col items-center gap-2 group hover:bg-white hover:shadow-lg">
                         <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-gray-300 group-hover:text-[#bc9c75] transition-all">
                             <i class="fa-solid fa-folder-tree text-sm"></i>
                         </div>
                         <span class="font-bold text-[9px] uppercase text-gray-400 group-hover:text-gray-700">Danh mục</span>
                     </button>
 
-                    <button onclick="selectType('collection')" id="card-collection" class="apply-card p-4 bg-gray-50 rounded-[24px] border-2 border-transparent transition-all flex flex-col items-center gap-2 group hover:bg-white hover:shadow-lg">
+                    <button onclick="selectType('collection')" id="card-collection" class="apply-card p-4 bg-gray-50 rounded-3xl border-2 border-transparent transition-all flex flex-col items-center gap-2 group hover:bg-white hover:shadow-lg">
                         <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-gray-300 group-hover:text-[#bc9c75] transition-all">
                             <i class="fa-solid fa-layer-group text-sm"></i>
                         </div>
@@ -394,7 +394,7 @@
                     </button>
                 </div>
 
-                <div id="detail-selection-area" class="bg-gray-50/50 rounded-[24px] p-5 border border-gray-100 hidden animate-fade-in">
+                <div id="detail-selection-area" class="bg-gray-50/50 rounded-3xl p-5 border border-gray-100 hidden animate-fade-in">
                     <div id="detail-list" class="grid grid-cols-1 gap-2 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
                         </div>
                 </div>

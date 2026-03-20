@@ -575,7 +575,7 @@ function openProductSelectionModal() {
                         class="w-5 h-5 rounded-md border-gray-300 text-[#bc9c75] focus:ring-[#bc9c75] cursor-pointer accent-[#bc9c75]">
                 </div>
 
-                <div class="w-12 h-12 rounded-xl bg-gray-50 overflow-hidden border border-gray-100 flex-shrink-0">
+                <div class="w-12 h-12 rounded-xl bg-gray-50 overflow-hidden border border-gray-100 shrink-0">
                     <img src="${p.image_url || ''}" 
                         onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(p.name)}&background=f3f4f6&color=bc9c75'" 
                         class="w-full h-full object-cover">
@@ -590,7 +590,7 @@ function openProductSelectionModal() {
                     </p>
                 </div>
 
-                <div class="text-right flex-shrink-0">
+                <div class="text-right shrink-0">
                     <p class="text-xs font-bold text-gray-900">
                         ${p.price ? p.price.toLocaleString() + 'đ' : '---'}
                     </p>

@@ -4,64 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fast Fashion</title>
-    <link href="../dist/output.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+    <link rel="stylesheet" href="/font-end-template/asset/css/style.css">
 </head>
-<body>
-    <header id="navbar" class="bg-white fixed top-0 left-0 z-10 w-full">
-        <nav class="container flex items-center justify-between h-16">
+<body class="bg-gray-50">
+    <header id="navbar" class="bg-amber-200 fixed top-0 left-0 z-50 w-full shadow-sm">
+        <nav class="container mx-auto flex items-center justify-between h-16 px-4">
 
-            <div class="text-xl cursor-pointer">
-                <i class="ri-menu-4-line" id="menu"></i>
+            <div class="text-2xl cursor-pointer md:hidden" id="menu-btn">
+                <i class="ri-menu-4-line"></i>
             </div>
 
-            <!-- logo -->
-            <img src="/font-end-template/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="logo" class="w-10">
+            <div class="flex-none md:static absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 z-20">
+                <img src="/font-end-template/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" 
+                    alt="logo" 
+                    class="w-20 h-auto block"
+                    >
+            </div>
 
-            <!-- menu items -->
-            <div id="nav-menu" class="bg-red-400 absolute top-0 -left-full min-[80vh] w-full 
-            border-b border-emerald-800 px-5 duration-500 ease-out overflow-hidden z-20">
-                <ul class="flex flex-col items-center gap-8 pt-20">
-                    <li>
-                        <a href="#home" class="nav-link active">Home</a>
-                    </li>
-                    <li>
-                        <a href="#home" class="nav-link">Shop</a>
-                    </li>
-                    <li>
-                        <a href="#home" class="nav-link">Home</a>
-                    </li>
-                    <li>
-                        <a href="#home" class="nav-link">Home</a>
-                    </li>
+            <div id="nav-menu" class="fixed top-0 -left-full h-full w-3/4 bg-white border-r border-gray-200 p-10 duration-500 ease-in-out z-50 md:static md:flex md:items-center md:justify-between md:w-full md:h-auto md:border-none md:p-0 md:bg-transparent">
+                
+                <div class="text-2xl cursor-pointer absolute top-5 right-5 md:hidden" id="close-btn">
+                    <i class="ri-close-line"></i>
+                </div>
+
+                <ul class="flex flex-col items-start gap-8 md:flex-row md:items-center md:mx-auto">
+                    <li><a href="#home" class="font-medium hover:text-red-500 transition">Home</a></li>
+                    <li><a href="#shop" class="font-medium hover:text-red-500 transition">Shop</a></li>
+                    <li><a href="#about" class="font-medium hover:text-red-500 transition">About</a></li>
+                    <li><a href="#contact" class="font-medium hover:text-red-500 transition">Contact</a></li>
                 </ul>
 
-                <div class="text-xl cursor-pointer absolute top-5 right-5">
-                    <i class="ri-close-large-line"></i>
-                </div>
-
-                <div class="flex items-center gap-5 text-xl cursor-pointer pt-20">
-                    <i class=" hidden  ri-search-line"></i>
-                    <i class="hidden ri-user-line"></i>
-                    <div>
-                        <i class="hidden ri-heart-line"></i>
-                        <span class="font-bold absolute top-0 left-4 bg-firstcolor 
-                        text-white text-xs w-5 h-5 rounded-full grid place-items-center">0</span>
-                    </div>
-                    <div>
-                        <i class="hidden ri-shopping-cart-line"></i>
-                        <span class="font-bold absolute top-0 left-4 bg-firstcolor 
-                        text-white text-xs w-5 h-5 rounded-full grid place-items-center">0</span>
+                <div class="flex items-center gap-6 text-xl mt-10 md:mt-0">
+                    <i class="ri-search-line cursor-pointer hover:text-red-500"></i>
+                    <i class="ri-user-line cursor-pointer hover:text-red-500"></i>
+                    
+                    <div class="relative cursor-pointer">
+                        <i class="ri-shopping-cart-line hover:text-red-500"></i>
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">2</span>
                     </div>
                 </div>
-
             </div>
         </nav>
     </header>
-
-
 
 
 

@@ -166,6 +166,29 @@ function switchTab(tabName){
 
 
 // 4. QUẢN LÝ BIẾN THỂ (VARIANTS) 
+// --- LOGIC ALBUM ---
+function openAlbumModal() {
+    const modal = document.getElementById('albumModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    } else {
+        console.error("Lỗi: Không tìm thấy phần tử có ID 'albumModal'. Hãy kiểm tra lại file manager-products.html.");
+    }
+}
+
+function closeAlbumModal() {
+    const modal = document.getElementById('albumModal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+
+
  
 function renderTable() {
     const tbody = document.getElementById('variantList');

@@ -3,54 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast Fashion</title>
+    <title>Fast Fashion - Luxury Gold</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="/font-end-template/asset/css/style.css">
 </head>
 <body class="bg-gray-50">
-    <header id="navbar" class="bg-amber-200 fixed top-0 left-0 z-50 w-full shadow-sm">
-        <nav class="container mx-auto flex items-center justify-between h-16 px-4">
 
-            <div class="text-2xl cursor-pointer md:hidden" id="menu-btn">
-                <i class="ri-menu-4-line"></i>
-            </div>
-
-            <div class="flex-none md:static absolute left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 z-20">
-                <img src="/font-end-template/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" 
-                    alt="logo" 
-                    class="w-20 h-auto block"
-                    >
-            </div>
-
-            <div id="nav-menu" class="fixed top-0 -left-full h-full w-3/4 bg-white border-r border-gray-200 p-10 duration-500 ease-in-out z-50 md:static md:flex md:items-center md:justify-between md:w-full md:h-auto md:border-none md:p-0 md:bg-transparent">
-                
-                <div class="text-2xl cursor-pointer absolute top-5 right-5 md:hidden" id="close-btn">
-                    <i class="ri-close-line"></i>
+    <header class="bg-white fixed top-0 left-0 z-50 w-full shadow-sm border-b border-gray-100 h-16 md:h-20 flex items-center">
+        <nav class="container mx-auto flex items-center justify-between px-4 relative w-full">
+            
+            <div id="overlay" class="flex-1 md:hidden">
+                <div class="text-2xl cursor-pointer inline-block" id="menu-btn">
+                    <i class="ri-menu-4-line"></i>
                 </div>
+            </div>
 
-                <ul class="flex flex-col items-start gap-8 md:flex-row md:items-center md:mx-auto">
-                    <li><a href="#home" class="font-medium hover:text-red-500 transition">Home</a></li>
-                    <li><a href="#shop" class="font-medium hover:text-red-500 transition">Shop</a></li>
-                    <li><a href="#about" class="font-medium hover:text-red-500 transition">About</a></li>
-                    <li><a href="#contact" class="font-medium hover:text-red-500 transition">Contact</a></li>
-                </ul>
+            <div class="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 z-20">
+                <img src="/font-end-template/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" 
+                     alt="logo" class="w-16 md:w-24 h-auto block">
+            </div>
 
-                <div class="flex items-center gap-6 text-xl mt-10 md:mt-0">
-                    <i class="ri-search-line cursor-pointer hover:text-red-500"></i>
-                    <i class="ri-user-line cursor-pointer hover:text-red-500"></i>
-                    
-                    <div class="relative cursor-pointer">
-                        <i class="ri-shopping-cart-line hover:text-red-500"></i>
-                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">2</span>
-                    </div>
+            <div id="nav-menu" class="hidden md:flex flex-1 justify-center items-center gap-8 uppercase font-bold text-[13px] tracking-widest">
+                <a href="#" class="hover-gold transition">Home</a>
+                <a href="#" class="hover-gold transition">Shop</a>
+                <a href="#" class="text-gold italic font-black">Final Sale</a>
+            </div>
+
+            <div class="flex-1 flex items-center justify-end gap-5 text-xl">
+                <i class="ri-search-line cursor-pointer hidden md:block hover-gold"></i>
+                <i class="ri-user-line cursor-pointer hidden md:block hover-gold"></i>
+                
+                <div class="relative cursor-pointer group">
+                    <i class="ri-shopping-cart-line group-hover:text-gold transition"></i>
+                    <span class="absolute -top-2 -right-2 bg-gold text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold shadow-sm">2</span>
                 </div>
             </div>
         </nav>
     </header>
 
+    <main class="mt-16 md:mt-20">
+        <section class="relative overflow-hidden w-full">
+            <div class="flex w-[400%] animate-banner">
+                <div class="w-full"><img src="https://2885371169.e.cdneverest.net/Simiconnector/BannerSlider/f/i/finalsale_topbanner_desktop-180326.webp" class="w-full h-[300px] md:h-[550px] object-cover"></div>
+                <div class="w-full"><img src="https://th.bing.com/th/id/OIP.6VCB_MI-6nUEVw8o49hC1wHaEO?w=297&h=180&c=7&r=0&o=7&pid=1.7&rm=3" class="w-full h-[300px] md:h-[550px] object-cover"></div>
+                <div class="w-full"><img src="https://2885371169.e.cdneverest.net/Simiconnector/BannerSlider/s/p/spmoi_topbanner_desktop-210326.webp" class="w-full h-[300px] md:h-[550px] object-cover"></div>
+                <div class="w-full"><img src="https://2885371169.e.cdneverest.net/Simiconnector/BannerSlider/f/i/finalsale_topbanner_desktop-180326.webp" class="w-full h-[300px] md:h-[550px] object-cover"></div>
+            </div>
 
+            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                <div class="dot-1 h-1 rounded-full shadow-sm"></div>
+                <div class="dot-2 h-1 rounded-full shadow-sm"></div>
+                <div class="dot-3 h-1 rounded-full shadow-sm"></div>
+                <div class="dot-4 h-1 rounded-full shadow-sm"></div>
+            </div>
+        </section>
+
+        <section class="bg-white py-12">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-center justify-between border-b-2 border-gray-100 pb-6 mb-8 gap-4">
+                    <div class="flex items-center gap-6">
+                        <h2 class="text-3xl font-black text-gold italic uppercase tracking-tighter">Flash Sale</h2>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-black text-white font-bold px-2 py-1 rounded shadow-sm" id="hours">02</span>
+                            <span class="font-bold">:</span>
+                            <span class="bg-black text-white font-bold px-2 py-1 rounded shadow-sm" id="minutes">45</span>
+                            <span class="font-bold">:</span>
+                            <span class="bg-black text-white font-bold px-2 py-1 rounded shadow-sm" id="seconds">00</span>
+                        </div>
+                    </div>
+                    <a href="#" class="text-sm font-bold text-gray-400 hover:text-gold transition underline uppercase tracking-widest">Xem tất cả</a>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-10">
+                    <div class="group cursor-pointer">
+                        <div class="relative overflow-hidden bg-gray-50 rounded-sm">
+                            <img src="https://canifa.com/img/cms/p/m/pm-ao-phong-nam.jpg" class="w-full h-auto transform group-hover:scale-110 transition duration-700">
+                            <span class="absolute top-3 left-3 bg-gold text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase shadow-md">-50%</span>
+                            <button class="absolute bottom-0 w-full bg-black/90 text-white py-3 text-xs font-bold translate-y-full group-hover:translate-y-0 transition-transform">
+                                THÊM VÀO GIỎ
+                            </button>
+                        </div>
+                        <div class="mt-4 text-center md:text-left">
+                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Luxury Edition</p>
+                            <h3 class="text-sm font-semibold text-gray-800 line-clamp-1 group-hover:text-gold transition">Áo Phông Nam Gold Classic</h3>
+                            <div class="flex items-center justify-center md:justify-start gap-3 mt-1">
+                                <span class="text-gold font-bold text-base">199.000đ</span>
+                                <span class="text-gray-300 text-xs line-through">398.000đ</span>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </section>
+    </main>
 
     <script src="/font-end-template/asset/js/main.js"></script>
 </body>

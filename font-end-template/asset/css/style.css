@@ -1,3 +1,26 @@
-#nav-menu.active {
-            left: 0;
-        }
+.text-gold { color: red; }
+.bg-gold { background-color: red; }
+.hover-gold:hover { color: #c5a059; }
+
+
+
+        /* Animation Banner lướt 20 giây */
+@keyframes slideLoop {
+    0%, 20% { transform: translateX(0%); }
+    25%, 45% { transform: translateX(-100%); }
+    50%, 70% { transform: translateX(-200%); }
+    75%, 95% { transform: translateX(-300%); }
+    100% { transform: translateX(0%); }
+}
+.animate-banner { animation: slideLoop 20s infinite ease-in-out; }
+
+/* Animation cho Dots đồng bộ với Banner */
+@keyframes syncDot1 { 0%, 20% { width: 40px; background: #c5a059; } 25%, 100% { width: 8px; background: #d1d5db; } }
+@keyframes syncDot2 { 0%, 20% { width: 8px; background: #d1d5db; } 25%, 45% { width: 40px; background: #c5a059; } 50%, 100% { width: 8px; background: #d1d5db; } }
+@keyframes syncDot3 { 0%, 45% { width: 8px; background: #d1d5db; } 50%, 70% { width: 40px; background: #c5a059; } 75%, 100% { width: 8px; background: #d1d5db; } }
+@keyframes syncDot4 { 0%, 70% { width: 8px; background: #d1d5db; } 75%, 95% { width: 40px; background: #c5a059; } 100% { width: 8px; background: #d1d5db; } }
+
+.dot-1 { animation: syncDot1 20s infinite ease-in-out; }
+.dot-2 { animation: syncDot2 20s infinite ease-in-out; }
+.dot-3 { animation: syncDot3 20s infinite ease-in-out; }
+.dot-4 { animation: syncDot4 20s infinite ease-in-out; }

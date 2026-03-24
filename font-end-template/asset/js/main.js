@@ -1,4 +1,4 @@
-const menuBtn = document.getElementById('menu-btn');
+        const menuBtn = document.getElementById('menu-btn');
         const closeBtn = document.getElementById('close-btn');
         const navMenu = document.getElementById('nav-menu');
 
@@ -23,3 +23,7 @@ const menuBtn = document.getElementById('menu-btn');
             }, 1000);
         }
         startCountdown();
+
+
+
+   

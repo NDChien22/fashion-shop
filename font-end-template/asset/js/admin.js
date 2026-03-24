@@ -519,26 +519,6 @@ function clearPromotionFields() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 1. Khai báo data mẫu (Bắt buộc phải có đoạn này)
 let allProducts = [
     { id: 1, name: "Sản phẩm A", price: 100000, collection_id: null, image_url: "" },
@@ -626,15 +606,11 @@ function closeOrderHistory() {
 }
 
 function openOrderDetail(orderId) {
-    // 1. Tìm Modal Lịch sử đơn hàng bằng ID và ẩn nó đi
     const historyModal = document.getElementById('orderHistoryModal'); 
     if (historyModal) {
-        historyModal.classList.add('hidden'); // Nếu dùng Tailwind
-        // Hoặc: historyModal.style.display = 'none';
+        historyModal.classList.add('hidden');  
     }
 
-    // 2. Logic hiển thị trang Chi tiết đơn hàng của bạn
-    // Ví dụ: Hiển thị div chi tiết hoặc chuyển trang
     const detailPage = document.getElementById('orderDetailPage');
     if (detailPage) {
         detailPage.classList.remove('hidden');

@@ -43,19 +43,34 @@
     </header>
 
     <main class="mt-16 md:mt-20">
-        <section class="relative overflow-hidden w-full">
-            <div class="flex w-[400%] animate-banner">
-                <div class="w-full"><img src="https://2885371169.e.cdneverest.net/Simiconnector/BannerSlider/f/i/finalsale_topbanner_desktop-180326.webp" class="w-full h-[300px] md:h-[550px] object-cover"></div>
-                <div class="w-full"><img src="https://th.bing.com/th/id/OIP.6VCB_MI-6nUEVw8o49hC1wHaEO?w=297&h=180&c=7&r=0&o=7&pid=1.7&rm=3" class="w-full h-[300px] md:h-[550px] object-cover"></div>
-                <div class="w-full"><img src="https://2885371169.e.cdneverest.net/Simiconnector/BannerSlider/s/p/spmoi_topbanner_desktop-210326.webp" class="w-full h-[300px] md:h-[550px] object-cover"></div>
-                <div class="w-full"><img src="https://2885371169.e.cdneverest.net/Simiconnector/BannerSlider/f/i/finalsale_topbanner_desktop-180326.webp" class="w-full h-[300px] md:h-[550px] object-cover"></div>
+        <section class="relative overflow-hidden w-full bg-gray-100 group">
+            <div class="animate-banner" id="banner-list">
+                <div class="banner-item">
+                    <img src="https://2885371169.e.cdneverest.net/Simiconnector/BannerSlider/f/i/finalsale_topbanner_desktop-180326.webp" class="w-full h-[300px] md:h-[550px] object-cover">
+                </div>
+                <div class="banner-item">
+                    <img src="https://th.bing.com/th/id/OIP.6VCB_MI-6nUEVw8o49hC1wHaEO?w=297&h=180&c=7&r=0&o=7&pid=1.7&rm=3" class="w-full h-[300px] md:h-[550px] object-cover">
+                </div>
+                <div class="banner-item">
+                    <img src="https://trangtri360.com/wp-content/uploads/2024/05/bang-sale-quan-ao-8.jpg" class="w-full h-[300px] md:h-[550px] object-cover">
+                </div>
+                <div class="banner-item">
+                    <img src="https://th.bing.com/th/id/OIP.o4j-lEIV_zoKfH4WoqvqGwHaEO?w=298&h=180&c=7&r=0&o=7&pid=1.7&rm=3" class="w-full h-[300px] md:h-[550px] object-cover">
+                </div>
             </div>
 
+            <button id="prev-btn" class="absolute z-50 left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-white backdrop-blur-md rounded-full flex items-center justify-center text-white hover:text-black opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <i class="ri-arrow-left-s-line text-2xl"></i>
+            </button>
+            <button id="next-btn" class="absolute z-50 right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-white backdrop-blur-md rounded-full flex items-center justify-center text-white hover:text-black opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <i class="ri-arrow-right-s-line text-2xl"></i>
+            </button>
+
             <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2">
-                <div class="dot-1 h-1 rounded-full shadow-sm"></div>
-                <div class="dot-2 h-1 rounded-full shadow-sm"></div>
-                <div class="dot-3 h-1 rounded-full shadow-sm"></div>
-                <div class="dot-4 h-1 rounded-full shadow-sm"></div>
+                <div class="dot-1 h-1.5 rounded-full transition-all"></div>
+                <div class="dot-2 h-1.5 rounded-full transition-all"></div>
+                <div class="dot-3 h-1.5 rounded-full transition-all"></div>
+                <div class="dot-4 h-1.5 rounded-full transition-all"></div>
             </div>
         </section>
 
@@ -96,6 +111,9 @@
                     </div>
             </div>
         </section>
+
+
+        
     </main>
 
     <script src="/font-end-template/asset/js/main.js"></script>

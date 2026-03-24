@@ -17,7 +17,9 @@
 <body class="bg-gray-50 flex flex-col h-screen overflow-hidden">
     @php
         $authUser = Auth::user();
+        $authUser?->loadMissing('role');
         $displayName = $authUser->full_name ?: $authUser->username;
+        $displayRole = (string) ($authUser->role?->name ?? '');
         $avatarPath = (string) ($authUser->avatar ?? '');
 
         if ($avatarPath !== '' && !\Illuminate\Support\Str::startsWith($avatarPath, ['http://', 'https://', '/'])) {
@@ -57,7 +59,7 @@
 
                     <div class="text-[12px] leading-tight">
                         <p class="font-semibold text-gray-800">{{ $displayName }}</p>
-                        <p class="text-gray-400">Chủ cửa hàng</p>
+                        <p class="text-gray-400">{{ $displayRole !== '' ? $displayRole : 'Chưa có chức vụ' }}</p>
                     </div>
                 </div>
             </div>
@@ -120,11 +122,11 @@
                         <span class="font-medium">Hồ sơ cá nhân</span>
                     </a>
                 </div>
-                <div class="nav-item group {{ Request::routeIs('admin.account-manager') ? 'active' : '' }}">
+                <div class="nav-item group {{ Request::routeIs('admin.admin-account-manager') ? 'active' : '' }}">
                     <div class="nav-icon-box">
                         <i class="fa-solid fa-circle-plus text-[15px]"></i>
                     </div>
-                    <a href="{{ route('admin.account-manager') }}">
+                    <a href="{{ route('admin.admin-account-manager') }}">
                         <span class="font-medium">Đổi mật khẩu</span>
                     </a>
                 </div>

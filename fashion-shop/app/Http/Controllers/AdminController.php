@@ -13,4 +13,9 @@ class AdminController extends Controller
     public function AccountManagerView(){
         return view('pages.admin.account-manager.account-manager');
     }
+
+    public function DashboardView(){
+        return view('pages.admin.dashboard');
+    }
+
 }

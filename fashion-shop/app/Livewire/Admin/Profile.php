@@ -14,6 +14,8 @@ class Profile extends Component
 {
     use WithFileUploads;
 
+    public string $employee_code = '';
+
     #[Validate('required|string|max:255')]
     public string $full_name = '';
 
@@ -49,6 +51,10 @@ class Profile extends Component
             return;
         }
 
+        $user->loadMissing('role', 'employee');
+
+ 
+        $this->employee_code = (string) ($user->employee?->employee_code ?? '');
         $this->full_name = (string) ($user->full_name ?? '');
         $this->email = (string) ($user->email ?? '');
         $this->phone_number = (string) ($user->phone_number ?? '');
@@ -57,7 +63,7 @@ class Profile extends Component
             ? Carbon::parse($user->birthday)->format('d/m/Y')
             : '';
         $this->address = (string) ($user->address ?? '');
-        $this->role = (string) ($user->role ?? 'customer');
+        $this->role = (string) ($user->role?->name ?? '');
         $this->avatar_url = $this->resolveAvatarUrl((string) ($user->avatar ?? ''));
         $this->avatar_initials = $this->buildInitials(
             (string) ($user->full_name ?: $user->username ?: $user->email)

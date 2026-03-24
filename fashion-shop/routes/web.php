@@ -8,9 +8,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/dashboard', function(){
-//     return view('pages.dashboard');
-// })->name('dashboard');
+Route::get('/dashboard', function(){
+    return view('pages.dashboard');
+})->name('dashboard');
 
 Route::middleware('guest')->group(function(){ 
     //Login
@@ -47,11 +47,12 @@ Route::middleware('auth')->group(function(){
 //Admin routes
 Route::prefix('admin')->name('admin.')->group(function(){
     Route::middleware('auth')->group(function(){
-        Route::get('/', function(){
-            return view('pages.admin.dashboard');
-        })->name('dashboard');
+        Route::get('/', [AdminController::class, 'DashboardView'])->name('admin_dashboard');
 
         Route::get('/profile', [AdminController::class, 'ProfileView'])->name('admin-profile');
-        Route::get('/account-manager', [AdminController::class, 'AccountManagerView'])->name('account-manager');
+        Route::get('/account-manager', [AdminController::class, 'AccountManagerView'])->name('admin-account-manager');
+
+        //Product Manager
+        
     });
 });

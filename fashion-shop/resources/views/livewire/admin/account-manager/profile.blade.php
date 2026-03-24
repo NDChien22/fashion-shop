@@ -49,6 +49,12 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
+                    <label class="text-sm font-bold text-gray-700">Mã nhân viên</label>
+                    <input
+                        type="text"class="w-full rounded-xl p-3 bg-gray-50 border border-gray-100 text-gray-400 cursor-not-allowed "
+                        wire:model="employee_code" readonly>
+                </div>
+                <div class="space-y-2">
                     <label class="text-sm font-bold text-gray-700">Họ và tên</label>
                     <input type="text"
                         class="w-full rounded-xl p-3 bg-white border border-gray-200 outline-none focus:border-[#bc9c75] focus:ring-2 focus:ring-[#bc9c75]/10 transition-all"

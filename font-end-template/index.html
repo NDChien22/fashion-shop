@@ -24,7 +24,7 @@
                      alt="logo" class="w-16 md:w-24 h-auto block">
             </div>
 
-            <div id="nav-menu" class="hidden md:flex flex-1 justify-center items-center gap-8 uppercase font-bold text-[13px] tracking-widest">
+            <div id="nav-menu" class="hidden md:flex flex-1 justify-center items-center gap-8 uppercase font-bold text-[18px] tracking-widest">
                 <a href="#" class="hover-gold transition">Home</a>
                 <a href="#" class="hover-gold transition">Shop</a>
                 <a href="#" class="text-gold italic font-black">Final Sale</a>
@@ -90,32 +90,88 @@
                     <a href="#" class="text-sm font-bold text-gray-400 hover:text-gold transition underline uppercase tracking-widest">Xem tất cả</a>
                 </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-10">
-                    <div class="group cursor-pointer">
-                        <div class="relative overflow-hidden bg-gray-50 rounded-sm">
-                            <img src="https://canifa.com/img/cms/p/m/pm-ao-phong-nam.jpg" class="w-full h-auto transform group-hover:scale-110 transition duration-700">
-                            <span class="absolute top-3 left-3 bg-gold text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase shadow-md">-50%</span>
-                            <button class="absolute bottom-0 w-full bg-black/90 text-white py-3 text-xs font-bold translate-y-full group-hover:translate-y-0 transition-transform">
-                                THÊM VÀO GIỎ
-                            </button>
-                        </div>
-                        <div class="mt-4 text-center md:text-left">
-                            <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Luxury Edition</p>
-                            <h3 class="text-sm font-semibold text-gray-800 line-clamp-1 group-hover:text-gold transition">Áo Phông Nam Gold Classic</h3>
-                            <div class="flex items-center justify-center md:justify-start gap-3 mt-1">
-                                <span class="text-gold font-bold text-base">199.000đ</span>
-                                <span class="text-gray-300 text-xs line-through">398.000đ</span>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
-            </div>
+                <div id="product-grid" class="flex overflow-x-auto gap-4 lg:gap-8 pb-6 scrollbar-hide snap-x snap-mandatory"></div>
+                
         </section>
 
+        <section class="max-w-7xl mx-auto px-4 py-16">
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800 uppercase tracking-wider">Sản phẩm bán chạy</h2>
+                    <div class="h-1 w-20 bg-[#bc9c75] mt-2"></div>
+                </div>
+                <a href="#" class="text-[#bc9c75] font-medium hover:underline transition-all">Xem tất cả <i class="ri-arrow-right-line"></i></a>
+            </div>
 
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                
+                <div class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100">
+                    <div class="relative overflow-hidden aspect-3/4">
+                        <span class="absolute top-3 left-3 z-10 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">HOT</span>
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop" 
+                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                            <button class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-800 hover:bg-[#bc9c75] hover:text-white transition-colors shadow-md">
+                                <i class="ri-shopping-cart-2-line"></i>
+                            </button>
+                            <button class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-gray-800 hover:bg-[#bc9c75] hover:text-white transition-colors shadow-md">
+                                <i class="ri-eye-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 text-center">
+                        <p class="text-sm text-gray-500 mb-1">Thời trang nữ</p>
+                        <h3 class="font-semibold text-gray-800 truncate mb-2 group-hover:text-[#bc9c75] transition-colors">Váy lụa cao cấp dự tiệc</h3>
+                        <div class="flex items-center justify-center gap-3">
+                            <span class="text-[#bc9c75] font-bold text-lg">850.000đ</span>
+                            <span class="text-gray-400 line-through text-sm">1.200.000đ</span>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+        </section>
         
     </main>
 
     <script src="/font-end-template/asset/js/main.js"></script>
+
+    <script>
+        const products = [
+            { id: 1, name: "Áo Phông Nam Gold Classic", category: "Luxury Edition", price: 199000, originalPrice: 398000, saleTag: "-50%", image: "https://canifa.com/img/cms/p/m/pm-ao-phong-nam.jpg" },
+            { id: 2, name: "Sơ Mi Trắng Oxford Slim-fit", category: "Business Style", price: 350000, originalPrice: 700000, saleTag: "HOT", image: "https://product.hstatic.net/1000333923/product/ao_so_mi_nam_on_off_3_da6289b5c2d341999661445b736b761a_master.jpg" },
+            { id: 3, name: "Đầm Đen Dự Tiệc Sang Trọng", category: "Lady Collection", price: 590000, originalPrice: 850000, saleTag: "-30%", image: "https://bizweb.dktcdn.net/100/438/408/products/vay-dam-nu-yody-dnm4026-den-6.jpg?v=1683515867117" },
+            { id: 4, name: "Quần Jeans Xanh Navy", category: "Denim Series", price: 420000, originalPrice: 700000, saleTag: "-40%", image: "https://product.hstatic.net/1000184160/product/4_9771ba82e44d48508a5091c6e61138ec_master.jpg" },
+            { id: 5, name: "Áo Khoác Bomber Streetwear", category: "Urban Style", price: 750000, originalPrice: 1200000, saleTag: "NEW", image: "https://product.hstatic.net/1000306633/product/f_a43e7786419d4263b82776c5b9679261_master.jpg" }
+        ];
+
+        function renderProducts() {
+            const productGrid = document.getElementById('product-grid');
+            
+            productGrid.innerHTML = products.map(product => `
+                <div class="group cursor-pointer flex-shrink-0 w-[220px] md:w-[280px] snap-start">
+                    <div class="relative overflow-hidden bg-gray-50 rounded-sm">
+                        <img src="${product.image}" class="w-full h-[280px] md:h-[380px] object-cover transform group-hover:scale-110 transition duration-700">
+                        <span class="absolute top-3 left-3 bg-[#bc9c75] text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase shadow-md">${product.saleTag}</span>
+                        <button class="absolute bottom-0 w-full bg-black/90 text-white py-3 text-xs font-bold translate-y-full group-hover:translate-y-0 transition-transform">
+                            THÊM VÀO GIỎ
+                        </button>
+                    </div>
+                    <div class="mt-4 text-center md:text-left">
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">${product.category}</p>
+                        <h3 class="text-sm font-semibold text-gray-800 line-clamp-1 group-hover:text-[#bc9c75] transition">${product.name}</h3>
+                        <div class="flex items-center justify-center md:justify-start gap-3 mt-1">
+                            <span class="text-[#bc9c75] font-bold text-base">${product.price.toLocaleString()}đ</span>
+                            <span class="text-gray-300 text-xs line-through">${product.originalPrice.toLocaleString()}đ</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', renderProducts);
+    </script>
 </body>
 </html>

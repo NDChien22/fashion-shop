@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -53,6 +55,29 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::get('/account-manager', [AdminController::class, 'AccountManagerView'])->name('admin-account-manager');
 
         //Product Manager
-        
-    });
+        Route::get('/product-manager', [AdminController::class, 'ProductManagerView'])->name('product-manager');
+        Route::get('/product-categories', [CategoryController::class, 'index'])->name('product-categories');
+        Route::get('/product-manager/add', [ProductController::class, 'addProductForm'])->name('add-product');
+        Route::post('/product-manager/add', [ProductController::class, 'addProductHandler'])->name('add-product-handler');
+        Route::get('/product-manager/edit/{product:slug}', [ProductController::class, 'editProductForm'])->name('edit-product');
+        Route::put('/product-manager/edit/{product:slug}', [ProductController::class, 'updateProductHandler'])->name('update-product-handler');
+        });
+        //Category Manager
+        Route::post('/product-manager/category', [CategoryController::class, 'store'])->name('add-product-category-handler');
+        Route::delete('/product-categories/{id}', [CategoryController::class, 'destroy'])->name('product-categories.destroy');
+        //Collection Manager
+
+        //Voucher Manager
+
+        //Flash Sale Manager
+
+        //Order Manager
+
+        //Customer Manager
+
+        //Report Manager
+
+        //ServiceCenter Manager
+
+        //Employee Manager
 });

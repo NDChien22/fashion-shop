@@ -18,4 +18,8 @@ class AdminController extends Controller
         return view('pages.admin.dashboard');
     }
 
+    public function ProductManagerView(){
+        return view('pages.admin.product-manager.product-manager');
+    }
+
 }

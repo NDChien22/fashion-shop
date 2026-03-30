@@ -17,9 +17,8 @@
 <body class="bg-gray-50 flex flex-col h-screen overflow-hidden">
     @php
         $authUser = Auth::user();
-        $authUser?->loadMissing('role');
         $displayName = $authUser->full_name ?: $authUser->username;
-        $displayRole = (string) ($authUser->role?->name ?? '');
+        $displayRole = (string) ($authUser->role ?? '');
         $avatarPath = (string) ($authUser->avatar ?? '');
 
         if ($avatarPath !== '' && !\Illuminate\Support\Str::startsWith($avatarPath, ['http://', 'https://', '/'])) {

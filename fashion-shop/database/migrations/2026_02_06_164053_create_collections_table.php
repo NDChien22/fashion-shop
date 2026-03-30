@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
+            $table->string('thumbnail_url')->nullable();
             $table->text('description')->nullable();
             $table->integer('is_active')->default(1);
             $table->timestamps();

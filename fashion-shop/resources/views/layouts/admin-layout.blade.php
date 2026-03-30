@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/extra-assets/css/admin.css">
     @vite('resources/css/app.css')
+    @livewireStyles
 
 
 </head>
@@ -69,8 +70,7 @@
         <div id="userMenu"
             class="hidden absolute top-10 right-0 mt-4 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
             <div class="flex flex-col items-center text-center">
-                <div
-                    class="w-16 h-16 ">
+                <div class="w-16 h-16 ">
                     @if ($avatarPath)
                         <img src="{{ $avatarPath }}" alt="Avatar"
                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
@@ -84,7 +84,8 @@
                 <p class="mt-4 font-semibold text-gray-800 text-[15px]">{{ $displayName }}</p>
                 <p class="text-sm text-gray-400">{{ $authUser->email }}</p>
 
-                <a href="{{ route('admin.admin-profile') }}" class="mt-5 w-full border border-gray-200 rounded-lg py-2 text-sm hover:bg-gray-50 transition block text-center">
+                <a href="{{ route('admin.admin-profile') }}"
+                    class="mt-5 w-full border border-gray-200 rounded-lg py-2 text-sm hover:bg-gray-50 transition block text-center">
                     Quản lý tài khoản của bạn
                 </a>
 
@@ -111,22 +112,32 @@
             <nav class="flex-1 px-4 space-y-1">
                 <div class="py-2">
                     <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Chính</p>
-                    <div data-page="dashboard" onclick="loadPage('dashboard')" class="nav-item group active">
+                    <a href="{{ route('admin.admin_dashboard') }}"
+                        class="nav-item group {{ Request::routeIs('admin.admin_dashboard') ? 'active' : '' }}">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-house"></i>
                         </div>
                         <span class="font-medium">Tổng quan</span>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="py-2">
                     <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Sản phẩm</p>
-                    <div data-page="product-list" onclick="loadPage('product-list')" class="nav-item group">
+                    <a href="{{ route('admin.product-manager') }}" onclick="loadPage('products'); return false;"
+                        class="nav-item group {{ Request::routeIs('admin.product-manager') ? 'active' : '' }}"
+                        data-page="products">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-box-archive text-[15px]"></i>
                         </div>
-                        <span class="font-medium">Danh sách mẫu</span>
-                    </div>
+                        <span class="font-medium">Danh sách sản phẩm</span>
+                    </a>
+                    <a href="{{ route('admin.product-categories') }}"
+                        class="nav-item group {{ Request::routeIs('admin.product-categories*') ? 'active' : '' }}">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-sitemap text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Danh mục sản phẩm</span>
+                    </a>
                     <div data-page="collection" onclick="loadPage('collection')" class="nav-item group">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-images text-[15px]"></i>
@@ -189,16 +200,7 @@
 
         <div class="flex-1 flex flex-col overflow-y-auto custom-scrollbar">
             <div class="ff-page-header px-8 pt-6 pb-2">
-                <h1 id="page-title" class="text-xl font-semibold text-gray-800">
-                    Tổng quan
-                </h1>
-
-                <p class="text-xs text-gray-400 mt-1">
-                    <span onclick="loadPage('dashboard')" class="cursor-pointer hover:text-[#bc9c75] transition">
-                        Trang chính
-                    </span> /
-                    <span id="breadcrumb-current" class="text-[#bc9c75] font-medium"></span>
-                </p>
+                @yield('page-header')
             </div>
             <main id="content-area" class="p-8 transition-opacity duration-200">
 
@@ -210,6 +212,8 @@
     </div>
 
     <script src="/extra-assets/js/admin.js"></script>
+    @livewireScripts
+    @stack('scripts')
 </body>
 
 </html>

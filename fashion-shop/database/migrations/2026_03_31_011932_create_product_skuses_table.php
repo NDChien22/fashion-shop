@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('product_skuses', function (Blueprint $table) {
             $table->id();
-            $table->integer('parent_id')->nullable();
-            $table->string('name');
-            $table->string('slug')->unique();
-            $table->integer('is_active')->default(1);
+            $table->integer('product_id');
+            $table->string('sku')->unique();
+            $table->string('size')->nullable();
+            $table->string('color')->nullable();
+            $table->integer('stock')->default(0);
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('product_skuses');
     }
 };

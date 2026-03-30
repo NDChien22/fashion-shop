@@ -1,5 +1,21 @@
 @extends('layouts.admin-layout')
 @section('title', 'Admin Dashboard')
+
+@section('page-header')
+
+    <h1 id="page-title" class="text-xl font-semibold text-gray-800">
+        Tổng quan
+    </h1>
+
+    <p class="text-xs text-gray-400 mt-1">
+        <span class="cursor-pointer hover:text-[#bc9c75] transition">
+            Trang chính
+        </span> /
+        <span id="breadcrumb-current" class="text-[#bc9c75] font-medium"></span>
+    </p>
+
+@endsection
+
 @section('content')
 
     <div>

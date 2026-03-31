@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast Fashion Admin</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title')</title>
     <link rel="shortcut icon" href="/images/logo/logo.jpg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -20,6 +21,7 @@
         $authUser = Auth::user();
         $displayName = $authUser->full_name ?: $authUser->username;
         $avatarPath = (string) ($authUser->avatar ?? '');
+        $userRole = $authUser->role;
 
         if ($avatarPath !== '' && !\Illuminate\Support\Str::startsWith($avatarPath, ['http://', 'https://', '/'])) {
             $avatarPath = '/storage/' . $avatarPath;
@@ -36,12 +38,6 @@
     <header id="header"
         class="h-16 flex-none bg-white border-b border-gray-100 flex items-center justify-between px-3 sm:px-6 md:px-8 gap-6 sticky top-0 z-40">
         <x-logo></x-logo>
-
-        <div class="relative w-96">
-            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-            <input type="text" placeholder="Tìm kiếm đơn hàng, khách hàng..."
-                class="w-full bg-gray-100 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-[#bc9c75]">
-        </div>
 
         <div class="flex items-center gap-6">
             <i class="fa-regular fa-bell text-gray-400 text-lg cursor-pointer hover:text-gray-600"></i>
@@ -61,7 +57,7 @@
 
                     <div class="text-[12px] leading-tight">
                         <p class="font-semibold text-gray-800">{{ $displayName }}</p>
-                        <p class="text-gray-400">Chủ cửa hàng</p>
+                        <p class="text-gray-400">{{ $userRole }}</p>
                     </div>
 
                 </div>
@@ -123,9 +119,8 @@
 
                 <div class="py-2">
                     <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Sản phẩm</p>
-                    <a href="{{ route('admin.product-manager') }}" onclick="loadPage('products'); return false;"
-                        class="nav-item group {{ Request::routeIs('admin.product-manager') ? 'active' : '' }}"
-                        data-page="products">
+                    <a href="{{ route('admin.product-manager') }}"
+                        class="nav-item group {{ Request::routeIs('admin.product-manager') || Request::routeIs('admin.add-product') || Request::routeIs('admin.edit-product') ? 'active' : '' }}">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-box-archive text-[15px]"></i>
                         </div>
@@ -138,12 +133,13 @@
                         </div>
                         <span class="font-medium">Danh mục sản phẩm</span>
                     </a>
-                    <div data-page="collection" onclick="loadPage('collection')" class="nav-item group">
+                    <a href="{{ route('admin.product-collections') }}"
+                        class="nav-item group {{ Request::routeIs('admin.product-collections') || Request::routeIs('admin.create-collection') || Request::routeIs('admin.edit-collection') ? 'active' : '' }}">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-images text-[15px]"></i>
                         </div>
                         <span class="font-medium">Bộ sưu tập</span>
-                    </div>
+                    </a>
                     <div data-page="vouchers" onclick="loadPage('vouchers')" class="nav-item group">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-ticket text-[15px]"></i>

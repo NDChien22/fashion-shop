@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,12 +62,20 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::post('/product-manager/add', [ProductController::class, 'addProductHandler'])->name('add-product-handler');
         Route::get('/product-manager/edit/{product:slug}', [ProductController::class, 'editProductForm'])->name('edit-product');
         Route::put('/product-manager/edit/{product:slug}', [ProductController::class, 'updateProductHandler'])->name('update-product-handler');
-        });
+        
         //Category Manager
         Route::post('/product-manager/category', [CategoryController::class, 'store'])->name('add-product-category-handler');
         Route::delete('/product-categories/{id}', [CategoryController::class, 'destroy'])->name('product-categories.destroy');
         //Collection Manager
-
+        Route::get('/product-manager/collections', [CollectionController::class, 'index'])->name('product-collections');
+        Route::get('/product-manager/collections/create', [CollectionController::class, 'create'])->name('create-collection');
+        Route::post('/product-manager/collections', [CollectionController::class, 'store'])->name('store-collection');
+        Route::get('/product-manager/collections/{collection:slug}', [CollectionController::class, 'show'])->name('show-collection');
+        Route::get('/product-manager/collections/{collection:slug}/edit', [CollectionController::class, 'edit'])->name('edit-collection');
+        Route::put('/product-manager/collections/{collection:slug}', [CollectionController::class, 'update'])->name('update-collection');
+        Route::delete('/product-manager/collections/{collection:slug}', [CollectionController::class, 'destroy'])->name('destroy-collection');
+        Route::post('/product-manager/collections/{collection:slug}/add-products', [CollectionController::class, 'addProductToCollection'])->name('add-products-to-collection');
+        Route::post('/product-manager/collections/{collection:slug}/remove-product', [CollectionController::class, 'removeProductFromCollection'])->name('remove-product-from-collection');
         //Voucher Manager
 
         //Flash Sale Manager
@@ -80,4 +89,6 @@ Route::prefix('admin')->name('admin.')->group(function(){
         //ServiceCenter Manager
 
         //Employee Manager
+
+    });
 });

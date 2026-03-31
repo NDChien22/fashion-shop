@@ -30,10 +30,10 @@
                 @csrf
                 <input type="hidden" name="type" value="parent">
 
-                <h3 class="text-sm font-bold text-gray-800">Thêm parent_cate</h3>
+                <h3 class="text-sm font-bold text-gray-800">Thêm danh mục cha</h3>
 
                 <div>
-                    <label class="text-[11px] font-bold text-gray-400 uppercase">Tên parent_cate</label>
+                    <label class="text-[11px] font-bold text-gray-400 uppercase">Tên danh mục cha</label>
                     <input type="text" name="name" value="{{ old('type') === 'parent' ? old('name') : '' }}"
                         placeholder="Ví dụ: Thời trang nam"
                         class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs border border-gray-100">
@@ -44,7 +44,7 @@
 
                 <button type="submit"
                     class="px-5 py-2 bg-[#bc9c75] text-white rounded-xl text-xs font-semibold hover:opacity-90">
-                    Thêm parent_cate
+                    Thêm danh mục cha
                 </button>
             </form>
 
@@ -53,13 +53,13 @@
                 @csrf
                 <input type="hidden" name="type" value="child">
 
-                <h3 class="text-sm font-bold text-gray-800">Thêm cate</h3>
+                <h3 class="text-sm font-bold text-gray-800">Thêm danh mục con</h3>
 
                 <div>
-                    <label class="text-[11px] font-bold text-gray-400 uppercase">Parent_cate</label>
+                    <label class="text-[11px] font-bold text-gray-400 uppercase">Danh mục cha</label>
                     <select name="parent_id"
                         class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs border border-gray-100">
-                        <option value="">-- Chọn parent_cate --</option>
+                        <option value="">-- Chọn danh mục cha --</option>
                         @foreach ($parentCategories as $parentCategory)
                             <option value="{{ $parentCategory->id }}"
                                 {{ old('parent_id') == $parentCategory->id ? 'selected' : '' }}>
@@ -73,7 +73,7 @@
                 </div>
 
                 <div>
-                    <label class="text-[11px] font-bold text-gray-400 uppercase">Tên cate</label>
+                    <label class="text-[11px] font-bold text-gray-400 uppercase">Tên danh mục con</label>
                     <input type="text" name="name" value="{{ old('type') === 'child' ? old('name') : '' }}"
                         placeholder="Ví dụ: Áo polo"
                         class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs border border-gray-100">
@@ -84,7 +84,7 @@
 
                 <button type="submit"
                     class="px-5 py-2 bg-[#bc9c75] text-white rounded-xl text-xs font-semibold hover:opacity-90">
-                    Thêm cate
+                    Thêm danh mục con
                 </button>
             </form>
         </div>

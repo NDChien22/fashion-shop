@@ -494,31 +494,6 @@ function clearPromotionFields() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // 1. Khai báo data mẫu (Bắt buộc phải có đoạn này)
 let allProducts = [
     { id: 1, name: "Sản phẩm A", price: 100000, collection_id: null, image_url: "" },

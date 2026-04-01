@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Fashion - Luxury Gold</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/font-end-template/asset/css/style.css">
+</head>
+<body class="bg-gray-50">
+
+    
+
+
+    <header id="main-header" class="bg-white fixed top-0 left-0 z-50 w-full border-b border-gray-100">
+        <div class="border-b border-gray-100 h-20 flex items-center">
+            <nav class="max-w-[1800px] mx-auto flex items-center justify-between px-4 md:px-10 relative w-full">
+                <div class="md:hidden"><div class="text-2xl cursor-pointer" id="menu-btn"><i class="ri-menu-4-line"></i></div></div>
+                <div class="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 z-20 flex-none">
+                    <img src="/font-end-template/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" alt="logo" class="w-16 md:w-28 h-auto block">
+                </div>
+                <div class="grow max-w-md mx-2 lg:mx-8 hidden md:block">
+                <div class="relative group">
+                    <input type="text" placeholder="Tìm kiếm..." 
+                           class="w-full bg-gray-100 border border-transparent focus:border-[#bc9c75] focus:bg-white rounded-full py-1.5 md:py-2 pl-4 pr-10 outline-none transition-all text-xs lg:text-sm">
+                    <button class="absolute right-0 top-0 h-full px-3 text-gray-500 hover:text-[#bc9c75]">
+                        <i class="ri-search-line"></i>
+                    </button>
+                </div>
+            </div>
+                <div class="flex items-center justify-end gap-6 text-xl flex-none">
+                    <i class="ri-user-line cursor-pointer hidden md:block hover-gold transition"></i>
+                    <div class="relative cursor-pointer group">
+                        <i class="ri-shopping-cart-line group-hover:text-[#bc9c75] transition text-2xl"></i>
+                        <span class="absolute -top-2 -right-2 bg-gold text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">2</span>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="md:hidden bg-white px-4 py-2 border-b border-gray-100">
+            <div class="relative">
+                <input type="text" placeholder="Bạn tìm gì hôm nay?..." 
+                    class="w-full bg-gray-50 border-none rounded-lg py-2 pl-4 pr-10 text-sm outline-none focus:ring-1 focus:ring-[#bc9c75]">
+                <i class="ri-search-line absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </div>
+        </div>
+
+        <div class="bg-white border-b border-gray-100 hidden md:block">
+            <div class="max-w-[1400px] mx-auto flex items-center justify-center h-16">
+                <nav class="flex items-center justify-center gap-10 text-[clamp(11px,1.1vw,14px)] font-bold uppercase tracking-widest text-gray-800 w-full relative">
+                    <a href="#trang-chu" class="menu-link hover:text-[#bc9c75] transition-all">Trang chủ</a>
+                    <a href="#gioi-thieu" class="menu-link hover:text-[#bc9c75] transition-all">Giới thiệu</a>
+
+                    <div class="group py-5">
+                        <div class="flex items-center gap-1 cursor-pointer group-hover:text-[#bc9c75] transition-colors">
+                            Sản phẩm <i class="ri-arrow-down-s-line text-lg"></i>
+                        </div>
+                        <div class="absolute top-full left-0 w-full bg-white shadow-2xl border-t border-gray-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top scale-y-95 group-hover:scale-y-100">
+                            <div class="max-w-[1400px] mx-auto grid grid-cols-2 p-12 gap-16">
+                                <div class="grid grid-cols-4 gap-6 border-r border-gray-100 pr-10">
+                                    <div class="col-span-4 mb-4">
+                                        <h3 class="text-[#bc9c75] font-black text-2xl italic tracking-tighter border-b-2 border-[#bc9c75]/20 pb-2">Thời trang nữ</h3>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">PHỤ KIỆN NỮ</h4>
+                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Tất nữ</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Túi nữ</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Phụ kiện khác</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">ÁO NỮ</h4>
+                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo khoác</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo hoodie</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo sơ mi</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo thun</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">QUẦN NỮ</h4>
+                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Quần dài</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Quần kaki</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Quần jeans</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">THỂ THAO</h4>
+                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Đồ thể thao</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo polo</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-4 gap-6 pr-10">
+                                    <div class="col-span-4 mb-4">
+                                        <h3 class="text-[#bc9c75] font-black text-2xl italic tracking-tighter border-b-2 border-[#bc9c75]/20 pb-2">Thời trang nam</h3>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">PHỤ KIỆN NAM</h4>
+                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Tất nam</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Túi xách</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Thắt lưng</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">ÁO NAM</h4>
+                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo khoác</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo len</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo sơ mi</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">QUẦN NAM</h4>
+                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Quần short</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Quần jeans</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Quần âu</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">THỂ THAO</h4>
+                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Đồ thể thao</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Bộ thể thao</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="menu-link hover:text-[#bc9c75] transition-all">Mix & Match</a>
+                    <a href="#" class="menu-link hover:text-[#bc9c75] transition-all">Pre-order</a>
+                    <a href="#" class="menu-link hover:text-[#bc9c75] transition-all">Tin tức</a>
+                    <a href="#" class="menu-link hover:text-[#bc9c75] transition-all">Liên hệ</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+
+
+    <div id="breadcrumb-area" class="bg-gray-50 py-4 hidden">
+        <div class="max-w-7xl mx-auto px-6 text-sm">
+            <a href="#" class="text-gray-500 hover:text-black">Trang chủ</a>
+            <span id="breadcrumb-current"></span>
+        </div>
+    </div>
+
+    <main id="content-area" class="opacity-100 mt-[120px]">
+    
+    </main>
+
+
+
+
+    
+   <footer class="bg-white text-[#1a1a1a] mt-20 pt-20 pb-10 border-t border-gray-100">
+        <div class="max-w-[1400px] mx-auto px-6">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+                
+                <div class="lg:col-span-2 pr-0 lg:pr-20 space-y-6">
+                    <img src="/font-end-template/asset/img/z7574203815922_6f6041439e8ca1d9b4cdea22b2f962d4.jpg" 
+                        alt="Logo" class="w-32 md:w-40 mb-2">
+                    
+                    <p class="text-sm text-gray-500 leading-relaxed font-light">
+                        Nơi phong cách cá nhân được tôn vinh qua từng đường kim mũi chỉ. Chúng tôi kiến tạo những giá trị bền vững cho tủ đồ của bạn.
+                    </p>
+                    
+                    <div class="space-y-3 text-[13px] text-gray-600">
+                        <p><strong>Địa chỉ:</strong> 70 Lữ Gia, Phường 15, Quận 11, Tp.HCM</p>
+                        <p><strong>Hotline:</strong> <span class="text-[#bc9c75] font-bold">1900 6750</span></p>
+                        <p><strong>Email:</strong> support@sapo.vn</p>
+                    </div>
+                    
+                    <div class="flex gap-4 pt-2">
+                        <img src="https://image-us.sapo.vn/wsc/sapovn/assets/images/facebook_icon.png" class="w-8 h-8 rounded-full" alt="Facebook">
+                        <img src="https://image-us.sapo.vn/wsc/sapovn/assets/images/instagram_icon.png" class="w-8 h-8 rounded-full" alt="Instagram">
+                        <img src="https://image-us.sapo.vn/wsc/sapovn/assets/images/tiktok_icon.png" class="w-8 h-8 rounded-full" alt="Tiktok">
+                        <img src="https://image-us.sapo.vn/wsc/sapovn/assets/images/zalo_icon.png" class="w-8 h-8 rounded-full" alt="Zalo">
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-[12px] font-bold uppercase tracking-widest mb-8 text-gray-900">Về chúng tôi</h4>
+                    <ul class="space-y-4 text-[13px] text-gray-500 font-light">
+                        <li><a href="#" class="hover:text-[#bc9c75]">Câu chuyện thương hiệu</a></li>
+                        <li><a href="#" class="hover:text-[#bc9c75]">Hệ thống cửa hàng</a></li>
+                        <li><a href="#" class="hover:text-[#bc9c75]">Tuyển dụng</a></li>
+                        <li><a href="#" class="hover:text-[#bc9c75]">Liên hệ</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-[12px] font-bold uppercase tracking-widest mb-8 text-gray-900">Chính sách</h4>
+                    <ul class="space-y-4 text-[13px] text-gray-500 font-light">
+                        <li><a href="#" class="hover:text-[#bc9c75]">Chính sách đổi trả</a></li>
+                        <li><a href="#" class="hover:text-[#bc9c75]">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="hover:text-[#bc9c75]">Điều khoản dịch vụ</a></li>
+                        <li><a href="#" class="hover:text-[#bc9c75]">Kiểm tra đơn hàng</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-12">
+                    <div class="relative group border-b border-gray-200 pb-2">
+                        <input type="email" placeholder="Địa chỉ email của bạn" 
+                            class="w-full text-sm placeholder:text-gray-300 font-light bg-transparent outline-none">
+                        <i class="ri-arrow-right-line absolute right-0 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-[12px] font-bold uppercase tracking-widest mb-6 text-gray-900">Hỗ trợ thanh toán</h4>
+                        <div class="flex flex-wrap gap-x-4 gap-y-3 pt-1">
+                            <img src="https://bizweb.dktcdn.net/assets/momo.webp" class="h-6" alt="Momo">
+                            <img src="https://bizweb.dktcdn.net/assets/zalopay.webp" class="h-6" alt="ZaloPay">
+                            <img src="https://bizweb.dktcdn.net/assets/vnpay_qr.webp" class="h-6" alt="VNPAY">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" class="h-4" alt="Visa">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] text-gray-400 uppercase tracking-widest font-medium">
+                <p>© 2026 Fast Fashion Store. Tất cả quyền được bảo hộ.</p>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-black">Privacy Policy</a>
+                    <a href="#" class="hover:text-black">Terms of Service</a>
+                    <a href="#" class="hover:text-black">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+    <script src="/font-end-template/asset/js/main.js"></script>
+
+    <script>
+        const products = [
+            { id: 1, name: "Áo Phông Nam Gold Classic", category: "Luxury Edition", price: 199000, originalPrice: 398000, saleTag: "-50%", image: "https://canifa.com/img/cms/p/m/pm-ao-phong-nam.jpg" },
+            { id: 2, name: "Sơ Mi Trắng Oxford Slim-fit", category: "Business Style", price: 350000, originalPrice: 700000, saleTag: "HOT", image: "https://product.hstatic.net/1000333923/product/ao_so_mi_nam_on_off_3_da6289b5c2d341999661445b736b761a_master.jpg" },
+            { id: 3, name: "Đầm Đen Dự Tiệc Sang Trọng", category: "Lady Collection", price: 590000, originalPrice: 850000, saleTag: "-30%", image: "https://bizweb.dktcdn.net/100/438/408/products/vay-dam-nu-yody-dnm4026-den-6.jpg?v=1683515867117" },
+            { id: 4, name: "Quần Jeans Xanh Navy", category: "Denim Series", price: 420000, originalPrice: 700000, saleTag: "-40%", image: "https://product.hstatic.net/1000184160/product/4_9771ba82e44d48508a5091c6e61138ec_master.jpg" },
+            { id: 5, name: "Áo Khoác Bomber Streetwear", category: "Urban Style", price: 750000, originalPrice: 1200000, saleTag: "NEW", image: "https://product.hstatic.net/1000306633/product/f_a43e7786419d4263b82776c5b9679261_master.jpg" }
+        ];
+
+        function renderProducts() {
+            const productGrid = document.getElementById('product-grid');
+            
+            productGrid.innerHTML = products.map(product => `
+                <div class="group cursor-pointer flex-shrink-0 w-[220px] md:w-[280px] snap-start">
+                    <div class="relative overflow-hidden bg-gray-50 rounded-sm">
+                        <img src="${product.image}" class="w-full h-[280px] md:h-[380px] object-cover transform group-hover:scale-110 transition duration-700">
+                        <span class="absolute top-3 left-3 bg-[#bc9c75] text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase shadow-md">${product.saleTag}</span>
+                        <button class="absolute bottom-0 w-full bg-black/90 text-white py-3 text-xs font-bold translate-y-full group-hover:translate-y-0 transition-transform">
+                            THÊM VÀO GIỎ
+                        </button>
+                    </div>
+                    <div class="mt-4 text-center md:text-left">
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">${product.category}</p>
+                        <h3 class="text-sm font-semibold text-gray-800 line-clamp-1 group-hover:text-[#bc9c75] transition">${product.name}</h3>
+                        <div class="flex items-center justify-center md:justify-start gap-3 mt-1">
+                            <span class="text-[#bc9c75] font-bold text-base">${product.price.toLocaleString()}đ</span>
+                            <span class="text-gray-300 text-xs line-through">${product.originalPrice.toLocaleString()}đ</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+
+        const bestSellers = [
+            { id: 1, name: "Váy lụa cao cấp dự tiệc", category: "Thời trang nữ", price: 850000, oldPrice: 1200000, tag: "HOT", img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop" },
+            { id: 2, name: "Áo Blazer Form Rộng", category: "Thời trang nữ", price: 550000, oldPrice: 800000, tag: "NEW", img: "https://images.unsplash.com/photo-1539109132314-64775aee529a?q=80&w=1000&auto=format&fit=crop" },
+            { id: 3, name: "Set Đồ Công Sở Thanh Lịch", category: "Thời trang nữ", price: 920000, oldPrice: 1100000, tag: "BEST", img: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1000&auto=format&fit=crop" },
+            { id: 4, name: "Chân Váy Xếp Ly Dáng Dài", category: "Thời trang nữ", price: 350000, oldPrice: 500000, tag: "", img: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=1000&auto=format&fit=crop" },
+            { id: 5, name: "Áo Sơ Mi Lụa Cổ Đức", category: "Thời trang nữ", price: 420000, oldPrice: 600000, tag: "HOT", img: "https://images.unsplash.com/photo-1598559069352-3d8437b0d42c?q=80&w=1000&auto=format&fit=crop" },
+            { id: 6, name: "Quần Tây Âu Baggy", category: "Thời trang nữ", price: 380000, oldPrice: 550000, tag: "", img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1000&auto=format&fit=crop" },
+            { id: 7, name: "Đầm Body Cổ Yếm", category: "Thời trang nữ", price: 780000, oldPrice: 950000, tag: "HOT", img: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=1000&auto=format&fit=crop" },
+            { id: 8, name: "Áo Khoác Dạ Tweed", category: "Thời trang nữ", price: 1250000, oldPrice: 1800000, tag: "LIMITED", img: "https://images.unsplash.com/photo-1532332248682-206cc786359f?q=80&w=1000&auto=format&fit=crop" }
+        ];
+
+        function renderBestSellers() {
+            const grid = document.getElementById('best-seller-grid');
+            if (!grid) return;
+
+            grid.innerHTML = bestSellers.map(product => `
+                <div class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex-shrink-0 w-[240px] md:w-[280px] snap-start flex flex-col h-full">
+                    
+                    <div class="relative aspect-[3/4] w-full bg-gray-100 overflow-hidden">
+                        ${product.tag ? `<span class="absolute top-3 left-3 z-10 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase">${product.tag}</span>` : ''}
+                        
+                        <img src="${product.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        
+                        <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                            <button class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-gray-800 hover:bg-[#bc9c75] hover:text-white transition-all shadow-md">
+                                <i class="ri-shopping-cart-2-line"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="p-4 flex flex-col flex-grow text-center">
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1 truncate">${product.category || 'THỜI TRANG'}</p>
+                        
+                        <h3 class="font-semibold text-gray-800 text-sm mb-2 group-hover:text-[#bc9c75] transition-colors line-clamp-2 h-[40px] leading-5">
+                            ${product.name}
+                        </h3>
+                        
+                        <div class="mt-auto pt-3 border-t border-gray-50 flex flex-col items-center gap-1">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[#bc9c75] font-bold text-base">${product.price.toLocaleString()}đ</span>
+                                <span class="text-gray-300 text-xs line-through">${product.oldPrice ? product.oldPrice.toLocaleString() + 'đ' : ''}</span>
+                            </div>
+                            <span class="text-[10px] text-green-600 font-medium">Giá tốt</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }   
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof renderProducts === "function") renderProducts(); 
+            renderBestSellers();
+        });
+        
+    </script>
+</body>
+</html>

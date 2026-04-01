@@ -50,9 +50,6 @@ class Profile extends Component
         if (! $user) {
             return;
         }
-
-        $user->loadMissing('role', 'employee');
-
  
         $this->employee_code = (string) ($user->employee?->employee_code ?? '');
         $this->full_name = (string) ($user->full_name ?? '');
@@ -63,7 +60,7 @@ class Profile extends Component
             ? Carbon::parse($user->birthday)->format('d/m/Y')
             : '';
         $this->address = (string) ($user->address ?? '');
-        $this->role = (string) ($user->role?->name ?? '');
+        $this->role = (string) ($user->role ?? '');
         $this->avatar_url = $this->resolveAvatarUrl((string) ($user->avatar ?? ''));
         $this->avatar_initials = $this->buildInitials(
             (string) ($user->full_name ?: $user->username ?: $user->email)

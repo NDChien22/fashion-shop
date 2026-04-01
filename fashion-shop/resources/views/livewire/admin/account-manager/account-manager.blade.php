@@ -48,7 +48,7 @@
                 Cập nhật mật khẩu
             </button>
 
-            <a href="{{ route('admin.dashboard') }}"
+            <a href="{{ route('admin.admin_dashboard') }}"
                 class="text-gray-400 hover:text-gray-600 font-semibold text-sm transition-all flex items-center gap-2">
                 <i class="fa-solid fa-arrow-left-long"></i> Quay lại
             </a>

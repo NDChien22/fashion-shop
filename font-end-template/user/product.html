@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sản phẩm - Fast Fashion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        .hover-gold:hover { color: #bc9c75; }
+        .bg-gold { background-color: #bc9c75; }
+        .accent-gold { accent-color: #bc9c75; }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+
+    <div class="bg-gray-50 py-3 border-b border-gray-100">
+        <div class="max-w-[1400px] mx-auto px-4 text-[12px] uppercase tracking-wider">
+            <a href="#" class="text-gray-400 hover-gold">Trang chủ</a>
+            <span class="mx-2 text-gray-300">/</span>
+            <span class="text-[#bc9c75] font-bold">Tất cả sản phẩm</span>
+        </div>
+    </div>
+
+    <main class="max-w-[1400px] mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <aside class="hidden lg:block lg:col-span-3 space-y-8">
+                <div class="bg-orange-50/30 p-6 rounded-2xl border border-orange-100">
+                    <h3 class="font-bold text-sm uppercase tracking-widest mb-5 border-b pb-2">Danh mục</h3>
+                    <ul class="space-y-4 text-sm text-gray-600">
+                        <li class="flex justify-between items-center cursor-pointer hover-gold transition">Váy đầm <i class="ri-add-line"></i></li>
+                        <li class="flex justify-between items-center cursor-pointer hover-gold transition">Áo sơ mi <i class="ri-add-line"></i></li>
+                        <li class="flex justify-between items-center cursor-pointer text-[#bc9c75] font-bold">Áo thun <i class="ri-subtract-line"></i></li>
+                        <li class="flex justify-between items-center cursor-pointer hover-gold transition">Quần dài <i class="ri-add-line"></i></li>
+                    </ul>
+                </div>
+
+                <div class="px-2">
+                    <h3 class="font-bold text-sm uppercase mb-4">Chọn mức giá</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 text-sm cursor-pointer group">
+                            <input type="checkbox" class="w-4 h-4 accent-gold"> 
+                            <span class="group-hover:text-[#bc9c75]">Dưới 200.000đ</span>
+                        </label>
+                        <label class="flex items-center gap-3 text-sm cursor-pointer group">
+                            <input type="checkbox" class="w-4 h-4 accent-gold" checked> 
+                            <span class="group-hover:text-[#bc9c75]">200.000đ - 500.000đ</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="px-2">
+                    <h3 class="font-bold text-sm uppercase mb-4">Kích thước</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="w-9 h-9 border rounded text-xs hover:border-[#bc9c75] hover:text-[#bc9c75] transition">S</button>
+                        <button class="w-9 h-9 border-2 border-[#bc9c75] text-[#bc9c75] rounded text-xs font-bold">M</button>
+                        <button class="w-9 h-9 border rounded text-xs hover:border-[#bc9c75] hover:text-[#bc9c75] transition">L</button>
+                        <button class="w-9 h-9 border rounded text-xs hover:border-[#bc9c75] hover:text-[#bc9c75] transition">XL</button>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="lg:col-span-9">
+                
+                <div class="relative h-[180px] md:h-[280px] rounded-3xl overflow-hidden mb-8 shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070" class="w-full h-full object-cover" alt="Fashion Banner">
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <h2 class="text-white text-3xl md:text-5xl font-black uppercase tracking-tighter">Tất cả sản phẩm</h2>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-between border-b border-gray-100 pb-4 mb-8 gap-4">
+                    <div class="flex items-center gap-6 text-[12px] font-bold text-gray-400">
+                        <span class="uppercase tracking-widest"><i class="ri-sort-desc"></i> Sắp xếp:</span>
+                        <button class="text-[#bc9c75] border-b-2 border-[#bc9c75] pb-1">MẶC ĐỊNH</button>
+                        <button class="hover-gold transition pb-1">HÀNG MỚI</button>
+                        <button class="hover-gold transition pb-1">GIÁ THẤP - CAO</button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-10">
+                    
+                    <div class="group">
+                        <div class="relative aspect-3/4 overflow-hidden rounded-2xl bg-gray-50 shadow-sm border border-transparent hover:border-gray-100 transition">
+                            <div class="absolute top-3 left-3 z-10 flex flex-col gap-1">
+                                <span class="bg-orange-500 text-white text-[9px] px-2 py-1 rounded-md font-bold uppercase">Hàng mới</span>
+                                <span class="bg-red-500 text-white text-[9px] px-2 py-1 rounded-md font-bold uppercase">Bán chạy</span>
+                            </div>
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                                <i class="ri-play-circle-fill text-5xl text-white/80"></i>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1920" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <button class="absolute bottom-0 w-full bg-black/90 text-white py-3.5 text-[10px] font-bold translate-y-full group-hover:translate-y-0 transition-transform">
+                                <i class="ri-shopping-bag-line mr-1"></i> THÊM NHANH VÀO GIỎ
+                            </button>
+                        </div>
+                        <div class="mt-4 text-center md:text-left">
+                            <p class="text-[9px] text-gray-400 uppercase tracking-widest font-bold">LADIES</p>
+                            <h3 class="text-sm font-bold text-gray-800 line-clamp-1 hover:text-[#bc9c75] transition cursor-pointer">Áo khoác Blazer dáng lửng</h3>
+                            <div class="flex items-center justify-center md:justify-start gap-2 mt-1">
+                                <span class="text-red-600 font-bold text-sm">745.000₫</span>
+                                <span class="text-gray-400 text-[10px] line-through italic">915.000₫</span>
+                                <span class="text-red-500 text-[10px] font-bold">(-19%)</span>
+                            </div>
+                            <div class="flex gap-1.5 mt-2.5 justify-center md:justify-start">
+                                <div class="w-3.5 h-3.5 rounded-full bg-gray-800 border border-gray-300 cursor-pointer hover:scale-125 transition"></div>
+                                <div class="w-3.5 h-3.5 rounded-full bg-orange-200 border border-gray-300 cursor-pointer hover:scale-125 transition"></div>
+                                <div class="w-3.5 h-3.5 rounded-full bg-white border border-gray-300 cursor-pointer hover:scale-125 transition"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+
+                <div class="flex justify-center items-center gap-2 mt-20">
+                    <button class="w-9 h-9 flex items-center justify-center rounded-lg bg-[#f04e32] text-white font-bold text-sm shadow-md">1</button>
+                    <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-orange-50 transition text-sm font-bold text-gray-600">2</button>
+                    <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-orange-50 transition text-sm font-bold text-gray-600">3</button>
+                    <button class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-orange-50 transition text-sm font-bold text-gray-600">»</button>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+</body>
+</html>

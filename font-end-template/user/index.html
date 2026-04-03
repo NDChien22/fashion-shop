@@ -55,7 +55,8 @@
 
                     <div class="group py-5">
                         <div class="flex items-center gap-1 cursor-pointer group-hover:text-[#bc9c75] transition-colors">
-                            Sản phẩm <i class="ri-arrow-down-s-line text-lg"></i>
+                            <a href="#san-pham" class="menu-link hover:text-[#bc9c75] transition-all">Sản phẩm</a> 
+                            <i class="ri-arrow-down-s-line text-lg"></i>
                         </div>
                         <div class="absolute top-full left-0 w-full bg-white shadow-2xl border-t border-gray-50 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top scale-y-95 group-hover:scale-y-100">
                             <div class="max-w-[1400px] mx-auto grid grid-cols-2 p-12 gap-16">
@@ -135,10 +136,10 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="menu-link hover:text-[#bc9c75] transition-all">Mix & Match</a>
-                    <a href="#" class="menu-link hover:text-[#bc9c75] transition-all">Pre-order</a>
-                    <a href="#" class="menu-link hover:text-[#bc9c75] transition-all">Tin tức</a>
-                    <a href="#" class="menu-link hover:text-[#bc9c75] transition-all">Liên hệ</a>
+                    <a href="#Bo-suu-tap" class="menu-link hover:text-[#bc9c75] transition-all">Bộ sưu tập</a>
+                    <a href="#Don-hang" class="menu-link hover:text-[#bc9c75] transition-all">Đơn hàng</a>
+                    <a href="#Ho-tro" class="menu-link hover:text-[#bc9c75] transition-all">Hỗ trợ</a>
+                    <a href="#Lien-he" class="menu-link hover:text-[#bc9c75] transition-all">Liên hệ</a>
                 </nav>
             </div>
         </div>
@@ -146,16 +147,14 @@
 
 
 
-    <div id="breadcrumb-area" class="bg-gray-50 py-4 hidden">
+    <div id="breadcrumb-area" class="bg-gray-50 py-4 hidden mt-36 md:mt-36">
         <div class="max-w-7xl mx-auto px-6 text-sm">
-            <a href="#" class="text-gray-500 hover:text-black">Trang chủ</a>
+            <a href="#trang-chu" class="text-gray-500 hover:text-black">Trang chủ</a>
             <span id="breadcrumb-current"></span>
         </div>
     </div>
 
-    <main id="content-area" class="opacity-100 mt-[120px]">
-    
-    </main>
+    <main id="content-area"></main>
 
 
 
@@ -242,94 +241,6 @@
 
     <script src="/font-end-template/asset/js/main.js"></script>
 
-    <script>
-        const products = [
-            { id: 1, name: "Áo Phông Nam Gold Classic", category: "Luxury Edition", price: 199000, originalPrice: 398000, saleTag: "-50%", image: "https://canifa.com/img/cms/p/m/pm-ao-phong-nam.jpg" },
-            { id: 2, name: "Sơ Mi Trắng Oxford Slim-fit", category: "Business Style", price: 350000, originalPrice: 700000, saleTag: "HOT", image: "https://product.hstatic.net/1000333923/product/ao_so_mi_nam_on_off_3_da6289b5c2d341999661445b736b761a_master.jpg" },
-            { id: 3, name: "Đầm Đen Dự Tiệc Sang Trọng", category: "Lady Collection", price: 590000, originalPrice: 850000, saleTag: "-30%", image: "https://bizweb.dktcdn.net/100/438/408/products/vay-dam-nu-yody-dnm4026-den-6.jpg?v=1683515867117" },
-            { id: 4, name: "Quần Jeans Xanh Navy", category: "Denim Series", price: 420000, originalPrice: 700000, saleTag: "-40%", image: "https://product.hstatic.net/1000184160/product/4_9771ba82e44d48508a5091c6e61138ec_master.jpg" },
-            { id: 5, name: "Áo Khoác Bomber Streetwear", category: "Urban Style", price: 750000, originalPrice: 1200000, saleTag: "NEW", image: "https://product.hstatic.net/1000306633/product/f_a43e7786419d4263b82776c5b9679261_master.jpg" }
-        ];
-
-        function renderProducts() {
-            const productGrid = document.getElementById('product-grid');
-            
-            productGrid.innerHTML = products.map(product => `
-                <div class="group cursor-pointer flex-shrink-0 w-[220px] md:w-[280px] snap-start">
-                    <div class="relative overflow-hidden bg-gray-50 rounded-sm">
-                        <img src="${product.image}" class="w-full h-[280px] md:h-[380px] object-cover transform group-hover:scale-110 transition duration-700">
-                        <span class="absolute top-3 left-3 bg-[#bc9c75] text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase shadow-md">${product.saleTag}</span>
-                        <button class="absolute bottom-0 w-full bg-black/90 text-white py-3 text-xs font-bold translate-y-full group-hover:translate-y-0 transition-transform">
-                            THÊM VÀO GIỎ
-                        </button>
-                    </div>
-                    <div class="mt-4 text-center md:text-left">
-                        <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">${product.category}</p>
-                        <h3 class="text-sm font-semibold text-gray-800 line-clamp-1 group-hover:text-[#bc9c75] transition">${product.name}</h3>
-                        <div class="flex items-center justify-center md:justify-start gap-3 mt-1">
-                            <span class="text-[#bc9c75] font-bold text-base">${product.price.toLocaleString()}đ</span>
-                            <span class="text-gray-300 text-xs line-through">${product.originalPrice.toLocaleString()}đ</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-
-        const bestSellers = [
-            { id: 1, name: "Váy lụa cao cấp dự tiệc", category: "Thời trang nữ", price: 850000, oldPrice: 1200000, tag: "HOT", img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop" },
-            { id: 2, name: "Áo Blazer Form Rộng", category: "Thời trang nữ", price: 550000, oldPrice: 800000, tag: "NEW", img: "https://images.unsplash.com/photo-1539109132314-64775aee529a?q=80&w=1000&auto=format&fit=crop" },
-            { id: 3, name: "Set Đồ Công Sở Thanh Lịch", category: "Thời trang nữ", price: 920000, oldPrice: 1100000, tag: "BEST", img: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1000&auto=format&fit=crop" },
-            { id: 4, name: "Chân Váy Xếp Ly Dáng Dài", category: "Thời trang nữ", price: 350000, oldPrice: 500000, tag: "", img: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=1000&auto=format&fit=crop" },
-            { id: 5, name: "Áo Sơ Mi Lụa Cổ Đức", category: "Thời trang nữ", price: 420000, oldPrice: 600000, tag: "HOT", img: "https://images.unsplash.com/photo-1598559069352-3d8437b0d42c?q=80&w=1000&auto=format&fit=crop" },
-            { id: 6, name: "Quần Tây Âu Baggy", category: "Thời trang nữ", price: 380000, oldPrice: 550000, tag: "", img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1000&auto=format&fit=crop" },
-            { id: 7, name: "Đầm Body Cổ Yếm", category: "Thời trang nữ", price: 780000, oldPrice: 950000, tag: "HOT", img: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?q=80&w=1000&auto=format&fit=crop" },
-            { id: 8, name: "Áo Khoác Dạ Tweed", category: "Thời trang nữ", price: 1250000, oldPrice: 1800000, tag: "LIMITED", img: "https://images.unsplash.com/photo-1532332248682-206cc786359f?q=80&w=1000&auto=format&fit=crop" }
-        ];
-
-        function renderBestSellers() {
-            const grid = document.getElementById('best-seller-grid');
-            if (!grid) return;
-
-            grid.innerHTML = bestSellers.map(product => `
-                <div class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex-shrink-0 w-[240px] md:w-[280px] snap-start flex flex-col h-full">
-                    
-                    <div class="relative aspect-[3/4] w-full bg-gray-100 overflow-hidden">
-                        ${product.tag ? `<span class="absolute top-3 left-3 z-10 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase">${product.tag}</span>` : ''}
-                        
-                        <img src="${product.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                        
-                        <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                            <button class="w-9 h-9 bg-white rounded-full flex items-center justify-center text-gray-800 hover:bg-[#bc9c75] hover:text-white transition-all shadow-md">
-                                <i class="ri-shopping-cart-2-line"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="p-4 flex flex-col flex-grow text-center">
-                        <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1 truncate">${product.category || 'THỜI TRANG'}</p>
-                        
-                        <h3 class="font-semibold text-gray-800 text-sm mb-2 group-hover:text-[#bc9c75] transition-colors line-clamp-2 h-[40px] leading-5">
-                            ${product.name}
-                        </h3>
-                        
-                        <div class="mt-auto pt-3 border-t border-gray-50 flex flex-col items-center gap-1">
-                            <div class="flex items-center gap-2">
-                                <span class="text-[#bc9c75] font-bold text-base">${product.price.toLocaleString()}đ</span>
-                                <span class="text-gray-300 text-xs line-through">${product.oldPrice ? product.oldPrice.toLocaleString() + 'đ' : ''}</span>
-                            </div>
-                            <span class="text-[10px] text-green-600 font-medium">Giá tốt</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }   
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof renderProducts === "function") renderProducts(); 
-            renderBestSellers();
-        });
-        
-    </script>
+    
 </body>
 </html>

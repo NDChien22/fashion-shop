@@ -74,6 +74,10 @@ function runPageScript(pageId) {
     if (pageId === 'gioi-thieu') {
         startCountdown();
     }
+    if (pageId === 'Ho-tro') {
+        console.log("Đã tải trang Hỗ trợ - Đang khởi tạo FAQ...");
+        initFAQ(); // Gọi hàm khởi tạo
+    }
 }
 
 // --- 4. Cập nhật Giao diện (Breadcrumb & Active Menu) ---
@@ -119,3 +123,81 @@ function updateUI(pageId, title) {
 // --- 5. Sự kiện khởi chạy ---
 window.addEventListener('hashchange', loadPage);
 document.addEventListener('DOMContentLoaded', loadPage);
+
+
+
+
+function toggleAccordion(btn) {
+  // Tìm tất cả các nội dung đang mở và đóng chúng lại
+  document.querySelectorAll('.accordion-content').forEach(el => {
+    if (el !== btn.nextElementSibling) {
+      el.classList.add('hidden');
+      el.previousElementSibling.querySelector('svg').classList.remove('rotate-180');
+    }
+  });
+
+  // Mở mục hiện tại
+  const content = btn.nextElementSibling;
+  const icon = btn.querySelector('svg');
+  content.classList.toggle('hidden');
+  icon.classList.toggle('rotate-180');
+}
+
+
+
+function initFAQ() {
+    // --- PHẦN 1: XỬ LÝ ĐÓNG/MỞ FAQ (CHO PHÉP MỞ NHIỀU MỤC) ---
+    const buttons = document.querySelectorAll('.accordion-item button');
+
+    buttons.forEach(btn => {
+        // Xóa sự kiện cũ bằng cách clone để tránh trùng lặp
+        btn.replaceWith(btn.cloneNode(true));
+    });
+
+    const newButtons = document.querySelectorAll('.accordion-item button');
+    newButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const item = this.closest('.accordion-item');
+            const content = item.querySelector('.accordion-content');
+            const icon = this.querySelector('svg');
+            
+            // Kiểm tra trạng thái hiện tại của mục được nhấn
+            const isOpen = item.classList.contains('active-faq');
+
+            if (isOpen) {
+                // Nếu đang mở thì ĐÓNG LẠI
+                item.classList.remove('active-faq');
+                content.style.maxHeight = null;
+                if (icon) icon.classList.remove('rotate-180');
+            } else {
+                // Nếu đang đóng thì MỞ RA (Không can thiệp vào các mục khác)
+                item.classList.add('active-faq');
+                content.style.maxHeight = content.scrollHeight + "px";
+                if (icon) icon.classList.add('rotate-180');
+            }
+        });
+    });
+
+    // --- PHẦN 2: XỬ LÝ CUỘN MƯỢT CHO NỘI DUNG CHÍNH ---
+    const navLinks = document.querySelectorAll('a[href^="#"]'); 
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href').substring(1);
+            const targetElement = document.getElementById(targetId);
+
+            if (targetElement) {
+                e.preventDefault(); 
+
+                const headerOffset = 150; 
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        });
+    });
+}

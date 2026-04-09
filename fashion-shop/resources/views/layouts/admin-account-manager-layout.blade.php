@@ -15,6 +15,8 @@
 </head>
 
 <body class="bg-gray-50 flex flex-col h-screen overflow-hidden">
+    <x-toast :message="session('toast')" :success="session('success')" :error="session('error')" />
+
     @php
         $authUser = Auth::user();
         $displayName = $authUser->full_name ?: $authUser->username;

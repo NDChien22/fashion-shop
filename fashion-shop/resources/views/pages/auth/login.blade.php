@@ -2,10 +2,6 @@
 @section('title', 'Đăng nhập')
 @section('content')
 
-    @if (session('toast') || session('success') || session('error'))
-        <x-toast :message="session('toast')" :success="session('success')" :error="session('error')" />
-    @endif
-
     <div
         class="w-full max-w-[420px] bg-white rounded-[1.5rem] sm:rounded-[2rem] shadow-sm border border-gray-100 p-6 sm:p-8 md:p-10">
         <div class="text-center mb-8">

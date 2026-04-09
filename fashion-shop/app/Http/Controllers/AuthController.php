@@ -47,7 +47,9 @@ class AuthController extends Controller
         );
 
         if(Auth::attempt($creds)){
-            return redirect()->route('dashboard');
+            $request->session()->regenerate();
+
+            return $this->redirectAfterLogin(Auth::user());
         } else {
             return back()->withErrors(['password' => 'Mật khẩu không chính xác'])->withInput();
         }
@@ -125,7 +127,7 @@ class AuthController extends Controller
 
         if($user){
             Auth::login($user);
-            return redirect()->route('dashboard');        
+            return $this->redirectAfterLogin($user);
         }else{
             $user = User::create([
                 'username' => $googleUser->name,
@@ -133,8 +135,19 @@ class AuthController extends Controller
                 'password' => Hash::make(rand()),
             ]);
             Auth::login($user);
-            return redirect()->route('dashboard')->with('toast', 'Đăng nhập thành công với Google!');
+            return $this->redirectAfterLogin($user)->with('toast', 'Đăng nhập thành công với Google!');
         }
+    }
+
+    protected function redirectAfterLogin(User $user)
+    {
+        $adminRoles = ['admin', 'productmanager', 'servicescustomer'];
+
+        if (in_array((string) $user->role, $adminRoles, true) || $user->employee()->exists()) {
+            return redirect()->route('admin.admin_dashboard');
+        }
+
+        return redirect()->route('dashboard');
     }
 
     // Quên mật khẩu

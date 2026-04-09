@@ -13,12 +13,6 @@
 @section('content')
 
     <div>
-        @if (session('success'))
-            <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl text-green-600 font-bold">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse ($collections as $collection)
                 <div

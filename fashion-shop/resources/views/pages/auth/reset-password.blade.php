@@ -1,16 +1,12 @@
 @extends('layouts.auth-layout')
 @section('title', 'Đặt lại mật khẩu')
 @section('content')
-    @if (session('toast') || session('success') || session('error'))
-        <x-toast :message="session('toast')" :success="session('success')" :error="session('error')" />
-    @endif
-
     <div>
-        <div class="w-full max-w-[420px] bg-white rounded-[2.5rem] shadow-sm border border-gray-100 p-8 md:p-10">
+        <div class="w-full max-w-105 bg-white rounded-[2.5rem] shadow-sm border border-gray-100 p-8 md:p-10">
             <h2 class="text-2xl font-bold text-gray-900 mb-2">Đổi mật khẩu</h2>
             <p class="text-gray-400 text-sm mb-8">Vui lòng nhập mật khẩu mới cho tài khoản của bạn.</p>
 
-            <form action="{{ route('reset_password')}}" method="POST" class="space-y-5">
+            <form action="{{ route('reset_password') }}" method="POST" class="space-y-5">
                 @csrf
                 <input type="hidden" name="token" value="{{ $token }}">
                 <input type="hidden" name="email" value="{{ $email }}">

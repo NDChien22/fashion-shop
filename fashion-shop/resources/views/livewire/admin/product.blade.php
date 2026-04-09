@@ -1,16 +1,4 @@
 <div>
-    @if (session('success'))
-        <div class="mb-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <div class="flex items-center justify-between mb-6">
         <div class="flex gap-4 flex-1">
             <div class="relative w-full max-w-[50%]">
@@ -185,7 +173,7 @@
                                 <div class="p-3 bg-gray-50 rounded-xl">
                                     <p class="text-[10px] text-gray-400">Giá bán</p>
                                     <p class="font-bold text-[#bc9c75]">
-                                        {{ number_format($selectedProduct['base_price'], 0, ',', '.') }}đ
+                                        {{ number_format((float) $selectedProduct['base_price'], 0, ',', '.') }}đ
                                     </p>
                                 </div>
                             </div>

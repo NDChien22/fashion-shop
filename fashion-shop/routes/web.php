@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -89,6 +90,12 @@ Route::prefix('admin')->name('admin.')->group(function(){
         //ServiceCenter Manager
 
         //Employee Manager
+        Route::get('/employee-manager', [EmployeeController::class, 'EmployeeManagerView'])->name('employee-manager');
+        Route::get('/employee-manager/add', [EmployeeController::class, 'addEmployeeView'])->name('add-employee');
+        Route::post('/employee-manager/add', [EmployeeController::class, 'storeEmployeeHandler'])->name('store-employee');
+        Route::get('/employee-manager/edit/{employee}', [EmployeeController::class, 'editEmployeeView'])->name('edit-employee');
+        Route::put('/employee-manager/edit/{employee}', [EmployeeController::class, 'updateEmployeeHandler'])->name('update-employee');
+        Route::delete('/employee-manager/{employee}', [EmployeeController::class, 'deleteEmployee'])->name('delete-employee');
 
     });
 });

@@ -17,6 +17,8 @@
 </head>
 
 <body class="bg-[#f8f9fa] h-screen flex flex-col">
+    <x-toast :message="session('toast')" :success="session('success')" :error="session('error')" />
+
     @php
         $authUser = Auth::user();
         $displayName = $authUser->full_name ?: $authUser->username;
@@ -184,12 +186,13 @@
                         </div>
                         <span class="font-medium">Trợ giúp & Hỗ trợ</span>
                     </div>
-                    <div data-page="hr" onclick="loadPage('hr')" class="nav-item group ">
+                    <a href="{{ route('admin.employee-manager') }}"
+                        class="nav-item group {{ Request::routeIs('admin.employee-manager') || Request::routeIs('admin.add-employee') || Request::routeIs('admin.edit-employee') ? 'active' : '' }}">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-user-tie text-[15px]"></i>
                         </div>
                         <span class="font-medium">Quản lý nhân sự</span>
-                    </div>
+                    </a>
                 </div>
             </nav>
         </aside>

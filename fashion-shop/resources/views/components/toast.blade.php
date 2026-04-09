@@ -22,8 +22,8 @@
     <div id="app-toast"
         class="fixed left-1/2 top-5 z-9999 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 transition-all duration-300">
         <div class="overflow-hidden rounded-2xl border px-4 py-3 shadow-xl backdrop-blur {{ $toastClass }}">
-            <div class="flex items-start gap-3">
-                <div class="mt-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-white/80">
+            <div class="flex items-center gap-3">
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/80">
                     <i class="fa-solid {{ $iconClass }} text-base"></i>
                 </div>
                 <div class="min-w-0 flex-1">
@@ -32,7 +32,7 @@
                     </p>
                 </div>
                 <button type="button" id="app-toast-close"
-                    class="rounded-full p-1 text-current/60 transition hover:bg-white/70 hover:text-current"
+                    class="shrink-0 rounded-full p-1 text-current/60 transition hover:bg-white/70 hover:text-current"
                     aria-label="Close">
                     <i class="fa-solid fa-xmark"></i>
                 </button>

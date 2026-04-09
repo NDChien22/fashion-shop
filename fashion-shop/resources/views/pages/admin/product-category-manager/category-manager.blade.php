@@ -12,12 +12,6 @@
 
 @section('content')
     <div class="space-y-6">
-        @if (session('success'))
-            <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-                {{ session('success') }}
-            </div>
-        @endif
-
         @if ($errors->has('category_delete'))
             <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                 {{ $errors->first('category_delete') }}

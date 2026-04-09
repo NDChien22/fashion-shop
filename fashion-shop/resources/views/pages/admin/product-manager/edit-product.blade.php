@@ -21,12 +21,6 @@
 
 @section('content')
     <div>
-        @if (session('success'))
-            <div class="mb-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-                {{ session('success') }}
-            </div>
-        @endif
-
         @if ($errors->any())
             <div class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                 <ul class="list-disc pl-5 space-y-1">
@@ -52,6 +46,7 @@
             $variantsForHydration = old('variants', $fallbackVariants);
             $galleryImages = is_array($product->gallery_image_urls) ? $product->gallery_image_urls : [];
             $mainImageUrl = $product->main_image_url ? asset($product->main_image_url) : '/asset/img/product-1.jpg';
+            $basePriceValue = old('base_price', number_format((float) $product->base_price, 0, '', ''));
         @endphp
 
         <form id="add-product-form" action="{{ route('admin.update-product-handler', $product->slug) }}" method="POST"
@@ -90,7 +85,7 @@
                                 <label for="base_price" class="text-[11px] font-bold text-gray-400 uppercase">Giá
                                     bán</label>
                                 <input type="number" id="base_price" name="base_price" min="0" step="0.01"
-                                    value="{{ old('base_price', $product->base_price) }}"
+                                    value="{{ $basePriceValue }}"
                                     class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs">
                             </div>
 

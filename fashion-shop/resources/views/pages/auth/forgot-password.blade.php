@@ -1,11 +1,6 @@
 @extends('layouts.auth-layout')
 @section('title', 'Quên mật khẩu')
 @section('content')
-    @if (session('toast') || session('success') || session('error'))
-        <x-toast :message="session('toast')" :success="session('success')" :error="session('error')" />
-    @endif
-
-
     <div>
         <div class="w-full max-w-[420px] bg-white rounded-[2.5rem] shadow-sm border border-gray-100 p-8 md:p-10 text-center">
             <h2 class="text-2xl font-bold text-gray-900 mb-2">Quên mật khẩu?</h2>

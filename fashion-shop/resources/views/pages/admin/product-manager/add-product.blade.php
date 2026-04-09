@@ -24,12 +24,6 @@
             $categoryErrors = $errors->getBag('category');
         @endphp
 
-        @if (session('success') && !session('category_modal_open'))
-            <div class="mb-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-                {{ session('success') }}
-            </div>
-        @endif
-
         @if ($errors->any())
             <div class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                 <ul class="list-disc pl-5 space-y-1">
@@ -50,7 +44,8 @@
                         <h3 class="text-sm font-bold text-gray-800">Thông tin cơ bản</h3>
 
                         <div>
-                            <label for="product_code" class="text-[11px] font-bold text-gray-400 uppercase">Mã sản phẩm</label>
+                            <label for="product_code" class="text-[11px] font-bold text-gray-400 uppercase">Mã sản
+                                phẩm</label>
                             <input type="text" id="product_code" name="product_code" value="{{ old('product_code') }}"
                                 placeholder="Ví dụ: PRD-TSHIRT-001"
                                 class="w-full mt-1 bg-gray-50 rounded-xl py-2.5 px-4 text-xs">

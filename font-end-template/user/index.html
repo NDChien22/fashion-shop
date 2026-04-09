@@ -30,11 +30,15 @@
                 </div>
             </div>
                 <div class="flex items-center justify-end gap-6 text-xl flex-none">
+                    <a href="#yeu-thich" class="relative p-2">
+                        <i class="ri-heart-line cursor-pointer hidden md:block hover-gold transition"></i>
+                        <span id="wishlist-count" class="absolute top-0 right-0 bg-red-600 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">0</span>
+                    </a>
+                    <a href="#gio-hang" class="relative p-2">
+                        <i class="ri-shopping-cart-line cursor-pointer hidden md:block hover-gold transition"></i>
+                        <span id="cart-count" class="absolute top-0 right-0 bg-red-600 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">0</span>
+                    </a>
                     <i class="ri-user-line cursor-pointer hidden md:block hover-gold transition"></i>
-                    <div class="relative cursor-pointer group">
-                        <i class="ri-shopping-cart-line group-hover:text-[#bc9c75] transition text-2xl"></i>
-                        <span class="absolute -top-2 -right-2 bg-gold text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">2</span>
-                    </div>
                 </div>
             </nav>
         </div>
@@ -64,19 +68,15 @@
                                     <div class="col-span-4 mb-4">
                                         <h3 class="text-[#bc9c75] font-black text-2xl italic tracking-tighter border-b-2 border-[#bc9c75]/20 pb-2">Thời trang nữ</h3>
                                     </div>
-                                    <div>
-                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">PHỤ KIỆN NỮ</h4>
-                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
-                                            <li><a href="#" class="hover:text-[#bc9c75]">Tất nữ</a></li>
-                                            <li><a href="#" class="hover:text-[#bc9c75]">Túi nữ</a></li>
-                                            <li><a href="#" class="hover:text-[#bc9c75]">Phụ kiện khác</a></li>
-                                        </ul>
-                                    </div>
+                                    
                                     <div>
                                         <h4 class="font-bold text-gray-900 mb-4 text-[15px]">ÁO NỮ</h4>
                                         <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
                                             <li><a href="#" class="hover:text-[#bc9c75]">Áo khoác</a></li>
                                             <li><a href="#" class="hover:text-[#bc9c75]">Áo hoodie</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo nỉ</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo len</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo polo</a></li>
                                             <li><a href="#" class="hover:text-[#bc9c75]">Áo sơ mi</a></li>
                                             <li><a href="#" class="hover:text-[#bc9c75]">Áo thun</a></li>
                                         </ul>
@@ -85,15 +85,26 @@
                                         <h4 class="font-bold text-gray-900 mb-4 text-[15px]">QUẦN NỮ</h4>
                                         <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
                                             <li><a href="#" class="hover:text-[#bc9c75]">Quần dài</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Quần nỉ</a></li>
                                             <li><a href="#" class="hover:text-[#bc9c75]">Quần kaki</a></li>
                                             <li><a href="#" class="hover:text-[#bc9c75]">Quần jeans</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Quần âu</a></li>
                                         </ul>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">THỂ THAO</h4>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">THỂ THAO NỮ</h4>
                                         <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
-                                            <li><a href="#" class="hover:text-[#bc9c75]">Đồ thể thao</a></li>
-                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo polo</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Quần thể thao </a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo thể thao</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Bộ đồ thể thao</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">PHỤ KIỆN NỮ</h4>
+                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Tất nữ</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Túi nữ</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Phụ kiện khác</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -101,35 +112,43 @@
                                     <div class="col-span-4 mb-4">
                                         <h3 class="text-[#bc9c75] font-black text-2xl italic tracking-tighter border-b-2 border-[#bc9c75]/20 pb-2">Thời trang nam</h3>
                                     </div>
-                                    <div>
-                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">PHỤ KIỆN NAM</h4>
-                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
-                                            <li><a href="#" class="hover:text-[#bc9c75]">Tất nam</a></li>
-                                            <li><a href="#" class="hover:text-[#bc9c75]">Túi xách</a></li>
-                                            <li><a href="#" class="hover:text-[#bc9c75]">Thắt lưng</a></li>
-                                        </ul>
-                                    </div>
+                                    
                                     <div>
                                         <h4 class="font-bold text-gray-900 mb-4 text-[15px]">ÁO NAM</h4>
                                         <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
                                             <li><a href="#" class="hover:text-[#bc9c75]">Áo khoác</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo hoodie </a></li>
                                             <li><a href="#" class="hover:text-[#bc9c75]">Áo len</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo polo</a></li>
                                             <li><a href="#" class="hover:text-[#bc9c75]">Áo sơ mi</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo thun</a></li>
                                         </ul>
                                     </div>
                                     <div>
                                         <h4 class="font-bold text-gray-900 mb-4 text-[15px]">QUẦN NAM</h4>
                                         <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Quần kaki</a></li>
                                             <li><a href="#" class="hover:text-[#bc9c75]">Quần short</a></li>
                                             <li><a href="#" class="hover:text-[#bc9c75]">Quần jeans</a></li>
                                             <li><a href="#" class="hover:text-[#bc9c75]">Quần âu</a></li>
                                         </ul>
                                     </div>
                                     <div>
-                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">THỂ THAO</h4>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">THỂ THAO NAM</h4>
                                         <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
-                                            <li><a href="#" class="hover:text-[#bc9c75]">Đồ thể thao</a></li>
-                                            <li><a href="#" class="hover:text-[#bc9c75]">Bộ thể thao</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo thể thao</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Áo thun thể thao</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Quần thể thao</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Bộ đồ thể thao</a></li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 mb-4 text-[15px]">PHỤ KIỆN NAM</h4>
+                                        <ul class="normal-case text-[14px] space-y-2.5 text-gray-500 font-medium">
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Tất nam</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Túi xách</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Mũ</a></li>
+                                            <li><a href="#" class="hover:text-[#bc9c75]">Thắt lưng</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -244,3 +263,29 @@
     
 </body>
 </html>
+
+
+<div id="cart-overlay" class="fixed inset-0 bg-black/50 z-[60] hidden opacity-0 transition-opacity duration-300"></div>
+
+<div id="cart-drawer" class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-[70] shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+    <div class="p-4 border-b flex justify-between items-center bg-gray-50">
+        <h2 class="font-bold text-lg uppercase">Giỏ hàng của bạn</h2>
+        <button id="close-cart" class="p-2 hover:rotate-90 transition-transform text-2xl">&times;</button>
+    </div>
+
+    <div id="cart-items-list" class="flex-1 overflow-y-auto p-4 space-y-4">
+        </div>
+
+    <div class="p-4 border-t bg-gray-50 space-y-4">
+        <div class="flex justify-between items-center font-bold text-lg">
+            <span>Tổng cộng:</span>
+            <span id="cart-total-price" class="text-[#bc9c75]">0₫</span>
+        </div>
+        <button class="w-full bg-black text-white py-3 font-bold uppercase hover:bg-[#bc9c75] transition-colors rounded">
+            Thanh toán ngay
+        </button>
+        <button id="view-full-cart" class="w-full text-sm font-medium underline text-gray-500 hover:text-black">
+            Xem giỏ hàng chi tiết
+        </button>
+    </div>
+</div>

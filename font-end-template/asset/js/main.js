@@ -387,27 +387,52 @@ function renderWishlistPage() {
 
     emptyMsg.classList.add('hidden');
     // Tận dụng cấu trúc Card sản phẩm bạn đã có
-    grid.innerHTML = favProducts.map(item => `
-        <div class="product-card group relative border p-3 rounded-xl shadow-sm">
-            <div class="relative overflow-hidden rounded-lg aspect-3/4 mb-3">
-                <img src="${item.image}" class="w-full h-full object-cover">
-                <button onclick="toggleWishlist(${item.id})" class="absolute top-2 right-2 bg-white p-2 rounded-full text-red-500 shadow-md">
+    grid.innerHTML = favProducts.map(item => {
+    // 1. Phải khai báo các biến bổ trợ này để không bị lỗi "undefined"
+    const tagHTML = item.tag 
+        ? `<div class="absolute top-3 left-3 z-10">
+             <span class="bg-orange-500 text-white text-[10px] px-2.5 py-1 rounded-full uppercase font-bold shadow">${item.tag}</span>
+           </div>` 
+        : '';
+        
+    const oldPriceHTML = item.oldPrice 
+        ? `<p class="text-xs text-gray-400 line-through">${item.oldPrice.toLocaleString('vi-VN')}₫</p>` 
+        : '';
+
+    // 2. Trả về cấu trúc HTML mới
+    return `
+        <div class="product-card group relative flex flex-col h-full">
+            <div class="relative overflow-hidden mb-4 rounded-xl bg-gray-100 shadow-sm aspect-[3/4]">
+                <img 
+                    src="${item.image}" 
+                    class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" 
+                    alt="${item.name}"
+                >
+                ${tagHTML}
+
+                <button onclick="toggleWishlist(${item.id})" class="absolute top-2 right-2 bg-white/90 p-2 rounded-full text-red-500 shadow-md hover:bg-red-50 transition-colors z-20">
                     <i class="ri-heart-fill"></i>
                 </button>
+
                 <div class="absolute inset-x-0 bottom-4 px-4 flex flex-col gap-3 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10">
-                    <button onclick="(${item.id})" class="w-full bg-white text-black py-2.5 text-[10px] font-bold uppercase hover:bg-[#bc9c75] hover:text-white rounded-lg shadow-md transition-colors">
+                    <button onclick="addToCart(${item.id})" class="w-full bg-white text-black py-2.5 text-[10px] font-bold uppercase hover:bg-[#bc9c75] hover:text-white rounded-lg shadow-md transition-colors">
                         Mua ngay
                     </button>
                 </div>
             </div>
-            <h4 class="text-sm font-medium line-clamp-1">${item.name}</h4>
-            <div class="flex justify-between items-center mt-2">
-                <p class="font-bold text-[#bc9c75]">${item.price.toLocaleString('vi-VN')}₫</p>
-                
+
+            <div class="flex flex-col grow px-1">
+                <h4 class="text-sm font-medium text-gray-800 mb-1.5 line-clamp-2 min-h-10">
+                    ${item.name}
+                </h4>
+                <div class="flex items-center gap-3 mt-auto">
+                    <p class="font-bold text-[#bc9c75] text-lg">${item.price.toLocaleString('vi-VN')}₫</p>
+                    ${oldPriceHTML}
+                </div>
             </div>
         </div>
-        
-    `).join('');
+    `;
+    }).join('');
 }
 
 function updateWishlistBadge() {
@@ -419,8 +444,42 @@ function updateWishlistBadge() {
     }
 }
 
+/**
+ * Hàm đóng/mở Sidebar trên Mobile
+ */
+function toggleSidebar(isOpen) {
+    const sidebar = document.getElementById('main-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    
+    if (isOpen) {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    } else {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+}
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    const menuBtn = document.getElementById('menu-btn');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    if (menuBtn) {
+        menuBtn.onclick = function(e) {
+            e.preventDefault();
+            toggleSidebar(true);
+        };
+    }
+
+    if (overlay) {
+        overlay.onclick = function() {
+            toggleSidebar(false);
+        };
+    }
+});
 
 
 
@@ -467,6 +526,84 @@ document.addEventListener('click', function (e) {
     }
 });
 
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const chatBtn = document.getElementById('chat-toggle-btn');
+    const supportBox = document.getElementById('support-box');
+    const closeChatBtn = document.getElementById('close-chat-btn');
+    const chatIcon = document.getElementById('chat-icon');
+
+    // Hàm xử lý đóng mở
+    function toggleChat() {
+        // Kiểm tra xem hộp thoại có đang bị ẩn không
+        const isHidden = supportBox.classList.contains('hidden');
+
+        if (isHidden) {
+            // HIỆN: Xóa class hidden và thêm hiệu ứng
+            supportBox.classList.remove('hidden');
+            // Đợi một chút để trình duyệt nhận diện rồi mới chạy hiệu ứng mượt
+            setTimeout(() => {
+                supportBox.classList.remove('opacity-0', 'translate-y-4');
+                supportBox.classList.add('opacity-100', 'translate-y-0');
+            }, 10);
+            
+            // Đổi icon sang dấu X (nếu có id chat-icon)
+            if(chatIcon) chatIcon.classList.replace('ri-messenger-fill', 'ri-close-line');
+        } else {
+            // ẨN: Thêm lại các class ẩn
+            supportBox.classList.add('opacity-0', 'translate-y-4');
+            supportBox.classList.remove('opacity-100', 'translate-y-0');
+            
+            // Đợi hiệu ứng chạy xong rồi mới ẩn hẳn bằng hidden
+            setTimeout(() => {
+                supportBox.classList.add('hidden');
+            }, 300);
+
+            // Đổi icon lại thành Messenger
+            if(chatIcon) chatIcon.classList.replace('ri-close-line', 'ri-messenger-fill');
+        }
+    }
+
+    // Gán sự kiện click cho nút bong bóng
+    if (chatBtn) {
+        chatBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Ngăn sự kiện nổi bọt
+            toggleChat();
+        });
+    }
+
+    // Gán sự kiện cho nút đóng bên trong hộp thoại
+    if (closeChatBtn) {
+        closeChatBtn.addEventListener('click', toggleChat);
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    // 1. Theo dõi sự kiện cuộn trang
+    window.addEventListener('scroll', () => {
+        // Nếu cuộn xuống quá 300px thì hiện nút
+        if (window.scrollY > 300) {
+            backToTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-10');
+            backToTopBtn.classList.add('opacity-100', 'visible', 'translate-y-0');
+        } else {
+            // Ngược lại thì ẩn đi
+            backToTopBtn.classList.remove('opacity-100', 'visible', 'translate-y-0');
+            backToTopBtn.classList.add('opacity-0', 'invisible', 'translate-y-10');
+        }
+    });
+
+    // 2. Xử lý khi click vào nút
+    backToTopBtn.onclick = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Cuộn mượt mà lên đầu trang
+        });
+    };
+});
 
 
 const PAGES = {

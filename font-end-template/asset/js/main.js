@@ -1,45 +1,45 @@
 const products = [
   // THỜI TRANG NỮ - VÁY ĐẦM
-  { id: 1, name: "Váy hoa nhí dáng dài Vintage", category: "Váy đầm", price: 350000, oldPrice: 450000, image: "https://picsum.photos/id/1/500/700", tag: "Mới" },
-  { id: 2, name: "Đầm suông linen phối túi", category: "Váy đầm", price: 290000, oldPrice: null, image: "https://picsum.photos/id/2/500/700", tag: "" },
-  { id: 3, name: "Chân váy xếp ly Tennis", category: "Váy đầm", price: 199000, oldPrice: 250000, image: "https://picsum.photos/id/3/500/700", tag: "Sale" },
-  { id: 4, name: "Váy body ôm sát gợi cảm", category: "Váy đầm", price: 420000, oldPrice: 550000, image: "https://picsum.photos/id/4/500/700", tag: "Bán chạy" },
-  { id: 5, name: "Đầm dự tiệc trễ vai", category: "Váy đầm", price: 890000, oldPrice: null, image: "https://picsum.photos/id/5/500/700", tag: "Mới" },
+  { id: 1, name: "Váy hoa nhí dáng dài Vintage", category: "Váy đầm", price: 350000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&q=80", tag: "Mới" },
+  { id: 2, name: "Đầm suông linen phối túi", category: "Váy đầm", price: 290000, oldPrice: null, image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=500&q=80", tag: "" },
+  { id: 3, name: "Chân váy xếp ly Tennis", category: "Váy đầm", price: 199000, oldPrice: 250000, image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=500&q=80", tag: "Sale" },
+  { id: 4, name: "Váy body ôm sát gợi cảm", category: "Váy đầm", price: 420000, oldPrice: 550000, image: "https://images.unsplash.com/photo-1539008835657-9e8e82165a5c?w=500&q=80", tag: "Bán chạy" },
+  { id: 5, name: "Đầm dự tiệc trễ vai", category: "Váy đầm", price: 890000, oldPrice: null, image: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=500&q=80", tag: "Mới" },
 
   // THỜI TRANG NỮ - ÁO
-  { id: 6, name: "Áo sơ mi lụa công sở", category: "Áo sơ mi", price: 250000, oldPrice: 320000, image: "https://picsum.photos/id/10/500/700", tag: "" },
-  { id: 7, name: "Áo thun Cotton basic", category: "Áo thun", price: 150000, oldPrice: null, image: "https://picsum.photos/id/11/500/700", tag: "Mới" },
-  { id: 8, name: "Áo len lưới croptop Vienne", category: "Áo thun", price: 249000, oldPrice: 368000, image: "https://picsum.photos/id/12/500/700", tag: "Sale" },
-  { id: 9, name: "Áo khoác Blazer nữ Hàn Quốc", category: "Áo khoác", price: 705000, oldPrice: 850000, image: "https://picsum.photos/id/13/500/700", tag: "Bán chạy" },
-  { id: 10, name: "Áo hai dây lụa satin", category: "Áo thun", price: 120000, oldPrice: 180000, image: "https://picsum.photos/id/14/500/700", tag: "" },
+  { id: 6, name: "Áo sơ mi lụa công sở", category: "Áo sơ mi", price: 250000, oldPrice: 320000, image: "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=500&q=80", tag: "" },
+  { id: 7, name: "Áo thun Cotton basic", category: "Áo thun", price: 150000, oldPrice: null, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&q=80", tag: "Mới" },
+  { id: 8, name: "Áo len lưới croptop Vienne", category: "Áo thun", price: 249000, oldPrice: 368000, image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&q=80", tag: "Sale" },
+  { id: 9, name: "Áo khoác Blazer nữ Hàn Quốc", category: "Áo khoác", price: 705000, oldPrice: 850000, image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=80", tag: "Bán chạy" },
+  { id: 10, name: "Áo hai dây lụa satin", category: "Áo thun", price: 120000, oldPrice: 180000, image: "https://images.unsplash.com/photo-1604176354204-926873ff3da9?w=500&q=80", tag: "" },
 
   // THỜI TRANG NAM - ÁO
-  { id: 11, name: "Áo sơ mi Oxford nam", category: "Áo nam", price: 380000, oldPrice: 450000, image: "https://picsum.photos/id/20/500/700", tag: "Mới" },
-  { id: 12, name: "Áo thun Polo phối cổ", category: "Áo nam", price: 280000, oldPrice: null, image: "https://picsum.photos/id/21/500/700", tag: "" },
-  { id: 13, name: "Áo Hoodie nỉ ngoại", category: "Áo nam", price: 450000, oldPrice: 520000, image: "https://picsum.photos/id/22/500/700", tag: "Bán chạy" },
-  { id: 14, name: "Áo khoác Jean Denim Classic", category: "Áo nam", price: 650000, oldPrice: null, image: "https://picsum.photos/id/23/500/700", tag: "Mới" },
-  { id: 15, name: "Áo Tanktop tập gym", category: "Áo nam", price: 160000, oldPrice: 210000, image: "https://picsum.photos/id/24/500/700", tag: "Sale" },
+  { id: 11, name: "Áo sơ mi Oxford nam", category: "Áo nam", price: 380000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&q=80", tag: "Mới" },
+  { id: 12, name: "Áo thun Polo phối cổ", category: "Áo nam", price: 280000, oldPrice: null, image: "https://images.unsplash.com/photo-1624371414361-e6e0ed58d38c?w=500&q=80", tag: "" },
+  { id: 13, name: "Áo Hoodie nỉ ngoại", category: "Áo nam", price: 450000, oldPrice: 520000, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80", tag: "Bán chạy" },
+  { id: 14, name: "Áo khoác Jean Denim Classic", category: "Áo nam", price: 650000, oldPrice: null, image: "https://images.unsplash.com/photo-1516257984877-a03a804f7a7a?w=500&q=80", tag: "Mới" },
+  { id: 15, name: "Áo Tanktop tập gym", category: "Áo nam", price: 160000, oldPrice: 210000, image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&q=80", tag: "Sale" },
 
   // THỜI TRANG NAM - QUẦN
-  { id: 16, name: "Quần Jean Slim-fit nam", category: "Quần nam", price: 490000, oldPrice: 600000, image: "https://picsum.photos/id/30/500/700", tag: "" },
-  { id: 17, name: "Quần Kaki túi hộp Cargo", category: "Quần nam", price: 350000, oldPrice: null, image: "https://picsum.photos/id/31/500/700", tag: "Mới" },
-  { id: 18, name: "Quần Short thun thể thao", category: "Quần nam", price: 180000, oldPrice: 250000, image: "https://picsum.photos/id/32/500/700", tag: "Sale" },
-  { id: 19, name: "Quần Tây Âu công sở", category: "Quần nam", price: 550000, oldPrice: null, image: "https://picsum.photos/id/33/500/700", tag: "" },
-  { id: 20, name: "Quần Jogger nỉ nam", category: "Quần nam", price: 320000, oldPrice: 380000, image: "https://picsum.photos/id/34/500/700", tag: "" },
+  { id: 16, name: "Quần Jean Slim-fit nam", category: "Quần nam", price: 490000, oldPrice: 600000, image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&q=80", tag: "" },
+  { id: 17, name: "Quần Kaki túi hộp Cargo", category: "Quần nam", price: 350000, oldPrice: null, image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500&q=80", tag: "Mới" },
+  { id: 18, name: "Quần Short thun thể thao", category: "Quần nam", price: 180000, oldPrice: 250000, image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=500&q=80", tag: "Sale" },
+  { id: 19, name: "Quần Tây Âu công sở", category: "Quần nam", price: 550000, oldPrice: null, image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&q=80", tag: "" },
+  { id: 20, name: "Quần Jogger nỉ nam", category: "Quần nam", price: 320000, oldPrice: 380000, image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500&q=80", tag: "" },
 
   // PHỤ KIỆN
-  { id: 21, name: "Túi xách da nữ cao cấp", category: "Phụ kiện", price: 1250000, oldPrice: 1500000, image: "https://picsum.photos/id/40/500/700", tag: "Bán chạy" },
-  { id: 22, name: "Thắt lưng da nam khóa kim", category: "Phụ kiện", price: 290000, oldPrice: null, image: "https://picsum.photos/id/41/500/700", tag: "Mới" },
-  { id: 23, name: "Mũ lưỡi trai phối lưới", category: "Phụ kiện", price: 150000, oldPrice: 190000, image: "https://picsum.photos/id/42/500/700", tag: "" },
-  { id: 24, name: "Tất nam cổ cao basic (set 5)", category: "Phụ kiện", price: 99000, oldPrice: 150000, image: "https://picsum.photos/id/43/500/700", tag: "Sale" },
-  { id: 25, name: "Kính mát phi công thời trang", category: "Phụ kiện", price: 450000, oldPrice: null, image: "https://picsum.photos/id/44/500/700", tag: "Mới" },
+  { id: 21, name: "Túi xách da nữ cao cấp", category: "Phụ kiện", price: 1250000, oldPrice: 1500000, image: "https://images.unsplash.com/photo-1584917033904-493bb3c3cc08?w=500&q=80", tag: "Bán chạy" },
+  { id: 22, name: "Thắt lưng da nam khóa kim", category: "Phụ kiện", price: 290000, oldPrice: null, image: "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=500&q=80", tag: "Mới" },
+  { id: 23, name: "Mũ lưỡi trai phối lưới", category: "Phụ kiện", price: 150000, oldPrice: 190000, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500&q=80", tag: "" },
+  { id: 24, name: "Tất nam cổ cao basic (set 5)", category: "Phụ kiện", price: 99000, oldPrice: 150000, image: "https://images.unsplash.com/photo-1582966772640-62507632669e?w=500&q=80", tag: "Sale" },
+  { id: 25, name: "Kính mát phi công thời trang", category: "Phụ kiện", price: 450000, oldPrice: null, image: "https://images.unsplash.com/photo-1511499767350-a1511f02fbf3?w=500&q=80", tag: "Mới" },
 
-  // SẢN PHẨM BỔ SUNG ĐỂ ĐỦ 30
-  { id: 26, name: "Áo sơ mi họa tiết biển", category: "Áo nam", price: 320000, oldPrice: null, image: "https://picsum.photos/id/50/500/700", tag: "" },
-  { id: 27, name: "Váy len ôm body mùa đông", category: "Váy đầm", price: 580000, oldPrice: 650000, image: "https://picsum.photos/id/51/500/700", tag: "Bán chạy" },
-  { id: 28, name: "Quần legging nữ tập yoga", category: "Quần nữ", price: 220000, oldPrice: null, image: "https://picsum.photos/id/52/500/700", tag: "Mới" },
-  { id: 29, name: "Áo khoác phao siêu nhẹ", category: "Áo khoác", price: 950000, oldPrice: 1200000, image: "https://picsum.photos/id/53/500/700", tag: "Sale" },
-  { id: 30, name: "Túi canvas đi học đơn giản", category: "Phụ kiện", price: 85000, oldPrice: null, image: "https://picsum.photos/id/54/500/700", tag: "" }
+  // SẢN PHẨM BỔ SUNG
+  { id: 26, name: "Áo sơ mi họa tiết biển", category: "Áo nam", price: 320000, oldPrice: null, image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500&q=80", tag: "" },
+  { id: 27, name: "Váy len ôm body mùa đông", category: "Váy đầm", price: 580000, oldPrice: 650000, image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=500&q=80", tag: "Bán chạy" },
+  { id: 28, name: "Quần legging nữ tập yoga", category: "Quần nữ", price: 220000, oldPrice: null, image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500&q=80", tag: "Mới" },
+  { id: 29, name: "Áo khoác phao siêu nhẹ", category: "Áo khoác", price: 950000, oldPrice: 1200000, image: "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=500&q=80", tag: "Sale" },
+  { id: 30, name: "Túi canvas đi học đơn giản", category: "Phụ kiện", price: 85000, oldPrice: null, image: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&q=80", tag: "" }
 ];
 
 
@@ -90,31 +90,42 @@ function renderProducts(productList) {
             : '';
 
         return `
-            <div class="product-card group relative">
-                <div class="overflow-hidden mb-4 relative rounded-xl aspect-3/4 bg-gray-100 shadow-sm">
-                    <img src="${item.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="${item.name}">
+            <div class="product-card group relative flex flex-col h-full">
+                <div class="relative overflow-hidden mb-4 rounded-xl bg-gray-100 shadow-sm aspect-[3/4]">
+                    <img 
+                        src="${item.image}" 
+                        
+                        class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" 
+                        alt="${item.name}"
+                    >
+                    
                     ${tagHTML}
+
                     <div class="absolute inset-x-0 bottom-4 px-4 flex flex-col gap-3 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10">
                         <div class="flex justify-center gap-2">
                             <button class="bg-white/95 text-gray-800 p-2 rounded-full shadow-md hover:bg-[#bc9c75] hover:text-white transition transform hover:scale-110">
                                 <i class="ri-eye-line text-base"></i>
                             </button>
-                            <button onclick="toggleWishlist(${item.id})"  class="bg-white/95 p-2 rounded-full shadow-md transition transform hover:scale-110 
-                            ${isWishlisted ? 'text-red-500' : 'text-gray-800'} hover:bg-[#bc9c75] hover:text-white">
+                            <button onclick="toggleWishlist(${item.id})"  class="bg-white/95 p-2 rounded-full shadow-md transition transform hover:scale-110
+                                ${isWishlisted ? 'text-red-500' : 'text-gray-800'} hover:bg-[#bc9c75] hover:text-white">
                                 <i class="${isWishlisted ? 'ri-heart-fill' : 'ri-heart-line'} text-base"></i>
+
                             </button>
                         </div>
-                        <button onclick="addToCart(${item.id})" class="w-full bg-white text-black py-2.5 text-[10px] font-bold uppercase hover:bg-[#bc9c75] hover:text-white rounded-lg shadow-md transition-colors">
+                        <button onclick="addToCart(${item.id})" class="w-full bg-white text-black py-2.5 text-[10px] font-bold uppercase hover:bg-[#bc9c75] hover:text-white rounded-lg shadow-md">
                             Thêm vào giỏ
                         </button>
                     </div>
                 </div>
-                <h4 class="text-sm font-medium text-gray-800 mb-1.5 group-hover:text-[#bc9c75] transition-colors line-clamp-2">
-                    ${item.name}
-                </h4>
-                <div class="flex items-center gap-3">
-                    <p class="font-bold text-[#bc9c75] text-lg">${item.price.toLocaleString('vi-VN')}₫</p>
-                    ${oldPriceHTML}
+
+                <div class="flex flex-col grow">
+                    <h4 class="text-sm font-medium text-gray-800 mb-1.5 line-clamp-2 min-h-10">
+                        ${item.name}
+                    </h4>
+                    <div class="flex items-center gap-3 mt-auto">
+                        <p class="font-bold text-[#bc9c75] text-lg">${item.price.toLocaleString('vi-VN')}₫</p>
+                        ${oldPriceHTML}
+                    </div>
                 </div>
             </div>
         `;
@@ -155,9 +166,6 @@ function addToCart(productId) {
 
 
 
-
-
-
 // Hàm tạo nút số trang
 function renderPagination(productList) {
     const paginationContainer = document.getElementById('pagination-container');
@@ -179,7 +187,6 @@ function renderPagination(productList) {
         const activeClass = i === currentPage 
             ? 'bg-[#bc9c75] text-white border-[#bc9c75]' 
             : 'bg-white text-[#bc9c75] border-[#bc9c75] hover:bg-[#bc9c75] hover:text-white';
-
         html += `
             <button onclick="goToPage(${i})" class="w-10 h-10 flex items-center justify-center border-2 rounded-lg font-bold transition-all ${activeClass}">
                 ${i}

@@ -133,8 +133,8 @@
                                 </a>
 
                                 <form action="{{ route('admin.delete-employee', $employee) }}" method="POST"
-                                    class="inline"
-                                    onsubmit="return confirm('Bạn có chắc muốn xóa nhân viên này không?');">
+                                    class="inline" data-confirm-delete="1"
+                                    data-confirm-message="Bạn có chắc muốn xóa nhân viên này không?">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"

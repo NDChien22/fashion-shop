@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/extra-assets/css/admin.css">
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 
 
@@ -142,12 +142,13 @@
                         </div>
                         <span class="font-medium">Bộ sưu tập</span>
                     </a>
-                    <div data-page="vouchers" onclick="loadPage('vouchers')" class="nav-item group">
+                    <a href="{{ route('admin.voucher-manager') }}"
+                        class="nav-item group {{ Request::routeIs('admin.voucher-manager') ? 'active' : '' }}">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-ticket text-[15px]"></i>
                         </div>
-                        <span class="font-medium">Voucher</span>
-                    </div>
+                        <span class="font-medium">Mã giảm giá</span>
+                    </a>
                     <div data-page="flash-sale" onclick="loadPage('flash-sale')" class="nav-item group">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-gift text-[15px]"></i>

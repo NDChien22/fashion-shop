@@ -82,8 +82,8 @@
                                 class="text-gray-400 hover:text-[#bc9c75] inline-flex">
                                 <i class="fa-regular fa-pen-to-square"></i>
                             </a>
-                            <button type="button" wire:click.stop="deleteProduct({{ $product->id }})"
-                                wire:confirm="Bạn có chắc muốn xóa sản phẩm này không?"
+                            <button type="button"
+                                onclick="ffConfirmLivewireDelete(this, 'deleteProduct', {{ $product->id }}, 'Bạn có chắc muốn xóa sản phẩm này không?')"
                                 class="text-gray-400 hover:text-red-500 inline-flex">
                                 <i class="fa-regular fa-trash-can"></i>
                             </button>

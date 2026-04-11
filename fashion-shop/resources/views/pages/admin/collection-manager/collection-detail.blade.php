@@ -73,67 +73,67 @@
                                             <img src="{{ asset($product->main_image_url) }}" alt="{{ $product->name }}"
                                                 class="w-full h-full object-cover cursor-pointer hover:opacity-80"
                                                 onerror="this.parentElement.innerHTML='<i class=\"fa-solid fa-image text-gray-300 text-2xl\"></i>
-                                        @else
-                                            <div class="text-center">
-                                                <i class="fa-solid fa-image text-gray-300 text-2xl"></i>
-                                                <p class="text-[9px] text-gray-400 mt-1">Không có ảnh</p>
-                                            </div>
-                                        @endif
+@else
+<div class="text-center">
+                                            <i class="fa-solid fa-image text-gray-300 text-2xl"></i>
+                                            <p class="text-[9px] text-gray-400 mt-1">Không có ảnh</p>
                                     </div>
-                                    <div>
-                                        <h4 class="font-bold text-gray-800 text-lg">{{ $product->name }}</h4>
-                                        <p class="text-sm text-gray-400 mt-1">Mã: <span
-                                                class="text-[#bc9c75]">{{ $product->product_code }}</span></p>
-                                        <div class="flex gap-2 mt-2">
-                                            @if ($product->is_active)
-                                                <span
-                                                    class="text-[9px] bg-green-50 text-green-600 px-2 py-0.5 rounded font-bold uppercase">Đang
-                                                    bán</span>
-                                            @else
-                                                <span
-                                                    class="text-[9px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded font-bold uppercase">Ẩn</span>
-                                            @endif
-                                            <span
-                                                class="text-[9px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-bold uppercase">{{ $product->skus_count ?? 0 }}
-                                                SKU</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <a href="{{ route('admin.edit-product', $product->slug) }}"
-                                        class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-all">
-                                        <i class="fa-regular fa-pen-to-square"></i>
-                                    </a>
-                                    <form action="{{ route('admin.remove-product-from-collection', $collection->slug) }}"
-                                        method="POST" style="display: inline;"
-                                        onsubmit="return confirm('Bạn chắc chắn muốn xóa sản phẩm này khỏi bộ sưu tập?')">
-                                        @csrf
-                                        @method('POST')
-                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                        <button
-                                            class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 transition-all border-0 bg-transparent cursor-pointer">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        @empty
-                        @endforelse
+                        @endif
                     </div>
-
-                    @if ($products->hasPages())
-                        <div class="p-6 border-t border-gray-50 flex justify-center">
-                            {{ $products->links() }}
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-lg">{{ $product->name }}</h4>
+                        <p class="text-sm text-gray-400 mt-1">Mã: <span
+                                class="text-[#bc9c75]">{{ $product->product_code }}</span></p>
+                        <div class="flex gap-2 mt-2">
+                            @if ($product->is_active)
+                                <span
+                                    class="text-[9px] bg-green-50 text-green-600 px-2 py-0.5 rounded font-bold uppercase">Đang
+                                    bán</span>
+                            @else
+                                <span
+                                    class="text-[9px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded font-bold uppercase">Ẩn</span>
+                            @endif
+                            <span
+                                class="text-[9px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-bold uppercase">{{ $product->skus_count ?? 0 }}
+                                SKU</span>
                         </div>
-                    @endif
-                @else
-                    <div class="p-12 text-center">
-                        <i class="fa-solid fa-inbox text-6xl text-gray-200 mb-4"></i>
-                        <p class="text-gray-400 font-bold">Chưa có sản phẩm nào trong bộ sưu tập này</p>
                     </div>
-                @endif
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('admin.edit-product', $product->slug) }}"
+                    class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-blue-500 transition-all">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </a>
+                <form action="{{ route('admin.remove-product-from-collection', $collection->slug) }}" method="POST"
+                    style="display: inline;" data-confirm-delete="1"
+                    data-confirm-message="Bạn chắc chắn muốn xóa sản phẩm này khỏi bộ sưu tập?">
+                    @csrf
+                    @method('POST')
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    <button
+                        class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-red-500 transition-all border-0 bg-transparent cursor-pointer">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </form>
             </div>
         </div>
+    @empty
+        @endforelse
+    </div>
+
+    @if ($products->hasPages())
+        <div class="p-6 border-t border-gray-50 flex justify-center">
+            {{ $products->links() }}
+        </div>
+    @endif
+@else
+    <div class="p-12 text-center">
+        <i class="fa-solid fa-inbox text-6xl text-gray-200 mb-4"></i>
+        <p class="text-gray-400 font-bold">Chưa có sản phẩm nào trong bộ sưu tập này</p>
+    </div>
+    @endif
+    </div>
+    </div>
     </div>
 
     <!-- Product Selection Modal -->

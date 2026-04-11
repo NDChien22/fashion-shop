@@ -115,11 +115,11 @@
                                         Quản lý SP
                                     </a>
                                     <form action="{{ route('admin.product-categories.destroy', $parentCategory->id) }}"
-                                        method="POST" class="inline">
+                                        method="POST" class="inline" data-confirm-delete="1"
+                                        data-confirm-message="Bạn có chắc muốn xóa danh mục này?">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:text-red-600"
-                                            onclick="return confirm('Bạn có chắc muốn xóa danh mục này?')">
+                                        <button type="submit" class="text-red-500 hover:text-red-600">
                                             Xóa
                                         </button>
                                     </form>
@@ -137,11 +137,11 @@
                                             Quản lý SP
                                         </a>
                                         <form action="{{ route('admin.product-categories.destroy', $child->id) }}"
-                                            method="POST" class="inline">
+                                            method="POST" class="inline" data-confirm-delete="1"
+                                            data-confirm-message="Bạn có chắc muốn xóa danh mục này?">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:text-red-600"
-                                                onclick="return confirm('Bạn có chắc muốn xóa danh mục này?')">
+                                            <button type="submit" class="text-red-500 hover:text-red-600">
                                                 Xóa
                                             </button>
                                         </form>

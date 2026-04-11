@@ -39,7 +39,8 @@
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
                         <form action="{{ route('admin.destroy-collection', $collection->slug) }}" method="POST"
-                            class="flex-1" onsubmit="return confirm('Bạn chắc chắn muốn xóa bộ sưu tập này?');">
+                            class="flex-1" data-confirm-delete="1"
+                            data-confirm-message="Bạn chắc chắn muốn xóa bộ sưu tập này?">
                             @csrf
                             @method('DELETE')
                             <button

@@ -121,6 +121,8 @@
                         @if ($voucher->discount_type === 'percent')
                             Giảm
                             {{ rtrim(rtrim(number_format((float) $voucher->discount_value, 2, '.', ''), '0'), '.') }}%
+                        @elseif ($voucher->discount_type === 'shipping')
+                            Giảm phí vận chuyển {{ number_format((float) $voucher->discount_value, 0, ',', '.') }}đ
                         @else
                             Giảm {{ number_format((float) $voucher->discount_value, 0, ',', '.') }}đ
                         @endif

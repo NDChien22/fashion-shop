@@ -52,7 +52,11 @@
                     '.',
                 ) .
                 '%'
-            : 'Giảm ' . number_format((float) ($discountValue !== '' ? $discountValue : 0), 0, ',', '.') . 'đ';
+            : ($discountType === 'shipping'
+                ? 'Giảm phí vận chuyển ' .
+                    number_format((float) ($discountValue !== '' ? $discountValue : 0), 0, ',', '.') .
+                    'đ'
+                : 'Giảm ' . number_format((float) ($discountValue !== '' ? $discountValue : 0), 0, ',', '.') . 'đ');
     $minOrderText = 'Cho đơn hàng từ ' . number_format((float) $minOrderValue, 0, ',', '.') . 'đ';
     $endDateText = $endDate !== '' ? \Carbon\Carbon::parse($endDate)->format('d/m/Y') : '--/--/----';
 
@@ -107,6 +111,7 @@
                                 class="w-full mt-2 bg-gray-50 border border-gray-200 rounded-2xl py-3.5 px-5 text-xs font-bold focus:ring-2 focus:ring-[#bc9c75]/20 outline-none appearance-none cursor-pointer">
                                 <option value="fixed" @selected($discountType === 'fixed')>Số tiền cố định (VNĐ)</option>
                                 <option value="percent" @selected($discountType === 'percent')>Phần trăm (%)</option>
+                                <option value="shipping" @selected($discountType === 'shipping')>Giảm phí vận chuyển (VNĐ)</option>
                             </select>
                             @error('discount_type')
                                 <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
@@ -138,7 +143,7 @@
                                 <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
                             @enderror
                         </div>
-                        <div>
+                        <div data-max-discount-group>
                             <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Giảm tối
                                 đa (Max Discount)</label>
                             <input type="number" name="max_discount" step="0.01" min="0" max="9999999999.99"
@@ -167,6 +172,8 @@
                             @error('category')
                                 <p class="text-[11px] text-red-500 mt-1">{{ $message }}</p>
                             @enderror
+                            <p class="hidden text-[11px] text-sky-500 mt-1" id="shipping-category-note">
+                                Voucher giảm phí vận chuyển sẽ tự áp dụng cho toàn bộ đơn hàng.</p>
                         </div>
                         <div>
                             <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest ml-1">Số lượng

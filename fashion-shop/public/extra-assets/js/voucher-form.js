@@ -18,7 +18,10 @@
     const discountTypeInput = form.querySelector('select[name="discount_type"]');
     const discountValueInput = form.querySelector('input[name="discount_value"]');
     const minOrderInput = form.querySelector('input[name="min_order_value"]');
+    const maxDiscountInput = form.querySelector('input[name="max_discount"]');
     const endDateInput = form.querySelector('input[name="end_date"]');
+    const maxDiscountGroup = form.querySelector('[data-max-discount-group]');
+    const shippingCategoryNote = document.getElementById('shipping-category-note');
 
     const previewCode = document.getElementById('preview-code');
     const previewValue = document.getElementById('preview-value');
@@ -175,6 +178,54 @@
         });
     };
 
+    const updateDiscountTypeBehavior = () => {
+        const discountType = discountTypeInput && discountTypeInput.value ? discountTypeInput.value : 'percent';
+        const isPercent = discountType === 'percent';
+        const isShipping = discountType === 'shipping';
+
+        if (maxDiscountGroup) {
+            maxDiscountGroup.style.display = isPercent ? '' : 'none';
+        }
+
+        if (maxDiscountInput && !isPercent) {
+            maxDiscountInput.value = '';
+        }
+
+        if (categorySelect) {
+            if (isShipping) {
+                categorySelect.value = 'all';
+                categorySelect.classList.add('pointer-events-none', 'opacity-70');
+
+                if (categoryIdHidden) {
+                    categoryIdHidden.value = '';
+                }
+                if (collectionIdHidden) {
+                    collectionIdHidden.value = '';
+                }
+                if (productIdHidden) {
+                    productIdHidden.value = '';
+                }
+                if (categorySearchInput) {
+                    categorySearchInput.value = '';
+                }
+                if (collectionSearchInput) {
+                    collectionSearchInput.value = '';
+                }
+                if (productSearchInput) {
+                    productSearchInput.value = '';
+                }
+            } else {
+                categorySelect.classList.remove('pointer-events-none', 'opacity-70');
+            }
+        }
+
+        if (shippingCategoryNote) {
+            shippingCategoryNote.classList.toggle('hidden', !isShipping);
+        }
+
+        updateIdVisibility();
+    };
+
     const updatePreview = () => {
         const code = (codeInput && codeInput.value ? codeInput.value : '').trim();
         const discountType = discountTypeInput && discountTypeInput.value ? discountTypeInput.value : 'percent';
@@ -189,6 +240,8 @@
         if (previewValue) {
             if (discountType === 'percent') {
                 previewValue.textContent = `Giảm ${trimDecimal(discountValue)}%`;
+            } else if (discountType === 'shipping') {
+                previewValue.textContent = `Giảm phí vận chuyển ${numberVn(discountValue)}đ`;
             } else {
                 previewValue.textContent = `Giảm ${numberVn(discountValue)}đ`;
             }
@@ -207,6 +260,11 @@
         categorySelect.addEventListener('change', updateIdVisibility);
     }
 
+    if (discountTypeInput) {
+        discountTypeInput.addEventListener('change', updateDiscountTypeBehavior);
+        discountTypeInput.addEventListener('input', updateDiscountTypeBehavior);
+    }
+
     bindLookupField(categorySearchInput, categoryIdHidden, categoryMap, 'category-options-list');
     bindLookupField(collectionSearchInput, collectionIdHidden, collectionMap, 'collection-options-list');
     bindLookupField(productSearchInput, productIdHidden, productMap, 'product-options-list');
@@ -219,5 +277,6 @@
         });
 
     updateIdVisibility();
+    updateDiscountTypeBehavior();
     updatePreview();
 })();

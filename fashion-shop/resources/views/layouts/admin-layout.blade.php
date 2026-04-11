@@ -143,7 +143,7 @@
                         <span class="font-medium">Bộ sưu tập</span>
                     </a>
                     <a href="{{ route('admin.voucher-manager') }}"
-                        class="nav-item group {{ Request::routeIs('admin.voucher-manager') ? 'active' : '' }}">
+                        class="nav-item group {{ Request::routeIs('admin.voucher-manager') || Request::routeIs('admin.add-voucher') || Request::routeIs('admin.edit-voucher') ? 'active' : '' }}">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-ticket text-[15px]"></i>
                         </div>

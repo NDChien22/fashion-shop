@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\FlashSaleController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VoucherController;
@@ -85,6 +86,12 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::get('/voucher-manager/edit/{voucher}', [VoucherController::class, 'editVoucherView'])->name('edit-voucher');
         Route::put('/voucher-manager/edit/{voucher}', [VoucherController::class, 'updateVoucherHandler'])->name('update-voucher');
         //Flash Sale Manager
+        Route::get('/flash-sale-manager', [FlashSaleController::class, 'flashSaleManagerView'])->name('flash-sale-manager');
+        Route::get('/flash-sale-manager/add', [FlashSaleController::class, 'addFlashSaleView'])->name('add-flash-sale');
+        Route::post('/flash-sale-manager/add', [FlashSaleController::class, 'storeFlashSaleHandler'])->name('store-flash-sale');
+        Route::get('/flash-sale-manager/edit/{flashSale}', [FlashSaleController::class, 'editFlashSaleView'])->name('edit-flash-sale');
+        Route::put('/flash-sale-manager/edit/{flashSale}', [FlashSaleController::class, 'updateFlashSaleHandler'])->name('update-flash-sale');
+        Route::delete('/flash-sale-manager/{flashSale}', [FlashSaleController::class, 'deleteFlashSaleHandler'])->name('delete-flash-sale');
 
         //Order Manager
 

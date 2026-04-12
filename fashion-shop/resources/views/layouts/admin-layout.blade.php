@@ -149,12 +149,13 @@
                         </div>
                         <span class="font-medium">Mã giảm giá</span>
                     </a>
-                    <div data-page="flash-sale" onclick="loadPage('flash-sale')" class="nav-item group">
+                    <a href="{{ route('admin.flash-sale-manager') }}"
+                        class="nav-item group {{ Request::routeIs('admin.flash-sale-manager') || Request::routeIs('admin.add-flash-sale') || Request::routeIs('admin.edit-flash-sale') ? 'active' : '' }}">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-gift text-[15px]"></i>
                         </div>
                         <span class="font-medium">Chương trình khuyến mãi</span>
-                    </div>
+                    </a>
                 </div>
 
                 <div class="py-2">

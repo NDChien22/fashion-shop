@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ForgotResetPasswordEmail;
+use App\Models\CustomerMembershipLevel;
+use App\Models\MembershipLevel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,12 +77,16 @@ class AuthController extends Controller
             'password_confirmation.required' => 'Vui lòng xác nhận mật khẩu',
         ]);
 
-        // Tạo người dùng mới
-        $user = new User();
-        $user->username = $request->username;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->save();
+        // Tạo người dùng và cấp mã khách hàng trong cùng transaction
+        DB::transaction(function () use ($request) {
+            $user = new User();
+            $user->username = $request->username;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            $this->createDefaultMembershipForUser($user);
+        });
 
         // Redirect về trang đăng nhập 
         return redirect()->route('login')->with('toast', 'Đăng ký tài khoản thành công!');
@@ -129,14 +135,49 @@ class AuthController extends Controller
             Auth::login($user);
             return $this->redirectAfterLogin($user);
         }else{
-            $user = User::create([
-                'username' => $googleUser->name,
-                'email' => $googleUser->email,
-                'password' => Hash::make(rand()),
-            ]);
+            $user = DB::transaction(function () use ($googleUser) {
+                $newUser = User::create([
+                    'username' => $googleUser->name,
+                    'email' => $googleUser->email,
+                    'password' => Hash::make(rand()),
+                ]);
+
+                $this->createDefaultMembershipForUser($newUser);
+
+                return $newUser;
+            });
+
             Auth::login($user);
             return $this->redirectAfterLogin($user)->with('toast', 'Đăng nhập thành công với Google!');
         }
+    }
+
+    protected function createDefaultMembershipForUser(User $user): void
+    {
+        $defaultMembershipLevel = MembershipLevel::firstOrCreate(
+            ['name' => 'Thành viên mới'],
+            [
+                'min_points' => 0,
+                'point_conversion_rate' => 1,
+                'discount_rate' => 0,
+            ]
+        );
+
+        CustomerMembershipLevel::create([
+            'user_id' => $user->id,
+            'customer_code' => $this->generateUniqueCustomerCode(),
+            'membership_level_id' => $defaultMembershipLevel->id,
+            'points' => 0,
+        ]);
+    }
+
+    protected function generateUniqueCustomerCode(): string
+    {
+        do {
+            $customerCode = 'KH' . now()->format('ymd') . strtoupper(Str::random(4));
+        } while (CustomerMembershipLevel::where('customer_code', $customerCode)->exists());
+
+        return $customerCode;
     }
 
     protected function redirectAfterLogin(User $user)

@@ -1,0 +1,336 @@
+@extends('layouts.user-static-layout')
+@section('title', 'Hỗ trợ')
+
+@section('main-content')
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-10 py-10 px-4">
+        <div class="md:w-2/3 space-y-12">
+            <section id="thanh-vien">
+                <h2 class="text-xl font-bold uppercase mb-6 relative inline-block pb-2 border-b-2 border-red-600">Hỏi đáp về
+                    thành viên</h2>
+                <div class="space-y-3">
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">1. Làm sao để có được thẻ thành viên?</span>
+                            <svg class="w-4 h-4 transition-transform text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <p class="py-4 text-gray-600">Điều kiện cấp thẻ thành viên: Khi khách hàng mua hàng trên hệ
+                                thống cửa hàng Fashion Shop sẽ được cấp thẻ thành viên.</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">2. Nâng cấp thẻ VIP như thế nào?</span>
+                            <svg class="w-4 h-4 transition-transform text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <div class="py-4 space-y-3">
+                                <p class="font-bold text-gray-800">Điều kiện nhận thẻ VIP:</p>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                    <li>Có giá trị tổng đơn hàng lớn hơn 15 triệu/ tháng</li>
+                                    <li>Mua hàng với giá trị 5 triệu trở lên</li>
+                                    <li>Tham gia các hoạt động, chương trình khuyến mãi của Fashion Shop</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">3. Quyền lợi của thành viền VIP là gì?</span>
+                            <svg class="w-4 h-4 transition-transform text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <p class="py-4 text-gray-600">Khi lên thành viên VIP bạn được hỗ trợ 24/24 bất cứ lúc nào bạn có
+                                vấn đề hoặc thắc mắc về sản phẩm đều được hỗ trợ tư vấn.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tai-khoan">
+                <h2 class="text-xl font-bold uppercase mb-6 relative inline-block pb-2 border-b-2 border-red-600">Hỏi đáp về
+                    tài khoản</h2>
+                <div class="space-y-3">
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">1. Tại sao tôi không thể đăng nhập vào tài khoản
+                                của tôi?</span>
+                            <svg class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <p class="py-4 text-gray-600">Quý khách vui lòng kiểm tra kỹ về kiểu gõ hoặc phím Caps Lock/ IN
+                                HOA trong quá trình điền thông tin đăng nhập thành viên, trường hợp không thể đăng nhập
+                                thành công quý khách vui lòng chọn nút “Quên mật khẩu” ngay dưới ô mật khẩu và nhập email đã
+                                đăng ký.</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">2. Tôi có thể sử dụng chung tài khoản với người
+                                khác được không?</span>
+                            <svg class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <p class="py-4 text-gray-600">Quý khách nên sử dụng tài khoản cá nhân để đảm bảo độ tin cậy cũng
+                                như quyền lợi của bản thân khi mua sắm. Việc sử dụng chung tài khoản có thể dẫn đến những
+                                sai sót mà người chịu ảnh hưởng trực tiếp chính là quý khách hàng.</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">3. Tại sao tôi nên đăng ký thành viên?</span>
+                            <svg class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <p class="py-4 text-gray-600">Việc đăng ký tài khoản là cơ hội giúp quý khách trở thành một
+                                trong những khách hàng thân thiết của Fashion Shop, được tiếp cận nhanh nhất các chương
+                                trình khuyến mãi, thông tin ưu đãi khi mua sắm.</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">4. Chương trình ưu đãi nào hấp dẫn dành cho khách
+                                hàng thân thiết?</span>
+                            <svg class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <p class="py-4 text-gray-600">Khi tổng giá trị đơn hàng của quý khách tích lũy đạt đủ điều kiện
+                                của từng mức hạng thành viên, quý khách sẽ nhận được ưu đãi giảm giá cho mọi đơn hàng tương,
+                                voucher sinh nhật tương ứng của hạng mức thành viên.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dat-hang">
+                <h2 class="text-xl font-bold uppercase mb-6 relative inline-block pb-2 border-b-2 border-red-600">Hỏi đáp
+                    về đặt hàng</h2>
+                <div class="space-y-3">
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">1. Tôi có thể đặt hàng bằng những hình thức
+                                nào?</span>
+                            <svg class="w-4 h-4 transition-transform text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <p class="py-4 text-gray-600">Quý khách có thể mua hàng bằng những hình thức sau:</p>
+                            <ul class="list-disc list-inside text-gray-600">
+                                <li>Đặt hàng trực tuyến tại website</li>
+                                <li>Đặt hàng trực tiếp với tư vấn viên qua Hotline 1900 6750</li>
+                                <li>Đặt hàng trực tuyến trên các sàn thương mại điện tử</li>
+                                <li>Mua hàng trực tiếp tại các hệ thống cửa hàng</li>
+                            </ul>
+                            <p class="py-4 text-gray-600">Chún tôi luôn khuyến khích quý khách tạo tài khoản và đặt hàng
+                                online để được hưởng các chính sách ưu đãi thành viên tốt hơn.</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">2. Tôi cần hỗ trợ mua hàng, làm cách nào để liên
+                                hệ với tư vấn viên?</span>
+                            <svg class="w-4 h-4 transition-transform text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <p class="py-4 text-gray-600">Để liên hệ với nhân viên tư vấn, quý khách vui lòng liên hệ qua
+                                Hotline 1900 6750 trong thời gian từ 9:00 - 18:00, T2 - T6 hằng tuần.</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">3. Có được kiểm tra sản phẩm trước khi nhận
+                                không?</span>
+                            <svg class="w-4 h-4 transition-transform text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <p class="py-4 text-gray-600">Sản phẩm cam kết đảm bảo, chất lượng. Chúng tôi rất vui khi bạn
+                                kiểm tra sản phẩm trước khi. Tuy nhiên, bạn không được bóc nhãn, seal của sản phẩm và không
+                                được sử dụng sản phẩm trước khi nhận hàng.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="thanh-toan">
+                <h2 class="text-xl font-bold uppercase mb-6 relative inline-block pb-2 border-b-2 border-red-600">Hỏi đáp
+                    về thanh toán</h2>
+                <div class="space-y-3">
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">1. Tôi có thể thanh toán đơn hàng bằng những hình
+                                thức nào?</span>
+                            <svg class="w-4 h-4 transition-transform text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <div class="py-4 space-y-3">
+                                <p class="font-bold text-gray-800">Quý khách có thể thanh toán cho chúng tôi bằng những
+                                    hình thức sau:</p>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                    <li>Thanh toán tại chỗ (Ship COD)</li>
+                                    <li>Chuyển khoản trước: Khách hàng có thể chọn chuyển khoản trước vào tài khoản của
+                                        chúng tôi:</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-sm accordion-item transition-all duration-300">
+                        <button
+                            class="w-full flex justify-between items-center p-4 text-left font-bold bg-gray-50 hover:bg-gray-100 transition-all outline-none"
+                            onclick="toggleFAQ(this)">
+                            <span class="text-gray-800 transition-colors">2. Nếu đã thanh toán tôi có được hủy đơn hàng và
+                                có được hoàn tiền không?</span>
+                            <svg class="w-4 h-4 transition-transform text-gray-400" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div class="accordion-content bg-white px-5">
+                            <div class="py-4 space-y-3">
+                                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                    <li>Về chính sách hủy đơn thì Fashion Shop có hỗ trợ cho khách hàng hủy đơn bằng cách
+                                        liên hệ trực tiếp thông qua hotline hoặc qua fanpage.</li>
+                                    <li>Đối với các đơn hủy mà chưa đóng gói vận chuyển chúng tôi sẽ hoàn 100% tổng giá trị
+                                        đơn hàng</li>
+                                    <li>Còn đối với những đơn đã và đang trong quá trình đóng gói vận chuyển chúng tôi chỉ
+                                        hoản 60% giá trị đơn hàng.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="md:w-1/3 space-y-8 sticky top-32 self-start">
+            <div class="bg-gray-50 p-6 rounded-sm hidden md:block border border-gray-100 shadow-sm">
+                <h3 class="font-bold text-[#c5a059] uppercase mb-4 italic">Nội dung chính</h3>
+                <ul class="space-y-3 text-sm font-medium">
+                    <li><a href="#thanh-vien" class="hover:text-[#c5a059] transition-colors flex items-center gap-2">● Hỏi
+                            đáp về thành viên</a></li>
+                    <li><a href="#tai-khoan" class="hover:text-[#c5a059] transition-colors flex items-center gap-2">● Hỏi
+                            đáp về tài khoản</a></li>
+                    <li><a href="#dat-hang" class="hover:text-[#c5a059] transition-colors flex items-center gap-2">● Hỏi
+                            đáp về đặt hàng</a></li>
+                    <li><a href="#thanh-toan" class="hover:text-[#c5a059] transition-colors flex items-center gap-2">● Hỏi
+                            đáp về thanh toán</a></li>
+                </ul>
+            </div>
+
+            <div class="bg-white p-8 border border-gray-100 shadow-xl">
+                <h3 class="text-center font-bold text-lg uppercase mb-1">Liên hệ với chúng tôi</h3>
+                <p class="text-center text-gray-400 text-[10px] mb-8 italic uppercase">Vui lòng để lại thắc mắc của bạn</p>
+                <form class="space-y-6" onsubmit="return false;">
+                    <input type="text" placeholder="Họ và tên"
+                        class="w-full border-b border-gray-300 py-2 outline-none focus:border-[#c5a059] transition-all">
+                    <input type="email" placeholder="Email"
+                        class="w-full border-b border-gray-300 py-2 outline-none focus:border-[#c5a059] transition-all">
+                    <textarea placeholder="Lời nhắn" rows="3"
+                        class="w-full border-b border-gray-300 py-2 outline-none focus:border-[#c5a059] transition-all resize-none"></textarea>
+                    <button type="submit"
+                        class="w-full bg-[#c5a059] text-white hover:bg-[#c8b593] font-bold py-3 uppercase tracking-widest text-sm transition-all shadow-md">Gửi
+                        thông tin</button>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('scripts')
+    <script>
+        function toggleFAQ(button) {
+            const item = button.closest('.accordion-item');
+            const content = item.querySelector('.accordion-content');
+            const icon = button.querySelector('svg');
+            const isOpen = item.classList.contains('active-faq-item');
+
+            if (isOpen) {
+                item.classList.remove('active-faq-item');
+                content.style.maxHeight = null;
+                content.style.paddingTop = '0';
+                content.style.paddingBottom = '0';
+                if (icon) icon.style.transform = 'rotate(0deg)';
+                return;
+            }
+
+            item.classList.add('active-faq-item');
+            content.style.maxHeight = content.scrollHeight + 'px';
+            content.style.paddingTop = '0';
+            content.style.paddingBottom = '0';
+            if (icon) icon.style.transform = 'rotate(180deg)';
+        }
+    </script>
+@endpush

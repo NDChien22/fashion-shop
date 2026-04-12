@@ -1,0 +1,279 @@
+@extends('layouts.user-static-layout')
+@section('title', 'Sản phẩm')
+
+@section('main-content')
+    <div id="sidebar-overlay" onclick="toggleSidebar(false)"
+        class="fixed inset-0 bg-black/50 z-[100] hidden transition-opacity duration-300"></div>
+
+    <div class="max-w-[1400px] mx-auto py-10 px-4 flex flex-col gap-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-4 mb-6">
+            <div
+                class="flex items-center justify-between border border-red-200 rounded-xl p-3 bg-white shadow-sm hover:shadow-md transition-all w-full">
+                <div class="flex flex-col min-w-0 flex-1">
+                    <span class="text-[10px] md:text-xs text-blue-500 truncate">Đơn từ 350K</span>
+                    <h4 class="text-red-500 font-bold text-sm md:text-lg uppercase leading-tight">GIẢM 10K</h4>
+                    <span class="text-[9px] md:text-[10px] text-gray-400">HSD: 30/04/2026</span>
+                </div>
+                <button
+                    class="bg-[#ff4d4f] text-white text-[10px] md:text-xs font-bold px-4 py-2 rounded-full shrink-0 ml-4 transition-transform active:scale-95">
+                    LẤY MÃ
+                </button>
+            </div>
+
+            <div class="flex items-center justify-between border border-red-200 rounded-xl p-3 bg-white shadow-sm w-full">
+                <div class="flex flex-col min-w-0 flex-1">
+                    <span class="text-[10px] md:text-xs text-blue-500 truncate">Tất cả sản phẩm</span>
+                    <h4 class="text-red-500 font-bold text-sm md:text-lg uppercase">GIẢM 20K</h4>
+                    <span class="text-[9px] md:text-[10px] text-gray-400">HSD: 01/05/2026</span>
+                </div>
+                <button class="bg-[#ff4d4f] text-white text-[10px] px-4 py-2 rounded-full shrink-0 ml-4">
+                    LẤY MÃ
+                </button>
+            </div>
+        </div>
+
+        <div class="md:hidden mb-6">
+            <button onclick="toggleSidebar(true)"
+                class="flex items-center justify-center gap-2 w-full bg-[#fdf2f2] py-3 rounded-xl font-bold text-sm uppercase tracking-wider text-gray-700 active:scale-95 transition-transform">
+                <div class="relative">
+                    <i class="ri-filter-3-line text-lg"></i>
+                </div>
+                Bộ lọc
+            </button>
+        </div>
+
+        <div class="flex gap-10">
+            <aside id="main-sidebar"
+                class="fixed top-[70px] left-0 h-[calc(100vh-70px)] w-[50%] bg-white z-[100] p-6 shadow-2xl
+            transform -translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto
+            md:relative md:translate-x-0 md:w-64 md:shrink-0 md:z-auto md:shadow-none md:p-0 md:block md:top-28 md:h-fit md:space-y-10">
+
+                <div>
+                    <h3
+                        class="font-bold uppercase text-sm tracking-widest text-gray-900 mb-6 pb-3 border-b border-gray-100">
+                        Danh mục
+                    </h3>
+
+                    <ul class="text-sm space-y-1 text-gray-700 font-medium">
+                        <li class="accordion-item group">
+                            <div
+                                class="flex justify-between items-center py-2 hover:text-[#bc9c75] cursor-pointer transition-colors accordion-header">
+                                Áo Nữ
+                                <i
+                                    class="ri-add-line text-gray-400 group-hover:text-[#bc9c75] text-lg transition-transform accordion-icon"></i>
+                            </div>
+                            <ul
+                                class="pl-4 space-y-2 overflow-hidden max-h-0 transition-all duration-300 ease-in-out accordion-content text-gray-600">
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo khoác</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo hoodie</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo nỉ</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo len</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo polo</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo sơ mi</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo thun</li>
+                            </ul>
+                        </li>
+
+                        <li class="accordion-item group">
+                            <div
+                                class="flex justify-between items-center py-2 hover:text-[#bc9c75] cursor-pointer transition-colors accordion-header">
+                                Quần Nữ
+                                <i
+                                    class="ri-add-line text-gray-400 group-hover:text-[#bc9c75] text-lg transition-transform accordion-icon"></i>
+                            </div>
+                            <ul
+                                class="pl-4 space-y-2 overflow-hidden max-h-0 transition-all duration-300 ease-in-out accordion-content text-gray-600">
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Quần dài</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Quần nỉ</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Quần short</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Quần kaki</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Quần jeans</li>
+                            </ul>
+                        </li>
+
+                        <li class="accordion-item group">
+                            <div
+                                class="flex justify-between items-center py-2 hover:text-[#bc9c75] cursor-pointer transition-colors accordion-header">
+                                Thể Thao nữ
+                                <i
+                                    class="ri-add-line text-gray-400 group-hover:text-[#bc9c75] text-lg transition-transform accordion-icon"></i>
+                            </div>
+                            <ul
+                                class="pl-4 space-y-2 overflow-hidden max-h-0 transition-all duration-300 ease-in-out accordion-content text-gray-600">
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo thể thao</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Quần thể thao</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Bộ đồ thể thao</li>
+                            </ul>
+                        </li>
+
+                        <li class="accordion-item group">
+                            <div
+                                class="flex justify-between items-center py-2 hover:text-[#bc9c75] cursor-pointer transition-colors accordion-header">
+                                Áo Nam
+                                <i
+                                    class="ri-add-line text-gray-400 group-hover:text-[#bc9c75] text-lg transition-transform accordion-icon"></i>
+                            </div>
+                            <ul
+                                class="pl-4 space-y-2 overflow-hidden max-h-0 transition-all duration-300 ease-in-out accordion-content text-gray-600">
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo khoác</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo hoodie</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo len</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo polo</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo sơ mi</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo thun</li>
+                            </ul>
+                        </li>
+
+                        <li class="accordion-item group">
+                            <div
+                                class="flex justify-between items-center py-2 hover:text-[#bc9c75] cursor-pointer transition-colors accordion-header">
+                                Quần Nam
+                                <i
+                                    class="ri-add-line text-gray-400 group-hover:text-[#bc9c75] text-lg transition-transform accordion-icon"></i>
+                            </div>
+                            <ul
+                                class="pl-4 space-y-2 overflow-hidden max-h-0 transition-all duration-300 ease-in-out accordion-content text-gray-600">
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Quần short</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Quần kaki</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Quần jeans</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Quần âu</li>
+                            </ul>
+                        </li>
+
+                        <li class="accordion-item group">
+                            <div
+                                class="flex justify-between items-center py-2 hover:text-[#bc9c75] cursor-pointer transition-colors accordion-header">
+                                Thể Thao nam
+                                <i
+                                    class="ri-add-line text-gray-400 group-hover:text-[#bc9c75] text-lg transition-transform accordion-icon"></i>
+                            </div>
+                            <ul
+                                class="pl-4 space-y-2 overflow-hidden max-h-0 transition-all duration-300 ease-in-out accordion-content text-gray-600">
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo thể thao</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Áo thun thể thao</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Quần thể thao</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Bộ đồ thể thao</li>
+                            </ul>
+                        </li>
+
+                        <li class="accordion-item group">
+                            <div
+                                class="flex justify-between items-center py-2 hover:text-[#bc9c75] cursor-pointer transition-colors accordion-header">
+                                Phụ Kiện
+                                <i
+                                    class="ri-add-line text-gray-400 group-hover:text-[#bc9c75] text-lg transition-transform accordion-icon"></i>
+                            </div>
+                            <ul
+                                class="pl-4 space-y-2 overflow-hidden max-h-0 transition-all duration-300 ease-in-out accordion-content text-gray-600">
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Tất nam - nữ</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Túi nam - nữ</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Mũ thể thao</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">Thắt lưng</li>
+                                <li class="hover:text-[#bc9c75] cursor-pointer py-1">phụ kiện khác</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="space-y-10">
+                    <div class="filter-group">
+                        <h3
+                            class="font-bold border-b border-gray-100 pb-3 mb-6 uppercase text-sm tracking-widest text-gray-900">
+                            Chọn mức giá
+                        </h3>
+                        <div class="space-y-3 text-sm text-gray-700">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="accent-[#c5a059] w-4 h-4 rounded">
+                                <span class="group-hover:text-[#c5a059] transition-colors">Dưới 200.000đ</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="accent-[#c5a059] w-4 h-4 rounded">
+                                <span class="group-hover:text-[#c5a059] transition-colors">200.000đ - 400.000đ</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="accent-[#c5a059] w-4 h-4 rounded">
+                                <span class="group-hover:text-[#c5a059] transition-colors">400.000đ - 600.000đ</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="accent-[#c5a059] w-4 h-4 rounded">
+                                <span class="group-hover:text-[#c5a059] transition-colors">600.000đ - 1.000.000đ</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" class="accent-[#c5a059] w-4 h-4 rounded">
+                                <span class="group-hover:text-[#c5a059] transition-colors">Trên 1.000.000đ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3
+                            class="font-bold border-b border-gray-100 pb-3 mb-6 uppercase text-sm tracking-widest text-gray-900">
+                            Kích thước
+                        </h3>
+                        <div class="grid grid-cols-4 gap-2 text-xs font-bold">
+                            <label
+                                class="relative flex items-center justify-center border border-gray-200 py-2 rounded cursor-pointer hover:border-[#c5a059] transition-all group">
+                                <input type="checkbox" class="absolute opacity-0 peer">
+                                <span class="peer-checked:text-[#c5a059] group-hover:text-[#c5a059]">S</span>
+                                <div
+                                    class="absolute inset-0 border-2 border-transparent peer-checked:border-[#c5a059] rounded pointer-events-none">
+                                </div>
+                            </label>
+
+                            <label
+                                class="relative flex items-center justify-center border border-gray-200 py-2 rounded cursor-pointer hover:border-[#c5a059] transition-all group">
+                                <input type="checkbox" class="absolute opacity-0 peer">
+                                <span class="peer-checked:text-[#c5a059] group-hover:text-[#c5a059]">M</span>
+                                <div
+                                    class="absolute inset-0 border-2 border-transparent peer-checked:border-[#c5a059] rounded pointer-events-none">
+                                </div>
+                            </label>
+
+                            <label
+                                class="relative flex items-center justify-center border border-gray-200 py-2 rounded cursor-pointer hover:border-[#c5a059] transition-all group">
+                                <input type="checkbox" class="absolute opacity-0 peer">
+                                <span class="peer-checked:text-[#c5a059] group-hover:text-[#c5a059]">L</span>
+                                <div
+                                    class="absolute inset-0 border-2 border-transparent peer-checked:border-[#c5a059] rounded pointer-events-none">
+                                </div>
+                            </label>
+
+                            <label
+                                class="relative flex items-center justify-center border border-gray-200 py-2 rounded cursor-pointer hover:border-[#c5a059] transition-all group">
+                                <input type="checkbox" class="absolute opacity-0 peer">
+                                <span class="peer-checked:text-[#c5a059] group-hover:text-[#c5a059]">XL</span>
+                                <div
+                                    class="absolute inset-0 border-2 border-transparent peer-checked:border-[#c5a059] rounded pointer-events-none">
+                                </div>
+                            </label>
+
+                            <label
+                                class="relative flex items-center justify-center border border-gray-200 py-2 rounded cursor-pointer hover:border-[#c5a059] transition-all group">
+                                <input type="checkbox" class="absolute opacity-0 peer">
+                                <span class="peer-checked:text-[#c5a059] group-hover:text-[#c5a059]">XXL</span>
+                                <div
+                                    class="absolute inset-0 border-2 border-transparent peer-checked:border-[#c5a059] rounded pointer-events-none">
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="flex-1">
+                <div
+                    class="flex justify-between items-center mb-8 border border-gray-100 bg-gray-50/50 p-4 rounded-xl text-xs font-bold uppercase tracking-widest text-gray-500">
+                    <div class="flex gap-6 items-center">
+                        <span class="text-black border-b-2 border-[#c5a059] pb-1">Mặc định</span>
+                        <span class="hover:text-[#c5a059] cursor-pointer transition">Tên A-Z</span>
+                        <span class="hover:text-[#c5a059] cursor-pointer transition">Giá tăng dần</span>
+                    </div>
+                </div>
+
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-10">
+                </div>
+                <div id="pagination-container" class="flex justify-center items-center gap-2 mt-12 mb-10"></div>
+            </div>
+        </div>
+    </div>
+@endsection

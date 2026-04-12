@@ -8,16 +8,150 @@ use App\Http\Controllers\FlashSaleController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VoucherController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
+//User routes
 Route::get('/dashboard', function(){
-    return view('pages.dashboard');
+    return view('pages.user.dashboard');
 })->name('dashboard');
 
+Route::get('/cart', function () {
+    return redirect()->route('user.cart');
+})->name('cart');
+
+Route::get('/wishlist', function () {
+    return redirect()->route('user.wishlist');
+})->name('wishlist');
+
+Route::get('/profile', function () {
+    return redirect()->route('user.profile');
+})->name('profile');
+
+Route::prefix('user')->name('user.')->group(function () {
+    Route::get('/home', function () {
+        return view('pages.user.home.index');
+    })->name('home');
+
+    Route::get('/cart', function () {
+        return view('pages.user.cart.index');
+    })->name('cart');
+
+    Route::get('/collection', function () {
+        return view('pages.user.collection.index');
+    })->name('collection');
+
+    Route::get('/contact', function () {
+        return view('pages.user.contact.index');
+    })->name('contact');
+
+    Route::get('/introduce', function () {
+        return view('pages.user.introduce.index');
+    })->name('introduce');
+
+    Route::get('/orders', function () {
+        return view('pages.user.order.index');
+    })->name('orders');
+
+    Route::get('/product', function () {
+        return view('pages.user.product.index');
+    })->name('product');
+
+    Route::get('/product/detail', function () {
+        return view('pages.user.product.detail');
+    })->name('product-detail');
+
+    Route::get('/support', function () {
+        return view('pages.user.support.index');
+    })->name('support');
+
+    Route::get('/wishlist', function () {
+        return view('pages.user.wishlist.index');
+    })->name('wishlist');
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', function () {
+            $user = Auth::user();
+            $membership = \App\Models\CustomerMembershipLevel::query()
+                ->with('membershipLevel')
+                ->where('user_id', $user->id)
+                ->first();
+
+            return view('pages.user.profile.index', [
+                'user' => $user,
+                'membership' => $membership,
+            ]);
+        })->name('profile');
+
+        Route::put('/profile', function (\Illuminate\Http\Request $request) {
+            $validated = $request->validate([
+                'full_name' => ['required', 'string', 'max:255'],
+                'phone_number' => ['nullable', 'string', 'max:20'],
+                'address' => ['nullable', 'string', 'max:255'],
+                'gender' => ['nullable', 'in:male,female,other'],
+                'birthday' => ['nullable', 'date'],
+                'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            ], [
+                'full_name.required' => 'Vui lòng nhập họ và tên.',
+                'gender.in' => 'Giới tính không hợp lệ.',
+                'birthday.date' => 'Ngày sinh không hợp lệ.',
+                'avatar.image' => 'Ảnh đại diện phải là tệp hình ảnh.',
+                'avatar.mimes' => 'Ảnh đại diện chỉ hỗ trợ jpg, jpeg, png, webp.',
+                'avatar.max' => 'Ảnh đại diện không được vượt quá 2MB.',
+            ]);
+
+            $user = $request->user();
+
+            if ($request->hasFile('avatar')) {
+                $avatarFile = $request->file('avatar');
+                $extension = $avatarFile->getClientOriginalExtension() ?: 'jpg';
+                $fileName = sprintf('user-%d-%s.%s', $user->id, Str::uuid()->toString(), $extension);
+                $newAvatarPath = $avatarFile->storeAs('avatars', $fileName, 'public');
+
+                if (is_string($user->avatar) && $user->avatar !== '' && !Str::startsWith($user->avatar, ['http://', 'https://', '/'])) {
+                    Storage::disk('public')->delete($user->avatar);
+                }
+
+                $validated['avatar'] = $newAvatarPath;
+            }
+
+            $user->update($validated);
+
+            return back()->with('success', 'Cập nhật hồ sơ thành công.');
+        })->name('profile.update');
+
+        Route::get('/profile/password', function () {
+            return view('pages.user.profile.change-password');
+        })->name('profile.password');
+
+        Route::put('/profile/password', function (\Illuminate\Http\Request $request) {
+            $validated = $request->validate([
+                'current_password' => ['required', 'current_password'],
+                'password' => ['required', 'string', 'min:6', 'confirmed'],
+            ], [
+                'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
+                'current_password.current_password' => 'Mật khẩu hiện tại không chính xác.',
+                'password.required' => 'Vui lòng nhập mật khẩu mới.',
+                'password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
+                'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+            ]);
+
+            $user = $request->user();
+            $user->password = Hash::make($validated['password']);
+            $user->save();
+
+            return redirect()->route('user.profile.password')->with('success', 'Đổi mật khẩu thành công.');
+        })->name('profile.password.update');
+    });
+});
+
+//Auth routes
 Route::middleware('guest')->group(function(){ 
     //Login
     Route::get('/login', function(){

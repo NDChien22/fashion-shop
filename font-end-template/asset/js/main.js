@@ -1,45 +1,35 @@
 const products = [
-  // THỜI TRANG NỮ - VÁY ĐẦM
-  { id: 1, name: "Váy hoa nhí dáng dài Vintage", category: "Váy đầm", price: 350000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&q=80", tag: "Mới" },
-  { id: 2, name: "Đầm suông linen phối túi", category: "Váy đầm", price: 290000, oldPrice: null, image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=500&q=80", tag: "" },
-  { id: 3, name: "Chân váy xếp ly Tennis", category: "Váy đầm", price: 199000, oldPrice: 250000, image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=500&q=80", tag: "Sale" },
-  { id: 4, name: "Váy body ôm sát gợi cảm", category: "Váy đầm", price: 420000, oldPrice: 550000, image: "https://images.unsplash.com/photo-1539008835657-9e8e82165a5c?w=500&q=80", tag: "Bán chạy" },
-  { id: 5, name: "Đầm dự tiệc trễ vai", category: "Váy đầm", price: 890000, oldPrice: null, image: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=500&q=80", tag: "Mới" },
+  // --- NHÓM: ÁO NỮ ---
+  { id: 1, name: "Áo khoác Blazer nữ Hàn Quốc", category: "Áo khoác", subCategory: "Áo Nữ", price: 705000, oldPrice: 850000, image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500", tag: "Bán chạy", sizes: ["S", "M", "L"] },
+  { id: 2, name: "Áo Hoodie nỉ form rộng", category: "Áo hoodie", subCategory: "Áo Nữ", price: 350000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500", tag: "Mới", sizes: ["M", "L"] },
+  { id: 3, name: "Áo len lưới croptop Vienne", category: "Áo len", subCategory: "Áo Nữ", price: 249000, oldPrice: 368000, image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500", tag: "Sale", sizes: ["S", "M"] },
+  { id: 4, name: "Áo sơ mi lụa công sở", category: "Áo sơ mi", subCategory: "Áo Nữ", price: 250000, oldPrice: 320000, image: "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=500", tag: "", sizes: ["S", "M", "L", "XL"] },
+  { id: 5, name: "Áo thun Cotton basic", category: "Áo thun", subCategory: "Áo Nữ", price: 150000, oldPrice: null, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500", tag: "Mới", sizes: ["S", "M", "L"] },
 
-  // THỜI TRANG NỮ - ÁO
-  { id: 6, name: "Áo sơ mi lụa công sở", category: "Áo sơ mi", price: 250000, oldPrice: 320000, image: "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=500&q=80", tag: "" },
-  { id: 7, name: "Áo thun Cotton basic", category: "Áo thun", price: 150000, oldPrice: null, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&q=80", tag: "Mới" },
-  { id: 8, name: "Áo len lưới croptop Vienne", category: "Áo thun", price: 249000, oldPrice: 368000, image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&q=80", tag: "Sale" },
-  { id: 9, name: "Áo khoác Blazer nữ Hàn Quốc", category: "Áo khoác", price: 705000, oldPrice: 850000, image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=80", tag: "Bán chạy" },
-  { id: 10, name: "Áo hai dây lụa satin", category: "Áo thun", price: 120000, oldPrice: 180000, image: "https://images.unsplash.com/photo-1604176354204-926873ff3da9?w=500&q=80", tag: "" },
+  // --- NHÓM: QUẦN NỮ ---
+  { id: 6, name: "Quần Jean Baggy nữ", category: "Quần jeans", subCategory: "Quần Nữ", price: 390000, oldPrice: 500000, image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500", tag: "", sizes: ["S", "M", "L"] },
+  { id: 7, name: "Quần Short thun năng động", category: "Quần short", subCategory: "Quần Nữ", price: 120000, oldPrice: 180000, image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=500", tag: "Sale", sizes: ["S", "M"] },
+  { id: 8, name: "Quần dài ống suông", category: "Quần dài", subCategory: "Quần Nữ", price: 280000, oldPrice: null, image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500", tag: "Mới", sizes: ["M", "L", "XL"] },
 
-  // THỜI TRANG NAM - ÁO
-  { id: 11, name: "Áo sơ mi Oxford nam", category: "Áo nam", price: 380000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&q=80", tag: "Mới" },
-  { id: 12, name: "Áo thun Polo phối cổ", category: "Áo nam", price: 280000, oldPrice: null, image: "https://images.unsplash.com/photo-1624371414361-e6e0ed58d38c?w=500&q=80", tag: "" },
-  { id: 13, name: "Áo Hoodie nỉ ngoại", category: "Áo nam", price: 450000, oldPrice: 520000, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80", tag: "Bán chạy" },
-  { id: 14, name: "Áo khoác Jean Denim Classic", category: "Áo nam", price: 650000, oldPrice: null, image: "https://images.unsplash.com/photo-1516257984877-a03a804f7a7a?w=500&q=80", tag: "Mới" },
-  { id: 15, name: "Áo Tanktop tập gym", category: "Áo nam", price: 160000, oldPrice: 210000, image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&q=80", tag: "Sale" },
+  // --- NHÓM: ÁO NAM ---
+  { id: 9, name: "Áo sơ mi Oxford nam", category: "Áo sơ mi", subCategory: "Áo Nam", price: 380000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500", tag: "Mới", sizes: ["M", "L", "XL", "XXL"] },
+  { id: 10, name: "Áo thun Polo phối cổ", category: "Áo polo", subCategory: "Áo Nam", price: 280000, oldPrice: null, image: "https://images.unsplash.com/photo-1624371414361-e6e0ed58d38c?w=500", tag: "Bán chạy", sizes: ["M", "L", "XL"] },
+  { id: 11, name: "Áo Hoodie Streetwear", category: "Áo hoodie", subCategory: "Áo Nam", price: 450000, oldPrice: 550000, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500", tag: "", sizes: ["L", "XL", "XXL"] },
+  { id: 12, name: "Áo thun trơn nam", category: "Áo thun", subCategory: "Áo Nam", price: 190000, oldPrice: 250000, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500", tag: "Sale", sizes: ["M", "L", "XL"] },
 
-  // THỜI TRANG NAM - QUẦN
-  { id: 16, name: "Quần Jean Slim-fit nam", category: "Quần nam", price: 490000, oldPrice: 600000, image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&q=80", tag: "" },
-  { id: 17, name: "Quần Kaki túi hộp Cargo", category: "Quần nam", price: 350000, oldPrice: null, image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500&q=80", tag: "Mới" },
-  { id: 18, name: "Quần Short thun thể thao", category: "Quần nam", price: 180000, oldPrice: 250000, image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=500&q=80", tag: "Sale" },
-  { id: 19, name: "Quần Tây Âu công sở", category: "Quần nam", price: 550000, oldPrice: null, image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&q=80", tag: "" },
-  { id: 20, name: "Quần Jogger nỉ nam", category: "Quần nam", price: 320000, oldPrice: 380000, image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500&q=80", tag: "" },
+  // --- NHÓM: QUẦN NAM ---
+  { id: 13, name: "Quần Jean Slim-fit", category: "Quần jeans", subCategory: "Quần Nam", price: 490000, oldPrice: 600000, image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500", tag: "Bán chạy", sizes: ["29", "30", "31", "32"] },
+  { id: 14, name: "Quần Kaki túi hộp Cargo", category: "Quần kaki", subCategory: "Quần Nam", price: 350000, oldPrice: null, image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500", tag: "Mới", sizes: ["M", "L", "XL"] },
+  { id: 15, name: "Quần Tây Âu thanh lịch", category: "Quần âu", subCategory: "Quần Nam", price: 550000, oldPrice: 680000, image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500", tag: "", sizes: ["29", "30", "31", "32"] },
 
-  // PHỤ KIỆN
-  { id: 21, name: "Túi xách da nữ cao cấp", category: "Phụ kiện", price: 1250000, oldPrice: 1500000, image: "https://images.unsplash.com/photo-1584917033904-493bb3c3cc08?w=500&q=80", tag: "Bán chạy" },
-  { id: 22, name: "Thắt lưng da nam khóa kim", category: "Phụ kiện", price: 290000, oldPrice: null, image: "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=500&q=80", tag: "Mới" },
-  { id: 23, name: "Mũ lưỡi trai phối lưới", category: "Phụ kiện", price: 150000, oldPrice: 190000, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500&q=80", tag: "" },
-  { id: 24, name: "Tất nam cổ cao basic (set 5)", category: "Phụ kiện", price: 99000, oldPrice: 150000, image: "https://images.unsplash.com/photo-1582966772640-62507632669e?w=500&q=80", tag: "Sale" },
-  { id: 25, name: "Kính mát phi công thời trang", category: "Phụ kiện", price: 450000, oldPrice: null, image: "https://images.unsplash.com/photo-1511499767350-a1511f02fbf3?w=500&q=80", tag: "Mới" },
+  // --- NHÓM: THỂ THAO ---
+  { id: 16, name: "Bộ đồ thể thao nam", category: "Bộ đồ thể thao", subCategory: "Thể Thao nam", price: 650000, oldPrice: 800000, image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500", tag: "Sale", sizes: ["M", "L", "XL"] },
+  { id: 17, name: "Áo tập gym nữ", category: "Áo thể thao", subCategory: "Thể Thao nữ", price: 220000, oldPrice: null, image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500", tag: "Mới", sizes: ["S", "M", "L"] },
 
-  // SẢN PHẨM BỔ SUNG
-  { id: 26, name: "Áo sơ mi họa tiết biển", category: "Áo nam", price: 320000, oldPrice: null, image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500&q=80", tag: "" },
-  { id: 27, name: "Váy len ôm body mùa đông", category: "Váy đầm", price: 580000, oldPrice: 650000, image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=500&q=80", tag: "Bán chạy" },
-  { id: 28, name: "Quần legging nữ tập yoga", category: "Quần nữ", price: 220000, oldPrice: null, image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500&q=80", tag: "Mới" },
-  { id: 29, name: "Áo khoác phao siêu nhẹ", category: "Áo khoác", price: 950000, oldPrice: 1200000, image: "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=500&q=80", tag: "Sale" },
-  { id: 30, name: "Túi canvas đi học đơn giản", category: "Phụ kiện", price: 85000, oldPrice: null, image: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&q=80", tag: "" }
+  // --- PHỤ KIỆN ---
+  { id: 18, name: "Thắt lưng da nam", category: "Thắt lưng", subCategory: "Phụ Kiện", price: 290000, oldPrice: null, image: "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=500", tag: "Mới", sizes: ["Freesize"] },
+  { id: 19, name: "Túi xách nữ sang trọng", category: "Túi nam - nữ", subCategory: "Phụ Kiện", price: 1250000, oldPrice: 1500000, image: "https://images.unsplash.com/photo-1584917033904-493bb3c3cc08?w=500", tag: "Bán chạy", sizes: ["Freesize"] },
+  { id: 20, name: "Mũ lưỡi trai phối lưới", category: "Mũ thể thao", subCategory: "Phụ Kiện", price: 150000, oldPrice: 190000, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500", tag: "Sale", sizes: ["Freesize"] }
 ];
 
 
@@ -463,7 +453,7 @@ function updateAuthUI() {
                 </div>
                 <a href="#profile" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
                     <i class="ri-user-settings-line text-lg"></i>
-                    <span>Hồ sơ cá nhân</span>
+                    <span>Tài khoản của tôi</span>
                 </a>
                 <hr class="my-1 border-gray-100">
                 <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-4 py-2.5 text-red-500 hover:bg-red-50 transition-colors">
@@ -484,6 +474,17 @@ function updateAuthUI() {
                     <i class="ri-user-add-line text-lg"></i>
                     <span>Đăng ký</span>
                 </a>
+
+                <a href="#profile" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
+                    <i class="ri-user-settings-line text-lg"></i>
+                    <span>Tài khoản của tôi</span>
+                </a>
+
+                <a href="#Don-hang" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
+                    <i class="ri-user-settings-line text-lg"></i>
+                    <span>Đơn hàng</span>
+                </a>
+
 
             </div>
         `;
@@ -663,6 +664,222 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 });
 
+
+
+
+let activeFilters = {
+    category: null,
+    prices: [],
+    sizes: []
+};
+
+// 1. Lọc danh mục - Dùng selector [filter-category] để khớp HTML
+document.querySelectorAll('[filter-category]').forEach(item => {
+    item.addEventListener('click', () => {
+        document.querySelectorAll('[filter-category]').forEach(el => 
+            el.classList.remove('text-[#bc9c75]', 'font-bold')
+        );
+        item.classList.add('text-[#bc9c75]', 'font-bold');
+        
+        activeFilters.category = item.getAttribute('data-category');
+        applyFilters();
+    });
+});
+
+// 2. Cập nhật checkbox
+function updateCheckboxes() {
+    activeFilters.prices = Array.from(document.querySelectorAll('.price-checkbox:checked')).map(cb => cb.value);
+    activeFilters.sizes = Array.from(document.querySelectorAll('.size-checkbox:checked')).map(cb => cb.value);
+    applyFilters();
+}
+
+document.querySelectorAll('.price-checkbox, .size-checkbox').forEach(cb => {
+    cb.addEventListener('change', updateCheckboxes);
+});
+
+// 3. Hàm lọc tổng thể
+function applyFilters() {
+    let result = products; // Đảm bảo biến products đã chứa data
+
+    if (activeFilters.category) {
+        result = result.filter(p => p.category === activeFilters.category);
+    }
+
+    if (activeFilters.prices.length > 0) {
+        result = result.filter(p => {
+            return activeFilters.prices.some(range => {
+                if (range === "1000000+") return p.price >= 1000000;
+                const [min, max] = range.split('-').map(Number);
+                return p.price >= min && p.price <= max;
+            });
+        });
+    }
+
+    if (activeFilters.sizes.length > 0) {
+        result = result.filter(p => 
+            p.sizes.some(s => activeFilters.sizes.includes(s))
+        );
+    }
+
+    renderProducts(result); 
+}
+
+// 4. Toggle Sidebar cho Mobile (Cần thiết vì bạn có nút "Bộ lọc" mobile)
+function toggleSidebar(open) {
+    const sidebar = document.getElementById('main-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    if (open) {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+    } else {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+    }
+}
+
+
+/**
+ * Hàm xử lý khi nhấn vào menu cha "Tài khoản của tôi"
+ */
+function handleAccountClick() {
+    const subMenu = document.getElementById('sub-menu-account');
+    const isClosed = !subMenu.style.maxHeight || subMenu.style.maxHeight === '0px';
+
+    if (isClosed) {
+        // Mở menu và tự động chọn tab Hồ sơ ngay lập tức
+        switchTab('profile'); 
+    } else {
+        // Nếu đang mở thì chỉ đóng lại
+        closeAccountMenu();
+    }
+}
+
+function openAccountMenu() {
+    const subMenu = document.getElementById('sub-menu-account');
+    const arrow = document.getElementById('arrow-icon');
+    const parentBtn = document.getElementById('nav-account-parent');
+    
+    if (subMenu) {
+        subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+        // Dùng ?. để tránh lỗi nếu bạn lỡ tay xóa icon arrow trong HTML
+        if (arrow) arrow.style.transform = 'rotate(180deg)';
+        if (parentBtn) parentBtn.classList.add('text-[#bc9c75]', 'font-semibold');
+    }
+}
+
+function closeAccountMenu() {
+    const subMenu = document.getElementById('sub-menu-account');
+    const arrow = document.getElementById('arrow-icon');
+    const parentBtn = document.getElementById('nav-account-parent');
+    
+    if (subMenu) {
+        subMenu.style.maxHeight = '0px';
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+        if (parentBtn) parentBtn.classList.remove('text-[#bc9c75]', 'font-semibold');
+    }
+}
+
+function switchTab(tabName) {
+    // 1. Ẩn tất cả nội dung tab
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.add('hidden');
+    });
+
+    // 2. Hiển thị nội dung của tab được chọn
+    const targetContent = document.getElementById('content-' + tabName);
+    if (targetContent) targetContent.classList.remove('hidden');
+
+    // 3. RESET trạng thái màu sắc của toàn bộ Sidebar
+    document.querySelectorAll('.tab-link').forEach(link => {
+        link.classList.remove('bg-[#bc9c75]/10', 'text-[#bc9c75]', 'font-semibold');
+        link.classList.add('text-gray-600');
+    });
+    document.querySelectorAll('.sub-link').forEach(sub => {
+        sub.classList.remove('text-[#bc9c75]', 'font-bold');
+        sub.classList.add('text-gray-500');
+    });
+
+    // 4. TÔ MÀU VÀ XỬ LÝ LOGIC RIÊNG
+    const accountTabs = ['profile', 'address', 'change-password'];
+    
+    if (accountTabs.includes(tabName)) {
+        // Nếu chọn mục thuộc nhóm Tài khoản
+        openAccountMenu(); 
+        
+        // Tô màu mục con (Hồ sơ/Địa chỉ/...)
+        const activeSub = document.getElementById('sub-' + tabName);
+        if (activeSub) {
+            activeSub.classList.add('text-[#bc9c75]', 'font-bold');
+            activeSub.classList.remove('text-gray-500');
+        }
+    } else {
+        // Nếu chọn mục ngoài (Đơn mua, Voucher...)
+        closeAccountMenu();
+        
+        // Tô màu nền cho mục chính
+        const activeNav = document.getElementById('nav-' + tabName);
+        if (activeNav) {
+            activeNav.classList.add('bg-[#bc9c75]/10', 'text-[#bc9c75]', 'font-semibold');
+            activeNav.classList.remove('text-gray-600');
+        }
+    }
+    
+    // Lưu lại trạng thái để load trang không bị mất
+    localStorage.setItem('activeTab', tabName);
+}
+
+// Khi vừa load trang, kiểm tra xem tab nào đang được chọn
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTab = localStorage.getItem('activeTab') || 'profile';
+    switchTab(savedTab);
+});
+
+/**
+ * Hàm lọc đơn hàng (Giữ nguyên logic của bạn)
+ */
+function filterOrders(status, element) {
+    document.querySelectorAll('.order-tab').forEach(tab => {
+        tab.classList.remove('font-bold', 'text-[#bc9c75]', 'border-[#bc9c75]', 'border-b-2');
+        tab.classList.add('font-medium', 'text-gray-500');
+    });
+
+    element.classList.add('font-bold', 'text-[#bc9c75]', 'border-[#bc9c75]', 'border-b-2');
+    element.classList.remove('font-medium', 'text-gray-500');
+
+    const container = document.getElementById('order-list-container');
+    if (container) {
+        container.innerHTML = `
+            <div class="text-center animate-in fade-in duration-500 p-20">
+                <i class="ri-bill-line text-6xl text-gray-100 mb-4 block"></i>
+                <p class="text-gray-400 font-medium">Bạn chưa có đơn hàng nào trong mục này</p>
+            </div>
+        `;
+    }
+    console.log("Đang lọc đơn hàng theo trạng thái: " + status);
+}
+
+
+
+/**
+ * Hàm đóng hoặc mở Modal địa chỉ
+ * @param {boolean} show - true để hiện, false để ẩn
+ */
+function toggleAddressModal(show) {
+    const modal = document.getElementById('address-modal');
+    if (show) {
+        modal.classList.remove('hidden');
+    } else {
+        modal.classList.add('hidden');
+    }
+}
+
+// Đóng modal khi click ra ngoài vùng trắng
+window.onclick = function(event) {
+    const modal = document.getElementById('address-modal');
+    if (event.target == modal) {
+        toggleAddressModal(false);
+    }
+}
 
 const PAGES = {
     'trang-chu': { title: 'Trang chủ', file: 'home.html' },

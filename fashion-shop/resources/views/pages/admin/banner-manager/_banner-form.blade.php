@@ -166,7 +166,8 @@
                                 </div>
                                 <div class="mt-4 text-center">
                                     <div class="text-sm font-semibold text-gray-700">Nhấn để chọn hình ảnh</div>
-                                    <div class="text-xs text-gray-400 mt-1">Hỗ trợ JPG, JPEG, PNG, WEBP. Tối đa 4MB.
+                                    <div class="text-xs text-gray-400 mt-1">Hỗ trợ JPG, JPEG, PNG, WEBP. Khuyến nghị
+                                        1600x700, tối đa 2MB.
                                     </div>
                                 </div>
                             </div>

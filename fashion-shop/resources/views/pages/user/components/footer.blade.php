@@ -1,7 +1,7 @@
 <footer class="bg-white text-[#1a1a1a] mt-20 pt-20 pb-10 border-t border-gray-100">
-    <div class="max-w-[1400px] mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
-            <div class="lg:col-span-2 pr-0 lg:pr-20 space-y-6">
+    <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 xl:gap-12 mb-16">
+            <div class="lg:col-span-2 pr-0 lg:pr-16 xl:pr-20 space-y-6">
                 <img src="/images/logo/logo.jpg" alt="Logo" class="w-32 md:w-40 mb-2">
 
                 <p class="text-sm text-gray-500 leading-relaxed font-light">
@@ -55,7 +55,7 @@
                 </ul>
             </div>
 
-            <div class="space-y-12">
+            <div class="space-y-10 lg:space-y-12">
                 <div class="relative group border-b border-gray-200 pb-2">
                     <input type="email" placeholder="Địa chỉ email của bạn"
                         class="w-full text-sm placeholder:text-gray-300 font-light bg-transparent outline-none">

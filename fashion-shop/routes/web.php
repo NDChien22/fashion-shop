@@ -5,6 +5,7 @@ use App\Http\Controllers\BannerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FlashSaleController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProductController;
@@ -14,15 +15,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use App\Models\Banner;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 //User routes
-Route::get('/', function(){
-    return view('pages.user.dashboard');
-})->name('dashboard');
+Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
 Route::get('/cart', function () {
     return redirect()->route('user.cart');
@@ -38,23 +36,7 @@ Route::get('/profile', function () {
 
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/home', function () {
-        $banners = Banner::query()
-            ->with(['category:id,name,slug', 'collection:id,name,slug'])
-            ->where('is_active', true)
-            ->where(function ($query) {
-                $query->whereNull('start_date')->orWhere('start_date', '<=', now());
-            })
-            ->where(function ($query) {
-                $query->whereNull('end_date')->orWhere('end_date', '>=', now());
-            })
-            ->orderBy('sort_order')
-            ->orderByDesc('id')
-            ->take(4)
-            ->get();
-
-        return view('pages.user.home.index', [
-            'banners' => $banners,
-        ]);
+        return redirect()->route('dashboard');
     })->name('home');
 
     Route::get('/cart', function () {
@@ -93,7 +75,14 @@ Route::prefix('user')->name('user.')->group(function () {
         return view('pages.user.wishlist.index');
     })->name('wishlist');
 
+    Route::post('/vouchers/{voucher}/copy', [VoucherController::class, 'copyVoucherForGuest'])
+        ->name('vouchers.copy');
+
     Route::middleware('auth')->group(function () {
+        Route::get('/vouchers', [VoucherController::class, 'userVoucherListView'])->name('vouchers');
+        Route::post('/vouchers/{voucher}/collect', [VoucherController::class, 'collectVoucherForUser'])
+            ->name('vouchers.collect');
+
         Route::get('/profile', function () {
             $user = Auth::user();
             $membership = \App\Models\CustomerMembershipLevel::query()

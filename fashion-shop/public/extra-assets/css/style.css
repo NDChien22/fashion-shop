@@ -7,7 +7,8 @@
     .animate-banner { 
         display: flex;
         width: 400%; 
-        animation: slideLoop 20s infinite ease-in-out; 
+        /* CSS animation removed - now controlled by JavaScript */
+        transition: transform 0.5s ease-in-out;
     }
 
     .banner-item {
@@ -15,6 +16,7 @@
         flex-shrink: 0;
     }
 
+    /* Kept for reference, but JavaScript will override */
     @keyframes slideLoop {
         0%, 20% { transform: translateX(0%); }     
         25%, 45% { transform: translateX(-25%); }  
@@ -25,15 +27,15 @@
 
     .dot-common { height: 6px; border-radius: 99px; transition: all 0.5s; background: #d1d5db; }
     
-    @keyframes syncDot {
-        0%, 20% { width: 40px; background: #c5a059; }
-        25%, 100% { width: 8px; background: #d1d5db; }
+    /* Indicator dots - controlled by JavaScript */
+    .dot-1, .dot-2, .dot-3, .dot-4 { 
+        height: 6px;
+        border-radius: 99px;
+        transition: all 0.3s ease;
+        width: 8px;
+        background: #d1d5db;
+        cursor: pointer;
     }
-
-    .dot-1 { animation: syncDot 20s infinite ease-in-out; }
-    .dot-2 { animation: syncDot 20s infinite 5s ease-in-out; }
-    .dot-3 { animation: syncDot 20s infinite 10s ease-in-out; }
-    .dot-4 { animation: syncDot 20s infinite 15s ease-in-out; }
 
 
 

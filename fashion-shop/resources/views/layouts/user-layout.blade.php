@@ -14,11 +14,14 @@
 
 </head>
 
-<body class="bg-gray-50">
+<body class="bg-gray-50 overflow-x-hidden">
+
+    <x-toast :message="session('toast')" :success="session('success')" :error="session('error')" />
 
     @yield('content')
 
     <script src="/extra-assets/js/main.js"></script>
+    <script src="/extra-assets/js/banner-carousel.js"></script>
     @livewireScripts
     @stack('scripts')
 </body>

@@ -467,17 +467,33 @@ function toggleSidebar(isOpen) {
 document.addEventListener('DOMContentLoaded', function() {
     const menuBtn = document.getElementById('menu-btn');
     const overlay = document.getElementById('sidebar-overlay');
+    const headerNavOverlay = document.getElementById('header-nav-overlay');
+    const headerNavDrawer = document.getElementById('header-nav-drawer');
 
     if (menuBtn) {
         menuBtn.onclick = function(e) {
             e.preventDefault();
-            toggleSidebar(true);
+            if (headerNavDrawer && headerNavOverlay) {
+                headerNavDrawer.classList.remove('hidden');
+                headerNavOverlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
         };
     }
 
     if (overlay) {
         overlay.onclick = function() {
             toggleSidebar(false);
+        };
+    }
+
+    if (headerNavOverlay) {
+        headerNavOverlay.onclick = function() {
+            if (headerNavDrawer) {
+                headerNavDrawer.classList.add('hidden');
+            }
+            headerNavOverlay.classList.add('hidden');
+            document.body.style.overflow = '';
         };
     }
 });

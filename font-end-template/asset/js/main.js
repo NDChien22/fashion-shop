@@ -35,7 +35,7 @@ const products = [
 
 
 
-// Cấu hình phân trang toàn cục
+// Cấu hình sản phẩm tổng quát
 let currentPage = 1;
 const productsPerPage = 12;
 
@@ -125,8 +125,7 @@ function renderProducts(productList) {
 
 
 
-
-
+// Hàm thêm sản phẩm vào giỏ hàng 
 function addToCart(productId) {
     // 1. Lấy giỏ hàng từ localStorage hoặc tạo mới
     let cart = JSON.parse(localStorage.getItem('vienne_cart')) || [];
@@ -172,7 +171,6 @@ function renderPagination(productList) {
             </button>
         `;
     }
-
     for (let i = 1; i <= totalPages; i++) {
         const activeClass = i === currentPage 
             ? 'bg-[#bc9c75] text-white border-[#bc9c75]' 
@@ -183,8 +181,6 @@ function renderPagination(productList) {
             </button>
         `;
     }
-
-    // Thêm nút "Tiếp theo" nếu chưa ở trang cuối
     if (currentPage < totalPages) {
         html += `
             <button onclick="goToPage(${currentPage + 1})" class="w-10 h-10 flex items-center justify-center border-2 border-[#bc9c75] text-[#bc9c75] rounded-lg font-bold hover:bg-[#bc9c75] hover:text-white transition-all">
@@ -192,9 +188,9 @@ function renderPagination(productList) {
             </button>
         `;
     }
-
     paginationContainer.innerHTML = html;
 }
+
 
 // Hàm chuyển trang
 function goToPage(pageNumber) {
@@ -207,9 +203,7 @@ function goToPage(pageNumber) {
 
 
 
-// --- XỬ LÝ TRANG GIỎ HÀNG (FULL PAGE) ---
-
-// Biến lưu trữ ID các sản phẩm được chọn
+// XỬ LÝ TRANG GIỎ HÀNG (FULL PAGE) 
 let selectedItems = [];
 
 function renderFullCartPage() {
@@ -267,6 +261,8 @@ function renderFullCartPage() {
     totalEl.innerText = totalPrice.toLocaleString('vi-VN') + "₫";
 }
 
+
+
 // Hàm xử lý khi bấm vào Checkbox
 window.toggleSelectItem = function(id) {
     const index = selectedItems.indexOf(id);
@@ -304,6 +300,7 @@ window.changePageCartQty = function(id, delta) {
     }
 }
 
+
 // Hàm xóa sản phẩm trên trang
 window.removePageCartItem = function(id) {
     let cart = JSON.parse(localStorage.getItem('vienne_cart')) || [];
@@ -313,6 +310,8 @@ window.removePageCartItem = function(id) {
     if (typeof updateCartBadge === 'function') updateCartBadge();
 }
 
+
+// hàm hiển thị số lượng sản phẩm trong giỏ hàng
 function updateCartBadge() {
     // 1. Lấy dữ liệu giỏ hàng từ localStorage
     const cart = JSON.parse(localStorage.getItem('vienne_cart')) || [];
@@ -425,6 +424,9 @@ function renderWishlistPage() {
     }).join('');
 }
 
+
+
+// Hàm cập nhật số lượng sản phẩm trong mục yêu thích
 function updateWishlistBadge() {
     const wishlist = JSON.parse(localStorage.getItem('vienne_wishlist')) || [];
     const badge = document.getElementById('wishlist-count');    
@@ -435,7 +437,7 @@ function updateWishlistBadge() {
 }
 
 
-
+// hàm cập nhật giao diện Header dựa trên trạng thái đăng nhập của người dùng
 function updateAuthUI() {
     const dropdownMenu = document.getElementById('user-dropdown-menu');
     if (!dropdownMenu) return;
@@ -484,28 +486,20 @@ function updateAuthUI() {
                     <i class="ri-user-settings-line text-lg"></i>
                     <span>Đơn hàng</span>
                 </a>
-
-
             </div>
         `;
     }
 }
 
-// Hàm xử lý đăng xuất
-function handleLogout() {
-    if (confirm('Bạn có muốn đăng xuất không?')) {
-        localStorage.removeItem('currentUser'); // Xóa tài khoản khỏi máy
-        window.location.hash = ''; // Về trang chủ
-        location.reload(); // Load lại để cập nhật Header
-    }
-}
+
+
 
 // Chạy hàm ngay khi trang web tải xong
 document.addEventListener('DOMContentLoaded', updateAuthUI);
 
-/**
- * Hàm đóng/mở Sidebar trên Mobile
- */
+
+
+// Hàm đóng/mở Sidebar trên Mobile
 function toggleSidebar(isOpen) {
     const sidebar = document.getElementById('main-sidebar');
     const overlay = document.getElementById('sidebar-overlay');
@@ -584,6 +578,8 @@ document.addEventListener('click', function (e) {
         header.classList.add('text-[#bc9c75]');
     }
 });
+
+
 
 
 
@@ -779,6 +775,7 @@ function closeAccountMenu() {
     }
 }
 
+
 function switchTab(tabName) {
     // 1. Ẩn tất cả nội dung tab
     document.querySelectorAll('.tab-content').forEach(content => {
@@ -834,9 +831,8 @@ document.addEventListener('DOMContentLoaded', () => {
     switchTab(savedTab);
 });
 
-/**
- * Hàm lọc đơn hàng (Giữ nguyên logic của bạn)
- */
+
+//  hàm của phần đơn hàng
 function filterOrders(status, element) {
     document.querySelectorAll('.order-tab').forEach(tab => {
         tab.classList.remove('font-bold', 'text-[#bc9c75]', 'border-[#bc9c75]', 'border-b-2');
@@ -860,10 +856,7 @@ function filterOrders(status, element) {
 
 
 
-/**
- * Hàm đóng hoặc mở Modal địa chỉ
- * @param {boolean} show - true để hiện, false để ẩn
- */
+// Hàm sử lý phần địa chỉ
 function toggleAddressModal(show) {
     const modal = document.getElementById('address-modal');
     if (show) {
@@ -873,13 +866,14 @@ function toggleAddressModal(show) {
     }
 }
 
-// Đóng modal khi click ra ngoài vùng trắng
 window.onclick = function(event) {
     const modal = document.getElementById('address-modal');
     if (event.target == modal) {
         toggleAddressModal(false);
     }
 }
+
+
 
 const PAGES = {
     'trang-chu': { title: 'Trang chủ', file: 'home.html' },

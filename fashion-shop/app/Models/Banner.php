@@ -16,7 +16,6 @@ class Banner extends Model
         'is_active',
         'start_date',
         'end_date',
-        'sort_order',
     ];
 
     protected $casts = [

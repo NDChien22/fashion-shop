@@ -3,7 +3,7 @@
 @section('content')
     @include('pages.user.components.header')
 
-    <main id="content-area" class="pt-32 md:pt-36">
+    <main id="content-area" class="pt-36 md:pt-40 px-0">
         @yield('main-content')
     </main>
 

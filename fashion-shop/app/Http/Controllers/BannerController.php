@@ -89,7 +89,7 @@ class BannerController extends Controller
             'banner_type' => ['required', 'in:all,category,collection'],
             'category_id' => ['nullable', 'integer', 'exists:categories,id', 'required_if:banner_type,category'],
             'collection_id' => ['nullable', 'integer', 'exists:collections,id', 'required_if:banner_type,collection'],
-            'image_url' => [$banner ? 'nullable' : 'required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:4096'],
+            'image_url' => [$banner ? 'nullable' : 'required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'is_active' => ['nullable', 'boolean'],
             'start_date' => ['nullable', 'date'],
             'end_date' => ['nullable', 'date', 'after_or_equal:start_date'],
@@ -101,7 +101,7 @@ class BannerController extends Controller
             'image_url.required' => 'Vui lòng tải lên hình banner.',
             'image_url.image' => 'Banner phải là một hình ảnh hợp lệ.',
             'image_url.mimes' => 'Banner chỉ hỗ trợ jpg, jpeg, png, webp.',
-            'image_url.max' => 'Banner không được vượt quá 4MB.',
+            'image_url.max' => 'Banner không được vượt quá 2MB.',
             'end_date.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
         ]);
     }

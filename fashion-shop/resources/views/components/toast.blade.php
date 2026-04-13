@@ -71,3 +71,92 @@
         })
     </script>
 @endif
+
+@once
+    <script>
+        (() => {
+            const createToast = (message, type = 'success', delay = 3000) => {
+                const existingToast = document.getElementById('app-toast')
+
+                if (existingToast) {
+                    existingToast.remove()
+                }
+
+                const toastType = type === 'error' ? 'error' : 'success'
+                const toastClass = toastType === 'error' ?
+                    'border-red-200 bg-red-50 text-red-700 shadow-red-100/80' :
+                    'border-emerald-200 bg-emerald-50 text-emerald-700 shadow-emerald-100/80'
+                const iconClass = toastType === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check'
+
+                const toastEl = document.createElement('div')
+                toastEl.id = 'app-toast'
+                toastEl.className =
+                    'fixed left-1/2 top-5 z-9999 w-[calc(100%-2rem)] max-w-md -translate-x-1/2 transition-all duration-300 opacity-0 -translate-y-3'
+                toastEl.innerHTML = `
+                    <div class="overflow-hidden rounded-2xl border px-4 py-3 shadow-xl backdrop-blur ${toastClass}">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/80">
+                                <i class="fa-solid ${iconClass} text-base"></i>
+                            </div>
+                            <div class="min-w-0 flex-1">
+                                <p class="text-sm font-semibold leading-5">${message}</p>
+                            </div>
+                            <button type="button" id="app-toast-close"
+                                class="shrink-0 rounded-full p-1 text-current/60 transition hover:bg-white/70 hover:text-current"
+                                aria-label="Close">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                `
+
+                document.body.appendChild(toastEl)
+
+                requestAnimationFrame(() => {
+                    toastEl.classList.remove('opacity-0', '-translate-y-3')
+                    toastEl.classList.add('opacity-100', 'translate-y-0')
+                })
+
+                const closeToast = () => {
+                    toastEl.classList.remove('opacity-100', 'translate-y-0')
+                    toastEl.classList.add('opacity-0', '-translate-y-3')
+                    window.setTimeout(() => toastEl.remove(), 300)
+                }
+
+                const closeButton = toastEl.querySelector('#app-toast-close')
+
+                if (closeButton) {
+                    closeButton.addEventListener('click', closeToast, {
+                        once: true
+                    })
+                }
+
+                window.setTimeout(closeToast, delay)
+            }
+
+            window.showAppToast = createToast
+
+            window.addEventListener('app-toast', (event) => {
+                const detail = event.detail || {}
+                createToast(detail.message || '', detail.type || 'success', detail.delay || 3000)
+            })
+
+            window.addEventListener('copy-voucher-code', async (event) => {
+                const detail = event.detail || {}
+
+                if (!detail.code) {
+                    createToast('Không có mã voucher để sao chép.', 'error')
+                    return
+                }
+
+                try {
+                    await navigator.clipboard.writeText(detail.code)
+                    createToast('Đã sao chép mã voucher.', 'success')
+                } catch (error) {
+                    createToast('Không thể sao chép mã voucher.', 'error')
+                }
+            })
+        })
+        ()
+    </script>
+@endonce

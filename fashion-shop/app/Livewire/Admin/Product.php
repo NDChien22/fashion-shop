@@ -105,6 +105,7 @@ class Product extends Component
 
         $this->selectedProduct = [
             'id' => $product->id,
+            'slug' => $product->slug,
             'product_code' => $product->product_code,
             'name' => $product->name,
             'description' => $product->description,
@@ -168,6 +169,18 @@ class Product extends Component
     {
         $this->showProductDetailModal = false;
         $this->selectedDetailImage = null;
+        $this->selectedProduct = null;
+    }
+
+    public function deleteSelectedProduct(): void
+    {
+        if (! $this->selectedProduct || ! isset($this->selectedProduct['id'])) {
+            session()->flash('error', 'Không tìm thấy sản phẩm để xóa.');
+            return;
+        }
+
+        $this->deleteProduct((int) $this->selectedProduct['id']);
+        $this->closeProductDetailModal();
     }
 
     private function deleteImageFromPublicDisk(?string $path): void

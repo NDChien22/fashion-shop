@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/extra-assets/css/admin.css">
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 
 
@@ -142,18 +142,27 @@
                         </div>
                         <span class="font-medium">Bộ sưu tập</span>
                     </a>
-                    <div data-page="vouchers" onclick="loadPage('vouchers')" class="nav-item group">
+                    <a href="{{ route('admin.voucher-manager') }}"
+                        class="nav-item group {{ Request::routeIs('admin.voucher-manager') || Request::routeIs('admin.add-voucher') || Request::routeIs('admin.edit-voucher') ? 'active' : '' }}">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-ticket text-[15px]"></i>
                         </div>
-                        <span class="font-medium">Voucher</span>
-                    </div>
-                    <div data-page="flash-sale" onclick="loadPage('flash-sale')" class="nav-item group">
+                        <span class="font-medium">Mã giảm giá</span>
+                    </a>
+                    <a href="{{ route('admin.flash-sale-manager') }}"
+                        class="nav-item group {{ Request::routeIs('admin.flash-sale-manager') || Request::routeIs('admin.add-flash-sale') || Request::routeIs('admin.edit-flash-sale') ? 'active' : '' }}">
                         <div class="nav-icon-box">
                             <i class="fa-solid fa-gift text-[15px]"></i>
                         </div>
                         <span class="font-medium">Chương trình khuyến mãi</span>
-                    </div>
+                    </a>
+                    <a href="{{ route('admin.banner-manager') }}"
+                        class="nav-item group {{ Request::routeIs('admin.banner-manager') || Request::routeIs('admin.add-banner') || Request::routeIs('admin.edit-banner') ? 'active' : '' }}">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-image text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Quản lý banner</span>
+                    </a>
                 </div>
 
                 <div class="py-2">

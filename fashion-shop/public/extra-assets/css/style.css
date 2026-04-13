@@ -1,0 +1,67 @@
+.text-gold { color: red; }
+.bg-gold { background-color: red; }
+.hover-gold:hover { color: #c5a059; }
+
+
+   
+    .animate-banner { 
+        display: flex;
+        width: 400%; 
+        animation: slideLoop 20s infinite ease-in-out; 
+    }
+
+    .banner-item {
+        width: 25%;
+        flex-shrink: 0;
+    }
+
+    @keyframes slideLoop {
+        0%, 20% { transform: translateX(0%); }     
+        25%, 45% { transform: translateX(-25%); }  
+        50%, 70% { transform: translateX(-50%); }  
+        75%, 95% { transform: translateX(-75%); }  
+        100% { transform: translateX(0%); }       
+    }
+
+    .dot-common { height: 6px; border-radius: 99px; transition: all 0.5s; background: #d1d5db; }
+    
+    @keyframes syncDot {
+        0%, 20% { width: 40px; background: #c5a059; }
+        25%, 100% { width: 8px; background: #d1d5db; }
+    }
+
+    .dot-1 { animation: syncDot 20s infinite ease-in-out; }
+    .dot-2 { animation: syncDot 20s infinite 5s ease-in-out; }
+    .dot-3 { animation: syncDot 20s infinite 10s ease-in-out; }
+    .dot-4 { animation: syncDot 20s infinite 15s ease-in-out; }
+
+
+
+    .nav-btn {
+        z-index: 50; 
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(8px);
+    }
+    
+    .banner-group:hover .nav-btn {
+        opacity: 1 !important;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .nav-btn:hover {
+        background: rgba(255, 255, 255, 0.9);
+        color: #c5a059;
+    }
+    
+
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+   
+
+   

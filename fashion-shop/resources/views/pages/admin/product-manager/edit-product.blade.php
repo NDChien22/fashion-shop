@@ -53,6 +53,7 @@
             enctype="multipart/form-data" data-old-variants='@json($variantsForHydration)'>
             @csrf
             @method('PUT')
+            <input type="hidden" name="redirect_to" value="{{ old('redirect_to', $redirectTo ?? url()->previous()) }}">
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 space-y-6">

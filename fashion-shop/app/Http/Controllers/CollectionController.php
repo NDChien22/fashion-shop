@@ -9,18 +9,18 @@ use Illuminate\Support\Facades\Storage;
 
 class CollectionController extends Controller
 {
-    public function index()
+    public function showCollectionManager()
     {
         $collections = Collections::withCount('products')->orderBy('created_at', 'desc')->get();
         return view('pages.admin.collection-manager.collection-manager', compact('collections'));
     }
 
-    public function create()
+    public function addCollectionForm()
     {
         return view('pages.admin.collection-manager.add-collection');
     }
 
-    public function store(Request $request)
+    public function addCollectionHandler(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -46,9 +46,16 @@ class CollectionController extends Controller
         return redirect()->route('admin.product-collections')->with('success', 'Tạo bộ sưu tập thành công!');
     }
 
-    public function show(Collections $collection)
+    public function showCollectionDetail(Collections $collection)
     {
-        $products = $collection->products()->withCount('skus')->paginate(10);
+        $products = $collection->products()
+            ->with([
+                'category:id,name',
+                'collection:id,name',
+                'skus:id,product_id,size,color,stock',
+            ])
+            ->withCount('skus')
+            ->paginate(10);
         
         // Get products not in this collection
         $availableProducts = Products::where(function($query) use ($collection) {
@@ -62,12 +69,12 @@ class CollectionController extends Controller
         return view('pages.admin.collection-manager.collection-detail', compact('collection', 'products', 'availableProducts'));
     }
 
-    public function edit(Collections $collection)
+    public function editCollectionForm(Collections $collection)
     {
         return view('pages.admin.collection-manager.edit-collection', compact('collection'));
     }
 
-    public function update(Request $request, Collections $collection)
+    public function updateCollectionHandler(Request $request, Collections $collection)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -97,7 +104,7 @@ class CollectionController extends Controller
         return redirect()->route('admin.product-collections')->with('success', 'Cập nhật bộ sưu tập thành công!');
     }
 
-    public function destroy(Collections $collection)
+    public function deleteCollectionHandler(Collections $collection)
     {
         // Delete thumbnail if exists
         if ($collection->thumbnail_url && Storage::exists('public/' . $collection->thumbnail_url)) {

@@ -92,6 +92,7 @@ class ProductController extends Controller
 
     public function editProductForm(Products $product){
         $product->load(['skus:id,product_id,size,color,stock']);
+        $redirectTo = url()->previous();
 
         $parentCategories = Categories::query()
             ->whereNull('parent_id')
@@ -113,6 +114,7 @@ class ProductController extends Controller
             'product' => $product,
             'parentCategories' => $parentCategories,
             'collections' => $collections,
+            'redirectTo' => $redirectTo,
         ]);
     }
 
@@ -232,6 +234,13 @@ class ProductController extends Controller
 
         foreach ($removedGalleryImages as $removedPath) {
             $this->deletePublicStorageFile($removedPath);
+        }
+
+        $redirectTo = (string) $request->input('redirect_to', '');
+
+        if ($redirectTo !== '' && str_starts_with($redirectTo, url('/'))) {
+            return redirect()
+                ->to($redirectTo);
         }
 
         return redirect()

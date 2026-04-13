@@ -1,21 +1,175 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\FlashSaleController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\VoucherController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use App\Models\Banner;
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function(){
-    return view('pages.dashboard');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+//User routes
+Route::get('/', function(){
+    return view('pages.user.dashboard');
 })->name('dashboard');
 
+Route::get('/cart', function () {
+    return redirect()->route('user.cart');
+})->name('cart');
+
+Route::get('/wishlist', function () {
+    return redirect()->route('user.wishlist');
+})->name('wishlist');
+
+Route::get('/profile', function () {
+    return redirect()->route('user.profile');
+})->name('profile');
+
+Route::prefix('user')->name('user.')->group(function () {
+    Route::get('/home', function () {
+        $banners = Banner::query()
+            ->with(['category:id,name,slug', 'collection:id,name,slug'])
+            ->where('is_active', true)
+            ->where(function ($query) {
+                $query->whereNull('start_date')->orWhere('start_date', '<=', now());
+            })
+            ->where(function ($query) {
+                $query->whereNull('end_date')->orWhere('end_date', '>=', now());
+            })
+            ->orderBy('sort_order')
+            ->orderByDesc('id')
+            ->take(4)
+            ->get();
+
+        return view('pages.user.home.index', [
+            'banners' => $banners,
+        ]);
+    })->name('home');
+
+    Route::get('/cart', function () {
+        return view('pages.user.cart.index');
+    })->name('cart');
+
+    Route::get('/collection', function () {
+        return view('pages.user.collection.index');
+    })->name('collection');
+
+    Route::get('/contact', function () {
+        return view('pages.user.contact.index');
+    })->name('contact');
+
+    Route::get('/introduce', function () {
+        return view('pages.user.introduce.index');
+    })->name('introduce');
+
+    Route::get('/orders', function () {
+        return view('pages.user.order.index');
+    })->name('orders');
+
+    Route::get('/product', function () {
+        return view('pages.user.product.index');
+    })->name('product');
+
+    Route::get('/product/detail', function () {
+        return view('pages.user.product.detail');
+    })->name('product-detail');
+
+    Route::get('/support', function () {
+        return view('pages.user.support.index');
+    })->name('support');
+
+    Route::get('/wishlist', function () {
+        return view('pages.user.wishlist.index');
+    })->name('wishlist');
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/profile', function () {
+            $user = Auth::user();
+            $membership = \App\Models\CustomerMembershipLevel::query()
+                ->with('membershipLevel')
+                ->where('user_id', $user->id)
+                ->first();
+
+            return view('pages.user.profile.index', [
+                'user' => $user,
+                'membership' => $membership,
+            ]);
+        })->name('profile');
+
+        Route::put('/profile', function (\Illuminate\Http\Request $request) {
+            $validated = $request->validate([
+                'full_name' => ['required', 'string', 'max:255'],
+                'phone_number' => ['nullable', 'string', 'max:20'],
+                'address' => ['nullable', 'string', 'max:255'],
+                'gender' => ['nullable', 'in:male,female,other'],
+                'birthday' => ['nullable', 'date'],
+                'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            ], [
+                'full_name.required' => 'Vui lòng nhập họ và tên.',
+                'gender.in' => 'Giới tính không hợp lệ.',
+                'birthday.date' => 'Ngày sinh không hợp lệ.',
+                'avatar.image' => 'Ảnh đại diện phải là tệp hình ảnh.',
+                'avatar.mimes' => 'Ảnh đại diện chỉ hỗ trợ jpg, jpeg, png, webp.',
+                'avatar.max' => 'Ảnh đại diện không được vượt quá 2MB.',
+            ]);
+
+            $user = $request->user();
+
+            if ($request->hasFile('avatar')) {
+                $avatarFile = $request->file('avatar');
+                $extension = $avatarFile->getClientOriginalExtension() ?: 'jpg';
+                $fileName = sprintf('user-%d-%s.%s', $user->id, Str::uuid()->toString(), $extension);
+                $newAvatarPath = $avatarFile->storeAs('avatars', $fileName, 'public');
+
+                if (is_string($user->avatar) && $user->avatar !== '' && !Str::startsWith($user->avatar, ['http://', 'https://', '/'])) {
+                    Storage::disk('public')->delete($user->avatar);
+                }
+
+                $validated['avatar'] = $newAvatarPath;
+            }
+
+            $user->update($validated);
+
+            return back()->with('success', 'Cập nhật hồ sơ thành công.');
+        })->name('profile.update');
+
+        Route::get('/profile/password', function () {
+            return view('pages.user.profile.change-password');
+        })->name('profile.password');
+
+        Route::put('/profile/password', function (\Illuminate\Http\Request $request) {
+            $validated = $request->validate([
+                'current_password' => ['required', 'current_password'],
+                'password' => ['required', 'string', 'min:6', 'confirmed'],
+            ], [
+                'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
+                'current_password.current_password' => 'Mật khẩu hiện tại không chính xác.',
+                'password.required' => 'Vui lòng nhập mật khẩu mới.',
+                'password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
+                'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+            ]);
+
+            $user = $request->user();
+            $user->password = Hash::make($validated['password']);
+            $user->save();
+
+            return redirect()->route('user.profile.password')->with('success', 'Đổi mật khẩu thành công.');
+        })->name('profile.password.update');
+    });
+});
+
+//Auth routes
 Route::middleware('guest')->group(function(){ 
     //Login
     Route::get('/login', function(){
@@ -68,18 +222,36 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::post('/product-manager/category', [CategoryController::class, 'store'])->name('add-product-category-handler');
         Route::delete('/product-categories/{id}', [CategoryController::class, 'destroy'])->name('product-categories.destroy');
         //Collection Manager
-        Route::get('/product-manager/collections', [CollectionController::class, 'index'])->name('product-collections');
-        Route::get('/product-manager/collections/create', [CollectionController::class, 'create'])->name('create-collection');
-        Route::post('/product-manager/collections', [CollectionController::class, 'store'])->name('store-collection');
-        Route::get('/product-manager/collections/{collection:slug}', [CollectionController::class, 'show'])->name('show-collection');
-        Route::get('/product-manager/collections/{collection:slug}/edit', [CollectionController::class, 'edit'])->name('edit-collection');
-        Route::put('/product-manager/collections/{collection:slug}', [CollectionController::class, 'update'])->name('update-collection');
-        Route::delete('/product-manager/collections/{collection:slug}', [CollectionController::class, 'destroy'])->name('destroy-collection');
+        Route::get('/product-manager/collections', [CollectionController::class, 'showCollectionManager'])->name('product-collections');
+        Route::get('/product-manager/collections/create', [CollectionController::class, 'addCollectionForm'])->name('create-collection');
+        Route::post('/product-manager/collections', [CollectionController::class, 'addCollectionHandler'])->name('store-collection');
+        Route::get('/product-manager/collections/{collection:slug}', [CollectionController::class, 'showCollectionDetail'])->name('show-collection');
+        Route::get('/product-manager/collections/{collection:slug}/edit', [CollectionController::class, 'editCollectionForm'])->name('edit-collection');
+        Route::put('/product-manager/collections/{collection:slug}', [CollectionController::class, 'updateCollectionHandler'])->name('update-collection');
+        Route::delete('/product-manager/collections/{collection:slug}', [CollectionController::class, 'deleteCollectionHandler'])->name('destroy-collection');
         Route::post('/product-manager/collections/{collection:slug}/add-products', [CollectionController::class, 'addProductToCollection'])->name('add-products-to-collection');
         Route::post('/product-manager/collections/{collection:slug}/remove-product', [CollectionController::class, 'removeProductFromCollection'])->name('remove-product-from-collection');
         //Voucher Manager
-
+        Route::get('/voucher-manager', [VoucherController::class, 'VoucherManagerView'])->name('voucher-manager');
+        Route::get('/voucher-manager/add', [VoucherController::class, 'addVoucherView'])->name('add-voucher');
+        Route::post('/voucher-manager/add', [VoucherController::class, 'storeVoucherHandler'])->name('store-voucher');
+        Route::get('/voucher-manager/edit/{voucher}', [VoucherController::class, 'editVoucherView'])->name('edit-voucher');
+        Route::put('/voucher-manager/edit/{voucher}', [VoucherController::class, 'updateVoucherHandler'])->name('update-voucher');
         //Flash Sale Manager
+        Route::get('/flash-sale-manager', [FlashSaleController::class, 'flashSaleManagerView'])->name('flash-sale-manager');
+        Route::get('/flash-sale-manager/add', [FlashSaleController::class, 'addFlashSaleView'])->name('add-flash-sale');
+        Route::post('/flash-sale-manager/add', [FlashSaleController::class, 'storeFlashSaleHandler'])->name('store-flash-sale');
+        Route::get('/flash-sale-manager/edit/{flashSale}', [FlashSaleController::class, 'editFlashSaleView'])->name('edit-flash-sale');
+        Route::put('/flash-sale-manager/edit/{flashSale}', [FlashSaleController::class, 'updateFlashSaleHandler'])->name('update-flash-sale');
+        Route::delete('/flash-sale-manager/{flashSale}', [FlashSaleController::class, 'deleteFlashSaleHandler'])->name('delete-flash-sale');
+
+        //Banner Manager
+        Route::get('/banner-manager', [BannerController::class, 'bannerManagerView'])->name('banner-manager');
+        Route::get('/banner-manager/add', [BannerController::class, 'addBannerView'])->name('add-banner');
+        Route::post('/banner-manager/add', [BannerController::class, 'storeBannerHandler'])->name('store-banner');
+        Route::get('/banner-manager/edit/{banner}', [BannerController::class, 'editBannerView'])->name('edit-banner');
+        Route::put('/banner-manager/edit/{banner}', [BannerController::class, 'updateBannerHandler'])->name('update-banner');
+        Route::delete('/banner-manager/{banner}', [BannerController::class, 'deleteBannerHandler'])->name('delete-banner');
 
         //Order Manager
 

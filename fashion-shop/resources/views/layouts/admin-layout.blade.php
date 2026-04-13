@@ -156,6 +156,13 @@
                         </div>
                         <span class="font-medium">Chương trình khuyến mãi</span>
                     </a>
+                    <a href="{{ route('admin.banner-manager') }}"
+                        class="nav-item group {{ Request::routeIs('admin.banner-manager') || Request::routeIs('admin.add-banner') || Request::routeIs('admin.edit-banner') ? 'active' : '' }}">
+                        <div class="nav-icon-box">
+                            <i class="fa-solid fa-image text-[15px]"></i>
+                        </div>
+                        <span class="font-medium">Quản lý banner</span>
+                    </a>
                 </div>
 
                 <div class="py-2">

@@ -1,29 +1,66 @@
-<div class="relative overflow-hidden w-full bg-gray-100 group">
-    <div class="animate-banner" id="banner-list">
-        <div class="banner-item">
-            <img src="https://2885371169.e.cdneverest.net/Simiconnector/BannerSlider/f/i/finalsale_topbanner_desktop-180326.webp"
-                class="w-full h-[300px] md:h-[550px] object-cover">
-        </div>
-        <div class="banner-item">
-            <img src="https://th.bing.com/th/id/OIP.6VCB_MI-6nUEVw8o49hC1wHaEO?w=297&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
-                class="w-full h-[300px] md:h-[550px] object-cover">
-        </div>
-        <div class="banner-item">
-            <img src="https://trangtri360.com/wp-content/uploads/2024/05/bang-sale-quan-ao-8.jpg"
-                class="w-full h-[300px] md:h-[550px] object-cover">
-        </div>
-        <div class="banner-item">
-            <img src="https://th.bing.com/th/id/OIP.o4j-lEIV_zoKfH4WoqvqGwHaEO?w=298&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
-                class="w-full h-[300px] md:h-[550px] object-cover">
-        </div>
+@php
+    $fallbackBanners = collect([
+        (object) [
+            'title' => 'Bộ sưu tập nổi bật',
+            'image_url' =>
+                'https://2885371169.e.cdneverest.net/Simiconnector/BannerSlider/f/i/finalsale_topbanner_desktop-180326.webp',
+            'banner_type' => 'collection',
+        ],
+        (object) [
+            'title' => 'Ưu đãi theo mùa',
+            'image_url' =>
+                'https://th.bing.com/th/id/OIP.6VCB_MI-6nUEVw8o49hC1wHaEO?w=297&h=180&c=7&r=0&o=7&pid=1.7&rm=3',
+            'banner_type' => 'category',
+        ],
+        (object) [
+            'title' => 'Flash sale thời trang',
+            'image_url' => 'https://trangtri360.com/wp-content/uploads/2024/05/bang-sale-quan-ao-8.jpg',
+            'banner_type' => 'all',
+        ],
+        (object) [
+            'title' => 'Phong cách mới',
+            'image_url' =>
+                'https://th.bing.com/th/id/OIP.o4j-lEIV_zoKfH4WoqvqGwHaEO?w=298&h=180&c=7&r=0&o=7&pid=1.7&rm=3',
+            'banner_type' => 'collection',
+        ],
+    ]);
+    $displayBanners = collect($banners ?? [])
+        ->take(4)
+        ->merge($fallbackBanners)
+        ->take(4)
+        ->values();
+    $resolveBannerImage = function ($path) {
+        return \Illuminate\Support\Str::startsWith($path, ['http://', 'https://', '/'])
+            ? $path
+            : asset('storage/' . ltrim($path, '/'));
+    };
+@endphp
+
+<div class="relative overflow-hidden w-full bg-gray-100 group banner-group">
+    <div class="animate-banner" id="banner-list" style="width: {{ max($displayBanners->count(), 1) * 100 }}%;">
+        @foreach ($displayBanners as $banner)
+            <div class="banner-item" style="width: {{ 100 / max($displayBanners->count(), 1) }}%;">
+                @php
+                    $bannerLink = method_exists($banner, 'targetUrl')
+                        ? $banner->targetUrl()
+                        : (($banner->banner_type ?? 'category') === 'collection'
+                            ? route('user.collection')
+                            : route('user.product'));
+                @endphp
+                <a href="{{ $bannerLink }}" class="block">
+                    <img src="{{ $resolveBannerImage($banner->image_url) }}" alt="{{ $banner->title }}"
+                        class="w-full h-75 md:h-137.5 object-cover">
+                </a>
+            </div>
+        @endforeach
     </div>
 
     <button id="prev-btn"
-        class="absolute z-50 left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-white backdrop-blur-md rounded-full flex items-center justify-center text-white hover:text-black opacity-0 group-hover:opacity-100 transition-all duration-300">
+        class="absolute z-50 left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-white backdrop-blur-md rounded-full flex items-center justify-center text-white hover:text-black opacity-0 group-hover:opacity-100 transition-all duration-300 nav-btn">
         <i class="ri-arrow-left-s-line text-2xl"></i>
     </button>
     <button id="next-btn"
-        class="absolute z-50 right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-white backdrop-blur-md rounded-full flex items-center justify-center text-white hover:text-black opacity-0 group-hover:opacity-100 transition-all duration-300">
+        class="absolute z-50 right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/20 hover:bg-white backdrop-blur-md rounded-full flex items-center justify-center text-white hover:text-black opacity-0 group-hover:opacity-100 transition-all duration-300 nav-btn">
         <i class="ri-arrow-right-s-line text-2xl"></i>
     </button>
 
@@ -36,7 +73,7 @@
 </div>
 
 <div class="bg-white py-10 border-b border-gray-100">
-    <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <div class="max-w-350 mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div class="flex items-center gap-4 group">
             <div
                 class="w-14 h-14 rounded-full border-2 border-[#e07b39] flex items-center justify-center text-[#e07b39] group-hover:bg-[#e07b39] group-hover:text-white transition-all duration-300">
@@ -83,7 +120,7 @@
     </div>
 </div>
 
-<div class="max-w-[1400px] mx-auto px-6 py-12">
+<div class="max-w-350 mx-auto px-6 py-12">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="relative rounded-2xl overflow-hidden group cursor-pointer shadow-lg">
             <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800" alt="BST Xuân Hè"

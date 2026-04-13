@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
@@ -13,12 +14,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Banner;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 //User routes
-Route::get('/dashboard', function(){
+Route::get('/', function(){
     return view('pages.user.dashboard');
 })->name('dashboard');
 
@@ -36,7 +38,23 @@ Route::get('/profile', function () {
 
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/home', function () {
-        return view('pages.user.home.index');
+        $banners = Banner::query()
+            ->with(['category:id,name,slug', 'collection:id,name,slug'])
+            ->where('is_active', true)
+            ->where(function ($query) {
+                $query->whereNull('start_date')->orWhere('start_date', '<=', now());
+            })
+            ->where(function ($query) {
+                $query->whereNull('end_date')->orWhere('end_date', '>=', now());
+            })
+            ->orderBy('sort_order')
+            ->orderByDesc('id')
+            ->take(4)
+            ->get();
+
+        return view('pages.user.home.index', [
+            'banners' => $banners,
+        ]);
     })->name('home');
 
     Route::get('/cart', function () {
@@ -226,6 +244,14 @@ Route::prefix('admin')->name('admin.')->group(function(){
         Route::get('/flash-sale-manager/edit/{flashSale}', [FlashSaleController::class, 'editFlashSaleView'])->name('edit-flash-sale');
         Route::put('/flash-sale-manager/edit/{flashSale}', [FlashSaleController::class, 'updateFlashSaleHandler'])->name('update-flash-sale');
         Route::delete('/flash-sale-manager/{flashSale}', [FlashSaleController::class, 'deleteFlashSaleHandler'])->name('delete-flash-sale');
+
+        //Banner Manager
+        Route::get('/banner-manager', [BannerController::class, 'bannerManagerView'])->name('banner-manager');
+        Route::get('/banner-manager/add', [BannerController::class, 'addBannerView'])->name('add-banner');
+        Route::post('/banner-manager/add', [BannerController::class, 'storeBannerHandler'])->name('store-banner');
+        Route::get('/banner-manager/edit/{banner}', [BannerController::class, 'editBannerView'])->name('edit-banner');
+        Route::put('/banner-manager/edit/{banner}', [BannerController::class, 'updateBannerHandler'])->name('update-banner');
+        Route::delete('/banner-manager/{banner}', [BannerController::class, 'deleteBannerHandler'])->name('delete-banner');
 
         //Order Manager
 

@@ -89,39 +89,37 @@ function renderProducts(productList) {
             ? `<p class="text-xs text-gray-400 line-through">${item.oldPrice.toLocaleString('vi-VN')}₫</p>` 
             : '';
 
+        // Tìm đến đoạn return trong grid.innerHTML và sửa như sau:
         return `
             <div class="product-card group relative flex flex-col h-full">
-                <div class="relative overflow-hidden mb-4 rounded-xl bg-gray-100 shadow-sm aspect-[3/4]">
+                <a href="product-detail.html?id=${item.id}" class="relative overflow-hidden mb-4 rounded-xl bg-gray-100 shadow-sm aspect-[3/4] block">
                     <img 
                         src="${item.image}" 
-                        
                         class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" 
                         alt="${item.name}"
                     >
                     
                     ${tagHTML}
 
-                    <div class="absolute inset-x-0 bottom-4 px-4 flex flex-col gap-3 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10">
+                    <div class="absolute inset-x-0 bottom-4 px-4 flex flex-col gap-3 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10" onclick="event.preventDefault();">
                         <div class="flex justify-center gap-2">
-                            <button class="bg-white/95 text-gray-800 p-2 rounded-full shadow-md hover:bg-[#bc9c75] hover:text-white transition transform hover:scale-110">
-                                <i class="ri-eye-line text-base"></i>
-                            </button>
-                            <button onclick="toggleWishlist(${item.id})"  class="bg-white/95 p-2 rounded-full shadow-md transition transform hover:scale-110
+                            <button onclick="toggleWishlist(${item.id})" class="bg-white/95 p-2 rounded-full shadow-md transition transform hover:scale-110
                                 ${isWishlisted ? 'text-red-500' : 'text-gray-800'} hover:bg-[#bc9c75] hover:text-white">
                                 <i class="${isWishlisted ? 'ri-heart-fill' : 'ri-heart-line'} text-base"></i>
-
                             </button>
                         </div>
                         <button onclick="addToCart(${item.id})" class="w-full bg-white text-black py-2.5 text-[10px] font-bold uppercase hover:bg-[#bc9c75] hover:text-white rounded-lg shadow-md">
                             Thêm vào giỏ
                         </button>
                     </div>
-                </div>
+                </a>
 
                 <div class="flex flex-col grow">
-                    <h4 class="text-sm font-medium text-gray-800 mb-1.5 line-clamp-2 min-h-10">
-                        ${item.name}
-                    </h4>
+                    <a href="product-detail.html?id=${item.id}">
+                        <h4 class="text-sm font-medium text-gray-800 mb-1.5 line-clamp-2 min-h-10 hover:text-[#bc9c75] transition-colors">
+                            ${item.name}
+                        </h4>
+                    </a>
                     <div class="flex items-center gap-3 mt-auto">
                         <p class="font-bold text-[#bc9c75] text-lg">${item.price.toLocaleString('vi-VN')}₫</p>
                         ${oldPriceHTML}
@@ -134,6 +132,8 @@ function renderProducts(productList) {
     // 4. Tạo các nút phân trang
     renderPagination(productList);
 }
+
+
 
 
 
@@ -444,6 +444,64 @@ function updateWishlistBadge() {
     }
 }
 
+
+
+function updateAuthUI() {
+    const dropdownMenu = document.getElementById('user-dropdown-menu');
+    if (!dropdownMenu) return;
+
+    // Lấy thông tin tài khoản từ localStorage
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    if (currentUser) {
+        // TRƯỜNG HỢP 1: ĐÃ ĐĂNG NHẬP
+        dropdownMenu.innerHTML = `
+            <div class="py-2 text-sm">
+                <div class="px-4 py-2 border-b border-gray-50 mb-1">
+                    <p class="font-bold text-gray-800 truncate">${currentUser.fullname}</p>
+                    <p class="text-[10px] text-gray-400">Đang hoạt động</p>
+                </div>
+                <a href="#profile" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
+                    <i class="ri-user-settings-line text-lg"></i>
+                    <span>Hồ sơ cá nhân</span>
+                </a>
+                <hr class="my-1 border-gray-100">
+                <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-4 py-2.5 text-red-500 hover:bg-red-50 transition-colors">
+                    <i class="ri-logout-box-r-line text-lg"></i>
+                    <span>Đăng xuất</span>
+                </button>
+            </div>
+        `;
+    } else {
+        // TRƯỜNG HỢP 2: CHƯA ĐĂNG NHẬP
+        dropdownMenu.innerHTML = `
+            <div class="py-2 text-sm">
+                <a href="login.html" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
+                    <i class="ri-login-box-line text-lg"></i>
+                    <span>Đăng nhập</span>
+                </a>
+                <a href="register.html" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
+                    <i class="ri-user-add-line text-lg"></i>
+                    <span>Đăng ký</span>
+                </a>
+
+            </div>
+        `;
+    }
+}
+
+// Hàm xử lý đăng xuất
+function handleLogout() {
+    if (confirm('Bạn có muốn đăng xuất không?')) {
+        localStorage.removeItem('currentUser'); // Xóa tài khoản khỏi máy
+        window.location.hash = ''; // Về trang chủ
+        location.reload(); // Load lại để cập nhật Header
+    }
+}
+
+// Chạy hàm ngay khi trang web tải xong
+document.addEventListener('DOMContentLoaded', updateAuthUI);
+
 /**
  * Hàm đóng/mở Sidebar trên Mobile
  */
@@ -616,6 +674,7 @@ const PAGES = {
     'Lien-he': { title: 'Liên hệ', file: 'contact.html' },
     'gio-hang': { title: 'Giỏ hàng', file: 'cart.html' },
     'yeu-thich': { title: 'Sản phẩm yêu thích', file: 'wishlist.html' },
+    'profile': { title: 'Hồ sơ cá nhân', file: 'profile.html' }
 };
 
 

@@ -42,7 +42,13 @@
                         <i class="ri-shopping-cart-line cursor-pointer hidden md:block hover-gold transition"></i>
                         <span id="cart-count" class="absolute top-0 right-0 bg-red-600 text-white text-[10px] w-4 h-4 hidden items-center justify-center rounded-full"></span>
                     </a>
-                    <i class="ri-user-line cursor-pointer hidden md:block hover-gold transition"></i>
+                    <div class="relative group hidden md:block">
+                        <div class="p-2 cursor-pointer transition hover:text-[#bc9c75]">
+                            <i class="ri-user-line"></i>
+                        </div>
+
+                        <div id="user-dropdown-menu" class="absolute right-0 mt-1 w-48 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[100]">
+                        </div>
                 </div>
             </nav>
         </div>

@@ -1,100 +1,63 @@
-const products = [
-  // --- NHÓM: ÁO NỮ ---
-  { id: 1, name: "Áo khoác Blazer nữ Hàn Quốc", category: "Áo khoác", subCategory: "Áo Nữ", price: 705000, oldPrice: 850000, image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500", tag: "Bán chạy", sizes: ["S", "M", "L"] },
-  { id: 2, name: "Áo Hoodie nỉ form rộng", category: "Áo hoodie", subCategory: "Áo Nữ", price: 350000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500", tag: "Mới", sizes: ["M", "L"] },
-  { id: 3, name: "Áo len lưới croptop Vienne", category: "Áo len", subCategory: "Áo Nữ", price: 249000, oldPrice: 368000, image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500", tag: "Sale", sizes: ["S", "M"] },
-  { id: 4, name: "Áo sơ mi lụa công sở", category: "Áo sơ mi", subCategory: "Áo Nữ", price: 250000, oldPrice: 320000, image: "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=500", tag: "", sizes: ["S", "M", "L", "XL"] },
-  { id: 5, name: "Áo thun Cotton basic", category: "Áo thun", subCategory: "Áo Nữ", price: 150000, oldPrice: null, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500", tag: "Mới", sizes: ["S", "M", "L"] },
-
-  // --- NHÓM: QUẦN NỮ ---
-  { id: 6, name: "Quần Jean Baggy nữ", category: "Quần jeans", subCategory: "Quần Nữ", price: 390000, oldPrice: 500000, image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500", tag: "", sizes: ["S", "M", "L"] },
-  { id: 7, name: "Quần Short thun năng động", category: "Quần short", subCategory: "Quần Nữ", price: 120000, oldPrice: 180000, image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=500", tag: "Sale", sizes: ["S", "M"] },
-  { id: 8, name: "Quần dài ống suông", category: "Quần dài", subCategory: "Quần Nữ", price: 280000, oldPrice: null, image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500", tag: "Mới", sizes: ["M", "L", "XL"] },
-
-  // --- NHÓM: ÁO NAM ---
-  { id: 9, name: "Áo sơ mi Oxford nam", category: "Áo sơ mi", subCategory: "Áo Nam", price: 380000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500", tag: "Mới", sizes: ["M", "L", "XL", "XXL"] },
-  { id: 10, name: "Áo thun Polo phối cổ", category: "Áo polo", subCategory: "Áo Nam", price: 280000, oldPrice: null, image: "https://images.unsplash.com/photo-1624371414361-e6e0ed58d38c?w=500", tag: "Bán chạy", sizes: ["M", "L", "XL"] },
-  { id: 11, name: "Áo Hoodie Streetwear", category: "Áo hoodie", subCategory: "Áo Nam", price: 450000, oldPrice: 550000, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500", tag: "", sizes: ["L", "XL", "XXL"] },
-  { id: 12, name: "Áo thun trơn nam", category: "Áo thun", subCategory: "Áo Nam", price: 190000, oldPrice: 250000, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500", tag: "Sale", sizes: ["M", "L", "XL"] },
-
-  // --- NHÓM: QUẦN NAM ---
-  { id: 13, name: "Quần Jean Slim-fit", category: "Quần jeans", subCategory: "Quần Nam", price: 490000, oldPrice: 600000, image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500", tag: "Bán chạy", sizes: ["29", "30", "31", "32"] },
-  { id: 14, name: "Quần Kaki túi hộp Cargo", category: "Quần kaki", subCategory: "Quần Nam", price: 350000, oldPrice: null, image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500", tag: "Mới", sizes: ["M", "L", "XL"] },
-  { id: 15, name: "Quần Tây Âu thanh lịch", category: "Quần âu", subCategory: "Quần Nam", price: 550000, oldPrice: 680000, image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500", tag: "", sizes: ["29", "30", "31", "32"] },
-
-  // --- NHÓM: THỂ THAO ---
-  { id: 16, name: "Bộ đồ thể thao nam", category: "Bộ đồ thể thao", subCategory: "Thể Thao nam", price: 650000, oldPrice: 800000, image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500", tag: "Sale", sizes: ["M", "L", "XL"] },
-  { id: 17, name: "Áo tập gym nữ", category: "Áo thể thao", subCategory: "Thể Thao nữ", price: 220000, oldPrice: null, image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500", tag: "Mới", sizes: ["S", "M", "L"] },
-
-  // --- PHỤ KIỆN ---
-  { id: 18, name: "Thắt lưng da nam", category: "Thắt lưng", subCategory: "Phụ Kiện", price: 290000, oldPrice: null, image: "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=500", tag: "Mới", sizes: ["Freesize"] },
-  { id: 19, name: "Túi xách nữ sang trọng", category: "Túi nam - nữ", subCategory: "Phụ Kiện", price: 1250000, oldPrice: 1500000, image: "https://images.unsplash.com/photo-1584917033904-493bb3c3cc08?w=500", tag: "Bán chạy", sizes: ["Freesize"] },
-  { id: 20, name: "Mũ lưỡi trai phối lưới", category: "Mũ thể thao", subCategory: "Phụ Kiện", price: 150000, oldPrice: 190000, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500", tag: "Sale", sizes: ["Freesize"] }
-];
 
 
 
 
-// Cấu hình sản phẩm tổng quát
+
+
+
+// --- 1. Cấu hình sản phẩm & Phân trang ---
 let currentPage = 1;
 const productsPerPage = 12;
 
-function renderProducts(productList) {
-    // 1. Kiểm tra dữ liệu đầu vào
-    if (!productList || !Array.isArray(productList)) {
-        console.error("Dữ liệu sản phẩm không hợp lệ");
-        return;
+// --- 2. Hàm nạp Layout (Header/Footer) ---
+async function loadLayout() {
+    try {
+        // Nạp Header
+        const headerRes = await fetch('index.html'); 
+        if (headerRes.ok) {
+            document.getElementById('main-header').innerHTML = await headerRes.text();
+        }
+        // Nạp Footer
+        const footerRes = await fetch('index.html');
+        if (footerRes.ok) {
+            document.getElementById('main-footer').innerHTML = await footerRes.text();
+        }
+    } catch (error) {
+        console.error("Lỗi nạp Header/Footer (Lưu ý: Phải chạy bằng Live Server):", error);
     }
+}
+
+// --- 3. Hàm Render Danh sách sản phẩm (Trang chủ) ---
+function renderProducts(productList) {
+    if (!productList || !Array.isArray(productList)) return;
 
     const grid = document.getElementById('product-grid');
     const countLabel = document.getElementById('product-count');
-    
-    if (!grid) {
-        console.warn("Không tìm thấy thẻ #product-grid.");
-        return;
-    }
+    if (!grid) return;
 
-    // --- LOGIC PHÂN TRANG ---
-    // Xác định sản phẩm cần hiển thị cho trang hiện tại
+    // Logic phân trang
     const startIndex = (currentPage - 1) * productsPerPage;
-    const endIndex = startIndex + productsPerPage;
-    const paginatedItems = productList.slice(startIndex, endIndex);
+    const paginatedItems = productList.slice(startIndex, startIndex + productsPerPage);
 
-    // 2. Cập nhật số lượng hiển thị (Tổng số sản phẩm)
     if (countLabel) {
         countLabel.innerText = `Hiển thị ${paginatedItems.length} trên ${productList.length} sản phẩm`;
     }
 
-    // 3. Render HTML cho danh sách sản phẩm đã cắt (paginatedItems)
     grid.innerHTML = paginatedItems.map(item => {
         const wishlist = JSON.parse(localStorage.getItem('vienne_wishlist')) || [];
         const isWishlisted = wishlist.includes(item.id);
-        const tagHTML = item.tag 
-            ? `<div class="absolute top-3 left-3 z-10">
-                 <span class="bg-orange-500 text-white text-[10px] px-2.5 py-1 rounded-full uppercase font-bold shadow">${item.tag}</span>
-               </div>` 
-            : '';
-            
-        const oldPriceHTML = item.oldPrice 
-            ? `<p class="text-xs text-gray-400 line-through">${item.oldPrice.toLocaleString('vi-VN')}₫</p>` 
-            : '';
+        const tagHTML = item.tag ? `<div class="absolute top-3 left-3 z-10"><span class="bg-orange-500 text-white text-[10px] px-2.5 py-1 rounded-full uppercase font-bold shadow">${item.tag}</span></div>` : '';
+        const oldPriceHTML = item.oldPrice ? `<p class="text-xs text-gray-400 line-through">${item.oldPrice.toLocaleString('vi-VN')}₫</p>` : '';
 
-        // Tìm đến đoạn return trong grid.innerHTML và sửa như sau:
         return `
             <div class="product-card group relative flex flex-col h-full">
-                <a href="product-detail.html?id=${item.id}" class="relative overflow-hidden mb-4 rounded-xl bg-gray-100 shadow-sm aspect-[3/4] block">
-                    <img 
-                        src="${item.image}" 
-                        class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" 
-                        alt="${item.name}"
-                    >
-                    
+                <a href="product_detail.html?id=${item.id}" class="relative overflow-hidden mb-4 rounded-xl bg-gray-100 shadow-sm aspect-[3/4] block">
+                    <img src="${item.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="${item.name}">
                     ${tagHTML}
-
-                    <div class="absolute inset-x-0 bottom-4 px-4 flex flex-col gap-3 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10" onclick="event.preventDefault();">
+                    <div class="absolute inset-x-0 bottom-4 px-4 flex flex-col gap-3 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10" 
+                         onclick="event.preventDefault(); event.stopPropagation();">
                         <div class="flex justify-center gap-2">
-                            <button onclick="toggleWishlist(${item.id})" class="bg-white/95 p-2 rounded-full shadow-md transition transform hover:scale-110
-                                ${isWishlisted ? 'text-red-500' : 'text-gray-800'} hover:bg-[#bc9c75] hover:text-white">
+                            <button onclick="toggleWishlist(${item.id})" class="bg-white/95 p-2 rounded-full shadow-md transition transform hover:scale-110 ${isWishlisted ? 'text-red-500' : 'text-gray-800'} hover:bg-[#bc9c75] hover:text-white">
                                 <i class="${isWishlisted ? 'ri-heart-fill' : 'ri-heart-line'} text-base"></i>
                             </button>
                         </div>
@@ -103,12 +66,9 @@ function renderProducts(productList) {
                         </button>
                     </div>
                 </a>
-
                 <div class="flex flex-col grow">
-                    <a href="product-detail.html?id=${item.id}">
-                        <h4 class="text-sm font-medium text-gray-800 mb-1.5 line-clamp-2 min-h-10 hover:text-[#bc9c75] transition-colors">
-                            ${item.name}
-                        </h4>
+                    <a href="product_detail.html?id=${item.id}">
+                        <h4 class="text-sm font-medium text-gray-800 mb-1.5 line-clamp-2 min-h-10 hover:text-[#bc9c75] transition-colors">${item.name}</h4>
                     </a>
                     <div class="flex items-center gap-3 mt-auto">
                         <p class="font-bold text-[#bc9c75] text-lg">${item.price.toLocaleString('vi-VN')}₫</p>
@@ -119,10 +79,120 @@ function renderProducts(productList) {
         `;
     }).join('');
 
-    // 4. Tạo các nút phân trang
-    renderPagination(productList);
+    // Nếu bạn có hàm renderPagination(productList), hãy gọi ở đây
+    if (typeof renderPagination === "function") renderPagination(productList);
 }
 
+// --- 4. Hàm Render Chi tiết sản phẩm (Trang Detail) ---
+function renderProductDetail() {
+    console.log("--- Bắt đầu nạp chi tiết sản phẩm ---");
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id'));
+    console.log("ID sản phẩm từ URL:", productId);
+
+    // Kiểm tra biến products có tồn tại không
+    if (typeof products === 'undefined') {
+        console.error("Lỗi: Biến 'products' chưa được định nghĩa. Kiểm tra lại file data.js");
+        return;
+    }
+
+    const product = products.find(p => p.id === productId);
+    
+    if (!product) {
+        console.warn("Không tìm thấy sản phẩm với ID này, đang lấy sản phẩm đầu tiên làm mẫu");
+        // Nếu không tìm thấy, thử lấy sản phẩm đầu tiên để tránh trắng trang
+        var displayProduct = products[0];
+    } else {
+        var displayProduct = product;
+    }
+
+    console.log("Dữ liệu sản phẩm sẽ hiển thị:", displayProduct);
+
+    // Đổ dữ liệu vào HTML (Sử dụng hàm của bạn nhưng thêm kiểm tra)
+    const setInner = (id, val) => { 
+        const el = document.getElementById(id);
+        if (el) {
+            el.innerText = val;
+        } else {
+            console.warn(`Không tìm thấy thẻ có ID: ${id} trong HTML`);
+        }
+    };
+    
+    setInner('product-name', displayProduct.name);
+    setInner('product-code', displayProduct.code || 'N/A');
+    
+    const mainImg = document.getElementById('main-img');
+    if (mainImg) {
+        mainImg.src = displayProduct.image;
+    }
+    
+    const formatMoney = (num) => new Intl.NumberFormat('vi-VN').format(num) + '₫';
+    setInner('current-price', formatMoney(displayProduct.price));
+    
+    // Xử lý giá cũ và giảm giá
+    const oldPriceEl = document.getElementById('old-price');
+    const discountEl = document.getElementById('product-discount');
+    
+    if (displayProduct.oldPrice && oldPriceEl) {
+        oldPriceEl.innerText = formatMoney(displayProduct.oldPrice);
+        if (discountEl) {
+            const discount = Math.round((1 - displayProduct.price / displayProduct.oldPrice) * 100);
+            discountEl.innerText = `-${discount}%`;
+            discountEl.style.display = 'block'; // Hiện thẻ discount nếu có
+        }
+    } else if (discountEl) {
+        discountEl.style.display = 'none'; // Ẩn thẻ discount nếu không có giá cũ
+    }
+
+    // Render Size
+    const sizeContainer = document.getElementById('size-container');
+    if (sizeContainer && displayProduct.sizes) {
+        sizeContainer.innerHTML = displayProduct.sizes.map((size, index) => `
+            <button onclick="selectOption(this)" 
+                class="min-w-[50px] h-8 border ${index === 0 ? 'border-[#c5a059] text-[#c5a059]' : 'border-gray-200'} text-sm font-medium transition">
+                ${size}
+            </button>
+        `).join('');
+    }
+
+    setInner('product-rating', "4.9");
+    setInner('product-sold', (displayProduct.id * 15) + "k+"); 
+    
+    console.log("--- Hoàn tất nạp dữ liệu ---");
+}
+
+// --- 5. Hàm phụ (Chọn size, Update SL) ---
+function selectOption(el) {
+    const buttons = el.parentElement.querySelectorAll('button');
+    buttons.forEach(btn => btn.className = "min-w-[50px] h-8 border border-gray-200 text-sm font-medium transition");
+    el.className = "min-w-[50px] h-8 border border-[#c5a059] text-[#c5a059] text-sm font-medium transition";
+}
+
+function updateQty(step) {
+    const input = document.getElementById('quantity');
+    let val = parseInt(input.value) + step;
+    if (val < 1) val = 1;
+    input.value = val;
+}
+
+// --- 6. KHỞI CHẠY HỆ THỐNG ---
+window.onload = async () => {
+    // Bước 1: Nạp Header và Footer trước để dựng khung
+    await loadLayout(); 
+
+    // Bước 2: Sau khi layout đã có, mới đổ dữ liệu vào giữa
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id'));
+
+    if (document.getElementById('product-name')) {
+        // Gọi hàm hiển thị chi tiết sản phẩm
+        renderProductDetail();
+        
+        // Đảm bảo phần main không bị ẩn (nếu trước đó có dùng hidden)
+        document.getElementById('detail-page').style.display = 'block';
+    }
+};
 
 
 // Hàm thêm sản phẩm vào giỏ hàng 
@@ -457,6 +527,11 @@ function updateAuthUI() {
                     <i class="ri-user-settings-line text-lg"></i>
                     <span>Tài khoản của tôi</span>
                 </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
+                    <i class="ri-user-settings-line text-lg"></i>
+                    <span>Đơn hàng</span>
+                </a>
+
                 <hr class="my-1 border-gray-100">
                 <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-4 py-2.5 text-red-500 hover:bg-red-50 transition-colors">
                     <i class="ri-logout-box-r-line text-lg"></i>
@@ -477,15 +552,7 @@ function updateAuthUI() {
                     <span>Đăng ký</span>
                 </a>
 
-                <a href="#profile" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
-                    <i class="ri-user-settings-line text-lg"></i>
-                    <span>Tài khoản của tôi</span>
-                </a>
-
-                <a href="#Don-hang" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
-                    <i class="ri-user-settings-line text-lg"></i>
-                    <span>Đơn hàng</span>
-                </a>
+                
             </div>
         `;
     }
@@ -885,7 +952,8 @@ const PAGES = {
     'Lien-he': { title: 'Liên hệ', file: 'contact.html' },
     'gio-hang': { title: 'Giỏ hàng', file: 'cart.html' },
     'yeu-thich': { title: 'Sản phẩm yêu thích', file: 'wishlist.html' },
-    'profile': { title: 'Hồ sơ cá nhân', file: 'profile.html' }
+    'profile': { title: 'Hồ sơ cá nhân', file: 'profile.html' },
+    'detail': { title: 'Chi tiết sản phẩm', file: 'product_detail.html' }
 };
 
 
@@ -919,7 +987,8 @@ async function loadPage() {
     if (!content) return;
 
     let hash = window.location.hash || '#trang-chu';
-    let pageId = hash.replace('#', '') || 'trang-chu';
+    let fullPath = hash.replace('#', '');
+    let [pageId, queryString] = fullPath.split('?');
 
     const config = PAGES[pageId];
     if (!config) {
@@ -938,11 +1007,15 @@ async function loadPage() {
             content.style.opacity = "1";
             content.style.transition = "opacity 0.3s ease";
 
-            if (pageId === 'san-pham' || config.file.includes('product.html')) {
-                // Gọi hàm render từ dữ liệu mảng products đã có
-                if (typeof renderProducts === "function") {
-                    renderProducts(products); 
-                }
+            // Xử lý riêng cho trang chi tiết
+            if (pageId === 'chi-tiet') {
+                const params = new URLSearchParams(queryString);
+                const productId = parseInt(params.get('id'));
+                renderProductDetail(productId); 
+            }
+
+            if (pageId === 'san-pham') {
+                if (typeof renderProducts === "function") renderProducts(products); 
             }
 
             updateUI(pageId, config.title);

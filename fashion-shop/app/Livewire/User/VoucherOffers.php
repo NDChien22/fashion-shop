@@ -5,6 +5,7 @@ namespace App\Livewire\User;
 use App\Models\UserVoucher;
 use App\Models\Voucher;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class VoucherOffers extends Component
@@ -22,6 +23,7 @@ class VoucherOffers extends Component
 
         $this->savedVoucherIds = UserVoucher::query()
             ->where('user_id', Auth::id())
+            ->where('status', 'unused')
             ->pluck('voucher_id')
             ->map(fn ($voucherId) => (int) $voucherId)
             ->all();
@@ -37,56 +39,86 @@ class VoucherOffers extends Component
 
         if (! $voucher) {
             $this->dispatch('app-toast', message: 'Không tìm thấy voucher.', type: 'error');
+
             return;
         }
 
         if (! $this->isVoucherAvailable($voucher)) {
             $this->dispatch('app-toast', message: 'Voucher hiện không khả dụng.', type: 'error');
+
             return;
         }
 
         if (in_array($voucherId, $this->savedVoucherIds, true)) {
+            $this->dispatch('voucher-count-updated', count: count($this->savedVoucherIds));
             $this->dispatch('app-toast', message: 'Voucher đã có trong ví của bạn.', type: 'success');
+
             return;
         }
 
-        UserVoucher::query()->create([
-            'user_id' => Auth::id(),
-            'voucher_id' => $voucher->id,
-            'status' => 'unused',
-            'collected_at' => now(),
-        ]);
+        $userVoucher = UserVoucher::query()->firstOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'voucher_id' => $voucher->id,
+            ],
+            [
+                'status' => 'unused',
+                'collected_at' => now(),
+            ]
+        );
 
-        $this->savedVoucherIds[] = $voucherId;
-        $this->savedVoucherIds = array_values(array_unique(array_map('intval', $this->savedVoucherIds)));
+        $this->savedVoucherIds = UserVoucher::query()
+            ->where('user_id', Auth::id())
+            ->where('status', 'unused')
+            ->pluck('voucher_id')
+            ->map(fn ($savedVoucherId) => (int) $savedVoucherId)
+            ->all();
 
-        $this->dispatch('app-toast', message: 'Đã lưu voucher vào tài khoản của bạn.', type: 'success');
-    }
+        $this->dispatch('voucher-count-updated', count: count($this->savedVoucherIds));
 
-    public function copyVoucherCode(string $code): void
-    {
-        $this->dispatch('copy-voucher-code', code: $code);
+        if ($userVoucher->wasRecentlyCreated) {
+            $this->dispatch('app-toast', message: 'Đã lưu voucher vào tài khoản của bạn.', type: 'success');
+
+            return;
+        }
+
+        $this->dispatch('app-toast', message: 'Voucher đã có trong ví của bạn.', type: 'success');
     }
 
     public function render()
     {
-        $now = now();
+        try {
+            $now = now();
+            $userId = Auth::id();
 
-        $vouchers = Voucher::query()
-            ->where('is_active', true)
-            ->where('start_date', '<=', $now)
-            ->where('end_date', '>=', $now)
-            ->where(function ($query) {
-                $query->whereNull('usage_limit')->orWhereColumn('used_count', '<', 'usage_limit');
-            })
-            ->orderByDesc('discount_value')
-            ->orderByDesc('id')
-            ->limit(8)
-            ->get();
+            $vouchers = Voucher::query()
+                ->with(['categoryDetail:id,name'])
+                ->where('is_active', true)
+                ->where('start_date', '<=', $now)
+                ->where('end_date', '>=', $now)
+                ->where(function ($query) {
+                    $query->whereNull('usage_limit')->orWhereColumn('used_count', '<', 'usage_limit');
+                })
+                ->when(Auth::check(), function ($query) use ($userId): void {
+                    $query->whereDoesntHave('userVouchers', function ($voucherQuery) use ($userId): void {
+                        $voucherQuery->where('user_id', $userId);
+                    });
+                })
+                ->orderByDesc('discount_value')
+                ->orderByDesc('id')
+                ->limit(8)
+                ->get();
 
-        return view('livewire.user.voucher-offers', [
-            'vouchers' => $vouchers,
-        ]);
+            return view('livewire.user.voucher-offers', [
+                'vouchers' => $vouchers,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('VoucherOffers render error: '.$e->getMessage());
+
+            return view('livewire.user.voucher-offers', [
+                'vouchers' => collect(),
+            ]);
+        }
     }
 
     private function isVoucherAvailable(Voucher $voucher): bool

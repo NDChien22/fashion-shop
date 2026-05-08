@@ -1,6 +1,6 @@
 @include('pages.user.home.components.banner-slider', ['banners' => $banners ?? collect()])
 @include('pages.user.home.components.service-highlights')
-@livewire('user.voucher-offers')
+<livewire:user.voucher-offers :key="'voucher-offers-home-content'" />
 @include('pages.user.home.components.featured-collections', [
     'featuredCollections' => $featuredCollections ?? collect(),
 ])

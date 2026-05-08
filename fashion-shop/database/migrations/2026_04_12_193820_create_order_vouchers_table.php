@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('order_vouchers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('voucher_id');
+            $table->decimal('discount_amount', 12, 2)->default(0);
             $table->timestamps();
         });
     }

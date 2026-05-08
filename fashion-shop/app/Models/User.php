@@ -4,15 +4,16 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -63,4 +64,23 @@ class User extends Authenticatable
         return $this->hasOne(Employees::class, 'user_id');
     }
 
+    public function carts(): HasMany
+    {
+        return $this->hasMany(Cart::class, 'user_id');
+    }
+
+    public function supportConversations(): HasMany
+    {
+        return $this->hasMany(SupportConversation::class, 'user_id');
+    }
+
+    public function supportMessages(): HasMany
+    {
+        return $this->hasMany(SupportMessage::class, 'sender_id');
+    }
+
+    public function orderFeedbacks(): HasMany
+    {
+        return $this->hasMany(OrderFeedback::class, 'user_id');
+    }
 }

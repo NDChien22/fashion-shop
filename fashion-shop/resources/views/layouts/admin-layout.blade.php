@@ -21,9 +21,27 @@
 
     @php
         $authUser = Auth::user();
+        $canDashboard = \App\Support\AdminPermission::canAccess($authUser, 'dashboard');
+        $canProfile = \App\Support\AdminPermission::canAccess($authUser, 'profile');
+        $canProducts = \App\Support\AdminPermission::canAccess($authUser, 'products');
+        $canOrders = \App\Support\AdminPermission::canAccess($authUser, 'orders');
+        $canCustomers = \App\Support\AdminPermission::canAccess($authUser, 'customers');
+        $canRevenue = \App\Support\AdminPermission::canAccess($authUser, 'revenue');
+        $canSupport = \App\Support\AdminPermission::canAccess($authUser, 'support');
+        $canEmployees = \App\Support\AdminPermission::canAccess($authUser, 'employees');
         $displayName = $authUser->full_name ?: $authUser->username;
         $avatarPath = (string) ($authUser->avatar ?? '');
         $userRole = $authUser->role;
+        $adminUnreadSupportCount = $canSupport
+            ? \App\Models\SupportConversation::query()
+                ->whereHas('messages', function ($query): void {
+                    $query->where('sender_role', 'customer')->whereNull('read_at');
+                })
+                ->count()
+            : 0;
+        $adminPendingOrderCount = $canOrders
+            ? \App\Models\Order::query()->where('status', \App\Enums\OrderStatus::PENDING->value)->count()
+            : 0;
 
         if ($avatarPath !== '' && !\Illuminate\Support\Str::startsWith($avatarPath, ['http://', 'https://', '/'])) {
             $avatarPath = '/storage/' . $avatarPath;
@@ -110,99 +128,140 @@
             <nav class="flex-1 px-4 space-y-1">
                 <div class="py-2">
                     <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Chính</p>
-                    <a href="{{ route('admin.admin_dashboard') }}"
-                        class="nav-item group {{ Request::routeIs('admin.admin_dashboard') ? 'active' : '' }}">
-                        <div class="nav-icon-box">
-                            <i class="fa-solid fa-house"></i>
-                        </div>
-                        <span class="font-medium">Tổng quan</span>
-                    </a>
-                </div>
-
-                <div class="py-2">
-                    <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Sản phẩm</p>
-                    <a href="{{ route('admin.product-manager') }}"
-                        class="nav-item group {{ Request::routeIs('admin.product-manager') || Request::routeIs('admin.add-product') || Request::routeIs('admin.edit-product') ? 'active' : '' }}">
-                        <div class="nav-icon-box">
-                            <i class="fa-solid fa-box-archive text-[15px]"></i>
-                        </div>
-                        <span class="font-medium">Danh sách sản phẩm</span>
-                    </a>
-                    <a href="{{ route('admin.product-categories') }}"
-                        class="nav-item group {{ Request::routeIs('admin.product-categories*') ? 'active' : '' }}">
-                        <div class="nav-icon-box">
-                            <i class="fa-solid fa-sitemap text-[15px]"></i>
-                        </div>
-                        <span class="font-medium">Danh mục sản phẩm</span>
-                    </a>
-                    <a href="{{ route('admin.product-collections') }}"
-                        class="nav-item group {{ Request::routeIs('admin.product-collections') || Request::routeIs('admin.create-collection') || Request::routeIs('admin.edit-collection') ? 'active' : '' }}">
-                        <div class="nav-icon-box">
-                            <i class="fa-solid fa-images text-[15px]"></i>
-                        </div>
-                        <span class="font-medium">Bộ sưu tập</span>
-                    </a>
-                    <a href="{{ route('admin.voucher-manager') }}"
-                        class="nav-item group {{ Request::routeIs('admin.voucher-manager') || Request::routeIs('admin.add-voucher') || Request::routeIs('admin.edit-voucher') ? 'active' : '' }}">
-                        <div class="nav-icon-box">
-                            <i class="fa-solid fa-ticket text-[15px]"></i>
-                        </div>
-                        <span class="font-medium">Mã giảm giá</span>
-                    </a>
-                    <a href="{{ route('admin.flash-sale-manager') }}"
-                        class="nav-item group {{ Request::routeIs('admin.flash-sale-manager') || Request::routeIs('admin.add-flash-sale') || Request::routeIs('admin.edit-flash-sale') ? 'active' : '' }}">
-                        <div class="nav-icon-box">
-                            <i class="fa-solid fa-gift text-[15px]"></i>
-                        </div>
-                        <span class="font-medium">Chương trình khuyến mãi</span>
-                    </a>
-                    <a href="{{ route('admin.banner-manager') }}"
-                        class="nav-item group {{ Request::routeIs('admin.banner-manager') || Request::routeIs('admin.add-banner') || Request::routeIs('admin.edit-banner') ? 'active' : '' }}">
-                        <div class="nav-icon-box">
-                            <i class="fa-solid fa-image text-[15px]"></i>
-                        </div>
-                        <span class="font-medium">Quản lý banner</span>
-                    </a>
-                </div>
-
-                <div class="py-2">
-                    <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Kinh doanh</p>
-                    <div data-page="orders" onclick="loadPage('orders')" class="nav-item group justify-between">
-                        <div class="flex items-center gap-3">
+                    @if ($canDashboard)
+                        <a href="{{ route('admin.admin_dashboard') }}"
+                            class="nav-item group {{ Request::routeIs('admin.admin_dashboard') ? 'active' : '' }}">
                             <div class="nav-icon-box">
-                                <i class="fa-solid fa-cart-shopping text-[15px]"></i>
+                                <i class="fa-solid fa-house"></i>
                             </div>
-                            <span class="font-medium">Đơn hàng</span>
-                        </div>
-                        <span
-                            class="bg-red-50 text-red-500 text-[10px] font-bold px-2 py-0.5 rounded-lg border border-red-100">05</span>
-                    </div>
-                    <div data-page="customers" onclick="loadPage('customers')" class="nav-item group">
-                        <div class="nav-icon-box">
-                            <i class="fa-solid fa-user-group text-[15px]"></i>
-                        </div>
-                        <span class="font-medium">Khách hàng</span>
-                    </div>
-                    <div data-page="revenue" onclick="loadPage('revenue')" class="nav-item group">
-                        <div class="nav-icon-box">
-                            <i class="fa-solid fa-chart-pie text-[15px]"></i>
-                        </div>
-                        <span class="font-medium">Doanh thu</span>
-                    </div>
-                    <div data-page="support" onclick="loadPage('support')" class="nav-item group ">
-                        <div class="nav-icon-box">
-                            <i class="fa-solid fa-headset text-[15px]"></i>
-                        </div>
-                        <span class="font-medium">Trợ giúp & Hỗ trợ</span>
-                    </div>
-                    <a href="{{ route('admin.employee-manager') }}"
-                        class="nav-item group {{ Request::routeIs('admin.employee-manager') || Request::routeIs('admin.add-employee') || Request::routeIs('admin.edit-employee') ? 'active' : '' }}">
-                        <div class="nav-icon-box">
-                            <i class="fa-solid fa-user-tie text-[15px]"></i>
-                        </div>
-                        <span class="font-medium">Quản lý nhân sự</span>
-                    </a>
+                            <span class="font-medium">Tổng quan</span>
+                        </a>
+                    @endif
                 </div>
+
+                @if ($canProducts)
+                    <div class="py-2">
+                        <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Sản phẩm</p>
+                        <a href="{{ route('admin.product-manager') }}"
+                            class="nav-item group {{ Request::routeIs('admin.product-manager') || Request::routeIs('admin.add-product') || Request::routeIs('admin.edit-product') ? 'active' : '' }}">
+                            <div class="nav-icon-box">
+                                <i class="fa-solid fa-box-archive text-[15px]"></i>
+                            </div>
+                            <span class="font-medium">Danh sách sản phẩm</span>
+                        </a>
+                        <a href="{{ route('admin.product-categories') }}"
+                            class="nav-item group {{ Request::routeIs('admin.product-categories*') ? 'active' : '' }}">
+                            <div class="nav-icon-box">
+                                <i class="fa-solid fa-sitemap text-[15px]"></i>
+                            </div>
+                            <span class="font-medium">Danh mục sản phẩm</span>
+                        </a>
+                        <a href="{{ route('admin.product-collections') }}"
+                            class="nav-item group {{ Request::routeIs('admin.product-collections') || Request::routeIs('admin.create-collection') || Request::routeIs('admin.edit-collection') ? 'active' : '' }}">
+                            <div class="nav-icon-box">
+                                <i class="fa-solid fa-images text-[15px]"></i>
+                            </div>
+                            <span class="font-medium">Bộ sưu tập</span>
+                        </a>
+                        <a href="{{ route('admin.voucher-manager') }}"
+                            class="nav-item group {{ Request::routeIs('admin.voucher-manager') || Request::routeIs('admin.add-voucher') || Request::routeIs('admin.edit-voucher') ? 'active' : '' }}">
+                            <div class="nav-icon-box">
+                                <i class="fa-solid fa-ticket text-[15px]"></i>
+                            </div>
+                            <span class="font-medium">Mã giảm giá</span>
+                        </a>
+                        <a href="{{ route('admin.flash-sale-manager') }}"
+                            class="nav-item group {{ Request::routeIs('admin.flash-sale-manager') || Request::routeIs('admin.add-flash-sale') || Request::routeIs('admin.edit-flash-sale') ? 'active' : '' }}">
+                            <div class="nav-icon-box">
+                                <i class="fa-solid fa-gift text-[15px]"></i>
+                            </div>
+                            <span class="font-medium">Chương trình khuyến mãi</span>
+                        </a>
+                        <a href="{{ route('admin.banner-manager') }}"
+                            class="nav-item group {{ Request::routeIs('admin.banner-manager') || Request::routeIs('admin.add-banner') || Request::routeIs('admin.edit-banner') ? 'active' : '' }}">
+                            <div class="nav-icon-box">
+                                <i class="fa-solid fa-image text-[15px]"></i>
+                            </div>
+                            <span class="font-medium">Quản lý banner</span>
+                        </a>
+                    </div>
+                @endif
+
+                @if ($canOrders || $canCustomers || $canRevenue || $canSupport || $canEmployees)
+                    <div class="py-2">
+                        <p class="px-4 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">Kinh doanh</p>
+                        @if ($canOrders)
+                            <a href="{{ route('admin.orders') }}"
+                                class="nav-item group justify-between {{ Request::routeIs('admin.orders') || Request::routeIs('admin.orders.update') ? 'active' : '' }}">
+                                <div class="flex items-center gap-3">
+                                    <div class="nav-icon-box">
+                                        <i class="fa-solid fa-cart-shopping text-[15px]"></i>
+                                    </div>
+                                    <span class="font-medium">Đơn hàng</span>
+                                </div>
+                                @if ($adminPendingOrderCount > 0)
+                                    <span
+                                        class="ml-2 inline-flex items-center gap-1 rounded-full bg-red-500 px-2 py-1 text-[10px] font-black text-white leading-none">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
+                                        {{ $adminPendingOrderCount > 99 ? '99+' : $adminPendingOrderCount }}
+                                    </span>
+                                @endif
+                            </a>
+                            <a href="{{ route('admin.feedback-manager') }}"
+                                class="nav-item group {{ Request::routeIs('admin.feedback-manager') ? 'active' : '' }}">
+                                <div class="nav-icon-box">
+                                    <i class="fa-solid fa-comment-dots text-[15px]"></i>
+                                </div>
+                                <span class="font-medium">Feedback đơn hàng</span>
+                            </a>
+                        @endif
+                        @if ($canCustomers)
+                            <a href="{{ route('admin.customers') }}"
+                                class="nav-item group {{ Request::routeIs('admin.customers') ? 'active' : '' }}">
+                                <div class="nav-icon-box">
+                                    <i class="fa-solid fa-user-group text-[15px]"></i>
+                                </div>
+                                <span class="font-medium">Khách hàng</span>
+                            </a>
+                        @endif
+                        @if ($canRevenue)
+                            <a href="{{ route('admin.revenue') }}"
+                                class="nav-item group {{ Request::routeIs('admin.revenue') ? 'active' : '' }}">
+                                <div class="nav-icon-box">
+                                    <i class="fa-solid fa-chart-pie text-[15px]"></i>
+                                </div>
+                                <span class="font-medium">Doanh thu</span>
+                            </a>
+                        @endif
+                        @if ($canSupport)
+                            <a href="{{ route('admin.support') }}"
+                                class="nav-item group justify-between {{ Request::routeIs('admin.support') ? 'active' : '' }}">
+                                <div class="flex items-center gap-3">
+                                    <div class="nav-icon-box">
+                                        <i class="fa-solid fa-headset text-[15px]"></i>
+                                    </div>
+                                    <span class="font-medium">Trợ giúp & Hỗ trợ</span>
+                                </div>
+                                @if ($adminUnreadSupportCount > 0)
+                                    <span
+                                        class="ml-2 inline-flex items-center gap-1 rounded-full bg-red-500 px-2 py-1 text-[10px] font-black text-white leading-none">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
+                                        {{ $adminUnreadSupportCount > 99 ? '99+' : $adminUnreadSupportCount }}
+                                    </span>
+                                @endif
+                            </a>
+                        @endif
+                        @if ($canEmployees)
+                            <a href="{{ route('admin.employee-manager') }}"
+                                class="nav-item group {{ Request::routeIs('admin.employee-manager') || Request::routeIs('admin.add-employee') || Request::routeIs('admin.edit-employee') ? 'active' : '' }}">
+                                <div class="nav-icon-box">
+                                    <i class="fa-solid fa-user-tie text-[15px]"></i>
+                                </div>
+                                <span class="font-medium">Quản lý nhân sự</span>
+                            </a>
+                        @endif
+                    </div>
+                @endif
             </nav>
         </aside>
 

@@ -1,79 +1,108 @@
 @php
-    $formatDiscount = function ($voucher) {
+    $isHomePage = request()->routeIs('dashboard') || request()->routeIs('user.home');
+
+    $voucherScope = function ($voucher) {
+        if (!empty($voucher->category_id) && !empty($voucher->categoryDetail?->name)) {
+            return 'Danh mục: ' . $voucher->categoryDetail->name;
+        }
+
+        $minimum = (float) ($voucher->min_order_value ?? 0);
+
+        if ($minimum > 0) {
+            return 'Đơn từ ' . number_format($minimum, 0, ',', '.') . 'đ';
+        }
+
+        return 'Tất cả sản phẩm';
+    };
+
+    $voucherDiscount = function ($voucher) {
         if ($voucher->discount_type === 'percent') {
-            return 'Giam ' . rtrim(rtrim(number_format((float) $voucher->discount_value, 2, '.', ''), '0'), '.') . '%';
+            return 'GIẢM ' . rtrim(rtrim(number_format((float) $voucher->discount_value, 2, '.', ''), '0'), '.') . '%';
         }
 
         if ($voucher->discount_type === 'shipping') {
-            return 'Giam phi van chuyen';
+            return 'FREESHIP';
         }
 
-        return 'Giam ' . number_format((float) $voucher->discount_value, 0, ',', '.') . 'd';
+        return 'GIẢM ' . number_format((float) $voucher->discount_value, 0, ',', '.') . 'đ';
     };
 @endphp
 
-<div class="max-w-7xl mx-auto px-4 py-6">
-    <div class="mb-3">
-        <h3 class="text-sm md:text-base font-black uppercase tracking-[0.2em] text-gray-800">Ưu đãi voucher</h3>
-        <p class="mt-1 text-xs text-gray-500">Lưu voucher ngay nếu bạn đã đăng nhập.</p>
-    </div>
-
+<div>
     @if ($vouchers->isNotEmpty())
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-            @foreach ($vouchers as $voucher)
-                @php
-                    $isSaved = auth()->check() && in_array((int) $voucher->id, $savedVoucherIds, true);
-                @endphp
-                <div class="relative overflow-hidden rounded-2xl border border-red-100 bg-white p-4 shadow-sm">
-                    <div class="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-bold">Mã voucher</div>
-                    <div class="mt-1 text-lg font-black text-red-500">{{ $voucher->code }}</div>
-
-                    <div class="mt-2 text-sm font-semibold text-gray-800">{{ $formatDiscount($voucher) }}</div>
-                    <div class="mt-1 text-xs text-gray-500">
-                        Đơn tối thiểu {{ number_format((float) $voucher->min_order_value, 0, ',', '.') }}d
-                    </div>
-
-                    @if (!is_null($voucher->max_discount) && $voucher->discount_type === 'percent')
-                        <div class="mt-1 text-xs text-gray-500">
-                            Giảm tối đa {{ number_format((float) $voucher->max_discount, 0, ',', '.') }}d
-                        </div>
-                    @endif
-
-                    <div
-                        class="mt-3 inline-flex items-center rounded-full bg-red-50 px-3 py-1 text-[11px] font-bold text-red-500">
-                        HSD: {{ \Illuminate\Support\Carbon::parse($voucher->end_date)->format('d/m/Y') }}
-                    </div>
-
-                    <div class="mt-4">
-                        @auth
-                            @if ($isSaved)
-                                <button type="button"
-                                    class="w-full py-2 rounded-xl bg-emerald-50 text-emerald-600 text-sm font-bold cursor-default">
-                                    Đã lưu vào ví voucher
-                                </button>
-                            @else
-                                <button type="button" wire:click="saveVoucher({{ $voucher->id }})"
-                                    wire:loading.attr="disabled"
-                                    class="w-full py-2 rounded-xl bg-[#bc9c75] text-white text-sm font-bold hover:brightness-110 transition disabled:opacity-70">
-                                    <span wire:loading.remove wire:target="saveVoucher({{ $voucher->id }})">Lưu vào tài
-                                        khoản</span>
-                                    <span wire:loading wire:target="saveVoucher({{ $voucher->id }})">Đang lưu...</span>
-                                </button>
-                            @endif
-                        @else
-                            <button type="button" wire:click="copyVoucherCode('{{ $voucher->code }}')"
-                                class="w-full py-2 rounded-xl bg-gray-900 text-white text-sm font-bold hover:bg-black transition">
-                                Sao chép mã voucher
-                            </button>
-                        @endauth
-                    </div>
+        <section class="{{ $isHomePage ? 'max-w-7xl mx-auto px-4 py-8' : 'px-0 sm:px-2 mb-2' }}">
+            <div class="flex items-end justify-between mb-4 md:mb-5">
+                <div>
+                    <h3 class="text-sm md:text-base font-black uppercase tracking-[0.18em] text-gray-900">Ưu đãi voucher
+                    </h3>
+                    <p class="mt-1 text-xs text-gray-500">Lưu nhanh voucher để áp dụng khi thanh toán.</p>
                 </div>
-            @endforeach
-        </div>
-    @else
-        <div class="rounded-2xl border border-dashed border-gray-200 bg-white px-6 py-10 text-center">
-            <p class="text-sm font-semibold text-gray-600">Không tìm thấy voucher phù hợp.</p>
-            <p class="mt-1 text-xs text-gray-400">Thử đổi từ khóa tìm kiếm khác.</p>
-        </div>
+
+                @if ($isHomePage)
+                    <a href="{{ route('user.vouchers') }}"
+                        class="text-xs md:text-sm font-semibold text-[#bc9c75] hover:text-[#9d7a4a] transition-colors">
+                        Xem ví voucher
+                    </a>
+                @endif
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                @foreach ($vouchers as $voucher)
+                    @php
+                        $isSaved = auth()->check() && in_array((int) $voucher->id, $savedVoucherIds, true);
+                    @endphp
+
+                    <article
+                        class="relative overflow-hidden rounded-2xl border border-[#f1e1d0] bg-linear-to-br from-white to-[#fffaf4] p-4 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                        <div class="absolute -right-9 -top-9 h-24 w-24 rounded-full bg-[#ffe5cc]/60 blur-xl"></div>
+
+                        <div class="relative">
+                            <div class="text-[10px] font-bold uppercase tracking-[0.14em] text-[#5f89c9] truncate">
+                                {{ $voucherScope($voucher) }}
+                            </div>
+
+                            <h4 class="mt-1 text-red-500 font-black text-base md:text-lg uppercase leading-tight">
+                                {{ $voucherDiscount($voucher) }}
+                            </h4>
+
+                            <div class="mt-2 flex items-center justify-between gap-3">
+                                <span class="text-[11px] md:text-xs text-gray-400">HSD:
+                                    {{ \Illuminate\Support\Carbon::parse($voucher->end_date)->format('d/m/Y') }}</span>
+                                <span
+                                    class="inline-flex items-center rounded-full bg-white border border-[#f2e4d4] px-2.5 py-1 text-[10px] font-bold tracking-wide text-gray-600">
+                                    {{ $voucher->code }}
+                                </span>
+                            </div>
+
+                            <div class="mt-4">
+                                @auth
+                                    @if ($isSaved)
+                                        <button type="button"
+                                            class="w-full h-9 rounded-xl bg-emerald-500/90 text-white text-[11px] font-bold uppercase tracking-wide cursor-default">
+                                            Đã lưu
+                                        </button>
+                                    @else
+                                        <button type="button" wire:click="saveVoucher({{ $voucher->id }})"
+                                            wire:loading.attr="disabled" wire:target="saveVoucher({{ $voucher->id }})"
+                                            class="w-full h-9 rounded-xl bg-[#ff4d4f] text-white text-[11px] font-bold uppercase tracking-wide transition-all duration-200 hover:brightness-105 active:scale-[0.98] disabled:opacity-70">
+                                            <span wire:loading.remove wire:target="saveVoucher({{ $voucher->id }})">Lấy
+                                                mã</span>
+                                            <span wire:loading wire:target="saveVoucher({{ $voucher->id }})">Đang
+                                                lưu...</span>
+                                        </button>
+                                    @endif
+                                @else
+                                    <button type="button"
+                                        onclick="window.dispatchEvent(new CustomEvent('copy-voucher-code', { detail: { code: {{ Illuminate\Support\Js::from($voucher->code) }} } }))"
+                                        class="w-full h-9 rounded-xl bg-[#ff4d4f] text-white text-[11px] font-bold uppercase tracking-wide transition-all duration-200 hover:brightness-105 active:scale-[0.98]">
+                                        Lấy mã
+                                    </button>
+                                @endauth
+                            </div>
+                        </div>
+                    </article>
+                @endforeach
+            </div>
+        </section>
     @endif
 </div>

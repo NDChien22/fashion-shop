@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ProductSkus extends Model
 {
@@ -19,8 +21,13 @@ class ProductSkus extends Model
         'stock',
     ];
 
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Products::class, 'product_id');
+    }
+
+    public function carts(): HasMany
+    {
+        return $this->hasMany(Cart::class, 'product_sku_id');
     }
 }

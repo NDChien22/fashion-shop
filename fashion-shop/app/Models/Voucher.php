@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Voucher extends Model
 {
@@ -21,7 +22,7 @@ class Voucher extends Model
         'used_count',
         'start_date',
         'end_date',
-        'is_active'
+        'is_active',
     ];
 
     public function categoryDetail(): BelongsTo
@@ -37,5 +38,10 @@ class Voucher extends Model
     public function productDetail(): BelongsTo
     {
         return $this->belongsTo(Products::class, 'product_id');
+    }
+
+    public function userVouchers(): HasMany
+    {
+        return $this->hasMany(UserVoucher::class, 'voucher_id');
     }
 }

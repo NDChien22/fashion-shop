@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EmployeeWelcomeEmail;
 use App\Models\Employees;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Throwable;
 
 class EmployeeController extends Controller
 {
@@ -23,7 +27,6 @@ class EmployeeController extends Controller
     {
         return view('pages.admin.employee-manager.employee-manager');
     }
-
 
     // Thêm nhân viên
     public function addEmployeeView()
@@ -43,8 +46,10 @@ class EmployeeController extends Controller
         $birthday = $this->normalizeDmyDate($validated['birthday'] ?? null);
         $hireDate = $this->normalizeDmyDate($validated['hire_date'] ?? null);
         $generatedPassword = $this->generatePassword($validated['full_name'], $birthday);
+        $createdUser = null;
+        $createdEmployeeCode = null;
 
-        DB::transaction(function () use ($validated, $role, $generatedUsername, $generatedPassword, $birthday, $hireDate): void {
+        DB::transaction(function () use ($validated, $role, $generatedUsername, $generatedPassword, $birthday, $hireDate, &$createdUser, &$createdEmployeeCode): void {
             $employeeCode = $this->generateEmployeeCode($role);
 
             $user = User::create([
@@ -65,11 +70,35 @@ class EmployeeController extends Controller
                 'salary' => $validated['salary'] ?: null,
                 'hire_date' => $hireDate,
             ]);
+
+            $createdUser = $user;
+            $createdEmployeeCode = $employeeCode;
         });
+
+        $mailSent = false;
+
+        if ($createdUser) {
+            try {
+                Mail::to($createdUser->email)->send(new EmployeeWelcomeEmail(
+                    employeeName: (string) ($createdUser->full_name ?: $createdUser->username ?: 'Nhân viên'),
+                    employeeCode: (string) $createdEmployeeCode,
+                    username: $generatedUsername,
+                    password: $generatedPassword,
+                    roleLabel: $this->roleLabel($role),
+                    loginUrl: route('login'),
+                ));
+
+                $mailSent = true;
+            } catch (Throwable $exception) {
+                report($exception);
+            }
+        }
 
         return redirect()
             ->route('admin.employee-manager')
-            ->with('success', 'Thêm nhân viên thành công.');
+            ->with('success', $mailSent
+                ? 'Thêm nhân viên thành công. Thông tin tài khoản đã được gửi qua email.'
+                : 'Thêm nhân viên thành công. Không thể gửi email thông tin tài khoản, vui lòng gửi thủ công.');
     }
 
     public function editEmployeeView(Employees $employee)
@@ -205,7 +234,7 @@ class EmployeeController extends Controller
         $prefix = self::ROLE_PREFIXES[$this->normalizeRole($role)] ?? 'NV';
 
         do {
-            $code = $prefix . now()->format('ymd') . Str::upper(Str::random(4));
+            $code = $prefix.now()->format('ymd').Str::upper(Str::random(4));
         } while (Employees::query()->where('employee_code', $code)->exists());
 
         return $code;
@@ -221,10 +250,20 @@ class EmployeeController extends Controller
         };
     }
 
+    protected function roleLabel(string $role): string
+    {
+        return match ($this->normalizeRole($role)) {
+            'admin' => 'Quản trị viên',
+            'productmanager' => 'Quản lý sản phẩm',
+            'servicescustomer' => 'Chăm sóc khách hàng',
+            default => 'Nhân viên',
+        };
+    }
+
     protected function generateUsername(string $role, string $fullName): string
     {
         $normalizedRole = $this->normalizeRole($role);
-        
+
         // Get role abbreviation (3-4 characters)
         $roleAbbr = match ($normalizedRole) {
             'admin' => 'adm',
@@ -257,13 +296,13 @@ class EmployeeController extends Controller
         $lastName = $this->removeAccents($lastName);
 
         // Create base username
-        $baseUsername = $roleAbbr . $nameInitials . $lastName;
+        $baseUsername = $roleAbbr.$nameInitials.$lastName;
 
         // Check for uniqueness and append number if needed
         $username = $baseUsername;
         $counter = 1;
         while (User::query()->where('username', $username)->exists()) {
-            $username = $baseUsername . $counter;
+            $username = $baseUsername.$counter;
             $counter++;
         }
 
@@ -285,13 +324,13 @@ class EmployeeController extends Controller
 
         // Get date in ddmmyy format
         if ($birthday && $birthday !== '') {
-            $date = \Carbon\Carbon::createFromFormat('Y-m-d', $birthday);
+            $date = Carbon::createFromFormat('Y-m-d', $birthday);
             $dateStr = $date->format('dmy');
         } else {
             $dateStr = date('dmy');
         }
 
-        return $initials . $dateStr;
+        return $initials.$dateStr;
     }
 
     protected function normalizeDmyDate(?string $date): ?string
@@ -306,7 +345,7 @@ class EmployeeController extends Controller
             return null;
         }
 
-        $carbonDate = \Carbon\Carbon::createFromFormat('dmY', $normalized);
+        $carbonDate = Carbon::createFromFormat('dmY', $normalized);
 
         return $carbonDate->format('Y-m-d');
     }
@@ -318,6 +357,7 @@ class EmployeeController extends Controller
             $str = normalizer_normalize($str, \Normalizer::NFD);
             $str = preg_replace('/[\p{Mn}]/u', '', $str);
         }
+
         return $str;
     }
 }

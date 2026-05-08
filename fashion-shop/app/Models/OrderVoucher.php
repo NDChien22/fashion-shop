@@ -8,7 +8,7 @@ class OrderVoucher extends Model
 {
     protected $fillable = [
         'order_id',
-        'voucher_code',
+        'voucher_id',
         'discount_amount',
     ];
 

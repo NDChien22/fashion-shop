@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories;
 use App\Models\Collections;
-use App\Models\ProductSkus;
 use App\Models\Products;
+use App\Models\ProductSkus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -15,7 +15,13 @@ use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
-    public function addProductForm(){
+    public function listing()
+    {
+        return view('pages.user.product.index');
+    }
+
+    public function addProductForm()
+    {
         $categories = Categories::query()
             ->where('is_active', 1)
             ->orderBy('name')
@@ -90,7 +96,8 @@ class ProductController extends Controller
             ->with('success', $isParent ? 'Thêm parent_cate thành công.' : 'Thêm cate thành công.');
     }
 
-    public function editProductForm(Products $product){
+    public function editProductForm(Products $product)
+    {
         $product->load(['skus:id,product_id,size,color,stock']);
         $redirectTo = url()->previous();
 
@@ -159,7 +166,7 @@ class ProductController extends Controller
             ->values();
 
         $duplicateVariant = $normalizedVariants
-            ->groupBy(fn (array $variant) => Str::lower($variant['size']) . '|' . Str::lower($variant['color']))
+            ->groupBy(fn (array $variant) => Str::lower($variant['size']).'|'.Str::lower($variant['color']))
             ->first(fn ($group) => $group->count() > 1);
 
         if ($duplicateVariant) {
@@ -172,7 +179,7 @@ class ProductController extends Controller
         if ($request->hasFile('main_image')) {
             $this->deletePublicStorageFile($product->main_image_url);
             $mainImagePath = $request->file('main_image')->store('products/main', 'public');
-            $mainImageUrl = 'storage/' . $mainImagePath;
+            $mainImageUrl = 'storage/'.$mainImagePath;
         }
 
         $existingGallery = is_array($product->gallery_image_urls) ? $product->gallery_image_urls : [];
@@ -198,7 +205,7 @@ class ProductController extends Controller
 
             foreach ($request->file('gallery_images') as $image) {
                 $path = $image->store('products/gallery', 'public');
-                $galleryImageUrls[] = 'storage/' . $path;
+                $galleryImageUrls[] = 'storage/'.$path;
             }
         }
 
@@ -264,7 +271,8 @@ class ProductController extends Controller
         }
     }
 
-    public function addProductHandler(Request $request){
+    public function addProductHandler(Request $request)
+    {
         $validated = $request->validate([
             'product_code' => 'required|string|max:50|unique:products,product_code',
             'name' => 'required|string|max:255',
@@ -302,7 +310,7 @@ class ProductController extends Controller
             ->values();
 
         $duplicateVariant = $normalizedVariants
-            ->groupBy(fn (array $variant) => Str::lower($variant['size']) . '|' . Str::lower($variant['color']))
+            ->groupBy(fn (array $variant) => Str::lower($variant['size']).'|'.Str::lower($variant['color']))
             ->first(fn ($group) => $group->count() > 1);
 
         if ($duplicateVariant) {
@@ -314,14 +322,14 @@ class ProductController extends Controller
         $mainImageUrl = null;
         if ($request->hasFile('main_image')) {
             $mainImagePath = $request->file('main_image')->store('products/main', 'public');
-            $mainImageUrl = 'storage/' . $mainImagePath;
+            $mainImageUrl = 'storage/'.$mainImagePath;
         }
 
         $galleryImageUrls = [];
         if ($request->hasFile('gallery_images')) {
             foreach ($request->file('gallery_images') as $image) {
                 $path = $image->store('products/gallery', 'public');
-                $galleryImageUrls[] = 'storage/' . $path;
+                $galleryImageUrls[] = 'storage/'.$path;
             }
         }
 
@@ -359,7 +367,7 @@ class ProductController extends Controller
     private function generateUniqueSku(int $productId): string
     {
         do {
-            $sku = 'PRD-' . $productId . '-' . Str::upper(Str::random(6));
+            $sku = 'PRD-'.$productId.'-'.Str::upper(Str::random(6));
         } while (ProductSkus::query()->where('sku', $sku)->exists());
 
         return $sku;

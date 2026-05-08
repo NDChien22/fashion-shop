@@ -6,49 +6,50 @@ use App\Mail\ForgotResetPasswordEmail;
 use App\Models\CustomerMembershipLevel;
 use App\Models\MembershipLevel;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Laravel\Socialite\Facades\Socialite;
 use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-    //Login
-    public function loginHandler(Request $request){
+    // Login
+    public function loginHandler(Request $request)
+    {
         $filedType = filter_var($request->login_id, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        if($filedType == 'email'){
+        if ($filedType == 'email') {
             $request->validate([
                 'login_id' => 'required|email|exists:users,email',
-                'password' => 'required|min:5'
-            ],[
+                'password' => 'required|min:5',
+            ], [
                 'login_id.required' => 'Vui lòng nhập email hoặc username',
                 'login_id.email' => 'Địa chỉ email không hợp lệ',
                 'login_id.exists' => 'Tài khoản không tồn tại',
                 'password.required' => 'Vui lòng nhập mật khẩu',
             ]);
-        }else{
+        } else {
             $request->validate([
                 'login_id' => 'required|exists:users,username',
-                'password' => 'required|min:5'
-            ],[
+                'password' => 'required|min:5',
+            ], [
                 'login_id.required' => 'Vui lòng nhập email hoặc username',
                 'login_id.exists' => 'Tài khoản không tồn tại',
                 'password.required' => 'Vui lòng nhập mật khẩu',
             ]);
         }
 
-        $creds = array(
+        $creds = [
             $filedType => $request->login_id,
-            'password' => $request->password
-        );
+            'password' => $request->password,
+        ];
 
-        if(Auth::attempt($creds)){
+        if (Auth::attempt($creds)) {
             $request->session()->regenerate();
 
             return $this->redirectAfterLogin(Auth::user());
@@ -57,15 +58,16 @@ class AuthController extends Controller
         }
     }
 
-    //Register
-    public function registerHandler(Request $request){
+    // Register
+    public function registerHandler(Request $request)
+    {
         // Validate data
         $request->validate([
             'username' => 'required|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:5|confirmed',
             'password_confirmation' => 'required',
-        ],[
+        ], [
             'username.required' => 'Vui lòng nhập tên đăng nhập',
             'username.unique' => 'Tên đăng nhập đã tồn tại',
             'email.required' => 'Vui lòng nhập email',
@@ -79,7 +81,7 @@ class AuthController extends Controller
 
         // Tạo người dùng và cấp mã khách hàng trong cùng transaction
         DB::transaction(function () use ($request) {
-            $user = new User();
+            $user = new User;
             $user->username = $request->username;
             $user->email = $request->email;
             $user->password = Hash::make($request->password);
@@ -88,21 +90,28 @@ class AuthController extends Controller
             $this->createDefaultMembershipForUser($user);
         });
 
-        // Redirect về trang đăng nhập 
+        // Redirect về trang đăng nhập
         return redirect()->route('login')->with('toast', 'Đăng ký tài khoản thành công!');
     }
 
-    //Logout
-    public function logoutHandler(Request $request){
+    // Logout
+    public function logoutHandler(Request $request)
+    {
         Auth::logout();
+
+        // Regenerate session with new ID (important for Livewire)
+        $request->session()->regenerate();
         $request->session()->invalidate();
+
+        // Regenerate CSRF token for security
         $request->session()->regenerateToken();
 
         return redirect()->route('dashboard');
     }
 
-    //login with Google
-    public function redirectToGoogle(){
+    // login with Google
+    public function redirectToGoogle()
+    {
         try {
             return Socialite::driver('google')->redirect();
         } catch (\Exception $e) {
@@ -111,30 +120,32 @@ class AuthController extends Controller
         }
     }
 
-    public function handleGoogleCallback(){
-        try{
+    public function handleGoogleCallback()
+    {
+        try {
             // Smart SSL verification based on environment
             $verifySSL = app()->isLocal() ? false : (env('CURL_CA_BUNDLE') ?: true);
-            
+
             $client = new Client([
                 'verify' => $verifySSL,
             ]);
-            
+
             $googleUser = Socialite::driver('google')
                 ->setHttpClient($client)
                 ->stateless()
                 ->user();
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->route('login')
-                ->withErrors(['google' => 'Google authentication failed: ' . $e->getMessage()]);
+                ->withErrors(['google' => 'Google authentication failed: '.$e->getMessage()]);
         }
 
         $user = User::where('email', $googleUser->email)->first();
 
-        if($user){
+        if ($user) {
             Auth::login($user);
+
             return $this->redirectAfterLogin($user);
-        }else{
+        } else {
             $user = DB::transaction(function () use ($googleUser) {
                 $newUser = User::create([
                     'username' => $googleUser->name,
@@ -148,6 +159,7 @@ class AuthController extends Controller
             });
 
             Auth::login($user);
+
             return $this->redirectAfterLogin($user)->with('toast', 'Đăng nhập thành công với Google!');
         }
     }
@@ -158,7 +170,7 @@ class AuthController extends Controller
             ['name' => 'Thành viên mới'],
             [
                 'min_points' => 0,
-                'point_conversion_rate' => 1,
+                'point_conversion_rate' => 0,
                 'discount_rate' => 0,
             ]
         );
@@ -174,7 +186,7 @@ class AuthController extends Controller
     protected function generateUniqueCustomerCode(): string
     {
         do {
-            $customerCode = 'KH' . now()->format('ymd') . strtoupper(Str::random(4));
+            $customerCode = 'KH'.now()->format('ymd').strtoupper(Str::random(4));
         } while (CustomerMembershipLevel::where('customer_code', $customerCode)->exists());
 
         return $customerCode;
@@ -192,31 +204,32 @@ class AuthController extends Controller
     }
 
     // Quên mật khẩu
-    public function sendPasswordResetEmail(Request $request){
+    public function sendPasswordResetEmail(Request $request)
+    {
         $request->validate([
             'email' => 'required|email|exists:users,email',
-        ],[
+        ], [
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Địa chỉ email không hợp lệ',
             'email.exists' => 'Email không tồn tại',
         ]);
 
         $user = User::where('email', $request->email)->first();
-        if(!$user){
+        if (! $user) {
             return redirect()->route('forgot_password')->with('error', 'Email không tồn tại');
         }
 
-        //Gửi email reset password và tạo token
-        //Xóa token cũ
+        // Gửi email reset password và tạo token
+        // Xóa token cũ
         DB::table('password_reset_tokens')
             ->where('email', $request->email)
             ->delete();
 
-        //Tạo token mới
+        // Tạo token mới
         $token = Str::random(64);
         $resetUrl = route('password_reset', ['token' => $token, 'email' => $user->email]);
 
-        //Lưu token vào DB
+        // Lưu token vào DB
         DB::table('password_reset_tokens')->insert([
             'email' => $user->email,
             'token' => $token,
@@ -234,18 +247,19 @@ class AuthController extends Controller
         }
     }
 
-    public function resetPasswordForm(Request $request, $token){
+    public function resetPasswordForm(Request $request, $token)
+    {
         $email = $request->email;
 
-        //Kiểm tra token hợp lệ và chưa hết hạn
+        // Kiểm tra token hợp lệ và chưa hết hạn
         $passwordReset = DB::table('password_reset_tokens')
-                        ->where('email', $email)
-                        ->where('token', $token)
-                        ->first();
+            ->where('email', $email)
+            ->where('token', $token)
+            ->first();
 
-        if(!$passwordReset || now()->greaterThan(
+        if (! $passwordReset || now()->greaterThan(
             Carbon::parse($passwordReset->created_at)->addMinutes(15)
-        )){
+        )) {
             return redirect()->route('forgot_password')->with('error', 'Liên kết đặt lại mật khẩu đã hết hạn. Vui lòng yêu cầu lại.');
         }
 
@@ -258,13 +272,14 @@ class AuthController extends Controller
     }
 
     // Xử lý đặt lại mật khẩu
-    public function resetPasswordHandler(Request $request){
+    public function resetPasswordHandler(Request $request)
+    {
         $request->validate([
             'token' => 'required',
             'email' => 'required|email|exists:users,email',
             'password' => 'required|min:5|confirmed',
             'password_confirmation' => 'required',
-        ],[
+        ], [
             'password.required' => 'Vui lòng nhập mật khẩu mới',
             'password.min' => 'Mật khẩu phải có ít nhất 5 ký tự',
             'password.confirmed' => 'Mật khẩu xác nhận không khớp',
@@ -276,7 +291,7 @@ class AuthController extends Controller
             ->where('token', $request->token)
             ->first();
 
-        if (!$passwordReset || now()->greaterThan(
+        if (! $passwordReset || now()->greaterThan(
             Carbon::parse($passwordReset->created_at)->addMinutes(15)
         )) {
             return redirect()->route('forgot_password')->with('error', 'Liên kết đặt lại mật khẩu đã hết hạn. Vui lòng yêu cầu lại.');

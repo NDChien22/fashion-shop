@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Products extends Model
 {
@@ -33,11 +33,11 @@ class Products extends Model
 
     public function sluggable(): array
     {
-        return 
+        return
         [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 
@@ -54,5 +54,10 @@ class Products extends Model
     public function skus(): HasMany
     {
         return $this->hasMany(ProductSkus::class, 'product_id');
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(OrderFeedback::class, 'product_id');
     }
 }

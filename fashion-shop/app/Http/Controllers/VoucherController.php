@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\VoucherStatus;
 use App\Models\Categories;
 use App\Models\Collections;
 use App\Models\Products;
@@ -18,6 +19,7 @@ class VoucherController extends Controller
         $userVouchers = UserVoucher::query()
             ->with(['voucher'])
             ->where('user_id', $request->user()->id)
+            ->where('status', VoucherStatus::UNUSED->value)
             ->orderByDesc('collected_at')
             ->orderByDesc('id')
             ->get();
@@ -29,11 +31,11 @@ class VoucherController extends Controller
 
     public function collectVoucherForUser(Request $request, Voucher $voucher)
     {
-        if (!$voucher->is_active || now()->lt($voucher->start_date) || now()->gt($voucher->end_date)) {
+        if (! $voucher->is_active || now()->lt($voucher->start_date) || now()->gt($voucher->end_date)) {
             return back()->with('error', 'Voucher hiện không khả dụng.');
         }
 
-        if (!is_null($voucher->usage_limit) && (int) $voucher->used_count >= (int) $voucher->usage_limit) {
+        if (! is_null($voucher->usage_limit) && (int) $voucher->used_count >= (int) $voucher->usage_limit) {
             return back()->with('error', 'Voucher đã hết lượt sử dụng.');
         }
 
@@ -49,7 +51,7 @@ class VoucherController extends Controller
         UserVoucher::query()->create([
             'user_id' => $request->user()->id,
             'voucher_id' => $voucher->id,
-            'status' => 'unused',
+            'status' => VoucherStatus::UNUSED->value,
             'collected_at' => now(),
         ]);
 
@@ -58,15 +60,15 @@ class VoucherController extends Controller
 
     public function copyVoucherForGuest(Voucher $voucher)
     {
-        if (!$voucher->is_active || now()->lt($voucher->start_date) || now()->gt($voucher->end_date)) {
+        if (! $voucher->is_active || now()->lt($voucher->start_date) || now()->gt($voucher->end_date)) {
             return back()->with('error', 'Voucher hiện không khả dụng.');
         }
 
-        if (!is_null($voucher->usage_limit) && (int) $voucher->used_count >= (int) $voucher->usage_limit) {
+        if (! is_null($voucher->usage_limit) && (int) $voucher->used_count >= (int) $voucher->usage_limit) {
             return back()->with('error', 'Voucher đã hết lượt sử dụng.');
         }
 
-        return back()->with('success', 'Mã voucher của bạn: ' . $voucher->code);
+        return back()->with('success', 'Mã voucher của bạn: '.$voucher->code);
     }
 
     public function VoucherManagerView()

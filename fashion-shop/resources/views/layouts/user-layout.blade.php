@@ -18,10 +18,21 @@
 
     <x-toast :message="session('toast')" :success="session('success')" :error="session('error')" />
 
-    @yield('content')
+    @include('pages.user.components.header')
+
+    <main id="content-area" class="pt-36 md:pt-40 px-0">
+        {{ $slot ?? null }}
+        @yield('content')
+    </main>
+
+    <livewire:user.sku-picker-modal />
 
     <script src="/extra-assets/js/main.js"></script>
     <script src="/extra-assets/js/banner-carousel.js"></script>
+
+    @include('pages.user.components.support-widget')
+    @include('pages.user.components.footer')
+
     @livewireScripts
     @stack('scripts')
 </body>

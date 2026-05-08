@@ -9,9 +9,33 @@ use Illuminate\Support\Facades\Storage;
 
 class CollectionController extends Controller
 {
+    public function index()
+    {
+        $collections = Collections::where('is_active', 1)
+            ->withCount('products')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('pages.user.collections.index', [
+            'collections' => $collections,
+        ]);
+    }
+
+    public function listing(Collections $collection)
+    {
+        if (! $collection->is_active) {
+            abort(404);
+        }
+
+        return view('pages.user.collection.index', [
+            'collection' => $collection,
+        ]);
+    }
+
     public function showCollectionManager()
     {
         $collections = Collections::withCount('products')->orderBy('created_at', 'desc')->get();
+
         return view('pages.admin.collection-manager.collection-manager', compact('collections'));
     }
 
@@ -29,7 +53,7 @@ class CollectionController extends Controller
             'is_active' => 'nullable|boolean',
         ]);
 
-        $collection = new Collections();
+        $collection = new Collections;
         $collection->name = $validated['name'];
         $collection->description = $validated['description'] ?? null;
         $collection->is_active = $request->has('is_active') ? 1 : 0;
@@ -56,16 +80,16 @@ class CollectionController extends Controller
             ])
             ->withCount('skus')
             ->paginate(10);
-        
+
         // Get products not in this collection
-        $availableProducts = Products::where(function($query) use ($collection) {
+        $availableProducts = Products::where(function ($query) use ($collection) {
             $query->whereNull('collection_id')
-                  ->orWhere('collection_id', '!=', $collection->id);
+                ->orWhere('collection_id', '!=', $collection->id);
         })
-        ->where('is_active', 1)
-        ->orderBy('name')
-        ->get();
-        
+            ->where('is_active', 1)
+            ->orderBy('name')
+            ->get();
+
         return view('pages.admin.collection-manager.collection-detail', compact('collection', 'products', 'availableProducts'));
     }
 
@@ -90,10 +114,10 @@ class CollectionController extends Controller
         // Handle file upload
         if ($request->hasFile('thumbnail')) {
             // Delete old file if exists
-            if ($collection->thumbnail_url && Storage::exists('public/' . $collection->thumbnail_url)) {
-                Storage::delete('public/' . $collection->thumbnail_url);
+            if ($collection->thumbnail_url && Storage::exists('public/'.$collection->thumbnail_url)) {
+                Storage::delete('public/'.$collection->thumbnail_url);
             }
-            
+
             $file = $request->file('thumbnail');
             $path = $file->store('collections', 'public');
             $collection->thumbnail_url = $path;
@@ -107,8 +131,8 @@ class CollectionController extends Controller
     public function deleteCollectionHandler(Collections $collection)
     {
         // Delete thumbnail if exists
-        if ($collection->thumbnail_url && Storage::exists('public/' . $collection->thumbnail_url)) {
-            Storage::delete('public/' . $collection->thumbnail_url);
+        if ($collection->thumbnail_url && Storage::exists('public/'.$collection->thumbnail_url)) {
+            Storage::delete('public/'.$collection->thumbnail_url);
         }
 
         $collection->delete();
@@ -145,16 +169,15 @@ class CollectionController extends Controller
 
     public function getProductsNotInCollection($collectionId)
     {
-        $products = Products::where(function($query) use ($collectionId) {
+        $products = Products::where(function ($query) use ($collectionId) {
             $query->whereNull('collection_id')
-                  ->orWhere('collection_id', '!=', $collectionId);
+                ->orWhere('collection_id', '!=', $collectionId);
         })
-        ->where('is_active', 1)
-        ->select('id', 'name', 'product_code')
-        ->orderBy('name')
-        ->get();
+            ->where('is_active', 1)
+            ->select('id', 'name', 'product_code')
+            ->orderBy('name')
+            ->get();
 
         return response()->json($products);
     }
 }
-

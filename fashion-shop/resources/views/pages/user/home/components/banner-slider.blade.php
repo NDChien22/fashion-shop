@@ -17,9 +17,7 @@
                         @php
                             $bannerLink = method_exists($banner, 'targetUrl')
                                 ? $banner->targetUrl()
-                                : (($banner->banner_type ?? 'category') === 'collection'
-                                    ? route('user.collection')
-                                    : route('user.product'));
+                                : route('user.product');
                         @endphp
                         <a href="{{ $bannerLink }}" class="block">
                             <img src="{{ $resolveBannerImage($banner->image_url) }}" alt="{{ $banner->title }}"

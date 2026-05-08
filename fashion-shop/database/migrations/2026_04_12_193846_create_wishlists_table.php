@@ -11,11 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wishlists', function (Blueprint $table) {
+        Schema::create('whistlists', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->unsigned();
-            $table->integer('product_id')->unsigned();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('session_id', 100)->nullable();
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
+
+            $table->unique(['user_id', 'product_id']);
+            $table->unique(['session_id', 'product_id']);
+            $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();
+            $table->foreign('product_id')->references('id')->on('products')->cascadeOnDelete();
         });
     }
 
@@ -24,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wishlists');
+        Schema::dropIfExists('whistlists');
     }
 };

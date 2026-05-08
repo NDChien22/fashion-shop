@@ -11,56 +11,125 @@
         <span class="cursor-pointer hover:text-[#bc9c75] transition">
             Trang chính
         </span> /
-        <span id="breadcrumb-current" class="text-[#bc9c75] font-medium"></span>
+        <span id="breadcrumb-current" class="text-[#bc9c75] font-medium">Tổng quan</span>
     </p>
 
 @endsection
 
 @section('content')
 
-    <div>
-        <div class="tab-content active">
-            <div class="space-y-6">
-                <div class="bg-[#e6c9ad] rounded-2xl p-6 flex justify-between items-center">
-                    <div class="max-w-xl">
-                        <h2 class="text-xl font-semibold text-[#4a3a2a] mb-2">
-                            Chào mừng trở lại
-                        </h2>
+    @php
+        $statusLabels = [
+            'pending' => 'Chờ xử lý',
+            'processing' => 'Đang xử lý',
+            'completed' => 'Hoàn thành',
+            'cancelled' => 'Đã hủy',
+            'payment_failed' => 'Lỗi thanh toán',
+            'shipping' => 'Đang giao',
+            'delivered' => 'Đã giao',
+        ];
 
-                        <p class="text-[#5d4a37] text-sm">
-                            Hôm nay cửa hàng có <b>12 đơn hàng mới</b>.
-                            Đừng quên kiểm tra kho cho bộ sưu tập Mùa Hè nhé!
-                        </p>
+        $statusClasses = [
+            'pending' => 'bg-amber-100 text-amber-700',
+            'processing' => 'bg-blue-100 text-blue-700',
+            'completed' => 'bg-emerald-100 text-emerald-700',
+            'cancelled' => 'bg-rose-100 text-rose-700',
+            'payment_failed' => 'bg-rose-100 text-rose-700',
+            'shipping' => 'bg-cyan-100 text-cyan-700',
+            'delivered' => 'bg-emerald-100 text-emerald-700',
+        ];
+    @endphp
 
-                        <button onclick="loadPage('orders')"
-                            class="mt-3 bg-[#bc9c75] text-white px-4 py-2 rounded-lg text-sm hover:opacity-90">
-                            Xem đơn hàng
-                        </button>
-                    </div>
-                </div>
+    <div class="space-y-6">
+        <div class="bg-[#e6c9ad] rounded-2xl p-6 flex justify-between items-center">
+            <div class="max-w-xl">
+                <h2 class="text-xl font-semibold text-[#4a3a2a] mb-2">
+                    Chào mừng trở lại
+                </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                <p class="text-[#5d4a37] text-sm">
+                    Hôm nay có <b>{{ number_format($stats['new_orders_today']) }} đơn hàng mới</b> và
+                    <b>{{ number_format((float) $stats['revenue_today'], 0, ',', '.') }}đ doanh thu</b>.
+                </p>
 
-                    <div class="bg-white rounded-xl shadow-sm p-5">
-                        <p class="text-sm text-gray-400">Doanh thu ngày</p>
-                        <h3 class="text-xl font-semibold mt-1">5.200.000đ</h3>
-                    </div>
+                <a href="{{ route('admin.orders') }}"
+                    class="mt-3 inline-flex bg-[#bc9c75] text-white px-4 py-2 rounded-lg text-sm hover:opacity-90">
+                    Xem đơn hàng
+                </a>
+            </div>
+        </div>
 
-                    <div class="bg-white rounded-xl shadow-sm p-5">
-                        <p class="text-sm text-gray-400">Sản phẩm bán ra</p>
-                        <h3 class="text-xl font-semibold mt-1">42</h3>
-                    </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            <div class="bg-white rounded-xl shadow-sm p-5">
+                <p class="text-sm text-gray-400">Doanh thu hôm nay</p>
+                <h3 class="text-xl font-semibold mt-1">
+                    {{ number_format((float) $stats['revenue_today'], 0, ',', '.') }}đ
+                </h3>
+            </div>
 
-                    <div class="bg-white rounded-xl shadow-sm p-5">
-                        <p class="text-sm text-gray-400">Khách hàng mới</p>
-                        <h3 class="text-xl font-semibold mt-1">15</h3>
-                    </div>
+            <div class="bg-white rounded-xl shadow-sm p-5">
+                <p class="text-sm text-gray-400">Sản phẩm bán hôm nay</p>
+                <h3 class="text-xl font-semibold mt-1">{{ number_format($stats['products_sold_today']) }}</h3>
+            </div>
 
-                    <div class="bg-white rounded-xl shadow-sm p-5">
-                        <p class="text-sm text-gray-400">Đánh giá tốt</p>
-                        <h3 class="text-xl font-semibold mt-1">98%</h3>
-                    </div>
-                </div>
+            <div class="bg-white rounded-xl shadow-sm p-5">
+                <p class="text-sm text-gray-400">Khách hàng mới hôm nay</p>
+                <h3 class="text-xl font-semibold mt-1">{{ number_format($stats['new_customers_today']) }}</h3>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-5">
+                <p class="text-sm text-gray-400">Đơn chờ xử lý</p>
+                <h3 class="text-xl font-semibold mt-1">{{ number_format($stats['pending_orders']) }}</h3>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+            <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+                <h3 class="text-sm font-black uppercase tracking-widest text-gray-700">Đơn hàng gần đây</h3>
+                <a href="{{ route('admin.orders') }}" class="text-xs font-semibold text-[#bc9c75] hover:underline">
+                    Xem tất cả
+                </a>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-[#fcfaf8] border-b border-gray-100 text-gray-500">
+                        <tr>
+                            <th class="text-left px-5 py-3 text-xs uppercase tracking-wider font-bold">Mã đơn</th>
+                            <th class="text-left px-5 py-3 text-xs uppercase tracking-wider font-bold">Khách hàng</th>
+                            <th class="text-left px-5 py-3 text-xs uppercase tracking-wider font-bold">Sản phẩm</th>
+                            <th class="text-left px-5 py-3 text-xs uppercase tracking-wider font-bold">Tổng tiền</th>
+                            <th class="text-left px-5 py-3 text-xs uppercase tracking-wider font-bold">Trạng thái</th>
+                            <th class="text-left px-5 py-3 text-xs uppercase tracking-wider font-bold">Thời gian</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        @forelse ($recentOrders as $order)
+                            <tr>
+                                <td class="px-5 py-3 font-semibold text-gray-800">{{ $order->order_code }}</td>
+                                <td class="px-5 py-3 text-gray-700">{{ $order->customer_name ?: 'Khách vãng lai' }}</td>
+                                <td class="px-5 py-3 text-gray-700">{{ number_format($order->items->sum('quantity')) }} SP
+                                </td>
+                                <td class="px-5 py-3 font-semibold text-[#bc9c75]">
+                                    {{ number_format((float) $order->final_amount, 0, ',', '.') }}đ
+                                </td>
+                                <td class="px-5 py-3">
+                                    <span
+                                        class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold {{ $statusClasses[$order->status] ?? 'bg-slate-100 text-slate-700' }}">
+                                        {{ $statusLabels[$order->status] ?? ucfirst($order->status) }}
+                                    </span>
+                                </td>
+                                <td class="px-5 py-3 text-gray-500">{{ $order->created_at?->format('d/m/Y H:i') }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="px-5 py-8 text-center text-gray-500">
+                                    Chưa có dữ liệu đơn hàng.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

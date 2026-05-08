@@ -1,127 +1,75 @@
-const products = [
-  // THỜI TRANG NỮ - VÁY ĐẦM
-  { id: 1, name: "Váy hoa nhí dáng dài Vintage", category: "Váy đầm", price: 350000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&q=80", tag: "Mới" },
-  { id: 2, name: "Đầm suông linen phối túi", category: "Váy đầm", price: 290000, oldPrice: null, image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=500&q=80", tag: "" },
-  { id: 3, name: "Chân váy xếp ly Tennis", category: "Váy đầm", price: 199000, oldPrice: 250000, image: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=500&q=80", tag: "Sale" },
-  { id: 4, name: "Váy body ôm sát gợi cảm", category: "Váy đầm", price: 420000, oldPrice: 550000, image: "https://images.unsplash.com/photo-1539008835657-9e8e82165a5c?w=500&q=80", tag: "Bán chạy" },
-  { id: 5, name: "Đầm dự tiệc trễ vai", category: "Váy đầm", price: 890000, oldPrice: null, image: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=500&q=80", tag: "Mới" },
-
-  // THỜI TRANG NỮ - ÁO
-  { id: 6, name: "Áo sơ mi lụa công sở", category: "Áo sơ mi", price: 250000, oldPrice: 320000, image: "https://images.unsplash.com/photo-1598554747436-c9293d6a588f?w=500&q=80", tag: "" },
-  { id: 7, name: "Áo thun Cotton basic", category: "Áo thun", price: 150000, oldPrice: null, image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500&q=80", tag: "Mới" },
-  { id: 8, name: "Áo len lưới croptop Vienne", category: "Áo thun", price: 249000, oldPrice: 368000, image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&q=80", tag: "Sale" },
-  { id: 9, name: "Áo khoác Blazer nữ Hàn Quốc", category: "Áo khoác", price: 705000, oldPrice: 850000, image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=500&q=80", tag: "Bán chạy" },
-  { id: 10, name: "Áo hai dây lụa satin", category: "Áo thun", price: 120000, oldPrice: 180000, image: "https://images.unsplash.com/photo-1604176354204-926873ff3da9?w=500&q=80", tag: "" },
-
-  // THỜI TRANG NAM - ÁO
-  { id: 11, name: "Áo sơ mi Oxford nam", category: "Áo nam", price: 380000, oldPrice: 450000, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=500&q=80", tag: "Mới" },
-  { id: 12, name: "Áo thun Polo phối cổ", category: "Áo nam", price: 280000, oldPrice: null, image: "https://images.unsplash.com/photo-1624371414361-e6e0ed58d38c?w=500&q=80", tag: "" },
-  { id: 13, name: "Áo Hoodie nỉ ngoại", category: "Áo nam", price: 450000, oldPrice: 520000, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80", tag: "Bán chạy" },
-  { id: 14, name: "Áo khoác Jean Denim Classic", category: "Áo nam", price: 650000, oldPrice: null, image: "https://images.unsplash.com/photo-1516257984877-a03a804f7a7a?w=500&q=80", tag: "Mới" },
-  { id: 15, name: "Áo Tanktop tập gym", category: "Áo nam", price: 160000, oldPrice: 210000, image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&q=80", tag: "Sale" },
-
-  // THỜI TRANG NAM - QUẦN
-  { id: 16, name: "Quần Jean Slim-fit nam", category: "Quần nam", price: 490000, oldPrice: 600000, image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&q=80", tag: "" },
-  { id: 17, name: "Quần Kaki túi hộp Cargo", category: "Quần nam", price: 350000, oldPrice: null, image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?w=500&q=80", tag: "Mới" },
-  { id: 18, name: "Quần Short thun thể thao", category: "Quần nam", price: 180000, oldPrice: 250000, image: "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?w=500&q=80", tag: "Sale" },
-  { id: 19, name: "Quần Tây Âu công sở", category: "Quần nam", price: 550000, oldPrice: null, image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500&q=80", tag: "" },
-  { id: 20, name: "Quần Jogger nỉ nam", category: "Quần nam", price: 320000, oldPrice: 380000, image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500&q=80", tag: "" },
-
-  // PHỤ KIỆN
-  { id: 21, name: "Túi xách da nữ cao cấp", category: "Phụ kiện", price: 1250000, oldPrice: 1500000, image: "https://images.unsplash.com/photo-1584917033904-493bb3c3cc08?w=500&q=80", tag: "Bán chạy" },
-  { id: 22, name: "Thắt lưng da nam khóa kim", category: "Phụ kiện", price: 290000, oldPrice: null, image: "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=500&q=80", tag: "Mới" },
-  { id: 23, name: "Mũ lưỡi trai phối lưới", category: "Phụ kiện", price: 150000, oldPrice: 190000, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500&q=80", tag: "" },
-  { id: 24, name: "Tất nam cổ cao basic (set 5)", category: "Phụ kiện", price: 99000, oldPrice: 150000, image: "https://images.unsplash.com/photo-1582966772640-62507632669e?w=500&q=80", tag: "Sale" },
-  { id: 25, name: "Kính mát phi công thời trang", category: "Phụ kiện", price: 450000, oldPrice: null, image: "https://images.unsplash.com/photo-1511499767350-a1511f02fbf3?w=500&q=80", tag: "Mới" },
-
-  // SẢN PHẨM BỔ SUNG
-  { id: 26, name: "Áo sơ mi họa tiết biển", category: "Áo nam", price: 320000, oldPrice: null, image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=500&q=80", tag: "" },
-  { id: 27, name: "Váy len ôm body mùa đông", category: "Váy đầm", price: 580000, oldPrice: 650000, image: "https://images.unsplash.com/photo-1612817288484-6f916006741a?w=500&q=80", tag: "Bán chạy" },
-  { id: 28, name: "Quần legging nữ tập yoga", category: "Quần nữ", price: 220000, oldPrice: null, image: "https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500&q=80", tag: "Mới" },
-  { id: 29, name: "Áo khoác phao siêu nhẹ", category: "Áo khoác", price: 950000, oldPrice: 1200000, image: "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=500&q=80", tag: "Sale" },
-  { id: 30, name: "Túi canvas đi học đơn giản", category: "Phụ kiện", price: 85000, oldPrice: null, image: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&q=80", tag: "" }
-];
 
 
 
 
-// Cấu hình phân trang toàn cục
+
+
+
+// --- 1. Cấu hình sản phẩm & Phân trang ---
 let currentPage = 1;
 const productsPerPage = 12;
 
-function renderProducts(productList) {
-    // 1. Kiểm tra dữ liệu đầu vào
-    if (!productList || !Array.isArray(productList)) {
-        console.error("Dữ liệu sản phẩm không hợp lệ");
-        return;
+// --- 2. Hàm nạp Layout (Header/Footer) ---
+async function loadLayout() {
+    try {
+        // Nạp Header
+        const headerRes = await fetch('index.html'); 
+        if (headerRes.ok) {
+            document.getElementById('main-header').innerHTML = await headerRes.text();
+        }
+        // Nạp Footer
+        const footerRes = await fetch('index.html');
+        if (footerRes.ok) {
+            document.getElementById('main-footer').innerHTML = await footerRes.text();
+        }
+    } catch (error) {
+        console.error("Lỗi nạp Header/Footer (Lưu ý: Phải chạy bằng Live Server):", error);
     }
+}
+
+// --- 3. Hàm Render Danh sách sản phẩm (Trang chủ) ---
+function renderProducts(productList) {
+    if (!productList || !Array.isArray(productList)) return;
 
     const grid = document.getElementById('product-grid');
     const countLabel = document.getElementById('product-count');
-    
-    if (!grid) {
-        console.warn("Không tìm thấy thẻ #product-grid.");
-        return;
-    }
+    if (!grid) return;
 
-    // --- LOGIC PHÂN TRANG ---
-    // Xác định sản phẩm cần hiển thị cho trang hiện tại
+    // Logic phân trang
     const startIndex = (currentPage - 1) * productsPerPage;
-    const endIndex = startIndex + productsPerPage;
-    const paginatedItems = productList.slice(startIndex, endIndex);
+    const paginatedItems = productList.slice(startIndex, startIndex + productsPerPage);
 
-    // 2. Cập nhật số lượng hiển thị (Tổng số sản phẩm)
     if (countLabel) {
         countLabel.innerText = `Hiển thị ${paginatedItems.length} trên ${productList.length} sản phẩm`;
     }
 
-    // 3. Render HTML cho danh sách sản phẩm đã cắt (paginatedItems)
     grid.innerHTML = paginatedItems.map(item => {
         const wishlist = JSON.parse(localStorage.getItem('vienne_wishlist')) || [];
         const isWishlisted = wishlist.includes(item.id);
-        const tagHTML = item.tag 
-            ? `<div class="absolute top-3 left-3 z-10">
-                 <span class="bg-orange-500 text-white text-[10px] px-2.5 py-1 rounded-full uppercase font-bold shadow">${item.tag}</span>
-               </div>` 
-            : '';
-            
-        const oldPriceHTML = item.oldPrice 
-            ? `<p class="text-xs text-gray-400 line-through">${item.oldPrice.toLocaleString('vi-VN')}₫</p>` 
-            : '';
+        const tagHTML = item.tag ? `<div class="absolute top-3 left-3 z-10"><span class="bg-orange-500 text-white text-[10px] px-2.5 py-1 rounded-full uppercase font-bold shadow">${item.tag}</span></div>` : '';
+        const oldPriceHTML = item.oldPrice ? `<p class="text-xs text-gray-400 line-through">${item.oldPrice.toLocaleString('vi-VN')}₫</p>` : '';
 
         return `
             <div class="product-card group relative flex flex-col h-full">
-                <div class="relative overflow-hidden mb-4 rounded-xl bg-gray-100 shadow-sm aspect-[3/4]">
-                    <img 
-                        src="${item.image}" 
-                        
-                        class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" 
-                        alt="${item.name}"
-                    >
-                    
+                <a href="product_detail.html?id=${item.id}" class="relative overflow-hidden mb-4 rounded-xl bg-gray-100 shadow-sm aspect-[3/4] block">
+                    <img src="${item.image}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="${item.name}">
                     ${tagHTML}
-
-                    <div class="absolute inset-x-0 bottom-4 px-4 flex flex-col gap-3 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10">
+                    <div class="absolute inset-x-0 bottom-4 px-4 flex flex-col gap-3 translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-10" 
+                         onclick="event.preventDefault(); event.stopPropagation();">
                         <div class="flex justify-center gap-2">
-                            <button class="bg-white/95 text-gray-800 p-2 rounded-full shadow-md hover:bg-[#bc9c75] hover:text-white transition transform hover:scale-110">
-                                <i class="ri-eye-line text-base"></i>
-                            </button>
-                            <button onclick="toggleWishlist(${item.id})"  class="bg-white/95 p-2 rounded-full shadow-md transition transform hover:scale-110
-                                ${isWishlisted ? 'text-red-500' : 'text-gray-800'} hover:bg-[#bc9c75] hover:text-white">
+                            <button onclick="toggleWishlist(${item.id})" class="bg-white/95 p-2 rounded-full shadow-md transition transform hover:scale-110 ${isWishlisted ? 'text-red-500' : 'text-gray-800'} hover:bg-[#bc9c75] hover:text-white">
                                 <i class="${isWishlisted ? 'ri-heart-fill' : 'ri-heart-line'} text-base"></i>
-
                             </button>
                         </div>
                         <button onclick="addToCart(${item.id})" class="w-full bg-white text-black py-2.5 text-[10px] font-bold uppercase hover:bg-[#bc9c75] hover:text-white rounded-lg shadow-md">
                             Thêm vào giỏ
                         </button>
                     </div>
-                </div>
-
+                </a>
                 <div class="flex flex-col grow">
-                    <h4 class="text-sm font-medium text-gray-800 mb-1.5 line-clamp-2 min-h-10">
-                        ${item.name}
-                    </h4>
+                    <a href="product_detail.html?id=${item.id}">
+                        <h4 class="text-sm font-medium text-gray-800 mb-1.5 line-clamp-2 min-h-10 hover:text-[#bc9c75] transition-colors">${item.name}</h4>
+                    </a>
                     <div class="flex items-center gap-3 mt-auto">
                         <p class="font-bold text-[#bc9c75] text-lg">${item.price.toLocaleString('vi-VN')}₫</p>
                         ${oldPriceHTML}
@@ -131,12 +79,123 @@ function renderProducts(productList) {
         `;
     }).join('');
 
-    // 4. Tạo các nút phân trang
-    renderPagination(productList);
+    // Nếu bạn có hàm renderPagination(productList), hãy gọi ở đây
+    if (typeof renderPagination === "function") renderPagination(productList);
 }
 
+// --- 4. Hàm Render Chi tiết sản phẩm (Trang Detail) ---
+function renderProductDetail() {
+    console.log("--- Bắt đầu nạp chi tiết sản phẩm ---");
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id'));
+    console.log("ID sản phẩm từ URL:", productId);
+
+    // Kiểm tra biến products có tồn tại không
+    if (typeof products === 'undefined') {
+        console.error("Lỗi: Biến 'products' chưa được định nghĩa. Kiểm tra lại file data.js");
+        return;
+    }
+
+    const product = products.find(p => p.id === productId);
+    
+    if (!product) {
+        console.warn("Không tìm thấy sản phẩm với ID này, đang lấy sản phẩm đầu tiên làm mẫu");
+        // Nếu không tìm thấy, thử lấy sản phẩm đầu tiên để tránh trắng trang
+        var displayProduct = products[0];
+    } else {
+        var displayProduct = product;
+    }
+
+    console.log("Dữ liệu sản phẩm sẽ hiển thị:", displayProduct);
+
+    // Đổ dữ liệu vào HTML (Sử dụng hàm của bạn nhưng thêm kiểm tra)
+    const setInner = (id, val) => { 
+        const el = document.getElementById(id);
+        if (el) {
+            el.innerText = val;
+        } else {
+            console.warn(`Không tìm thấy thẻ có ID: ${id} trong HTML`);
+        }
+    };
+    
+    setInner('product-name', displayProduct.name);
+    setInner('product-code', displayProduct.code || 'N/A');
+    
+    const mainImg = document.getElementById('main-img');
+    if (mainImg) {
+        mainImg.src = displayProduct.image;
+    }
+    
+    const formatMoney = (num) => new Intl.NumberFormat('vi-VN').format(num) + '₫';
+    setInner('current-price', formatMoney(displayProduct.price));
+    
+    // Xử lý giá cũ và giảm giá
+    const oldPriceEl = document.getElementById('old-price');
+    const discountEl = document.getElementById('product-discount');
+    
+    if (displayProduct.oldPrice && oldPriceEl) {
+        oldPriceEl.innerText = formatMoney(displayProduct.oldPrice);
+        if (discountEl) {
+            const discount = Math.round((1 - displayProduct.price / displayProduct.oldPrice) * 100);
+            discountEl.innerText = `-${discount}%`;
+            discountEl.style.display = 'block'; // Hiện thẻ discount nếu có
+        }
+    } else if (discountEl) {
+        discountEl.style.display = 'none'; // Ẩn thẻ discount nếu không có giá cũ
+    }
+
+    // Render Size
+    const sizeContainer = document.getElementById('size-container');
+    if (sizeContainer && displayProduct.sizes) {
+        sizeContainer.innerHTML = displayProduct.sizes.map((size, index) => `
+            <button onclick="selectOption(this)" 
+                class="min-w-[50px] h-8 border ${index === 0 ? 'border-[#c5a059] text-[#c5a059]' : 'border-gray-200'} text-sm font-medium transition">
+                ${size}
+            </button>
+        `).join('');
+    }
+
+    setInner('product-rating', "4.9");
+    setInner('product-sold', (displayProduct.id * 15) + "k+"); 
+    
+    console.log("--- Hoàn tất nạp dữ liệu ---");
+}
+
+// --- 5. Hàm phụ (Chọn size, Update SL) ---
+function selectOption(el) {
+    const buttons = el.parentElement.querySelectorAll('button');
+    buttons.forEach(btn => btn.className = "min-w-[50px] h-8 border border-gray-200 text-sm font-medium transition");
+    el.className = "min-w-[50px] h-8 border border-[#c5a059] text-[#c5a059] text-sm font-medium transition";
+}
+
+function updateQty(step) {
+    const input = document.getElementById('quantity');
+    let val = parseInt(input.value) + step;
+    if (val < 1) val = 1;
+    input.value = val;
+}
+
+// --- 6. KHỞI CHẠY HỆ THỐNG ---
+window.onload = async () => {
+    // Bước 1: Nạp Header và Footer trước để dựng khung
+    await loadLayout(); 
+
+    // Bước 2: Sau khi layout đã có, mới đổ dữ liệu vào giữa
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id'));
+
+    if (document.getElementById('product-name')) {
+        // Gọi hàm hiển thị chi tiết sản phẩm
+        renderProductDetail();
+        
+        // Đảm bảo phần main không bị ẩn (nếu trước đó có dùng hidden)
+        document.getElementById('detail-page').style.display = 'block';
+    }
+};
 
 
+// Hàm thêm sản phẩm vào giỏ hàng 
 function addToCart(productId) {
     // 1. Lấy giỏ hàng từ localStorage hoặc tạo mới
     let cart = JSON.parse(localStorage.getItem('vienne_cart')) || [];
@@ -182,7 +241,6 @@ function renderPagination(productList) {
             </button>
         `;
     }
-
     for (let i = 1; i <= totalPages; i++) {
         const activeClass = i === currentPage 
             ? 'bg-[#bc9c75] text-white border-[#bc9c75]' 
@@ -193,8 +251,6 @@ function renderPagination(productList) {
             </button>
         `;
     }
-
-    // Thêm nút "Tiếp theo" nếu chưa ở trang cuối
     if (currentPage < totalPages) {
         html += `
             <button onclick="goToPage(${currentPage + 1})" class="w-10 h-10 flex items-center justify-center border-2 border-[#bc9c75] text-[#bc9c75] rounded-lg font-bold hover:bg-[#bc9c75] hover:text-white transition-all">
@@ -202,9 +258,9 @@ function renderPagination(productList) {
             </button>
         `;
     }
-
     paginationContainer.innerHTML = html;
 }
+
 
 // Hàm chuyển trang
 function goToPage(pageNumber) {
@@ -217,9 +273,7 @@ function goToPage(pageNumber) {
 
 
 
-// --- XỬ LÝ TRANG GIỎ HÀNG (FULL PAGE) ---
-
-// Biến lưu trữ ID các sản phẩm được chọn
+// XỬ LÝ TRANG GIỎ HÀNG (FULL PAGE) 
 let selectedItems = [];
 
 function renderFullCartPage() {
@@ -277,6 +331,8 @@ function renderFullCartPage() {
     totalEl.innerText = totalPrice.toLocaleString('vi-VN') + "₫";
 }
 
+
+
 // Hàm xử lý khi bấm vào Checkbox
 window.toggleSelectItem = function(id) {
     const index = selectedItems.indexOf(id);
@@ -314,6 +370,7 @@ window.changePageCartQty = function(id, delta) {
     }
 }
 
+
 // Hàm xóa sản phẩm trên trang
 window.removePageCartItem = function(id) {
     let cart = JSON.parse(localStorage.getItem('vienne_cart')) || [];
@@ -323,6 +380,8 @@ window.removePageCartItem = function(id) {
     if (typeof updateCartBadge === 'function') updateCartBadge();
 }
 
+
+// hàm hiển thị số lượng sản phẩm trong giỏ hàng
 function updateCartBadge() {
     // 1. Lấy dữ liệu giỏ hàng từ localStorage
     const cart = JSON.parse(localStorage.getItem('vienne_cart')) || [];
@@ -435,6 +494,9 @@ function renderWishlistPage() {
     }).join('');
 }
 
+
+
+// Hàm cập nhật số lượng sản phẩm trong mục yêu thích
 function updateWishlistBadge() {
     const wishlist = JSON.parse(localStorage.getItem('vienne_wishlist')) || [];
     const badge = document.getElementById('wishlist-count');    
@@ -444,9 +506,67 @@ function updateWishlistBadge() {
     }
 }
 
-/**
- * Hàm đóng/mở Sidebar trên Mobile
- */
+
+// hàm cập nhật giao diện Header dựa trên trạng thái đăng nhập của người dùng
+function updateAuthUI() {
+    const dropdownMenu = document.getElementById('user-dropdown-menu');
+    if (!dropdownMenu) return;
+
+    // Lấy thông tin tài khoản từ localStorage
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    if (currentUser) {
+        // TRƯỜNG HỢP 1: ĐÃ ĐĂNG NHẬP
+        dropdownMenu.innerHTML = `
+            <div class="py-2 text-sm">
+                <div class="px-4 py-2 border-b border-gray-50 mb-1">
+                    <p class="font-bold text-gray-800 truncate">${currentUser.fullname}</p>
+                    <p class="text-[10px] text-gray-400">Đang hoạt động</p>
+                </div>
+                <a href="#profile" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
+                    <i class="ri-user-settings-line text-lg"></i>
+                    <span>Tài khoản của tôi</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
+                    <i class="ri-user-settings-line text-lg"></i>
+                    <span>Đơn hàng</span>
+                </a>
+
+                <hr class="my-1 border-gray-100">
+                <button onclick="handleLogout()" class="w-full flex items-center gap-3 px-4 py-2.5 text-red-500 hover:bg-red-50 transition-colors">
+                    <i class="ri-logout-box-r-line text-lg"></i>
+                    <span>Đăng xuất</span>
+                </button>
+            </div>
+        `;
+    } else {
+        // TRƯỜNG HỢP 2: CHƯA ĐĂNG NHẬP
+        dropdownMenu.innerHTML = `
+            <div class="py-2 text-sm">
+                <a href="login.html" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
+                    <i class="ri-login-box-line text-lg"></i>
+                    <span>Đăng nhập</span>
+                </a>
+                <a href="register.html" class="flex items-center gap-3 px-4 py-2.5 text-gray-700 hover:bg-gray-50 hover:text-[#bc9c75] transition-colors">
+                    <i class="ri-user-add-line text-lg"></i>
+                    <span>Đăng ký</span>
+                </a>
+
+                
+            </div>
+        `;
+    }
+}
+
+
+
+
+// Chạy hàm ngay khi trang web tải xong
+document.addEventListener('DOMContentLoaded', updateAuthUI);
+
+
+
+// Hàm đóng/mở Sidebar trên Mobile
 function toggleSidebar(isOpen) {
     const sidebar = document.getElementById('main-sidebar');
     const overlay = document.getElementById('sidebar-overlay');
@@ -528,6 +648,8 @@ document.addEventListener('click', function (e) {
 
 
 
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const chatBtn = document.getElementById('chat-toggle-btn');
     const supportBox = document.getElementById('support-box');
@@ -606,6 +728,220 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
+
+let activeFilters = {
+    category: null,
+    prices: [],
+    sizes: []
+};
+
+// 1. Lọc danh mục - Dùng selector [filter-category] để khớp HTML
+document.querySelectorAll('[filter-category]').forEach(item => {
+    item.addEventListener('click', () => {
+        document.querySelectorAll('[filter-category]').forEach(el => 
+            el.classList.remove('text-[#bc9c75]', 'font-bold')
+        );
+        item.classList.add('text-[#bc9c75]', 'font-bold');
+        
+        activeFilters.category = item.getAttribute('data-category');
+        applyFilters();
+    });
+});
+
+// 2. Cập nhật checkbox
+function updateCheckboxes() {
+    activeFilters.prices = Array.from(document.querySelectorAll('.price-checkbox:checked')).map(cb => cb.value);
+    activeFilters.sizes = Array.from(document.querySelectorAll('.size-checkbox:checked')).map(cb => cb.value);
+    applyFilters();
+}
+
+document.querySelectorAll('.price-checkbox, .size-checkbox').forEach(cb => {
+    cb.addEventListener('change', updateCheckboxes);
+});
+
+// 3. Hàm lọc tổng thể
+function applyFilters() {
+    let result = products; // Đảm bảo biến products đã chứa data
+
+    if (activeFilters.category) {
+        result = result.filter(p => p.category === activeFilters.category);
+    }
+
+    if (activeFilters.prices.length > 0) {
+        result = result.filter(p => {
+            return activeFilters.prices.some(range => {
+                if (range === "1000000+") return p.price >= 1000000;
+                const [min, max] = range.split('-').map(Number);
+                return p.price >= min && p.price <= max;
+            });
+        });
+    }
+
+    if (activeFilters.sizes.length > 0) {
+        result = result.filter(p => 
+            p.sizes.some(s => activeFilters.sizes.includes(s))
+        );
+    }
+
+    renderProducts(result); 
+}
+
+// 4. Toggle Sidebar cho Mobile (Cần thiết vì bạn có nút "Bộ lọc" mobile)
+function toggleSidebar(open) {
+    const sidebar = document.getElementById('main-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    if (open) {
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('hidden');
+    } else {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+    }
+}
+
+
+/**
+ * Hàm xử lý khi nhấn vào menu cha "Tài khoản của tôi"
+ */
+function handleAccountClick() {
+    const subMenu = document.getElementById('sub-menu-account');
+    const isClosed = !subMenu.style.maxHeight || subMenu.style.maxHeight === '0px';
+
+    if (isClosed) {
+        // Mở menu và tự động chọn tab Hồ sơ ngay lập tức
+        switchTab('profile'); 
+    } else {
+        // Nếu đang mở thì chỉ đóng lại
+        closeAccountMenu();
+    }
+}
+
+function openAccountMenu() {
+    const subMenu = document.getElementById('sub-menu-account');
+    const arrow = document.getElementById('arrow-icon');
+    const parentBtn = document.getElementById('nav-account-parent');
+    
+    if (subMenu) {
+        subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+        // Dùng ?. để tránh lỗi nếu bạn lỡ tay xóa icon arrow trong HTML
+        if (arrow) arrow.style.transform = 'rotate(180deg)';
+        if (parentBtn) parentBtn.classList.add('text-[#bc9c75]', 'font-semibold');
+    }
+}
+
+function closeAccountMenu() {
+    const subMenu = document.getElementById('sub-menu-account');
+    const arrow = document.getElementById('arrow-icon');
+    const parentBtn = document.getElementById('nav-account-parent');
+    
+    if (subMenu) {
+        subMenu.style.maxHeight = '0px';
+        if (arrow) arrow.style.transform = 'rotate(0deg)';
+        if (parentBtn) parentBtn.classList.remove('text-[#bc9c75]', 'font-semibold');
+    }
+}
+
+
+function switchTab(tabName) {
+    // 1. Ẩn tất cả nội dung tab
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.add('hidden');
+    });
+
+    // 2. Hiển thị nội dung của tab được chọn
+    const targetContent = document.getElementById('content-' + tabName);
+    if (targetContent) targetContent.classList.remove('hidden');
+
+    // 3. RESET trạng thái màu sắc của toàn bộ Sidebar
+    document.querySelectorAll('.tab-link').forEach(link => {
+        link.classList.remove('bg-[#bc9c75]/10', 'text-[#bc9c75]', 'font-semibold');
+        link.classList.add('text-gray-600');
+    });
+    document.querySelectorAll('.sub-link').forEach(sub => {
+        sub.classList.remove('text-[#bc9c75]', 'font-bold');
+        sub.classList.add('text-gray-500');
+    });
+
+    // 4. TÔ MÀU VÀ XỬ LÝ LOGIC RIÊNG
+    const accountTabs = ['profile', 'address', 'change-password'];
+    
+    if (accountTabs.includes(tabName)) {
+        // Nếu chọn mục thuộc nhóm Tài khoản
+        openAccountMenu(); 
+        
+        // Tô màu mục con (Hồ sơ/Địa chỉ/...)
+        const activeSub = document.getElementById('sub-' + tabName);
+        if (activeSub) {
+            activeSub.classList.add('text-[#bc9c75]', 'font-bold');
+            activeSub.classList.remove('text-gray-500');
+        }
+    } else {
+        // Nếu chọn mục ngoài (Đơn mua, Voucher...)
+        closeAccountMenu();
+        
+        // Tô màu nền cho mục chính
+        const activeNav = document.getElementById('nav-' + tabName);
+        if (activeNav) {
+            activeNav.classList.add('bg-[#bc9c75]/10', 'text-[#bc9c75]', 'font-semibold');
+            activeNav.classList.remove('text-gray-600');
+        }
+    }
+    
+    // Lưu lại trạng thái để load trang không bị mất
+    localStorage.setItem('activeTab', tabName);
+}
+
+// Khi vừa load trang, kiểm tra xem tab nào đang được chọn
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTab = localStorage.getItem('activeTab') || 'profile';
+    switchTab(savedTab);
+});
+
+
+//  hàm của phần đơn hàng
+function filterOrders(status, element) {
+    document.querySelectorAll('.order-tab').forEach(tab => {
+        tab.classList.remove('font-bold', 'text-[#bc9c75]', 'border-[#bc9c75]', 'border-b-2');
+        tab.classList.add('font-medium', 'text-gray-500');
+    });
+
+    element.classList.add('font-bold', 'text-[#bc9c75]', 'border-[#bc9c75]', 'border-b-2');
+    element.classList.remove('font-medium', 'text-gray-500');
+
+    const container = document.getElementById('order-list-container');
+    if (container) {
+        container.innerHTML = `
+            <div class="text-center animate-in fade-in duration-500 p-20">
+                <i class="ri-bill-line text-6xl text-gray-100 mb-4 block"></i>
+                <p class="text-gray-400 font-medium">Bạn chưa có đơn hàng nào trong mục này</p>
+            </div>
+        `;
+    }
+    console.log("Đang lọc đơn hàng theo trạng thái: " + status);
+}
+
+
+
+// Hàm sử lý phần địa chỉ
+function toggleAddressModal(show) {
+    const modal = document.getElementById('address-modal');
+    if (show) {
+        modal.classList.remove('hidden');
+    } else {
+        modal.classList.add('hidden');
+    }
+}
+
+window.onclick = function(event) {
+    const modal = document.getElementById('address-modal');
+    if (event.target == modal) {
+        toggleAddressModal(false);
+    }
+}
+
+
+
 const PAGES = {
     'trang-chu': { title: 'Trang chủ', file: 'home.html' },
     'gioi-thieu': { title: 'Giới thiệu', file: 'introduce.html' },
@@ -616,6 +952,8 @@ const PAGES = {
     'Lien-he': { title: 'Liên hệ', file: 'contact.html' },
     'gio-hang': { title: 'Giỏ hàng', file: 'cart.html' },
     'yeu-thich': { title: 'Sản phẩm yêu thích', file: 'wishlist.html' },
+    'profile': { title: 'Hồ sơ cá nhân', file: 'profile.html' },
+    'detail': { title: 'Chi tiết sản phẩm', file: 'product_detail.html' }
 };
 
 
@@ -649,7 +987,8 @@ async function loadPage() {
     if (!content) return;
 
     let hash = window.location.hash || '#trang-chu';
-    let pageId = hash.replace('#', '') || 'trang-chu';
+    let fullPath = hash.replace('#', '');
+    let [pageId, queryString] = fullPath.split('?');
 
     const config = PAGES[pageId];
     if (!config) {
@@ -668,11 +1007,15 @@ async function loadPage() {
             content.style.opacity = "1";
             content.style.transition = "opacity 0.3s ease";
 
-            if (pageId === 'san-pham' || config.file.includes('product.html')) {
-                // Gọi hàm render từ dữ liệu mảng products đã có
-                if (typeof renderProducts === "function") {
-                    renderProducts(products); 
-                }
+            // Xử lý riêng cho trang chi tiết
+            if (pageId === 'chi-tiet') {
+                const params = new URLSearchParams(queryString);
+                const productId = parseInt(params.get('id'));
+                renderProductDetail(productId); 
+            }
+
+            if (pageId === 'san-pham') {
+                if (typeof renderProducts === "function") renderProducts(products); 
             }
 
             updateUI(pageId, config.title);

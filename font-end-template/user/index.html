@@ -15,7 +15,7 @@
 
     <header id="main-header" class="bg-white fixed top-0 left-0 z-50 w-full border-b border-gray-100">
         <div class="border-b border-gray-100 h-20 flex items-center">
-            <nav class="max-w-[1800px] mx-auto flex items-center justify-between px-4 md:px-10 relative w-full">
+            <nav id="desktop-nav-links" class="max-w-[1800px] mx-auto flex items-center justify-between px-4 md:px-10 relative w-full">
                 <div class="md:hidden">
                     <div id="menu-btn" class="text-2xl cursor-pointer hover:text-[#bc9c75] transition">
                         <i class="ri-menu-4-line"></i>
@@ -42,7 +42,13 @@
                         <i class="ri-shopping-cart-line cursor-pointer hidden md:block hover-gold transition"></i>
                         <span id="cart-count" class="absolute top-0 right-0 bg-red-600 text-white text-[10px] w-4 h-4 hidden items-center justify-center rounded-full"></span>
                     </a>
-                    <i class="ri-user-line cursor-pointer hidden md:block hover-gold transition"></i>
+                    <div class="relative group hidden md:block">
+                        <div class="p-2 cursor-pointer transition hover:text-[#bc9c75]">
+                            <i class="ri-user-line"></i>
+                        </div>
+
+                        <div id="user-dropdown-menu" class="absolute right-0 mt-1 w-48 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[100]">
+                        </div>
                 </div>
             </nav>
         </div>
@@ -160,13 +166,14 @@
                         </div>
                     </div>
                     <a href="#Bo-suu-tap" class="menu-link hover:text-[#bc9c75] transition-all">Bộ sưu tập</a>
-                    <a href="#Don-hang" class="menu-link hover:text-[#bc9c75] transition-all">Đơn hàng</a>
                     <a href="#Ho-tro" class="menu-link hover:text-[#bc9c75] transition-all">Hỗ trợ</a>
                     <a href="#Lien-he" class="menu-link hover:text-[#bc9c75] transition-all">Liên hệ</a>
                 </nav>
             </div>
         </div>
     </header>
+
+
 
 
 
@@ -183,7 +190,7 @@
 
 
     
-   <footer class="bg-white text-[#1a1a1a] mt-20 pt-20 pb-10 border-t border-gray-100">
+   <footer id="main-footer" class="bg-white text-[#1a1a1a] mt-20 pt-20 pb-10 border-t border-gray-100">
         <div class="max-w-[1400px] mx-auto px-6">
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
@@ -312,8 +319,9 @@
             </div>
         </div>
     </div>
-
+    <script src="/font-end-template/asset/js/data.js"></script>
     <script src="/font-end-template/asset/js/main.js"></script>
+    
 
 
 </body>

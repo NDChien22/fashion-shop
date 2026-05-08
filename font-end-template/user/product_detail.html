@@ -1,11 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Chi tiết sản phẩm - Fast Fashion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
-<body>
-    
+<body class="bg-gray-50">
+    <div id="main-header"></div>
+
+    <main id="detail-page" >
+        <div class="max-w-[1300px] mx-auto px-4 py-8">
+            <div class="bg-white rounded-sm shadow-sm p-4 lg:p-8">
+                <div class="flex flex-col lg:flex-row gap-10">
+                    
+                    <div class="w-full lg:w-[450px] shrink-0">
+                        <div class="relative aspect-[4/5] mb-4 bg-gray-50 overflow-hidden group">
+                            <span id="product-discount" class="absolute top-2 left-2 bg-[#c5a059] text-white text-xs font-bold px-2 py-1 z-10"></span>
+                            <img id="main-img" src="" class="w-full h-full object-cover transition duration-300">
+                        </div>
+
+                        <div id="thumb-container" class="flex gap-2 overflow-x-auto pb-2"></div>
+                    </div>
+
+                    <div class="flex-1 flex flex-col">
+                        <h1 id="product-name" class="text-2xl font-semibold text-gray-800 mb-3"></h1>
+                        
+                        <div class="flex flex-wrap items-center gap-4 text-sm mb-4">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-gray-500">Mã SP:</span>
+                                <span id="product-code" class="text-gray-900 font-semibold uppercase"></span>
+                            </div>
+                            <div class="w-[1px] h-4 bg-gray-200"></div>
+                            <div>
+                                <span id="product-rating" class="text-[#c5a059] font-bold"></span> 
+                                <i class="ri-star-fill text-[#c5a059]"></i>
+                            </div>
+                            <div class="w-[1px] h-4 bg-gray-200"></div>
+                            <div>
+                                <span id="product-sold" class="text-gray-800 font-medium"></span> 
+                                <span class="text-gray-500">Đã Bán</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 flex items-center gap-4 mb-6">
+                            <span id="old-price" class="text-gray-400 line-through text-lg"></span>
+                            <span id="current-price" class="text-3xl font-bold text-[#c5a059]"></span>
+                        </div>
+
+                        <div class="space-y-6 px-2">
+                            <div class="flex items-start gap-10">
+                                <span class="w-20 text-gray-500 text-sm mt-2">Màu sắc</span>
+                                <div id="color-container" class="flex flex-wrap gap-2 flex-1"></div>
+                            </div>
+
+                            <div class="flex items-center gap-10">
+                                <span class="w-20 text-gray-500 text-sm">Size</span>
+                                <div id="size-container" class="flex gap-3"></div>
+                            </div>
+
+                            <div class="flex items-center gap-10">
+                                <span class="w-20 text-gray-500 text-sm">Số lượng</span>
+                                <div class="flex items-center border border-gray-200 rounded-sm">
+                                    <button onclick="updateQty(-1)" class="w-8 h-8 flex items-center justify-center hover:bg-gray-100">-</button>
+                                    <input type="text" id="quantity" value="1" class="w-12 h-8 text-center text-sm outline-none">
+                                    <button onclick="updateQty(1)" class="w-8 h-8 flex items-center justify-center hover:bg-gray-100">+</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 mt-10">
+                            <button class="flex-1 lg:flex-none lg:px-10 h-12 border border-[#c5a059] bg-[#c5a059] text-white hover:bg-[#b88e4d] transition flex items-center justify-center gap-2 font-medium text-sm uppercase">
+                                <i class="ri-shopping-cart-2-line text-xl"></i> Thêm Vào Giỏ
+                            </button>
+                            <button class="flex-1 lg:flex-none lg:px-16 h-12 bg-black text-white hover:bg-gray-800 transition font-medium text-sm shadow-sm uppercase">
+                                Mua Ngay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-footer"></div>
+ <script src="/font-end-template/asset/js/data.js"></script>
+<script src="/font-end-template/asset/js/main.js"></script>
+   
 </body>
 </html>

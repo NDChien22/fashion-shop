@@ -19,7 +19,20 @@
     @endif
 
     <div class="rounded-3xl border border-gray-100 bg-white p-5 shadow-sm lg:p-6">
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+                <p class="text-[10px] font-black uppercase tracking-[0.14em] text-violet-500">Quản lý đơn hàng</p>
+                <h3 class="mt-1 text-lg font-black text-gray-800">Theo dõi đơn, thanh toán và vận chuyển</h3>
+            </div>
+
+            <a href="{{ route('admin.return-requests') }}"
+                class="inline-flex items-center gap-2 rounded-xl border border-violet-200 bg-violet-50 px-4 py-2 text-xs font-semibold text-violet-700 hover:bg-violet-100 transition">
+                <i class="fa-solid fa-rotate-left"></i>
+                Xem đổi / trả
+            </a>
+        </div>
+
+        <div class="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
             <div class="rounded-2xl border border-gray-100 bg-linear-to-br from-slate-50 to-white p-4">
                 <p class="text-[10px] font-black uppercase tracking-[0.14em] text-gray-400">Tổng đơn</p>
                 <h3 class="mt-2 text-2xl font-black text-gray-800">{{ number_format($summary['total']) }}</h3>
@@ -149,12 +162,15 @@
                                 </p>
                             </td>
                             <td class="px-4 py-3 align-top">
-                                <p class="font-semibold text-gray-800">{{ $order->customer_name ?: 'Khách vãng lai' }}
+                                <p class="font-semibold text-gray-800">
+                                    {{ $order->user?->full_name ?? ($order->guest_name ?? 'Khách vãng lai') }}
                                 </p>
-                                <p class="mt-0.5 text-xs text-gray-500">{{ $order->customer_phone ?: 'N/A' }}</p>
-                                <p class="mt-0.5 text-xs text-gray-500">{{ $order->customer_email ?: 'N/A' }}</p>
+                                <p class="mt-0.5 text-xs text-gray-500">
+                                    {{ $order->user?->phone_number ?? ($order->guest_phone ?? 'N/A') }}</p>
+                                <p class="mt-0.5 text-xs text-gray-500">
+                                    {{ $order->user?->email ?? ($order->guest_email ?? 'N/A') }}</p>
                                 <p class="mt-1 line-clamp-2 text-xs text-gray-500">
-                                    {{ $order->shipping_address ?: 'N/A' }}</p>
+                                    {{ $order->user?->address ?? ($order->guest_address ?? 'N/A') }}</p>
                             </td>
                             <td class="px-4 py-3 align-top">
                                 <p class="text-[11px] font-semibold uppercase tracking-wide text-gray-500">
@@ -183,11 +199,24 @@
                                         class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold {{ $order->feedback ? 'bg-violet-100 text-violet-700' : 'bg-slate-100 text-slate-600' }}">
                                         FB: {{ $order->feedback ? $order->feedback->rating . '/5' : 'Chưa có' }}
                                     </span>
+                                    <span
+                                        class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold {{ $order->returnRequest ? $order->returnRequest->status?->badgeClass() ?? 'bg-violet-100 text-violet-700' : 'bg-slate-100 text-slate-600' }}">
+                                        Đổi/trả:
+                                        {{ $order->returnRequest ? $order->returnRequest->status?->label() ?? 'N/A' : 'Chưa có' }}
+                                    </span>
                                 </div>
                             </td>
                             <td class="px-4 py-3 align-top">
                                 @php
-                                    $isCompletedOrder = $order->status === OrderStatus::COMPLETED->value;
+                                    $isCompletedOrder = in_array(
+                                        $order->status,
+                                        [
+                                            OrderStatus::COMPLETED->value,
+                                            OrderStatus::RETURNED->value,
+                                            OrderStatus::EXCHANGED->value,
+                                        ],
+                                        true,
+                                    );
                                     $isCancelledOrder = $order->status === OrderStatus::CANCELLED->value;
                                     $isLockedOrder = $isCompletedOrder || $isCancelledOrder;
 
@@ -207,10 +236,13 @@
                                             : null,
                                         'payment_method' => strtoupper((string) $order->payment_method),
                                         'transaction_id' => $order->payment?->transaction_id ?: 'N/A',
-                                        'customer_name' => $order->customer_name ?: 'Khách vãng lai',
-                                        'customer_phone' => $order->customer_phone ?: 'N/A',
-                                        'customer_email' => $order->customer_email ?: 'N/A',
-                                        'shipping_address' => $order->shipping_address ?: 'N/A',
+                                        'customer_name' =>
+                                            $order->user?->full_name ?? ($order->guest_name ?? 'Khách vãng lai'),
+                                        'customer_phone' =>
+                                            $order->user?->phone_number ?? ($order->guest_phone ?? 'N/A'),
+                                        'customer_email' => $order->user?->email ?? ($order->guest_email ?? 'N/A'),
+                                        'shipping_address' =>
+                                            $order->user?->address ?? ($order->guest_address ?? 'N/A'),
                                         'total_amount' =>
                                             number_format((float) $order->total_amount, 0, ',', '.') . 'đ',
                                         'discount_amount' =>
@@ -221,10 +253,12 @@
                                             ->map(function ($item) {
                                                 return [
                                                     'product_name' =>
-                                                        $item->productSku?->product?->name ?? 'Sản phẩm không tồn tại',
-                                                    'sku' => $item->productSku?->sku ?? 'N/A',
-                                                    'size' => $item->productSku?->size ?? '-',
-                                                    'color' => $item->productSku?->color ?? '-',
+                                                        $item->product_name ?:
+                                                        $item->productSku?->product?->name ?:
+                                                        'Sản phẩm',
+                                                    'sku' => $item->product_sku ?: $item->productSku?->sku ?: 'N/A',
+                                                    'size' => $item->product_size ?: $item->productSku?->size ?: '-',
+                                                    'color' => $item->product_color ?: $item->productSku?->color ?: '-',
                                                     'quantity' => (int) $item->quantity,
                                                     'price' => number_format((float) $item->price, 0, ',', '.') . 'đ',
                                                 ];
@@ -266,19 +300,22 @@
                                         @endforeach
                                     </select>
 
-                                    <select name="payment_status" @disabled($isLockedOrder)
-                                        class="w-full rounded-lg border border-gray-200 px-2 py-1.5 text-xs focus:outline-none focus:border-[#bc9c75] disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-500">
-                                        @foreach ($paymentStatuses as $item)
-                                            <option value="{{ $item->value }}" @selected($order->payment?->status === $item->value)>
-                                                TT: {{ $item->label() }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <div
+                                        class="w-full rounded-lg border border-gray-200 bg-gray-50 px-2 py-1.5 text-xs text-gray-600">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <span class="font-semibold uppercase tracking-wide text-gray-500">Thanh
+                                                toán</span>
+                                            <span
+                                                class="inline-flex rounded-full px-2 py-0.5 font-semibold {{ $order->payment?->status ? PaymentStatus::from($order->payment->status)->badgeClass() : 'bg-slate-100 text-slate-700' }}">
+                                                {{ $order->payment?->status ? PaymentStatus::from($order->payment->status)->label() : 'Chưa tạo giao dịch' }}
+                                            </span>
+                                        </div>
+                                    </div>
 
                                     @if ($isLockedOrder)
                                         <div
                                             class="w-full rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-center text-[11px] font-semibold text-emerald-700">
-                                            {{ $isCancelledOrder ? 'Đơn đã hủy - đã khóa chỉnh sửa' : 'Đơn đã hoàn thành - đã khóa chỉnh sửa' }}
+                                            {{ $isCancelledOrder ? 'Đơn đã hủy' : 'Đơn đã hoàn thành' }}
                                         </div>
                                     @else
                                         <button type="submit"
@@ -301,7 +338,7 @@
         </div>
 
         <div class="border-t border-gray-100 px-4 py-3">
-            {{ $orders->links('pagination::bootstrap-5') }}
+            {{ $orders->links() }}
         </div>
     </div>
 

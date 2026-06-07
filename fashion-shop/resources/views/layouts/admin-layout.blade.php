@@ -207,6 +207,22 @@
                                     </span>
                                 @endif
                             </a>
+                            <a href="{{ route('admin.return-requests') }}"
+                                class="nav-item group justify-between {{ Request::routeIs('admin.return-requests') ? 'active' : '' }}">
+                                <div class="flex items-center gap-3">
+                                    <div class="nav-icon-box">
+                                        <i class="fa-solid fa-rotate-left text-[15px]"></i>
+                                    </div>
+                                    <span class="font-medium">Đổi / trả</span>
+                                </div>
+                                @if (($globalReturnRequestsPendingCount ?? 0) > 0)
+                                    <span
+                                        class="ml-2 inline-flex items-center gap-1 rounded-full bg-red-500 px-2 py-1 text-[10px] font-black text-white leading-none">
+                                        <span class="h-1.5 w-1.5 rounded-full bg-white"></span>
+                                        {{ ($globalReturnRequestsPendingCount ?? 0) > 99 ? '99+' : $globalReturnRequestsPendingCount }}
+                                    </span>
+                                @endif
+                            </a>
                             <a href="{{ route('admin.feedback-manager') }}"
                                 class="nav-item group {{ Request::routeIs('admin.feedback-manager') ? 'active' : '' }}">
                                 <div class="nav-icon-box">

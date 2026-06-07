@@ -16,7 +16,7 @@
                 <div class="relative group">
                     <i
                         class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bc9c75] transition-colors"></i>
-                    <input type="text" name="login_id" placeholder="Nhập username" value="{{ old('login_id') }}"
+                    <input type="text" name="login_id" placeholder="Nhập username/email" value="{{ old('login_id') }}"
                         class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:border-[#bc9c75] focus:ring-1 focus:ring-[#bc9c75] transition-all text-sm">
                 </div>
                 @error('login_id')

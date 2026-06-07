@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 
 class FlashSalePricing
 {
+    // flashsale đang diễn ra
     public static function activeSales(?CarbonInterface $now = null): Collection
     {
         $now = $now ?? now();
@@ -22,6 +23,7 @@ class FlashSalePricing
             ->get();
     }
 
+    // flashsale áp dụng cho sản phẩm
     public static function applyProduct(Products $product, ?Collection $flashSales = null, ?CarbonInterface $now = null): Products
     {
         $flashSales = $flashSales ?? self::activeSales($now);
@@ -33,11 +35,13 @@ class FlashSalePricing
         return $product;
     }
 
+    // flashsale áp dụng cho toàn bộ sản phẩm
     public static function applyProducts(Collection $products, ?Collection $flashSales = null, ?CarbonInterface $now = null): Collection
     {
         return $products->map(fn (Products $product) => self::applyProduct($product, $flashSales, $now));
     }
 
+    // check flashsale sản phẩm
     public static function hasSale(Products $product): bool
     {
         $basePrice = (float) ($product->base_price ?? 0);
@@ -46,6 +50,7 @@ class FlashSalePricing
         return $salePrice > 0 && $salePrice < $basePrice;
     }
 
+    // giá hiển thị sau khi áp dụng flashsale
     public static function displayPrice(Products $product): float
     {
         $salePrice = $product->getAttribute('sale_price');
@@ -57,6 +62,7 @@ class FlashSalePricing
         return (float) ($product->base_price ?? 0);
     }
 
+    // tính phần trăm giảm giá từ giá gốc và giá khuyến mãi
     public static function discountPercent(Products $product, ?float $salePrice = null): int
     {
         $basePrice = (float) ($product->base_price ?? 0);
@@ -69,6 +75,7 @@ class FlashSalePricing
         return (int) round((($basePrice - $salePrice) / $basePrice) * 100);
     }
 
+    // tìm giá bán tốt nhất từ các flash sale áp dụng cho sản phẩm
     private static function resolveSalePrice(Products $product, Collection $flashSales): ?float
     {
         $basePrice = (float) ($product->base_price ?? 0);

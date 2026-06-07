@@ -23,6 +23,7 @@ class ProductSearch extends Component
 
         if ($keyword === '') {
             $this->showResults = false;
+
             return;
         }
 
@@ -46,13 +47,13 @@ class ProductSearch extends Component
             ->with(['category:id,name', 'collection:id,name'])
             ->where('is_active', true)
             ->where(function ($query) use ($keyword): void {
-                $query->where('name', 'like', '%' . $keyword . '%')
-                    ->orWhere('product_code', 'like', '%' . $keyword . '%')
+                $query->where('name', 'like', '%'.$keyword.'%')
+                    ->orWhere('product_code', 'like', '%'.$keyword.'%')
                     ->orWhereHas('category', function ($subQuery) use ($keyword): void {
-                        $subQuery->where('name', 'like', '%' . $keyword . '%');
+                        $subQuery->where('name', 'like', '%'.$keyword.'%');
                     })
                     ->orWhereHas('collection', function ($subQuery) use ($keyword): void {
-                        $subQuery->where('name', 'like', '%' . $keyword . '%');
+                        $subQuery->where('name', 'like', '%'.$keyword.'%');
                     });
             })
             ->orderByDesc('id')

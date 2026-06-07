@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CustomerMembershipLevel extends Model
 {
@@ -13,7 +14,12 @@ class CustomerMembershipLevel extends Model
         'points',
     ];
 
-    public function membershipLevel()
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function membershipLevel(): BelongsTo
     {
         return $this->belongsTo(MembershipLevel::class, 'membership_level_id');
     }

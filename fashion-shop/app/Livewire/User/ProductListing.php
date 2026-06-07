@@ -2,11 +2,13 @@
 
 namespace App\Livewire\User;
 
+use App\Enums\VoucherStatus;
 use App\Models\Categories;
 use App\Models\Products;
 use App\Models\ProductSkus;
 use App\Models\UserVoucher;
 use App\Models\Voucher;
+use App\Services\VoucherService;
 use App\Support\FlashSalePricing;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -274,6 +276,9 @@ class ProductListing extends Component
             return;
         }
 
+        $voucherService = new VoucherService;
+        $userId = (int) Auth::id();
+
         $voucher = Voucher::query()->find($voucherId);
 
         if (! $voucher) {
@@ -282,40 +287,55 @@ class ProductListing extends Component
             return;
         }
 
-        if (
-            ! $voucher->is_active
-            || ($voucher->start_date && now()->lt($voucher->start_date))
-            || ($voucher->end_date && now()->gt($voucher->end_date))
-            || (! is_null($voucher->usage_limit) && (int) $voucher->used_count >= (int) $voucher->usage_limit)
-        ) {
+        // Kiểm tra voucher có khả dụng không
+        if (! $voucherService->isVoucherAvailable($voucher)) {
             $this->dispatch('app-toast', message: 'Voucher hiện không khả dụng.', type: 'error');
 
             return;
         }
 
-        $userVoucher = UserVoucher::query()->firstOrCreate(
-            [
-                'user_id' => Auth::id(),
-                'voucher_id' => $voucher->id,
-            ],
-            [
-                'status' => 'unused',
-                'collected_at' => now(),
-            ]
-        );
-
-        $voucherCount = UserVoucher::query()
-            ->where('user_id', Auth::id())
-            ->count();
-
-        $this->dispatch('voucher-count-updated', count: $voucherCount);
-
-        if ($userVoucher->wasRecentlyCreated) {
-            $this->dispatch('app-toast', message: 'Đã lưu voucher vào tài khoản của bạn.', type: 'success');
+        // Kiểm tra voucher đã được sử dụng bởi user này chưa
+        if ($voucherService->isVoucherUsedByUser($userId, $voucherId)) {
+            $this->dispatch('app-toast', message: 'Voucher này đã được sử dụng, không thể sử dụng lại.', type: 'error');
 
             return;
         }
 
-        $this->dispatch('app-toast', message: 'Voucher đã có trong ví của bạn.', type: 'success');
+        // Xóa voucher hết hạn và đã dùng
+        $voucherService->cleanupExpiredAndUsedVouchers($userId);
+
+        // Kiểm tra xem user đã lưu voucher này chưa
+        $existingUserVoucher = UserVoucher::query()
+            ->where('user_id', $userId)
+            ->where('voucher_id', $voucherId)
+            ->first();
+
+        if ($existingUserVoucher && $existingUserVoucher->status === VoucherStatus::UNUSED->value) {
+            $this->dispatch('app-toast', message: 'Voucher đã có trong ví của bạn.', type: 'success');
+
+            return;
+        }
+
+        // Nếu đã sử dụng trước đó, không cho phép thêm lại
+        if ($existingUserVoucher && $existingUserVoucher->status === VoucherStatus::USED->value) {
+            $this->dispatch('app-toast', message: 'Voucher này đã được sử dụng, không thể sử dụng lại.', type: 'error');
+
+            return;
+        }
+
+        $userVoucher = UserVoucher::query()->create([
+            'user_id' => $userId,
+            'voucher_id' => $voucherId,
+            'status' => VoucherStatus::UNUSED->value,
+            'collected_at' => now(),
+        ]);
+
+        $voucherCount = UserVoucher::query()
+            ->where('user_id', $userId)
+            ->where('status', VoucherStatus::UNUSED->value)
+            ->count();
+
+        $this->dispatch('voucher-count-updated', count: $voucherCount);
+        $this->dispatch('app-toast', message: 'Đã lưu voucher vào tài khoản của bạn.', type: 'success');
     }
 }

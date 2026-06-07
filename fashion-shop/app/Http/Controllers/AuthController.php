@@ -61,15 +61,21 @@ class AuthController extends Controller
     // Register
     public function registerHandler(Request $request)
     {
+
+        $request->merge([
+            'username' => is_string($request->input('username')) ? trim($request->input('username')) : $request->input('username'),
+        ]);
+
         // Validate data
         $request->validate([
-            'username' => 'required|unique:users,username',
+            'username' => ['required', 'unique:users,username', 'regex:/^\S+$/'],
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:5|confirmed',
             'password_confirmation' => 'required',
         ], [
             'username.required' => 'Vui lòng nhập tên đăng nhập',
             'username.unique' => 'Tên đăng nhập đã tồn tại',
+            'username.regex' => 'Tên đăng nhập không được chứa khoảng trắng',
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Địa chỉ email không hợp lệ',
             'email.unique' => 'Email đã tồn tại',
@@ -109,7 +115,7 @@ class AuthController extends Controller
         return redirect()->route('dashboard');
     }
 
-    // login with Google
+    // chuyển hướng sang Google OAuth
     public function redirectToGoogle()
     {
         try {
@@ -120,6 +126,7 @@ class AuthController extends Controller
         }
     }
 
+    // Xử lý callback từ Google và đăng nhập hoặc tạo tài khoản mới
     public function handleGoogleCallback()
     {
         try {
@@ -203,7 +210,7 @@ class AuthController extends Controller
         return redirect()->route('dashboard');
     }
 
-    // Quên mật khẩu
+    // Gửi email đặt lại mật khẩu cho người dùng.
     public function sendPasswordResetEmail(Request $request)
     {
         $request->validate([
@@ -247,6 +254,7 @@ class AuthController extends Controller
         }
     }
 
+    // form đặt lại mật khẩu
     public function resetPasswordForm(Request $request, $token)
     {
         $email = $request->email;
@@ -271,7 +279,9 @@ class AuthController extends Controller
         return view('pages.auth.reset-password', $data);
     }
 
-    // Xử lý đặt lại mật khẩu
+    /**
+     * Cập nhật mật khẩu mới và xóa token đặt lại.
+     */
     public function resetPasswordHandler(Request $request)
     {
         $request->validate([

@@ -13,11 +13,13 @@ class SupportMessageSent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    // khởi tạo sự kiện và nạp dữ liệu liên quan để broadcast
     public function __construct(public SupportMessage $message)
     {
         $this->message->loadMissing(['conversation.user', 'sender']);
     }
 
+    // trả về các kênh broadcast cho cuộc hội thoại và hộp thư hỗ trợ
     public function broadcastOn(): array
     {
         $channels = [
@@ -34,6 +36,7 @@ class SupportMessageSent implements ShouldBroadcastNow
         return $channels;
     }
 
+    // đóng gói dữ liệu tin nhắn và hội thoại để gửi qua broadcast
     public function broadcastWith(): array
     {
         $conversation = $this->message->conversation;

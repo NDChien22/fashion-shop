@@ -20,6 +20,7 @@
     const minOrderInput = form.querySelector('input[name="min_order_value"]');
     const maxDiscountInput = form.querySelector('input[name="max_discount"]');
     const endDateInput = form.querySelector('input[name="end_date"]');
+    const startDateInput = form.querySelector('input[name="start_date"]');
     const maxDiscountGroup = form.querySelector('[data-max-discount-group]');
     const shippingCategoryNote = document.getElementById('shipping-category-note');
 
@@ -256,6 +257,26 @@
         }
     };
 
+    const syncEndDateMin = () => {
+        if (!startDateInput || !endDateInput) {
+            return;
+        }
+
+        const startVal = startDateInput.value || '';
+        if (startVal) {
+            endDateInput.min = startVal;
+
+            // If current end date is before new min, update it to min
+            if (endDateInput.value && endDateInput.value < startVal) {
+                endDateInput.value = startVal;
+                endDateInput.dispatchEvent(new Event('input', { bubbles: true }));
+                endDateInput.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        } else {
+            endDateInput.removeAttribute('min');
+        }
+    };
+
     if (categorySelect) {
         categorySelect.addEventListener('change', updateIdVisibility);
     }
@@ -265,6 +286,10 @@
         discountTypeInput.addEventListener('input', updateDiscountTypeBehavior);
     }
 
+    if (startDateInput) {
+        startDateInput.addEventListener('change', syncEndDateMin);
+        startDateInput.addEventListener('input', syncEndDateMin);
+    }
     bindLookupField(categorySearchInput, categoryIdHidden, categoryMap, 'category-options-list');
     bindLookupField(collectionSearchInput, collectionIdHidden, collectionMap, 'collection-options-list');
     bindLookupField(productSearchInput, productIdHidden, productMap, 'product-options-list');

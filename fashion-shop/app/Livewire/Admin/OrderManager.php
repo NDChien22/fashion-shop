@@ -59,18 +59,19 @@ class OrderManager extends Component
         $query = Order::query()
             ->with([
                 'payment:id,order_id,status,payment_method,transaction_id,amount',
-                'items:id,order_id,product_sku_id,quantity,price',
+                'items:id,order_id,product_sku_id,product_name,product_sku,product_size,product_color,quantity,price',
                 'items.productSku:id,product_id,sku,size,color',
                 'items.productSku.product:id,name',
                 'feedback:id,order_id,user_id,rating,content,created_at',
+                'returnRequest:id,order_id,user_id,request_type,status,reason,details,evidence_images,admin_note,admin_id,resolved_at,created_at',
             ]);
 
         $keyword = trim($this->q);
         if ($keyword !== '') {
             $query->where(function ($builder) use ($keyword): void {
                 $builder->where('order_code', 'like', '%'.$keyword.'%')
-                    ->orWhere('customer_name', 'like', '%'.$keyword.'%')
-                    ->orWhere('customer_phone', 'like', '%'.$keyword.'%');
+                    ->orWhere('guest_name', 'like', '%'.$keyword.'%')
+                    ->orWhere('guest_phone', 'like', '%'.$keyword.'%');
             });
         }
 

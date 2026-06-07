@@ -11,22 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vouchers', function (Blueprint $table) {
+        Schema::create('flash_sales', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique();
-            $table->string('category'); 
+            $table->string('name');
+            $table->string('discount_type');
+            $table->decimal('discount_value', 12, 2);
+            $table->string('scope');
             $table->integer('category_id')->nullable();
             $table->integer('collection_id')->nullable();
             $table->integer('product_id')->nullable();
-            $table->string('discount_type');
-            $table->decimal('discount_value', 12, 2);
-            $table->decimal('min_order_value', 12, 2);
-            $table->decimal('max_discount', 12, 2)->nullable();
             $table->integer('usage_limit')->nullable();
             $table->integer('used_count')->default(0);
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->boolean('is_active')->default(true);   
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vouchers');
+        Schema::dropIfExists('flash_sales');
     }
 };

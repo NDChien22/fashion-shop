@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Enums\OrderReturnRequestStatus;
+use App\Models\OrderReturnRequest;
 use App\Models\Whistlist;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -50,6 +52,10 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('globalWhistlistProductIds', $ids);
             $view->with('globalWhistlistCount', count($ids));
+            $view->with(
+                'globalReturnRequestsPendingCount',
+                (int) OrderReturnRequest::query()->where('status', OrderReturnRequestStatus::PENDING->value)->count()
+            );
         });
     }
 }

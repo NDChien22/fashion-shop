@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -11,6 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (DB::getDriverName() !== 'mysql' && DB::getDriverName() !== 'mariadb') {
+            return;
+        }
         Schema::table('order_vouchers', function (Blueprint $table): void {
             $table->unsignedBigInteger('order_id')->after('id');
             $table->unsignedBigInteger('voucher_id')->after('order_id');
@@ -23,6 +27,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        if (DB::getDriverName() !== 'mysql' && DB::getDriverName() !== 'mariadb') {
+            return;
+        }
         Schema::table('order_vouchers', function (Blueprint $table): void {
             $table->dropColumn(['order_id', 'voucher_id', 'discount_amount']);
         });

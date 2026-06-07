@@ -31,6 +31,7 @@ class Products extends Model
         'is_active' => 'boolean',
     ];
 
+    // tạo slug tự động từ tên sản phẩm
     public function sluggable(): array
     {
         return
@@ -59,5 +60,20 @@ class Products extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(OrderFeedback::class, 'product_id');
+    }
+
+    public function vouchers(): HasMany
+    {
+        return $this->hasMany(Voucher::class, 'product_id');
+    }
+
+    public function flashSales(): HasMany
+    {
+        return $this->hasMany(FlashSale::class, 'product_id');
+    }
+
+    public function wishlists(): HasMany
+    {
+        return $this->hasMany(Whistlist::class, 'product_id');
     }
 }

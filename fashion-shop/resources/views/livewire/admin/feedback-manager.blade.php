@@ -89,8 +89,8 @@
                             </div>
 
                             <p class="mt-1 text-sm text-gray-600">
-                                {{ $order?->customer_name ?: $user?->full_name ?: $user?->username ?: 'Khách vãng lai' }}
-                                · {{ $order?->customer_email ?: $user?->email ?: 'N/A' }}
+                                {{ $order?->user?->full_name ?? ($order?->guest_name ?? ($user?->full_name ?? ($user?->username ?? 'Khách vãng lai'))) }}
+                                · {{ $order?->user?->email ?? ($order?->guest_email ?? ($user?->email ?? 'N/A')) }}
                             </p>
 
                             <p class="mt-3 rounded-2xl bg-[#fcfaf8] px-4 py-3 text-sm leading-6 text-gray-700">
@@ -142,9 +142,9 @@
                                     {{ $feedback->created_at?->format('d/m/Y H:i') }}</span>
                                 <span class="rounded-full bg-slate-100 px-3 py-1">Đơn:
                                     {{ number_format((float) ($order?->final_amount ?? 0), 0, ',', '.') }}đ</span>
-                                @if ($order?->customer_phone)
+                                @if ($order?->user?->phone_number || $order?->guest_phone)
                                     <span class="rounded-full bg-slate-100 px-3 py-1">SĐT:
-                                        {{ $order->customer_phone }}</span>
+                                        {{ $order->user?->phone_number ?? $order->guest_phone }}</span>
                                 @endif
                             </div>
                         </div>

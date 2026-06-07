@@ -37,12 +37,14 @@ class Voucher extends Component
         $this->resetPage();
     }
 
+    // bật/tắt trạng thái của voucher
     public function toggleStatus(int $voucherId): void
     {
         $voucher = VoucherModel::query()->find($voucherId);
 
         if (! $voucher) {
             session()->flash('error', 'Không tìm thấy voucher cần cập nhật trạng thái.');
+
             return;
         }
 
@@ -53,12 +55,14 @@ class Voucher extends Component
         session()->flash('success', 'Đã cập nhật trạng thái voucher.');
     }
 
+    // Xóa voucher
     public function deleteVoucher(int $voucherId): void
     {
         $voucher = VoucherModel::query()->find($voucherId);
 
         if (! $voucher) {
             session()->flash('error', 'Không tìm thấy voucher cần xóa.');
+
             return;
         }
 
@@ -67,25 +71,27 @@ class Voucher extends Component
         $this->resetPage();
     }
 
+    // hiển thị danh sách voucher
     public function render()
     {
         $now = now();
-
         $query = VoucherModel::query()
             ->with([
                 'categoryDetail:id,name',
                 'collectionDetail:id,name',
                 'productDetail:id,name,product_code',
             ])
+            // lọc tìm kiếm
             ->when(trim($this->search) !== '', function ($builder): void {
                 $keyword = trim($this->search);
 
                 $builder->where(function ($subQuery) use ($keyword): void {
-                    $subQuery->where('code', 'like', '%' . $keyword . '%')
-                        ->orWhere('category', 'like', '%' . $keyword . '%')
-                        ->orWhere('discount_type', 'like', '%' . $keyword . '%');
+                    $subQuery->where('code', 'like', '%'.$keyword.'%')
+                        ->orWhere('category', 'like', '%'.$keyword.'%')
+                        ->orWhere('discount_type', 'like', '%'.$keyword.'%');
                 });
             })
+            // lọc trạng thái
             ->when($this->statusFilter !== 'all', function ($builder) use ($now): void {
                 if ($this->statusFilter === 'active') {
                     $builder->where('is_active', true)
@@ -101,26 +107,31 @@ class Voucher extends Component
                     $builder->where('end_date', '<', $now);
                 }
             })
+            // lọc phạm vi
             ->when($this->scopeFilter !== 'all', function ($builder): void {
                 if ($this->scopeFilter === 'all_products') {
                     $builder->where('category', 'all');
+
                     return;
                 }
 
                 $builder->where('category', $this->scopeFilter);
             });
-
+        // phân trang kết quả
         $vouchers = $query
             ->latest('id')
             ->paginate(9);
 
         $stats = [
+            // Tổng số voucher
             'total' => VoucherModel::query()->count(),
+            // đang hoạt động
             'active' => VoucherModel::query()
                 ->where('is_active', true)
                 ->where('start_date', '<=', $now)
                 ->where('end_date', '>=', $now)
                 ->count(),
+            // hết hạn trong 7 ngày tới
             'expiringSoon' => VoucherModel::query()
                 ->where('is_active', true)
                 ->where('end_date', '>=', $now)

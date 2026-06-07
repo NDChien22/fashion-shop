@@ -86,19 +86,55 @@
             {{ $name }}
         </a>
 
-        <div class="pt-1 flex items-center justify-between gap-2">
-            <div class="flex items-center gap-2 flex-wrap">
-                <span
-                    class="text-[#bc9c75] font-black text-[17px] leading-none">{{ number_format($displayPrice, 0, ',', '.') }}đ</span>
-                @if ($isOnSale)
-                    <span
-                        class="text-xs text-gray-400 line-through">{{ number_format($basePrice, 0, ',', '.') }}đ</span>
-                @endif
-            </div>
+        @php
+            $averageRating = null;
+            $ratingCount = 0;
 
-            @if ($soldLabel)
-                <span class="text-xs text-gray-500">{{ $soldLabel }}</span>
-            @endif
+            if (isset($product->average_rating)) {
+                $averageRating = (float) $product->average_rating;
+            } elseif ($product->relationLoaded('reviews')) {
+                $avg = $product->reviews->avg('rating');
+                $averageRating = $avg ? round((float) $avg, 1) : null;
+                $ratingCount = $product->reviews->count();
+            } else {
+                try {
+                    $avg = \App\Models\OrderFeedback::query()->where('product_id', $productId)->avg('rating');
+                    $averageRating = $avg ? round((float) $avg, 1) : null;
+                    $ratingCount = (int) \App\Models\OrderFeedback::query()->where('product_id', $productId)->count();
+                } catch (\Throwable $e) {
+                    $averageRating = null;
+                    $ratingCount = 0;
+                }
+            }
+        @endphp
+
+        <div class="pt-1 flex items-center justify-between gap-2">
+            <div class="flex flex-col">
+                @if (is_numeric($averageRating) && $averageRating > 0)
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="flex items-center text-[#c5a059]">
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if ($i <= floor($averageRating))
+                                    <i class="ri-star-fill"></i>
+                                @else
+                                    <i class="ri-star-line text-gray-300"></i>
+                                @endif
+                            @endfor
+                        </div>
+                        <span class="text-xs text-gray-600">{{ number_format($averageRating, 1) }}
+                            ({{ $ratingCount }})</span>
+                    </div>
+                @endif
+
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span
+                        class="text-[#bc9c75] font-black text-[17px] leading-none">{{ number_format($displayPrice, 0, ',', '.') }}đ</span>
+                    @if ($isOnSale)
+                        <span
+                            class="text-xs text-gray-400 line-through">{{ number_format($basePrice, 0, ',', '.') }}đ</span>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 </div>

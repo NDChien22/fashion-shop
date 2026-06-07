@@ -20,6 +20,9 @@ class CustomerServices extends Component
 
     public int $unreadCount = 0;
 
+    /**
+     * Đăng ký listener Realtime cho khách đã đăng nhập.
+     */
     public function getListeners(): array
     {
         if (! Auth::check()) {
@@ -31,11 +34,17 @@ class CustomerServices extends Component
         ];
     }
 
+    /**
+     * Làm mới hội thoại khi có tin nhắn Realtime đến.
+     */
     public function handleRealtimeMessage(array $payload = []): void
     {
         $this->refreshConversation();
     }
 
+    /**
+     * Làm mới dữ liệu khi widget đang mở và được poll định kỳ.
+     */
     public function pollRefresh(): void
     {
         if (! $this->isOpen || ! Auth::check()) {
@@ -45,6 +54,9 @@ class CustomerServices extends Component
         $this->refreshConversation();
     }
 
+    /**
+     * Bật hoặc tắt widget hỗ trợ khách hàng.
+     */
     public function toggleWidget(): void
     {
         $this->isOpen = ! $this->isOpen;
@@ -54,17 +66,26 @@ class CustomerServices extends Component
         }
     }
 
+    /**
+     * Mở widget và tải hội thoại hiện tại.
+     */
     public function openWidget(): void
     {
         $this->isOpen = true;
         $this->loadConversation();
     }
 
+    /**
+     * Đóng widget hỗ trợ khách hàng.
+     */
     public function closeWidget(): void
     {
         $this->isOpen = false;
     }
 
+    /**
+     * Nạp hoặc tạo hội thoại hỗ trợ của người dùng hiện tại.
+     */
     public function loadConversation(): void
     {
         if (! Auth::check()) {
@@ -94,6 +115,9 @@ class CustomerServices extends Component
         $this->refreshConversation();
     }
 
+    /**
+     * Làm mới danh sách tin nhắn và trạng thái chưa đọc.
+     */
     public function refreshConversation(): void
     {
         if ($this->conversationId === null) {
@@ -138,6 +162,9 @@ class CustomerServices extends Component
             ->update(['read_at' => now()]);
     }
 
+    /**
+     * Gửi tin nhắn mới từ widget hỗ trợ.
+     */
     public function sendMessage(): void
     {
         if (! Auth::check()) {
@@ -184,6 +211,9 @@ class CustomerServices extends Component
         $this->refreshConversation();
     }
 
+    /**
+     * Hiển thị giao diện widget hỗ trợ.
+     */
     public function render()
     {
         return view('livewire.customer-services');

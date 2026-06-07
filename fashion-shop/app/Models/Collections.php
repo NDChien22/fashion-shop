@@ -23,13 +23,28 @@ class Collections extends Model
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 
     public function products(): HasMany
     {
         return $this->hasMany(Products::class, 'collection_id');
+    }
+
+    public function vouchers(): HasMany
+    {
+        return $this->hasMany(Voucher::class, 'collection_id');
+    }
+
+    public function flashSales(): HasMany
+    {
+        return $this->hasMany(FlashSale::class, 'collection_id');
+    }
+
+    public function banners(): HasMany
+    {
+        return $this->hasMany(Banner::class, 'collection_id');
     }
 }

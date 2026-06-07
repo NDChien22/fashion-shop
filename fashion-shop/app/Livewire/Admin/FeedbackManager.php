@@ -110,7 +110,7 @@ class FeedbackManager extends Component
     {
         $query = OrderFeedback::query()
             ->with([
-                'order:id,order_code,user_id,customer_name,customer_email,customer_phone,final_amount,created_at',
+                'order:id,order_code,user_id,guest_name,guest_email,guest_phone,final_amount,created_at',
                 'product:id,name,slug',
                 'user:id,username,full_name,email',
                 'adminReplyUser:id,username,full_name,email',
@@ -122,9 +122,9 @@ class FeedbackManager extends Component
                     $scope->where('content', 'like', '%'.$keyword.'%')
                         ->orWhereHas('order', function (Builder $orderQuery) use ($keyword): void {
                             $orderQuery->where('order_code', 'like', '%'.$keyword.'%')
-                                ->orWhere('customer_name', 'like', '%'.$keyword.'%')
-                                ->orWhere('customer_email', 'like', '%'.$keyword.'%')
-                                ->orWhere('customer_phone', 'like', '%'.$keyword.'%');
+                                ->orWhere('guest_name', 'like', '%'.$keyword.'%')
+                                ->orWhere('guest_email', 'like', '%'.$keyword.'%')
+                                ->orWhere('guest_phone', 'like', '%'.$keyword.'%');
                         })
                         ->orWhereHas('product', function (Builder $productQuery) use ($keyword): void {
                             $productQuery->where('name', 'like', '%'.$keyword.'%');

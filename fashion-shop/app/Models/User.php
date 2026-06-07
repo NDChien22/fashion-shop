@@ -7,6 +7,7 @@ namespace App\Models;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -82,5 +83,30 @@ class User extends Authenticatable
     public function orderFeedbacks(): HasMany
     {
         return $this->hasMany(OrderFeedback::class, 'user_id');
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class, 'user_id');
+    }
+
+    public function staffOrders(): HasManyThrough
+    {
+        return $this->hasManyThrough(Order::class, Employees::class, 'user_id', 'staff_id', 'id', 'id');
+    }
+
+    public function activities(): HasMany
+    {
+        return $this->hasMany(UserActivity::class, 'user_id');
+    }
+
+    public function customerMembershipLevels(): HasMany
+    {
+        return $this->hasMany(CustomerMembershipLevel::class, 'user_id');
+    }
+
+    public function orderReturnRequests(): HasMany
+    {
+        return $this->hasMany(OrderReturnRequest::class, 'user_id');
     }
 }

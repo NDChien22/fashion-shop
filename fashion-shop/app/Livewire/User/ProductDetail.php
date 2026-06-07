@@ -3,9 +3,9 @@
 namespace App\Livewire\User;
 
 use App\Models\Cart;
+use App\Models\OrderFeedback;
 use App\Models\Products;
 use App\Models\ProductSkus;
-use App\Models\OrderFeedback;
 use App\Models\Whistlist;
 use App\Support\FlashSalePricing;
 use Illuminate\Database\Eloquent\Builder;
@@ -43,6 +43,7 @@ class ProductDetail extends Component
 
     public ?int $selectedSkuId = null;
 
+    // tạo dữ liệu ban đầu cho trang chi tiết sản phẩm
     public function mount(Products $product)
     {
         $this->product = $product->loadMissing(['category', 'collection', 'skus']);
@@ -68,11 +69,13 @@ class ProductDetail extends Component
         $this->refreshWishlistState();
     }
 
+    // thay đổi ảnh hiển thị khi chọn một ảnh khác
     public function setActiveImage(string $image): void
     {
         $this->activeImage = $image;
     }
 
+    // chọn một SKU cụ thể
     public function selectSku(int $skuId): void
     {
         $sku = $this->product->skus->firstWhere('id', $skuId);
@@ -87,28 +90,34 @@ class ProductDetail extends Component
         $this->selectedQuantity = 1;
     }
 
+    // chọn màu và đồng bộ lại SKU phù hợp
     public function selectColor(string $color): void
     {
         $this->selectedColor = trim($color);
         $this->syncSelectedSku();
     }
 
+    // chọn size và đồng bộ lại SKU phù hợp
     public function selectSize(string $size): void
     {
         $this->selectedSize = strtoupper(trim($size));
         $this->syncSelectedSku();
     }
 
+    // tăng số lượng mua lên một đơn vị
     public function increaseQuantity(): void
     {
         $this->selectedQuantity++;
         $this->clampQuantityToStock();
     }
 
+    // giảm số lượng mua xuống nhưng không thấp hơn 1
     public function decreaseQuantity(): void
     {
         $this->selectedQuantity = max(1, $this->selectedQuantity - 1);
     }
+
+    // chuẩn hóa số lượng khi người dùng nhập trực tiếp
 
     public function updatedSelectedQuantity(): void
     {
@@ -116,6 +125,7 @@ class ProductDetail extends Component
         $this->clampQuantityToStock();
     }
 
+    // thêm sản phẩm vào giỏ hàng với SKU và số lượng đã chọn
     public function addToCart(): void
     {
         $sku = $this->currentSku();
@@ -145,6 +155,7 @@ class ProductDetail extends Component
         $this->selectedQuantity = 1;
     }
 
+    // thêm hoặc xóa sản phẩm khỏi whistlist
     public function toggleWhistlist(): void
     {
         $existing = $this->whistlistQuery()
@@ -179,10 +190,12 @@ class ProductDetail extends Component
         $this->dispatch('app-toast', message: $message, type: 'success');
     }
 
+    // hiển thị trang chi tiết sản phẩm
     public function render()
     {
+        // truy vấn đánh giá của sản phẩm
         $reviewsQuery = OrderFeedback::query()->where('product_id', $this->product->id);
-
+        // đánh giá
         $reviews = $reviewsQuery
             ->with([
                 'user:id,username,full_name',
@@ -191,6 +204,7 @@ class ProductDetail extends Component
             ->latest()
             ->paginate(5);
 
+        // lấy danh sách sản phẩm liên quan cùng category nhưng khác id
         $relatedProducts = Products::query()
             ->where('category_id', $this->product->category_id)
             ->where('id', '!=', $this->product->id)
@@ -212,6 +226,7 @@ class ProductDetail extends Component
         ]);
     }
 
+    // lấy SKU hiện tại
     private function currentSku(): ?ProductSkus
     {
         if ($this->selectedSkuId === null) {
@@ -221,6 +236,7 @@ class ProductDetail extends Component
         return $this->product->skus->firstWhere('id', $this->selectedSkuId);
     }
 
+    // giới hạn số lượng mua tối đa không vượt quá tồn kho của SKU
     private function clampQuantityToStock(): void
     {
         $sku = $this->currentSku();
@@ -232,6 +248,7 @@ class ProductDetail extends Component
         $this->selectedQuantity = min($this->selectedQuantity, max(1, (int) $sku->stock));
     }
 
+    // đồng bộ lại SKU theo màu và size đang chọn
     private function syncSelectedSku(): void
     {
         $matchedSku = $this->product->skus->first(function (ProductSkus $sku): bool {
@@ -257,6 +274,7 @@ class ProductDetail extends Component
         }
     }
 
+    // tạo danh sách màu sắc khả dụng từ các SKU
     private function buildColorOptions(): array
     {
         return $this->product->skus
@@ -268,6 +286,7 @@ class ProductDetail extends Component
             ->all();
     }
 
+    // tạo danh sách size khả dụng từ các SKU
     private function buildSizeOptions(): array
     {
         return $this->product->skus
@@ -279,6 +298,7 @@ class ProductDetail extends Component
             ->all();
     }
 
+    // chuẩn hóa danh sách ảnh sản phẩm để hiển thị
     private function buildImages(): array
     {
         $paths = array_filter(array_merge([
@@ -301,6 +321,7 @@ class ProductDetail extends Component
         return $images;
     }
 
+    // chuyển đường dẫn ảnh về URL có thể hiển thị
     private function normalizeImageUrl(string $path): ?string
     {
         $path = trim(str_replace('\\', '/', $path));

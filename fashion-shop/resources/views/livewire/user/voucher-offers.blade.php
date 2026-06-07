@@ -92,11 +92,10 @@
                                         </button>
                                     @endif
                                 @else
-                                    <button type="button"
-                                        onclick="window.dispatchEvent(new CustomEvent('copy-voucher-code', { detail: { code: {{ Illuminate\Support\Js::from($voucher->code) }} } }))"
-                                        class="w-full h-9 rounded-xl bg-[#ff4d4f] text-white text-[11px] font-bold uppercase tracking-wide transition-all duration-200 hover:brightness-105 active:scale-[0.98]">
+                                    <a href="{{ route('login') }}"
+                                        class="inline-flex w-full items-center justify-center h-9 rounded-xl bg-[#ff4d4f] text-white text-[11px] font-bold uppercase tracking-wide transition-all duration-200 hover:brightness-105 active:scale-[0.98]">
                                         Lấy mã
-                                    </button>
+                                    </a>
                                 @endauth
                             </div>
                         </div>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class MembershipLevel extends Model
 {
@@ -13,7 +14,7 @@ class MembershipLevel extends Model
         'discount_rate',
     ];
 
-    public function customerMembershipLevels()
+    public function customerMembershipLevels(): HasMany
     {
         return $this->hasMany(CustomerMembershipLevel::class, 'membership_level_id');
     }

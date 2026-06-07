@@ -22,6 +22,8 @@ class SupportManager extends Component
 
     public string $replyMessage = '';
 
+    public int $refreshTrigger = 0;
+
     protected $queryString = [
         'search' => ['except' => ''],
         'statusFilter' => ['except' => 'all'],
@@ -30,7 +32,7 @@ class SupportManager extends Component
     public function getListeners(): array
     {
         return [
-            'echo-private:support.inbox,SupportMessageSent' => 'handleInboxRealtimeMessage',
+            'echo-private:support.inbox,App.Events.SupportMessageSent' => 'handleInboxRealtimeMessage',
         ];
     }
 
@@ -38,6 +40,7 @@ class SupportManager extends Component
     {
         $conversationId = isset($payload['conversation_id']) ? (int) $payload['conversation_id'] : null;
         $this->refreshInbox($conversationId);
+        $this->refreshTrigger++;
     }
 
     public function mount(): void
@@ -89,6 +92,11 @@ class SupportManager extends Component
                 ->whereNull('read_at')
                 ->update(['read_at' => now()]);
         }
+    }
+
+    public function refreshConversationData(): void
+    {
+        $this->refreshTrigger++;
     }
 
     public function updateConversationStatus(string $status): void

@@ -5,19 +5,23 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\OrderReturnRequest;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class AdminController extends Controller
 {
     private array $invalidOrderStatuses;
 
+    // order status
     public function __construct()
     {
         $this->invalidOrderStatuses = [
             OrderStatus::CANCELLED->value,
             OrderStatus::PAYMENT_FAILED->value,
+            OrderStatus::RETURNED->value,
         ];
     }
 
@@ -41,32 +45,71 @@ class AdminController extends Controller
         return view('pages.admin.feedback-manager.feedback-manager');
     }
 
+    public function ReturnRequestManagerView(Request $request)
+    {
+        return view('pages.admin.return-request-manager.return-request-manager');
+    }
+
+    // dashboard
     public function DashboardView()
     {
         $today = Carbon::today();
+        $todayStart = $today->copy()->startOfDay();
+        $todayEnd = $today->copy()->endOfDay();
 
-        $validOrders = Order::query()->whereNotIn('status', $this->invalidOrderStatuses);
+        $isInTodayRange = function (?Carbon $date) use ($todayStart, $todayEnd): bool {
+            return $date?->betweenIncluded($todayStart, $todayEnd) ?? false;
+        };
+
+        $validOrders = Order::query()
+            ->whereNotIn('status', $this->invalidOrderStatuses)
+            ->get();
+
+        $todayOrders = $validOrders->filter(function (Order $order) use ($isInTodayRange): bool {
+            return $isInTodayRange($order->created_at);
+        });
+
+        $todayOrderIds = $todayOrders->pluck('id')->all();
+
+        $todayOrderItems = OrderItem::query()
+            ->with('order:id,created_at,status')
+            ->get()
+            ->filter(function (OrderItem $item) use ($todayOrderIds, $isInTodayRange): bool {
+                if (! $item->order) {
+                    return false;
+                }
+
+                return in_array((int) $item->order_id, $todayOrderIds, true)
+                    && $isInTodayRange($item->order->created_at)
+                    && ! in_array((string) $item->order->status, $this->invalidOrderStatuses, true);
+            });
+
+        $todayUsers = User::query()
+            ->get()
+            ->filter(function (User $user) use ($isInTodayRange): bool {
+                return $isInTodayRange($user->created_at) && (is_null($user->role) || $user->role !== 'admin');
+            });
+
+        $todayReturnRequests = OrderReturnRequest::query()
+            ->get()
+            ->filter(function (OrderReturnRequest $returnRequest) use ($isInTodayRange): bool {
+                return $isInTodayRange($returnRequest->created_at);
+            });
 
         $stats = [
-            'new_orders_today' => (clone $validOrders)
-                ->whereDate('created_at', $today)
-                ->count(),
-            'revenue_today' => (float) (clone $validOrders)
-                ->whereDate('created_at', $today)
-                ->sum('final_amount'),
-            'products_sold_today' => (int) OrderItem::query()
-                ->whereHas('order', function ($query) use ($today) {
-                    $query->whereDate('created_at', $today)
-                        ->whereNotIn('status', $this->invalidOrderStatuses);
-                })
-                ->sum('quantity'),
-            'new_customers_today' => User::query()
-                ->whereDate('created_at', $today)
-                ->where(function ($query) {
-                    $query->whereNull('role')->orWhere('role', '!=', 'admin');
-                })
-                ->count(),
+            'new_orders_today' => (int) $todayOrders->count(),
+            'revenue_today' => (float) $todayOrders->sum('final_amount'),
+            'products_sold_today' => (int) $todayOrderItems->sum('quantity'),
+            'new_customers_today' => (int) $todayUsers->count(),
             'pending_orders' => Order::query()->where('status', OrderStatus::PENDING->value)->count(),
+            'return_requests_total' => OrderReturnRequest::query()->count(),
+            'return_requests_today' => (int) $todayReturnRequests->count(),
+            'return_requests_pending' => OrderReturnRequest::query()->where('status', 'pending')->count(),
+            'return_requests_approved' => OrderReturnRequest::query()->where('status', 'approved')->count(),
+            'return_requests_rejected' => OrderReturnRequest::query()->where('status', 'rejected')->count(),
+            'return_requests_completed' => OrderReturnRequest::query()->where('status', 'completed')->count(),
+            'returned_orders' => Order::query()->where('status', OrderStatus::RETURNED->value)->count(),
+            'exchanged_orders' => Order::query()->where('status', OrderStatus::EXCHANGED->value)->count(),
         ];
 
         $recentOrders = Order::query()
@@ -81,6 +124,7 @@ class AdminController extends Controller
         ]);
     }
 
+    // revenue
     public function RevenueView()
     {
         $period = request('period', 'month');
@@ -131,6 +175,7 @@ class AdminController extends Controller
         return view('pages.admin.product-manager.product-manager');
     }
 
+    // doanh thu theo tháng
     private function buildMonthlyRevenueSeries(): Collection
     {
         $series = collect();

@@ -44,6 +44,7 @@ class Cart extends Model
         return $query->where('session_id', $sessionId);
     }
 
+    // cập nhật số lượng sản phẩm trong giỏ
     public static function putForUser(int $userId, int $productSkuId, int $quantity = 1): self
     {
         $item = static::firstOrNew([
@@ -58,6 +59,7 @@ class Cart extends Model
         return $item;
     }
 
+    // cập nhật số lượng sản phẩm trong giỏ tạm của session
     public static function putForSession(string $sessionId, int $productSkuId, int $quantity = 1): self
     {
         $item = static::firstOrNew([
@@ -72,6 +74,7 @@ class Cart extends Model
         return $item;
     }
 
+    // gộp giỏ hàng tạm của session vào giỏ hàng của user khi đăng nhập
     public static function mergeSessionToUser(string $sessionId, int $userId): void
     {
         static::query()
@@ -91,6 +94,7 @@ class Cart extends Model
             });
     }
 
+    // tính tổng tiền của dòng sản phẩm trong giỏ
     public function getLineAmountAttribute(): float
     {
         $basePrice = (float) ($this->productSku?->product?->base_price ?? 0);

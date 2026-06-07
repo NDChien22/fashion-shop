@@ -46,6 +46,7 @@ class SupportConversation extends Model
         return $this->hasOne(SupportMessage::class, 'support_conversation_id')->latestOfMany();
     }
 
+    // / Scope để lấy các cuộc trò chuyện đang mở
     public function scopeOpen(Builder $query): Builder
     {
         return $query->where('status', 'open');

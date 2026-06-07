@@ -8,6 +8,7 @@ use App\Models\Collections;
 use App\Models\Products;
 use App\Models\UserVoucher;
 use App\Models\Voucher;
+use App\Services\VoucherService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -16,9 +17,15 @@ class VoucherController extends Controller
 {
     public function userVoucherListView(Request $request)
     {
+        $voucherService = new VoucherService;
+        $userId = (int) $request->user()->id;
+
+        // Xóa voucher hết hạn và đã dùng
+        $voucherService->cleanupExpiredAndUsedVouchers($userId);
+
         $userVouchers = UserVoucher::query()
             ->with(['voucher'])
-            ->where('user_id', $request->user()->id)
+            ->where('user_id', $userId)
             ->where('status', VoucherStatus::UNUSED->value)
             ->orderByDesc('collected_at')
             ->orderByDesc('id')
@@ -31,25 +38,39 @@ class VoucherController extends Controller
 
     public function collectVoucherForUser(Request $request, Voucher $voucher)
     {
-        if (! $voucher->is_active || now()->lt($voucher->start_date) || now()->gt($voucher->end_date)) {
+        $voucherService = new VoucherService;
+        $userId = (int) $request->user()->id;
+
+        // Kiểm tra voucher có khả dụng không
+        if (! $voucherService->isVoucherAvailable($voucher)) {
             return back()->with('error', 'Voucher hiện không khả dụng.');
         }
 
-        if (! is_null($voucher->usage_limit) && (int) $voucher->used_count >= (int) $voucher->usage_limit) {
-            return back()->with('error', 'Voucher đã hết lượt sử dụng.');
+        // Kiểm tra voucher đã được sử dụng bởi user này chưa
+        if ($voucherService->isVoucherUsedByUser($userId, $voucher->id)) {
+            return back()->with('error', 'Voucher này đã được sử dụng, không thể sử dụng lại.');
         }
 
-        $exists = UserVoucher::query()
-            ->where('user_id', $request->user()->id)
-            ->where('voucher_id', $voucher->id)
-            ->exists();
+        // Xóa voucher hết hạn và đã dùng
+        $voucherService->cleanupExpiredAndUsedVouchers($userId);
 
-        if ($exists) {
+        // Kiểm tra xem user đã lưu voucher này chưa
+        $existingUserVoucher = UserVoucher::query()
+            ->where('user_id', $userId)
+            ->where('voucher_id', $voucher->id)
+            ->first();
+
+        if ($existingUserVoucher && $existingUserVoucher->status === VoucherStatus::UNUSED->value) {
             return back()->with('success', 'Voucher đã có trong ví của bạn.');
         }
 
+        // Nếu đã sử dụng trước đó, không cho phép thêm lại
+        if ($existingUserVoucher && $existingUserVoucher->status === VoucherStatus::USED->value) {
+            return back()->with('error', 'Voucher này đã được sử dụng, không thể sử dụng lại.');
+        }
+
         UserVoucher::query()->create([
-            'user_id' => $request->user()->id,
+            'user_id' => $userId,
             'voucher_id' => $voucher->id,
             'status' => VoucherStatus::UNUSED->value,
             'collected_at' => now(),

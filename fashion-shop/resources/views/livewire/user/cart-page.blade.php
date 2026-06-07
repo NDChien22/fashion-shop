@@ -36,8 +36,7 @@
                             <div
                                 class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition flex gap-4 p-4">
                                 <div class="shrink-0 pt-1">
-                                    <input type="checkbox" value="{{ $item['id'] }}"
-                                        wire:model.live="selectedCartItemIds"
+                                    <input type="checkbox" value="{{ $item['id'] }}" wire:model="selectedCartItemIds"
                                         class="rounded border-gray-300 text-[#bc9c75] focus:ring-[#bc9c75]">
                                 </div>
 
@@ -130,27 +129,25 @@
                             @endif
                         </div>
 
-                        @if (auth()->check() && count($availableVouchers) > 0)
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-900 mb-2">Mã khuyến mãi</label>
-                                <select wire:model.live="selectedVoucherCode"
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900 mb-2">Mã khuyến mãi</label>
+
+                            @if (auth()->check() && count($availableVouchers) > 0)
+                                <select wire:model="selectedVoucherCode"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bc9c75]">
                                     <option value="">Không dùng voucher</option>
                                     @foreach ($availableVouchers as $voucher)
                                         <option value="{{ $voucher['code'] }}">{{ $voucher['display'] }}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                        @elseif (!auth()->check())
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-900 mb-2">Mã khuyến mãi</label>
-                                <input type="text" wire:model.live.debounce.300ms="selectedVoucherCode"
-                                    placeholder="Nhập mã voucher (nếu có)"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#bc9c75]">
-                                <p class="mt-2 text-xs text-gray-500">Hệ thống sẽ tự kiểm tra mã hợp lệ trước khi thanh
-                                    toán.</p>
-                            </div>
-                        @endif
+                                <p class="mt-2 text-xs text-gray-500">Chỉ voucher đã lưu trong ví mới dùng được.</p>
+                            @else
+                                <div
+                                    class="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-3 py-2 text-xs text-gray-500">
+                                    Đăng nhập để lưu và sử dụng voucher.
+                                </div>
+                            @endif
+                        </div>
 
                         <div>
                             <label class="block text-sm font-semibold text-gray-900 mb-3">Phương thức thanh toán</label>

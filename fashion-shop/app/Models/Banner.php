@@ -36,6 +36,7 @@ class Banner extends Model
         return $this->belongsTo(Collections::class, 'collection_id');
     }
 
+    // / Trả về nhãn mô tả loại đích của banner.
     public function targetTypeLabel(): string
     {
         return match ($this->banner_type) {
@@ -46,6 +47,7 @@ class Banner extends Model
         };
     }
 
+    // / Trả về nhãn cụ thể của đích banner.
     public function targetLabel(): string
     {
         return match ($this->banner_type) {
@@ -56,15 +58,16 @@ class Banner extends Model
         };
     }
 
+    // / Tạo URL điều hướng tương ứng với banner.
     public function targetUrl(): string
     {
         return match ($this->banner_type) {
             'all' => route('user.product'),
             'category' => $this->category?->slug
-                ? route('user.product') . '?category=' . $this->category->slug
+                ? route('user.product').'?category='.$this->category->slug
                 : route('user.product'),
             'collection' => $this->collection?->slug
-                ? route('user.collection') . '?collection=' . $this->collection->slug
+                ? route('user.collection').'?collection='.$this->collection->slug
                 : route('user.collection'),
             default => route('user.home'),
         };

@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Products;
 use App\Models\UserVoucher;
 use App\Models\Voucher;
+use App\Services\VoucherService;
 use App\Support\FlashSalePricing;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -107,7 +108,7 @@ class CartPage extends Component
         $item->update([
             'quantity' => $nextQuantity,
         ]);
-
+        $this->refreshState();
         $this->refreshState();
     }
 
@@ -188,7 +189,8 @@ class CartPage extends Component
             ->values();
 
         if (! $this->selectionInitialized) {
-            $this->selectedCartItemIds = $allIds->all();
+            // Do not auto-select all items on initial load — let user choose which items to pay for.
+            $this->selectedCartItemIds = [];
             $this->selectionInitialized = true;
         } else {
             $this->selectedCartItemIds = collect($this->selectedCartItemIds)
@@ -216,21 +218,14 @@ class CartPage extends Component
             return;
         }
 
-        $walletVouchers = UserVoucher::query()
-            ->with('voucher')
-            ->where('user_id', (int) Auth::id())
-            ->where('status', 'unused')
-            ->whereHas('voucher', function (Builder $query): void {
-                $query->where('is_active', true)
-                    ->where('start_date', '<=', now())
-                    ->where('end_date', '>=', now())
-                    ->where(function (Builder $scope): void {
-                        $scope->whereNull('usage_limit')
-                            ->orWhereColumn('used_count', '<', 'usage_limit');
-                    });
-            })
-            ->orderByDesc('id')
-            ->get();
+        $voucherService = new VoucherService;
+        $userId = (int) Auth::id();
+
+        // Xóa voucher hết hạn và đã dùng khỏi ví
+        $voucherService->cleanupExpiredAndUsedVouchers($userId);
+
+        // Lấy danh sách voucher khả dụng
+        $walletVouchers = $voucherService->getAvailableVouchersForUser($userId);
 
         $this->availableVouchers = $walletVouchers
             ->map(function (UserVoucher $userVoucher): ?array {
@@ -240,6 +235,7 @@ class CartPage extends Component
                 }
 
                 return [
+                    'id' => (int) $voucher->id,
                     'code' => (string) $voucher->code,
                     'discount_type' => (string) $voucher->discount_type,
                     'discount_value' => (float) $voucher->discount_value,
@@ -334,10 +330,6 @@ class CartPage extends Component
 
         $selectedCode = strtoupper(trim($this->selectedVoucherCode));
 
-        if (! Auth::check()) {
-            return $this->resolveGuestVoucherByCode($selectedCode);
-        }
-
         foreach ($this->availableVouchers as $voucher) {
             if (strtoupper((string) ($voucher['code'] ?? '')) === $selectedCode) {
                 return $voucher;
@@ -350,40 +342,6 @@ class CartPage extends Component
     private function isSelectedVoucherAvailable(): bool
     {
         return ! is_null($this->selectedVoucher());
-    }
-
-    private function resolveGuestVoucherByCode(string $code): ?array
-    {
-        if ($code === '') {
-            return null;
-        }
-
-        $voucher = Voucher::query()
-            ->whereRaw('UPPER(code) = ?', [$code])
-            ->where('is_active', true)
-            ->where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
-            ->where(function (Builder $query): void {
-                $query->whereNull('usage_limit')->orWhereColumn('used_count', '<', 'usage_limit');
-            })
-            ->first();
-
-        if (! $voucher) {
-            return null;
-        }
-
-        return [
-            'code' => (string) $voucher->code,
-            'discount_type' => (string) $voucher->discount_type,
-            'discount_value' => (float) $voucher->discount_value,
-            'min_order_value' => (float) ($voucher->min_order_value ?? 0),
-            'max_discount' => is_null($voucher->max_discount) ? null : (float) $voucher->max_discount,
-            'category' => (string) ($voucher->category ?? 'all'),
-            'product_id' => is_null($voucher->product_id) ? null : (int) $voucher->product_id,
-            'category_id' => is_null($voucher->category_id) ? null : (int) $voucher->category_id,
-            'collection_id' => is_null($voucher->collection_id) ? null : (int) $voucher->collection_id,
-            'display' => $this->formatVoucherLabel($voucher),
-        ];
     }
 
     private function selectedItems()

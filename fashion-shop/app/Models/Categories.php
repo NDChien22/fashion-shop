@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Categories extends Model
 {
@@ -19,13 +19,12 @@ class Categories extends Model
         'is_active',
     ];
 
-
     public function sluggable(): array
     {
         return [
             'slug' => [
-                'source' => 'name'
-            ]
+                'source' => 'name',
+            ],
         ];
     }
 
@@ -43,6 +42,19 @@ class Categories extends Model
     {
         return $this->hasMany(Products::class, 'category_id');
     }
+
+    public function vouchers(): HasMany
+    {
+        return $this->hasMany(Voucher::class, 'category_id');
+    }
+
+    public function flashSales(): HasMany
+    {
+        return $this->hasMany(FlashSale::class, 'category_id');
+    }
+
+    public function banners(): HasMany
+    {
+        return $this->hasMany(Banner::class, 'category_id');
+    }
 }
-
-

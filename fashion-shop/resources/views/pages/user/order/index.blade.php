@@ -4,6 +4,8 @@
 @section('content')
     @php
         use App\Enums\OrderStatus;
+        use App\Enums\OrderReturnRequestStatus;
+        use App\Enums\OrderReturnRequestType;
         use App\Enums\ShippingStatus;
         use App\Enums\PaymentStatus;
 
@@ -37,6 +39,30 @@
                 $carry[$status->value] = [
                     'label' => $status->label(),
                     'class' => $status->badgeClass(),
+                ];
+                return $carry;
+            },
+            [],
+        );
+
+        $returnRequestStatusMap = array_reduce(
+            OrderReturnRequestStatus::cases(),
+            function ($carry, $status) {
+                $carry[$status->value] = [
+                    'label' => $status->label(),
+                    'class' => $status->badgeClass(),
+                ];
+                return $carry;
+            },
+            [],
+        );
+
+        $returnRequestTypeMap = array_reduce(
+            OrderReturnRequestType::cases(),
+            function ($carry, $type) {
+                $carry[$type->value] = [
+                    'label' => $type->label(),
+                    'class' => $type->badgeClass(),
                 ];
                 return $carry;
             },
@@ -116,8 +142,39 @@
                         $isCancelled = $order->status === OrderStatus::CANCELLED->value;
                         $isDelivered = $order->shipping_status === ShippingStatus::DELIVERED->value;
                         $isCompleted = $order->status === OrderStatus::COMPLETED->value;
-                        $canLeaveFeedback = ($isDelivered || $isCompleted) && !$order->feedback;
+                        $isClosedOrder = in_array(
+                            $order->status,
+                            [
+                                OrderStatus::COMPLETED->value,
+                                OrderStatus::RETURNED->value,
+                                OrderStatus::EXCHANGED->value,
+                            ],
+                            true,
+                        );
+                        $canLeaveFeedback = ($isDelivered || $isClosedOrder) && !$order->feedback;
                         $canCancelOrder = !$isCancelled && !$isDelivered;
+                        $returnRequest = $order->returnRequest;
+                        $returnWindowStart = $isClosedOrder || $isDelivered ? $order->updated_at : null;
+                        $returnWindowEnd = $returnWindowStart?->copy()->addDays(7);
+                        $isReturnWindowExpired = $returnWindowEnd ? now()->gt($returnWindowEnd) : true;
+                        $returnRequestStatus = $returnRequest?->status;
+                        $isReturnRequestCompleted =
+                            $returnRequestStatus &&
+                            ($returnRequestStatus->value ?? (string) $returnRequestStatus) ===
+                                OrderReturnRequestStatus::COMPLETED->value;
+                        $hasActiveReturnRequest =
+                            $returnRequestStatus &&
+                            in_array(
+                                $returnRequestStatus->value ?? (string) $returnRequestStatus,
+                                [OrderReturnRequestStatus::PENDING->value, OrderReturnRequestStatus::APPROVED->value],
+                                true,
+                            );
+                        $canRequestReturn = $isDelivered || $isCompleted;
+                        $showReturnForm =
+                            $canRequestReturn &&
+                            !$isReturnWindowExpired &&
+                            !$isReturnRequestCompleted &&
+                            (!$returnRequest || !$hasActiveReturnRequest);
 
                         $orderStatus = $orderStatusMap[$order->status] ?? [
                             'label' => ucfirst((string) $order->status),
@@ -164,14 +221,16 @@
                         <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
                             <div class="rounded-xl border border-gray-100 bg-gray-50 p-3 space-y-1.5">
                                 <p><span class="text-gray-500">Người nhận:</span>
-                                    <span class="font-semibold text-gray-800">{{ $order->customer_name ?: 'N/A' }}</span>
+                                    <span
+                                        class="font-semibold text-gray-800">{{ $order->user?->full_name ?? ($order->guest_name ?? 'N/A') }}</span>
                                 </p>
                                 <p><span class="text-gray-500">SĐT:</span>
-                                    <span class="font-semibold text-gray-800">{{ $order->customer_phone ?: 'N/A' }}</span>
+                                    <span
+                                        class="font-semibold text-gray-800">{{ $order->user?->phone_number ?? ($order->guest_phone ?? 'N/A') }}</span>
                                 </p>
                                 <p><span class="text-gray-500">Địa chỉ:</span>
                                     <span
-                                        class="font-semibold text-gray-800">{{ $order->shipping_address ?: 'N/A' }}</span>
+                                        class="font-semibold text-gray-800">{{ $order->user?->address ?? ($order->guest_address ?? 'N/A') }}</span>
                                 </p>
                             </div>
 
@@ -199,8 +258,10 @@
                                         class="flex items-center justify-between gap-3 rounded-xl border border-gray-100 px-3 py-2">
                                         <div class="min-w-0">
                                             <p class="text-sm font-semibold text-gray-800 truncate">
-                                                {{ $item->productSku?->product?->name ?? 'Sản phẩm không tồn tại' }}</p>
-                                            <p class="text-xs text-gray-500">SKU: {{ $item->productSku?->sku ?? 'N/A' }} |
+                                                {{ $item->product_name ?: $item->productSku?->product?->name ?: 'Sản phẩm' }}
+                                            </p>
+                                            <p class="text-xs text-gray-500">SKU:
+                                                {{ $item->product_sku ?: $item->productSku?->sku ?? 'N/A' }} |
                                                 SL:
                                                 {{ $item->quantity }}</p>
                                         </div>
@@ -222,7 +283,7 @@
                                     <p class="text-xs font-bold uppercase tracking-[0.12em] text-gray-400">Feedback đơn hàng
                                     </p>
                                     <p class="mt-1 text-sm text-gray-600">
-                                        {{ $order->feedback ? 'Bạn đã gửi feedback cho đơn hàng này.' : ($canLeaveFeedback ? 'Đơn này đã hoàn tất, bạn có thể gửi feedback ngay bên dưới.' : 'Feedback sẽ mở sau khi đơn hàng hoàn tất.') }}
+                                        {{ $order->feedback ? 'Bạn đã gửi feedback cho đơn hàng này.' : ($canLeaveFeedback ? 'Đơn này đã hoàn tất, bạn có thể gửi feedback ngay bên dưới.' : 'Feedback sẽ mở sau khi đơn hàng hoàn tất hoặc đổi/trả xong.') }}
                                     </p>
                                 </div>
 
@@ -287,6 +348,230 @@
                             @endif
                         </div>
 
+                        <div class="mt-4 rounded-2xl border border-violet-100 bg-violet-50/60 p-4">
+                            <div class="flex items-center justify-between gap-3 flex-wrap">
+                                <div>
+                                    <p class="text-xs font-bold uppercase tracking-[0.12em] text-violet-500">Đổi / trả hàng
+                                    </p>
+                                    <p class="mt-1 text-sm text-violet-700">
+                                        @if ($isReturnRequestCompleted)
+                                            Yêu cầu đổi/trả đã được xử lý hoàn tất.
+                                        @elseif (!$canRequestReturn)
+                                            Yêu cầu đổi/trả chỉ mở sau khi đơn đã giao hoặc hoàn thành.
+                                        @elseif ($isReturnWindowExpired)
+                                            Đơn đã quá hạn đổi/trả (7 ngày kể từ ngày hoàn thành).
+                                        @else
+                                            Bạn có thể gửi yêu cầu đổi/trả cho đơn này.
+                                        @endif
+                                    </p>
+                                    @if ($returnWindowEnd)
+                                        <p class="mt-1 text-xs text-violet-600">
+                                            Hạn gửi yêu cầu: {{ $returnWindowEnd->format('d/m/Y H:i') }}
+                                        </p>
+                                    @endif
+                                </div>
+
+                                @if ($returnRequest)
+                                    @php
+                                        $returnStatusKey =
+                                            $returnRequestStatus?->value ?? (string) $returnRequestStatus;
+                                        $returnTypeKey =
+                                            $returnRequest->request_type?->value ??
+                                            (string) $returnRequest->request_type;
+                                        $returnStatus = $returnRequestStatusMap[$returnStatusKey] ?? [
+                                            'label' => ucfirst((string) $returnRequestStatus),
+                                            'class' => 'bg-slate-100 text-slate-700 border-slate-200',
+                                        ];
+                                        $returnType = $returnRequestTypeMap[$returnTypeKey] ?? [
+                                            'label' => ucfirst((string) $returnRequest->request_type),
+                                            'class' => 'bg-slate-100 text-slate-700 border-slate-200',
+                                        ];
+                                    @endphp
+
+                                    <span
+                                        class="inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold {{ $returnStatus['class'] }}">
+                                        {{ $returnStatus['label'] }}
+                                    </span>
+                                @endif
+                            </div>
+
+                            @if ($returnRequest)
+                                @php
+                                    $returnStatusKey = $returnRequestStatus?->value ?? (string) $returnRequestStatus;
+                                    $returnTypeKey =
+                                        $returnRequest->request_type?->value ?? (string) $returnRequest->request_type;
+                                    $returnStatus = $returnRequestStatusMap[$returnStatusKey] ?? [
+                                        'label' => ucfirst((string) $returnRequestStatus),
+                                        'class' => 'bg-slate-100 text-slate-700 border-slate-200',
+                                    ];
+                                    $returnType = $returnRequestTypeMap[$returnTypeKey] ?? [
+                                        'label' => ucfirst((string) $returnRequest->request_type),
+                                        'class' => 'bg-slate-100 text-slate-700 border-slate-200',
+                                    ];
+                                @endphp
+
+                                <div class="mt-4 rounded-xl border border-violet-100 bg-white p-4">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span
+                                            class="inline-flex rounded-full border px-3 py-1 text-xs font-semibold {{ $returnType['class'] }}">{{ $returnType['label'] }}</span>
+                                        <span
+                                            class="inline-flex rounded-full border px-3 py-1 text-xs font-semibold {{ $returnStatus['class'] }}">{{ $returnStatus['label'] }}</span>
+                                    </div>
+                                    <p class="mt-3 text-sm font-semibold text-gray-800">{{ $returnRequest->reason }}</p>
+                                    @if ($returnRequest->details)
+                                        <p class="mt-2 text-sm text-gray-600 leading-6">{{ $returnRequest->details }}</p>
+                                    @endif
+
+                                    @if (!empty($returnRequest->evidence_images))
+                                        <div class="mt-4">
+                                            <p class="text-xs font-bold uppercase tracking-[0.12em] text-violet-500">Ảnh
+                                                minh chứng</p>
+                                            <div class="mt-2 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+                                                @foreach ($returnRequest->evidence_images as $imagePath)
+                                                    @php
+                                                        $normalized = str_replace('\\', '/', trim((string) $imagePath));
+                                                        if (
+                                                            \Illuminate\Support\Str::startsWith($normalized, [
+                                                                'http://',
+                                                                'https://',
+                                                            ])
+                                                        ) {
+                                                            $imageUrl = $normalized;
+                                                        } elseif (
+                                                            \Illuminate\Support\Str::startsWith($normalized, [
+                                                                '/storage/',
+                                                                'storage/',
+                                                                '/uploads/',
+                                                                'uploads/',
+                                                                '/images/',
+                                                                'images/',
+                                                            ])
+                                                        ) {
+                                                            $imageUrl = asset(ltrim($normalized, '/'));
+                                                        } else {
+                                                            $imageUrl = asset('storage/' . ltrim($normalized, '/'));
+                                                        }
+                                                    @endphp
+
+                                                    <a href="{{ $imageUrl }}" target="_blank"
+                                                        class="group block overflow-hidden rounded-2xl border border-violet-100 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
+                                                        <img src="{{ $imageUrl }}" alt="Ảnh minh chứng đổi/trả"
+                                                            class="aspect-square h-full w-full object-cover transition duration-300 group-hover:scale-[1.03]">
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    @if ($returnRequest->admin_note)
+                                        <div class="mt-3 rounded-xl border border-violet-100 bg-violet-50 px-4 py-3">
+                                            <p class="text-xs font-bold uppercase tracking-[0.12em] text-violet-500">Ghi
+                                                chú xử lý</p>
+                                            <p class="mt-2 text-sm text-violet-900">{{ $returnRequest->admin_note }}</p>
+                                        </div>
+                                    @endif
+
+                                    <p class="mt-3 text-xs text-gray-500">
+                                        Gửi lúc {{ $returnRequest->created_at?->format('d/m/Y H:i') }}
+                                        @if ($returnRequest->resolved_at)
+                                            · Hoàn tất lúc {{ $returnRequest->resolved_at?->format('d/m/Y H:i') }}
+                                        @endif
+                                    </p>
+                                </div>
+                            @elseif ($showReturnForm)
+                                <form method="POST" action="{{ route('user.orders.return-request', $order) }}"
+                                    enctype="multipart/form-data" class="mt-4 space-y-4">
+                                    @csrf
+                                    <input type="hidden" name="return_order_id" value="{{ $order->id }}">
+
+                                    @if (old('return_order_id') == $order->id && $errors->any())
+                                        <div
+                                            class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">
+                                            {{ $errors->first() }}
+                                        </div>
+                                    @endif
+
+                                    <div class="grid grid-cols-1 gap-4 md:grid-cols-[220px_minmax(0,1fr)]">
+                                        <div>
+                                            <label
+                                                class="mb-2 block text-xs font-bold uppercase tracking-[0.12em] text-violet-500">Loại
+                                                yêu cầu</label>
+                                            <select name="request_type"
+                                                class="w-full rounded-xl border border-violet-200 px-3 py-2.5 text-sm focus:border-[#bc9c75] focus:outline-none focus:ring-2 focus:ring-[#bc9c75]/10">
+                                                @foreach ($returnRequestTypeMap as $value => $type)
+                                                    <option value="{{ $value }}" @selected(old('request_type', $returnRequest?->request_type?->value ?? OrderReturnRequestType::RETURN->value) === $value)>
+                                                        {{ $type['label'] }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label
+                                                class="mb-2 block text-xs font-bold uppercase tracking-[0.12em] text-violet-500">Lý
+                                                do</label>
+                                            <textarea name="reason" rows="3" placeholder="Ví dụ: size không vừa, sản phẩm lỗi, muốn đổi mẫu..."
+                                                class="w-full rounded-xl border border-violet-200 px-3 py-2.5 text-sm focus:border-[#bc9c75] focus:outline-none focus:ring-2 focus:ring-[#bc9c75]/10">{{ old('reason', $returnRequest?->reason ?? '') }}</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label
+                                            class="mb-2 block text-xs font-bold uppercase tracking-[0.12em] text-violet-500">Mô
+                                            tả thêm</label>
+                                        <textarea name="details" rows="4"
+                                            placeholder="Mô tả thêm tình trạng sản phẩm, mong muốn đổi/trả, size cần đổi..."
+                                            class="w-full rounded-xl border border-violet-200 px-3 py-2.5 text-sm focus:border-[#bc9c75] focus:outline-none focus:ring-2 focus:ring-[#bc9c75]/10">{{ old('details', $returnRequest?->details ?? '') }}</textarea>
+                                    </div>
+
+                                    <div>
+                                        <label
+                                            class="mb-2 block text-xs font-bold uppercase tracking-[0.12em] text-violet-500">Ảnh
+                                            minh chứng</label>
+                                        <div class="space-y-2">
+                                            <div
+                                                class="relative overflow-hidden rounded-xl border border-dashed border-violet-300 bg-violet-50/40 px-4 py-4">
+                                                <input type="file" name="evidence_images[]" accept="image/*" multiple
+                                                    class="js-return-evidence-input absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                                                    data-preview-target="return-preview-{{ $order->id }}"
+                                                    data-file-name-target="return-file-name-{{ $order->id }}">
+
+                                                <div
+                                                    class="pointer-events-none flex items-center justify-center gap-3 text-violet-700">
+                                                    <i class="ri-image-add-line text-lg"></i>
+                                                    <p class="text-sm font-semibold">Chọn ảnh minh chứng đổi/trả</p>
+                                                </div>
+                                            </div>
+
+                                            <p id="return-file-name-{{ $order->id }}" class="text-xs text-violet-600">
+                                                Hỗ trợ JPG, PNG, WEBP. Tối đa 5 ảnh, mỗi ảnh tối đa 2MB.
+                                            </p>
+
+                                            <div id="return-preview-{{ $order->id }}"
+                                                class="hidden gap-2 rounded-xl border border-violet-100 bg-white p-2">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-center justify-end">
+                                        <button type="submit"
+                                            class="inline-flex items-center gap-2 rounded-xl bg-violet-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-violet-700 transition">
+                                            <i class="ri-arrow-left-right-line"></i>
+                                            Gửi yêu cầu đổi/trả
+                                        </button>
+                                    </div>
+                                </form>
+                            @elseif ($isReturnWindowExpired)
+                                <div class="mt-4 rounded-xl border border-gray-200 bg-white p-4">
+                                    <p class="text-sm font-semibold text-gray-800">Đã quá hạn đổi/trả.</p>
+                                    <p class="mt-1 text-sm text-gray-600">
+                                        Chính sách hiện tại chỉ cho phép tạo yêu cầu trong vòng 7 ngày kể từ ngày đơn được
+                                        hoàn thành/giao thành công.
+                                    </p>
+                                </div>
+                            @endif
+                        </div>
+
                         <div class="mt-4 flex items-center justify-end gap-2">
                             @if ($canCancelOrder)
                                 <form method="POST" action="{{ route('user.orders.cancel', $order) }}"
@@ -311,4 +596,55 @@
             </div>
         @endif
     </div>
+
+    <script>
+        (function() {
+            const renderPreviews = (input) => {
+                const previewId = input.getAttribute('data-preview-target');
+                const fileNameId = input.getAttribute('data-file-name-target');
+                const previewContainer = previewId ? document.getElementById(previewId) : null;
+                const fileNameEl = fileNameId ? document.getElementById(fileNameId) : null;
+
+                if (!previewContainer || !fileNameEl) {
+                    return;
+                }
+
+                const files = Array.from(input.files || []);
+                if (files.length === 0) {
+                    previewContainer.innerHTML = '';
+                    previewContainer.classList.add('hidden');
+                    previewContainer.classList.remove('grid', 'grid-cols-2', 'sm:grid-cols-3');
+                    fileNameEl.textContent = 'Hỗ trợ JPG, PNG, WEBP. Tối đa 5 ảnh, mỗi ảnh tối đa 2MB.';
+                    return;
+                }
+
+                fileNameEl.textContent = `Đã chọn ${files.length} ảnh`;
+                previewContainer.innerHTML = '';
+                previewContainer.classList.remove('hidden');
+                previewContainer.classList.add('grid', 'grid-cols-2', 'sm:grid-cols-3');
+
+                files.forEach((file) => {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const wrapper = document.createElement('div');
+                        wrapper.className =
+                            'overflow-hidden rounded-lg border border-violet-100 bg-violet-50/30';
+
+                        const img = document.createElement('img');
+                        img.src = event.target?.result || '';
+                        img.alt = file.name;
+                        img.className = 'h-24 w-full object-cover';
+
+                        wrapper.appendChild(img);
+                        previewContainer.appendChild(wrapper);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            };
+
+            document.querySelectorAll('.js-return-evidence-input').forEach((input) => {
+                input.addEventListener('change', () => renderPreviews(input));
+            });
+        })();
+    </script>
 @endsection

@@ -181,9 +181,6 @@
                     class="menu-link hover:text-[#bc9c75] transition-all">Đơn hàng</a>
                 <a wire:navigate href="{{ route('user.support') }}"
                     class="menu-link hover:text-[#bc9c75] transition-all">Hỗ trợ</a>
-                <a wire:navigate href="{{ route('user.contact') }}"
-                    class="menu-link hover:text-[#bc9c75] transition-all">Liên
-                    hệ</a>
             </nav>
         </div>
     </div>

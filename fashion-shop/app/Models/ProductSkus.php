@@ -30,4 +30,9 @@ class ProductSkus extends Model
     {
         return $this->hasMany(Cart::class, 'product_sku_id');
     }
+
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class, 'product_sku_id');
+    }
 }

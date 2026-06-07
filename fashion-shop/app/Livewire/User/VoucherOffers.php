@@ -10,11 +10,10 @@ use Livewire\Component;
 
 class VoucherOffers extends Component
 {
-    /**
-     * @var array<int>
-     */
+    // danh sách id voucher đã lưu
     public array $savedVoucherIds = [];
 
+    // nạp voucher đã lưu của người dùng
     public function mount(): void
     {
         if (! Auth::check()) {
@@ -29,6 +28,7 @@ class VoucherOffers extends Component
             ->all();
     }
 
+    // Lưu voucher vào ví
     public function saveVoucher(int $voucherId): void
     {
         if (! Auth::check()) {
@@ -85,6 +85,7 @@ class VoucherOffers extends Component
         $this->dispatch('app-toast', message: 'Voucher đã có trong ví của bạn.', type: 'success');
     }
 
+    // Hiển thị danh sách voucher khả dụng
     public function render()
     {
         try {
@@ -121,6 +122,7 @@ class VoucherOffers extends Component
         }
     }
 
+    // check voucher
     private function isVoucherAvailable(Voucher $voucher): bool
     {
         if (! $voucher->is_active) {

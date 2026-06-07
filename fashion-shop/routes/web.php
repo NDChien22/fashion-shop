@@ -13,18 +13,13 @@ use App\Http\Controllers\FlashSaleController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderManagementController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\WhistlistController;
 use App\Livewire\User\HomePage;
 use App\Livewire\User\ProductDetail;
-use App\Models\CustomerMembershipLevel;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -52,6 +47,7 @@ Route::prefix('user')->name('user.')->group(function () {
     })->name('home');
 
     Route::post('/cart/items', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/totals', [CartController::class, 'totals'])->name('cart.totals');
     Route::get('/cart/products/{productId}/skus', [CartController::class, 'productSkus'])->name('cart.product-skus');
     Route::patch('/cart/items/{cart}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/items/{cart}', [CartController::class, 'remove'])->name('cart.remove');
@@ -76,6 +72,7 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
     Route::post('/orders/{order}/feedback', [OrderController::class, 'storeFeedback'])->name('orders.feedback');
+    Route::post('/orders/{order}/return-request', [OrderController::class, 'storeReturnRequest'])->name('orders.return-request');
 
     Route::get('/support', function () {
         return view('pages.user.support.index');
@@ -98,78 +95,13 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::post('/vouchers/{voucher}/collect', [VoucherController::class, 'collectVoucherForUser'])
             ->name('vouchers.collect');
 
-        Route::get('/profile', function () {
-            $user = Auth::user();
-            $membership = CustomerMembershipLevel::query()
-                ->with('membershipLevel')
-                ->where('user_id', $user->id)
-                ->first();
+        Route::get('/profile', [UserController::class, 'profile'])->name('profile');
 
-            return view('pages.user.profile.index', [
-                'user' => $user,
-                'membership' => $membership,
-            ]);
-        })->name('profile');
+        Route::put('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
 
-        Route::put('/profile', function (Request $request) {
-            $validated = $request->validate([
-                'full_name' => ['required', 'string', 'max:255'],
-                'phone_number' => ['nullable', 'string', 'max:20'],
-                'address' => ['nullable', 'string', 'max:255'],
-                'gender' => ['nullable', 'in:male,female,other'],
-                'birthday' => ['nullable', 'date'],
-                'avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
-            ], [
-                'full_name.required' => 'Vui lòng nhập họ và tên.',
-                'gender.in' => 'Giới tính không hợp lệ.',
-                'birthday.date' => 'Ngày sinh không hợp lệ.',
-                'avatar.image' => 'Ảnh đại diện phải là tệp hình ảnh.',
-                'avatar.mimes' => 'Ảnh đại diện chỉ hỗ trợ jpg, jpeg, png, webp.',
-                'avatar.max' => 'Ảnh đại diện không được vượt quá 2MB.',
-            ]);
+        Route::get('/profile/password', [UserController::class, 'changePassword'])->name('profile.password');
 
-            $user = $request->user();
-
-            if ($request->hasFile('avatar')) {
-                $avatarFile = $request->file('avatar');
-                $extension = $avatarFile->getClientOriginalExtension() ?: 'jpg';
-                $fileName = sprintf('user-%d-%s.%s', $user->id, Str::uuid()->toString(), $extension);
-                $newAvatarPath = $avatarFile->storeAs('avatars', $fileName, 'public');
-
-                if (is_string($user->avatar) && $user->avatar !== '' && ! Str::startsWith($user->avatar, ['http://', 'https://', '/'])) {
-                    Storage::disk('public')->delete($user->avatar);
-                }
-
-                $validated['avatar'] = $newAvatarPath;
-            }
-
-            $user->update($validated);
-
-            return back()->with('success', 'Cập nhật hồ sơ thành công.');
-        })->name('profile.update');
-
-        Route::get('/profile/password', function () {
-            return view('pages.user.profile.change-password');
-        })->name('profile.password');
-
-        Route::put('/profile/password', function (Request $request) {
-            $validated = $request->validate([
-                'current_password' => ['required', 'current_password'],
-                'password' => ['required', 'string', 'min:6', 'confirmed'],
-            ], [
-                'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
-                'current_password.current_password' => 'Mật khẩu hiện tại không chính xác.',
-                'password.required' => 'Vui lòng nhập mật khẩu mới.',
-                'password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
-                'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
-            ]);
-
-            $user = $request->user();
-            $user->password = Hash::make($validated['password']);
-            $user->save();
-
-            return redirect()->route('user.profile.password')->with('success', 'Đổi mật khẩu thành công.');
-        })->name('profile.password.update');
+        Route::put('/profile/password', [UserController::class, 'updatePassword'])->name('profile.password.update');
     });
 });
 
@@ -269,6 +201,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin.access'])->gr
         // Order Manager
         Route::get('/orders', [OrderManagementController::class, 'index'])->name('orders');
         Route::put('/orders/{order}', [OrderManagementController::class, 'update'])->name('orders.update');
+        Route::put('/orders/return-requests/{returnRequest}', [OrderManagementController::class, 'updateReturnRequest'])
+            ->name('orders.return-request.update');
+        Route::get('/return-requests', [AdminController::class, 'ReturnRequestManagerView'])->name('return-requests');
         Route::get('/feedback-manager', [AdminController::class, 'FeedbackManagerView'])->name('feedback-manager');
     });
 

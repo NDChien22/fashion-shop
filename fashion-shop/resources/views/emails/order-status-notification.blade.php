@@ -17,7 +17,8 @@
         </tr>
         <tr>
             <td style="padding:24px;">
-                <p style="margin:0 0 12px;">Xin chào {{ $order->customer_name ?: 'Quý khách' }},</p>
+                <p style="margin:0 0 12px;">Xin chào
+                    {{ $order->user?->full_name ?? ($order->guest_name ?? 'Quý khách') }},</p>
                 <p style="margin:0 0 16px;">Đơn hàng <strong>{{ $order->order_code }}</strong> vừa được cập nhật trạng
                     thái: <strong>{{ $eventLabel }}</strong>.</p>
 

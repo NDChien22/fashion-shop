@@ -1,4 +1,4 @@
-<div class="space-y-6" data-support-admin-root>
+<div class="space-y-6" data-support-admin-root wire:poll.3s="$refresh">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="bg-white rounded-2xl shadow-sm border border-gray-50 p-5">
             <p class="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-bold">Chưa trả lời</p>

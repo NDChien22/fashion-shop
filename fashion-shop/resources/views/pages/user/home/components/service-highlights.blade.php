@@ -7,7 +7,7 @@
             </div>
             <div>
                 <h4 class="font-bold text-gray-800 uppercase text-sm">Miễn phí vận chuyển</h4>
-                <p class="text-xs text-gray-500">Đơn hàng từ 399K</p>
+                <p class="text-xs text-gray-500">Đơn hàng từ 499K</p>
             </div>
         </div>
 
@@ -17,8 +17,8 @@
                 <i class="ri-exchange-funds-line text-2xl"></i>
             </div>
             <div>
-                <h4 class="font-bold text-gray-800 uppercase text-sm">Đổi hàng tận nhà</h4>
-                <p class="text-xs text-gray-500">Trong vòng 15 ngày</p>
+                <h4 class="font-bold text-gray-800 uppercase text-sm">Đổi/trả hàng tận nhà</h4>
+                <p class="text-xs text-gray-500">Trong vòng 7 ngày</p>
             </div>
         </div>
 
@@ -28,8 +28,8 @@
                 <i class="ri-hand-coin-line text-2xl"></i>
             </div>
             <div>
-                <h4 class="font-bold text-gray-800 uppercase text-sm">Thanh toán COD</h4>
-                <p class="text-xs text-gray-500">Yên tam mua sắm</p>
+                <h4 class="font-bold text-gray-800 uppercase text-sm">Thanh toán đa dạng</h4>
+                <p class="text-xs text-gray-500">Yên tâm mua sắm</p>
             </div>
         </div>
 

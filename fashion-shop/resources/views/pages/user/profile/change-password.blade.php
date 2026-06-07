@@ -4,9 +4,24 @@
 @section('main-content')
     <div class="max-w-3xl mx-auto px-4 md:px-6 py-10">
         @if (session('success'))
-            <div class="mb-6 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-                {{ session('success') }}
-            </div>
+            @push('scripts')
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const message = @json(session('success'));
+                        if (window.showAppToast) {
+                            window.showAppToast(message, 'success', 3000);
+                        } else {
+                            window.dispatchEvent(new CustomEvent('app-toast', {
+                                detail: {
+                                    message: message,
+                                    type: 'success',
+                                    delay: 3000
+                                }
+                            }));
+                        }
+                    });
+                </script>
+            @endpush
         @endif
 
         <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 md:p-8">
@@ -16,7 +31,7 @@
                 <p class="text-sm text-gray-500 mt-2">Cập nhật mật khẩu mới để bảo vệ tài khoản của bạn.</p>
             </div>
 
-            <form action="{{ route('user.profile.password.update') }}" method="POST" class="space-y-6">
+            <form action="{{ route('user.profile.password.update') }}" method="POST" class="space-y-6" >
                 @csrf
                 @method('PUT')
 
@@ -25,7 +40,7 @@
                         tại</label>
                     <input type="password" name="current_password"
                         class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-[#bc9c75] focus:bg-white"
-                        autocomplete="current-password">
+                        autocomplete="current-password" required>
                     @error('current_password')
                         <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                     @enderror
@@ -37,7 +52,7 @@
                             mới</label>
                         <input type="password" name="password"
                             class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-[#bc9c75] focus:bg-white"
-                            autocomplete="new-password">
+                            autocomplete="new-password" required>
                         @error('password')
                             <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
                         @enderror
@@ -48,7 +63,10 @@
                             mới</label>
                         <input type="password" name="password_confirmation"
                             class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-[#bc9c75] focus:bg-white"
-                            autocomplete="new-password">
+                            autocomplete="new-password" required>
+                        @error('password_confirmation')
+                            <p class="text-xs text-red-500 mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                 </div>
 

@@ -10,7 +10,7 @@
                 <p class="text-gray-400 text-sm mt-2">Tham gia cùng chúng tôi ngay hôm nay!</p>
             </div>
 
-            <form action="{{ route('register_handler') }}" method="POST" class="space-y-4">
+            <form action="{{ route('register_handler') }}" method="POST" class="space-y-4" novalidate>
                 @csrf
                 <div>
                     <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2 ml-1">Tên đăng
@@ -33,7 +33,7 @@
                         <i
                             class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#bc9c75] transition-colors"></i>
                         <input type="email" name="email" placeholder="example@gmail.com" value="{{ old('email') }}"
-                            class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:border-[#bc9c75] focus:ring-1 focus:ring-[#bc9c75] transition-all text-sm"
+                            class="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl outline-none focus:border-[#bc9c75] focus:ring-1 focus:ring-[#bc9c75] transition-all text-smS"
                             required>
                     </div>
                     @error('email')

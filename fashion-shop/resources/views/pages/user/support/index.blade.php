@@ -289,22 +289,6 @@
                             đáp về thanh toán</a></li>
                 </ul>
             </div>
-
-            <div class="bg-white p-8 border border-gray-100 shadow-xl">
-                <h3 class="text-center font-bold text-lg uppercase mb-1">Liên hệ với chúng tôi</h3>
-                <p class="text-center text-gray-400 text-[10px] mb-8 italic uppercase">Vui lòng để lại thắc mắc của bạn</p>
-                <form class="space-y-6" onsubmit="return false;">
-                    <input type="text" placeholder="Họ và tên"
-                        class="w-full border-b border-gray-300 py-2 outline-none focus:border-[#c5a059] transition-all">
-                    <input type="email" placeholder="Email"
-                        class="w-full border-b border-gray-300 py-2 outline-none focus:border-[#c5a059] transition-all">
-                    <textarea placeholder="Lời nhắn" rows="3"
-                        class="w-full border-b border-gray-300 py-2 outline-none focus:border-[#c5a059] transition-all resize-none"></textarea>
-                    <button type="submit"
-                        class="w-full bg-[#c5a059] text-white hover:bg-[#c8b593] font-bold py-3 uppercase tracking-widest text-sm transition-all shadow-md">Gửi
-                        thông tin</button>
-                </form>
-            </div>
         </div>
     </div>
 @endsection

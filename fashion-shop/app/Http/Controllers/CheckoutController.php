@@ -94,6 +94,10 @@ class CheckoutController extends Controller
             return back()->with('error', 'Vui lòng chọn sản phẩm hợp lệ trong giỏ hàng để thanh toán.');
         }
 
+        if (! $user && filled($validated['voucher_code'] ?? null)) {
+            return back()->with('error', 'Vui lòng đăng nhập để sử dụng voucher.');
+        }
+
         $pricedCartItems = $this->buildPricedCartItems($cartItems);
         $pricing = $this->calculatePricing(
             $cartItems,
@@ -116,8 +120,8 @@ class CheckoutController extends Controller
 
         try {
             DB::transaction(function () use ($user, $cartItems, $pricedCartItems, $validated, $pricing, $request, $customerPayload, &$order, &$payment): void {
-                $order = Order::query()->create([
-                    'user_id' => $user ? (int) $user->id : 0,
+                $orderData = [
+                    'user_id' => $user ? (int) $user->id : null,
                     'order_code' => $this->makeOrderCode(),
                     'total_amount' => $pricing['total_before_discount'],
                     'discount_amount' => $pricing['discount_amount'],
@@ -125,11 +129,17 @@ class CheckoutController extends Controller
                     'status' => OrderStatus::PENDING->value,
                     'shipping_status' => ShippingStatus::PENDING->value,
                     'payment_method' => $validated['payment_method'],
-                    'customer_name' => $customerPayload['customer_name'],
-                    'customer_email' => $customerPayload['customer_email'],
-                    'customer_phone' => $customerPayload['customer_phone'],
-                    'shipping_address' => $customerPayload['shipping_address'],
-                ]);
+                ];
+
+                if (! $user) {
+                    // guest checkout: persist guest_* fields on orders
+                    $orderData['guest_name'] = $customerPayload['customer_name'];
+                    $orderData['guest_email'] = $customerPayload['customer_email'];
+                    $orderData['guest_phone'] = $customerPayload['customer_phone'];
+                    $orderData['guest_address'] = $customerPayload['shipping_address'];
+                }
+
+                $order = Order::query()->create($orderData);
 
                 $pricedItemsByCartId = $pricedCartItems->keyBy('id');
 
@@ -140,6 +150,10 @@ class CheckoutController extends Controller
                     OrderItem::query()->create([
                         'order_id' => (int) $order->id,
                         'product_sku_id' => (int) $item->product_sku_id,
+                        'product_name' => (string) data_get($item, 'productSku.product.name', 'Sản phẩm'),
+                        'product_sku' => (string) data_get($item, 'productSku.sku', ''),
+                        'product_size' => (string) data_get($item, 'productSku.size', ''),
+                        'product_color' => (string) data_get($item, 'productSku.color', ''),
                         'quantity' => (int) $item->quantity,
                         'price' => round($unitPrice, 2),
                     ]);
@@ -152,9 +166,9 @@ class CheckoutController extends Controller
                         'discount_amount' => $pricing['discount_amount'],
                     ]);
 
-                    if (($validated['payment_method'] ?? 'cod') === 'cod') {
-                        $this->applyVoucherUsageForOrder($order, $user ? (int) $user->id : null);
-                    }
+                    // Đổi trạng thái voucher của user ngay khi tạo đơn (khi người dùng bấm thanh toán)
+                    // để tránh trường hợp voucher bị dùng lại trong khi chờ thanh toán.
+                    $this->applyVoucherUsageForOrder($order, $user ? (int) $user->id : null);
                 }
 
                 $payment = Payment::query()->create([
@@ -179,9 +193,18 @@ class CheckoutController extends Controller
             return back()->with('error', 'Không thể khởi tạo giao dịch thanh toán.');
         }
 
-        if (is_string($order->customer_email) && trim($order->customer_email) !== '') {
+        $toEmail = null;
+        if (is_string($order->guest_email) && trim($order->guest_email) !== '') {
+            $toEmail = $order->guest_email;
+        } elseif (is_string($order->customer_email) && trim($order->customer_email) !== '') {
+            $toEmail = $order->customer_email;
+        } elseif ($order->user) {
+            $toEmail = $order->user->email ?? null;
+        }
+
+        if (is_string($toEmail) && trim($toEmail) !== '') {
             try {
-                Mail::to($order->customer_email)->send(
+                Mail::to($toEmail)->send(
                     new OrderStatusNotificationEmail($order, OrderStatusNotificationEmail::EVENT_PLACED)
                 );
             } catch (Throwable $exception) {
@@ -246,7 +269,7 @@ class CheckoutController extends Controller
             return redirect()->route('user.orders')->with('error', 'Không tìm thấy đơn hàng tương ứng.');
         }
 
-        if ((int) $order->user_id === 0) {
+        if (is_null($order->user_id)) {
             $this->rememberGuestOrderCode($request, (string) $order->order_code);
         }
 
@@ -284,7 +307,7 @@ class CheckoutController extends Controller
             return redirect()->route('user.orders')->with('error', 'Không tìm thấy đơn hàng Stripe.');
         }
 
-        if ((int) $order->user_id === 0) {
+        if (is_null($order->user_id)) {
             $this->rememberGuestOrderCode($request, (string) $order->order_code);
         }
 
@@ -328,7 +351,7 @@ class CheckoutController extends Controller
         if ($orderCode !== '') {
             $order = Order::query()->where('order_code', $orderCode)->first();
             if ($order) {
-                if ((int) $order->user_id === 0) {
+                if (is_null($order->user_id)) {
                     $this->rememberGuestOrderCode($request, (string) $order->order_code);
                 }
 
@@ -388,7 +411,7 @@ class CheckoutController extends Controller
         }
 
         if (is_null($userId)) {
-            return $voucher;
+            return null;
         }
 
         $hasInWallet = UserVoucher::query()
@@ -583,7 +606,7 @@ class CheckoutController extends Controller
             $order->update(['status' => OrderStatus::PROCESSING->value]);
         }
 
-        $this->applyVoucherUsageForOrder($order, $userId);
+        // Voucher status already updated when creating the order; no-op here to avoid double-apply.
     }
 
     private function markPaymentAsFailed(Order $order, Payment $payment): void
@@ -612,7 +635,8 @@ class CheckoutController extends Controller
             return;
         }
 
-        UserVoucher::query()
+        // Thử cập nhật một bản ghi 'unused' trước
+        $affected = UserVoucher::query()
             ->where('user_id', $userId)
             ->where('voucher_id', (int) $orderVoucher->voucher_id)
             ->where('status', VoucherStatus::UNUSED->value)
@@ -621,6 +645,19 @@ class CheckoutController extends Controller
                 'status' => VoucherStatus::USED->value,
                 'used_at' => now(),
             ]);
+
+        // Nếu không có bản ghi 'unused' (ví dụ trạng thái đã khác / dữ liệu không tương thích),
+        // cập nhật bất kỳ bản ghi UserVoucher nào của user với voucher này (dự phòng, limit 1).
+        if ($affected === 0) {
+            UserVoucher::query()
+                ->where('user_id', $userId)
+                ->where('voucher_id', (int) $orderVoucher->voucher_id)
+                ->limit(1)
+                ->update([
+                    'status' => VoucherStatus::USED->value,
+                    'used_at' => now(),
+                ]);
+        }
     }
 
     private function resolveCustomerPayload(array $validated, $user): array

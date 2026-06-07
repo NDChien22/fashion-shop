@@ -2,12 +2,14 @@
 
 namespace App\Livewire\User;
 
+use App\Enums\VoucherStatus;
 use App\Models\Banner;
 use App\Models\Collections;
 use App\Models\FlashSale;
 use App\Models\Products;
 use App\Models\UserVoucher;
 use App\Models\Voucher;
+use App\Services\VoucherService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,13 +28,14 @@ class HomePage extends Component
 
     public $bestSellerProducts;
 
+    // tải dữ liệu cho trang chủ
     public function mount()
     {
         try {
             $now = now();
             $today = $now->toDateString();
 
-            // Get Banners
+            // banner đang hoạt động và hợp lệ
             $this->banners = Banner::query()
                 ->with(['category:id,name,slug', 'collection:id,name,slug'])
                 ->where('is_active', true)
@@ -56,7 +59,7 @@ class HomePage extends Component
                 ->orderByDesc('id')
                 ->get();
 
-            // Get Active Flash Sales
+            // flashsale đang hoạt động
             $flashSales = FlashSale::query()
                 ->where('is_active', true)
                 ->where('start_date', '<=', $now)
@@ -67,10 +70,10 @@ class HomePage extends Component
 
             $this->activeFlashSales = $flashSales;
 
-            // Get Flash Sale Products
+            // sản phẩm đang có flashsale tốt nhất
             $this->flashSaleProducts = $this->getFlashSaleProducts(collect($flashSales));
 
-            // Get Featured Collections
+            // bộ sưu tập nổi bật có nhiều sản phẩm nhất
             $this->featuredCollections = Collections::query()
                 ->where('is_active', 1)
                 ->withCount([
@@ -83,11 +86,10 @@ class HomePage extends Component
                 ->limit(4)
                 ->get();
 
-            // Get Best Seller Products
+            // sản phẩm bán chạy
             $this->bestSellerProducts = $this->getBestSellerProducts(collect($flashSales));
         } catch (\Exception $e) {
             Log::error('HomePage mount error: '.$e->getMessage());
-            // Set default values if something goes wrong
             $this->banners = collect();
             $this->activeFlashSales = collect();
             $this->flashSaleProducts = collect();
@@ -96,6 +98,7 @@ class HomePage extends Component
         }
     }
 
+    // danh sách sản phẩm đang có flash sale
     private function getFlashSaleProducts(Collection $flashSales): Collection
     {
         if ($flashSales->isEmpty()) {
@@ -142,6 +145,7 @@ class HomePage extends Component
             ->values();
     }
 
+    // lấy danh sách sản phẩm bán chạy và gắn giá flash sale tốt nhất
     private function getBestSellerProducts(Collection $flashSales): Collection
     {
         $soldQuantitySubQuery = DB::table('order_items')
@@ -170,6 +174,9 @@ class HomePage extends Component
             ->values();
     }
 
+    /**
+     * Tính giá bán tốt nhất mà sản phẩm có thể áp dụng.
+     */
     private function applyBestFlashSalePrice(Products $product, Collection $flashSales): Products
     {
         $bestDiscount = 0;
@@ -215,11 +222,17 @@ class HomePage extends Component
         return $product;
     }
 
+    /**
+     * Lưu voucher vào ví của người dùng hiện tại.
+     */
     public function saveVoucher(int $voucherId): void
     {
         if (! Auth::check()) {
             return;
         }
+
+        $voucherService = new VoucherService;
+        $userId = (int) Auth::id();
 
         $voucher = Voucher::query()->find($voucherId);
 
@@ -229,42 +242,57 @@ class HomePage extends Component
             return;
         }
 
-        if (
-            ! $voucher->is_active
-            || ($voucher->start_date && now()->lt($voucher->start_date))
-            || ($voucher->end_date && now()->gt($voucher->end_date))
-            || (! is_null($voucher->usage_limit) && (int) $voucher->used_count >= (int) $voucher->usage_limit)
-        ) {
+        // Kiểm tra voucher có khả dụng không
+        if (! $voucherService->isVoucherAvailable($voucher)) {
             $this->dispatch('app-toast', message: 'Voucher hiện không khả dụng.', type: 'error');
 
             return;
         }
 
-        $userVoucher = UserVoucher::query()->firstOrCreate(
-            [
-                'user_id' => Auth::id(),
-                'voucher_id' => $voucher->id,
-            ],
-            [
-                'status' => 'unused',
-                'collected_at' => now(),
-            ]
-        );
-
-        $voucherCount = UserVoucher::query()
-            ->where('user_id', Auth::id())
-            ->where('status', 'unused')
-            ->count();
-
-        $this->dispatch('voucher-count-updated', count: $voucherCount);
-
-        if ($userVoucher->wasRecentlyCreated) {
-            $this->dispatch('app-toast', message: 'Đã lưu voucher vào tài khoản của bạn.', type: 'success');
+        // Kiểm tra voucher đã được sử dụng bởi user này chưa
+        if ($voucherService->isVoucherUsedByUser($userId, $voucherId)) {
+            $this->dispatch('app-toast', message: 'Voucher này đã được sử dụng, không thể sử dụng lại.', type: 'error');
 
             return;
         }
 
-        $this->dispatch('app-toast', message: 'Voucher đã có trong ví của bạn.', type: 'success');
+        // Xóa voucher hết hạn và đã dùng
+        $voucherService->cleanupExpiredAndUsedVouchers($userId);
+
+        // Kiểm tra xem user đã lưu voucher này chưa
+        $existingUserVoucher = UserVoucher::query()
+            ->where('user_id', $userId)
+            ->where('voucher_id', $voucherId)
+            ->first();
+
+        if ($existingUserVoucher && $existingUserVoucher->status === VoucherStatus::UNUSED->value) {
+            $this->dispatch('app-toast', message: 'Voucher đã có trong ví của bạn.', type: 'success');
+
+            return;
+        }
+
+        // Nếu đã sử dụng trước đó, không cho phép thêm lại
+        if ($existingUserVoucher && $existingUserVoucher->status === VoucherStatus::USED->value) {
+            $this->dispatch('app-toast', message: 'Voucher này đã được sử dụng, không thể sử dụng lại.', type: 'error');
+
+            return;
+        }
+
+        // Tạo mới nếu chưa có
+        $userVoucher = UserVoucher::query()->create([
+            'user_id' => $userId,
+            'voucher_id' => $voucherId,
+            'status' => VoucherStatus::UNUSED->value,
+            'collected_at' => now(),
+        ]);
+
+        $voucherCount = UserVoucher::query()
+            ->where('user_id', $userId)
+            ->where('status', VoucherStatus::UNUSED->value)
+            ->count();
+
+        $this->dispatch('voucher-count-updated', count: $voucherCount);
+        $this->dispatch('app-toast', message: 'Đã lưu voucher vào tài khoản của bạn.', type: 'success');
     }
 
     public function render()

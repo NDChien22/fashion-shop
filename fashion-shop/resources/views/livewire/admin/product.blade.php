@@ -12,10 +12,19 @@
 
 
             <select wire:model.live="categoryId"
-                class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-40 text-gray-600">
+                class="bg-white border border-gray-100 rounded-xl px-4 py-2 text-xs shadow-sm outline-none w-52 text-gray-600">
                 <option value="">Danh mục</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+
+                @foreach ($categories as $parent)
+                    <option value="{{ $parent->id }}">
+                        {{ $parent->name }}
+                    </option>
+
+                    @foreach ($parent->children as $child)
+                        <option value="{{ $child->id }}">
+                            └─ {{ $child->name }}
+                        </option>
+                    @endforeach
                 @endforeach
             </select>
 

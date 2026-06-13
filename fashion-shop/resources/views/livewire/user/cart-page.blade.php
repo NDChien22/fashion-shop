@@ -120,9 +120,16 @@
                                 <span class="text-gray-600">Giao hàng</span>
                                 <span class="font-semibold">{{ number_format($shipping, 0, ',', '.') }}₫</span>
                             </div>
+                            @if ($membershipDiscount > 0)
+                                <div class="flex justify-between mb-3">
+                                    <span class="text-gray-600">Giảm giá hạng thành viên</span>
+                                    <span
+                                        class="font-semibold text-green-600">-{{ number_format($membershipDiscount, 0, ',', '.') }}₫</span>
+                                </div>
+                            @endif
                             @if ($discount > 0)
                                 <div class="flex justify-between">
-                                    <span class="text-gray-600">Giảm giá</span>
+                                    <span class="text-gray-600">Giảm giá voucher</span>
                                     <span
                                         class="font-semibold text-green-600">-{{ number_format($discount, 0, ',', '.') }}₫</span>
                                 </div>

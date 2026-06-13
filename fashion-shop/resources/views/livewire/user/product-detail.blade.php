@@ -385,7 +385,7 @@
                             <i class="ri-shopping-cart-line"></i>
                             Thêm vào giỏ hàng
                         </button>
-                        <button type="button" wire:click="toggleWhistlist" wire:loading.attr="disabled"
+                        <button type="button" wire:click="toggleWishlist" wire:loading.attr="disabled"
                             class="h-10 w-10 shrink-0 rounded-2xl border transition hover:bg-stone-50 disabled:opacity-70 {{ $isWishlisted ? 'border-rose-200 bg-rose-50 text-rose-500' : 'border-stone-200 bg-white text-stone-600' }}">
                             <i class="{{ $isWishlisted ? 'ri-heart-fill' : 'ri-heart-line' }} text-lg"></i>
                         </button>

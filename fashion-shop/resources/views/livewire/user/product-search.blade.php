@@ -34,7 +34,7 @@
                                 : '/asset/img/product-1.jpg';
                         @endphp
 
-                        <button type="button" wire:click="selectSuggestion(@js($product->name))"
+                        <button type="button" wire:click="selectSuggestion(@js($product->slug))"
                             class="w-full text-left px-4 py-3 hover:bg-gray-50 transition flex items-center gap-3">
                             <img src="{{ $imageUrl }}" alt="{{ $product->name }}"
                                 class="w-12 h-12 rounded-xl object-cover bg-gray-100 shrink-0">
@@ -86,7 +86,7 @@
                     class="absolute left-0 right-0 mt-2 rounded-2xl border border-gray-100 bg-white shadow-2xl overflow-hidden z-50">
                     <div class="max-h-80 overflow-auto divide-y divide-gray-100">
                         @foreach ($products as $product)
-                            <button type="button" wire:click="selectSuggestion(@js($product->name))"
+                            <button type="button" wire:click="selectSuggestion(@js($product->slug))"
                                 class="w-full text-left px-4 py-3 hover:bg-gray-50 transition flex items-center gap-3">
                                 <div class="min-w-0 flex-1">
                                     <p class="text-sm font-semibold text-gray-800 truncate">{{ $product->name }}</p>

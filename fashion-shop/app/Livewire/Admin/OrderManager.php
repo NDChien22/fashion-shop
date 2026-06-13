@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Enums\OrderReturnRequestStatus;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
 use App\Enums\ShippingStatus;
@@ -21,11 +22,14 @@ class OrderManager extends Component
 
     public string $payment_status = '';
 
+    public string $return_status = '';
+
     protected $queryString = [
         'q' => ['except' => ''],
         'status' => ['except' => ''],
         'shipping_status' => ['except' => ''],
         'payment_status' => ['except' => ''],
+        'return_status' => ['except' => ''],
     ];
 
     public function updatingQ(): void
@@ -48,9 +52,14 @@ class OrderManager extends Component
         $this->resetPage();
     }
 
+    public function updatingReturnStatus(): void
+    {
+        $this->resetPage();
+    }
+
     public function resetFilters(): void
     {
-        $this->reset(['q', 'status', 'shipping_status', 'payment_status']);
+        $this->reset(['q', 'status', 'shipping_status', 'payment_status', 'return_status']);
         $this->resetPage();
     }
 
@@ -89,6 +98,16 @@ class OrderManager extends Component
             });
         }
 
+        if ($this->return_status !== '') {
+            if ($this->return_status === 'has_return') {
+                $query->whereHas('returnRequest');
+            } elseif (in_array($this->return_status, OrderReturnRequestStatus::values(), true)) {
+                $query->whereHas('returnRequest', function ($builder): void {
+                    $builder->where('status', $this->return_status);
+                });
+            }
+        }
+
         $orders = $query
             ->orderByRaw(
                 'CASE WHEN status IN (?, ?, ?) THEN 0 ELSE 1 END, id DESC',
@@ -117,6 +136,7 @@ class OrderManager extends Component
             'statusLabel' => $this->status !== '' ? OrderStatus::tryFrom($this->status)?->label() : null,
             'shippingStatusLabel' => $this->shipping_status !== '' ? ShippingStatus::tryFrom($this->shipping_status)?->label() : null,
             'paymentStatusLabel' => $this->payment_status !== '' ? PaymentStatus::tryFrom($this->payment_status)?->label() : null,
+            'returnStatusLabel' => $this->return_status !== '' ? ($this->return_status === 'has_return' ? 'Có yêu cầu đổi/trả' : OrderReturnRequestStatus::tryFrom($this->return_status)?->label()) : null,
         ]);
     }
 }

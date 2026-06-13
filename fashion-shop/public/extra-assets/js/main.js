@@ -303,8 +303,8 @@ document.addEventListener('DOMContentLoaded', function () {
         badge.style.display = count > 0 ? 'flex' : 'none';
     });
 
-    window.addEventListener('whistlist-count-updated', function (event) {
-        const badge = document.getElementById('whistlist-count');
+    window.addEventListener('wishlist-count-updated', function (event) {
+        const badge = document.getElementById('wishlist-count');
         if (!badge) {
             return;
         }
@@ -332,8 +332,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const grid = document.getElementById('whistlist-grid');
-        const emptyState = document.getElementById('whistlist-empty-state');
+        const grid = document.getElementById('wishlist-grid');
+        const emptyState = document.getElementById('wishlist-empty-state');
 
         card.remove();
 

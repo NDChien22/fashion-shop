@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Whistlist;
+use App\Models\Wishlist;
+use App\Support\FlashSalePricing;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-class WhistlistController extends Controller
+class WishlistController extends Controller
 {
     public function index(Request $request)
     {
@@ -15,7 +16,7 @@ class WhistlistController extends Controller
             $this->mergeSessionToUser($request);
         }
 
-        $products = $this->whistlistQuery($request)
+        $products = $this->wishlistQuery($request)
             ->with('product')
             ->orderByDesc('id')
             ->get()
@@ -23,7 +24,9 @@ class WhistlistController extends Controller
             ->filter(fn ($product) => $product && (int) $product->is_active === 1)
             ->values();
 
-        return view('pages.user.whistlist.index', [
+        $products = FlashSalePricing::applyProducts($products);
+
+        return view('pages.user.wishlist.index', [
             'products' => $products,
         ]);
     }
@@ -34,35 +37,27 @@ class WhistlistController extends Controller
             'product_id' => ['required', 'integer', 'exists:products,id'],
         ]);
 
-        if ($request->user()) {
-            Whistlist::query()->firstOrCreate([
-                'user_id' => (int) $request->user()->id,
-                'session_id' => null,
-                'product_id' => (int) $validated['product_id'],
-            ]);
-        } else {
-            Whistlist::query()->firstOrCreate([
-                'user_id' => null,
-                'session_id' => $request->session()->getId(),
-                'product_id' => (int) $validated['product_id'],
-            ]);
-        }
+        Wishlist::query()->firstOrCreate([
+            'user_id' => $request->user() ? (int) $request->user()->id : null,
+            'session_id' => $request->user() ? null : $request->session()->getId(),
+            'product_id' => (int) $validated['product_id'],
+        ]);
 
-        return back()->with('success', 'Đã thêm sản phẩm vào whistlist.');
+        return back()->with('success', 'Da them san pham vao wishlist.');
     }
 
     public function destroy(Request $request, int $productId): RedirectResponse
     {
-        $this->whistlistQuery($request)
+        $this->wishlistQuery($request)
             ->where('product_id', $productId)
             ->delete();
 
-        return back()->with('success', 'Đã xóa sản phẩm khỏi whistlist.');
+        return back()->with('success', 'Da xoa san pham khoi wishlist.');
     }
 
-    private function whistlistQuery(Request $request): Builder
+    private function wishlistQuery(Request $request): Builder
     {
-        return Whistlist::query()->where(function (Builder $query) use ($request): void {
+        return Wishlist::query()->where(function (Builder $query) use ($request): void {
             if ($request->user()) {
                 $query->where('user_id', (int) $request->user()->id);
 
@@ -79,12 +74,12 @@ class WhistlistController extends Controller
         $userId = (int) $request->user()->id;
         $sessionId = $request->session()->getId();
 
-        Whistlist::query()
+        Wishlist::query()
             ->whereNull('user_id')
             ->where('session_id', $sessionId)
             ->get()
-            ->each(function (Whistlist $sessionItem) use ($userId): void {
-                Whistlist::query()->firstOrCreate([
+            ->each(function (Wishlist $sessionItem) use ($userId): void {
+                Wishlist::query()->firstOrCreate([
                     'user_id' => $userId,
                     'session_id' => null,
                     'product_id' => (int) $sessionItem->product_id,

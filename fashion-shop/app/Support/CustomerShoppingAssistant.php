@@ -8,7 +8,7 @@ use App\Models\Products;
 use App\Models\ProductSkus;
 use App\Models\User;
 use App\Models\UserActivity;
-use App\Models\Whistlist;
+use App\Models\Wishlist;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
@@ -49,13 +49,13 @@ class CustomerShoppingAssistant
     // thu thập tín hiệu từ các sản phẩm đã lưu trong wishlist
     private function addWishlistSignals(User $user, array &$signals): void
     {
-        Whistlist::query()
+        Wishlist::query()
             ->with(['product.category:id,name', 'product.collection:id,name'])
             ->where('user_id', $user->id)
             ->latest('id')
             ->limit(6)
             ->get()
-            ->each(function (Whistlist $item) use (&$signals): void {
+            ->each(function (Wishlist $item) use (&$signals): void {
                 $product = $item->product;
 
                 if (! $product) {

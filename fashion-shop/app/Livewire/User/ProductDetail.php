@@ -6,7 +6,7 @@ use App\Models\Cart;
 use App\Models\OrderFeedback;
 use App\Models\Products;
 use App\Models\ProductSkus;
-use App\Models\Whistlist;
+use App\Models\Wishlist;
 use App\Support\FlashSalePricing;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
@@ -155,38 +155,38 @@ class ProductDetail extends Component
         $this->selectedQuantity = 1;
     }
 
-    // thêm hoặc xóa sản phẩm khỏi whistlist
-    public function toggleWhistlist(): void
+    // thêm hoặc xóa sản phẩm khỏi wishlist
+    public function toggleWishlist(): void
     {
-        $existing = $this->whistlistQuery()
+        $existing = $this->wishlistQuery()
             ->where('product_id', (int) $this->product->id)
             ->first();
 
         if ($existing) {
-            $this->whistlistQuery()
+            $this->wishlistQuery()
                 ->where('product_id', (int) $this->product->id)
                 ->delete();
 
             $this->isWishlisted = false;
-            $message = 'Đã xóa sản phẩm khỏi whistlist.';
+            $message = 'Đã xóa sản phẩm khỏi wishlist.';
         } else {
-            Whistlist::query()->firstOrCreate([
+            Wishlist::query()->firstOrCreate([
                 'user_id' => Auth::check() ? (int) Auth::id() : null,
                 'session_id' => Auth::check() ? null : request()->session()->getId(),
                 'product_id' => (int) $this->product->id,
             ]);
 
             $this->isWishlisted = true;
-            $message = 'Đã thêm sản phẩm vào whistlist.';
+            $message = 'Đã thêm sản phẩm vào wishlist.';
         }
 
-        $count = $this->whistlistQuery()
+        $count = $this->wishlistQuery()
             ->pluck('product_id')
             ->map(fn ($id) => (int) $id)
             ->unique()
             ->count();
 
-        $this->dispatch('whistlist-count-updated', count: (int) $count);
+        $this->dispatch('wishlist-count-updated', count: (int) $count);
         $this->dispatch('app-toast', message: $message, type: 'success');
     }
 
@@ -202,7 +202,7 @@ class ProductDetail extends Component
                 'order:id,order_code,created_at',
             ])
             ->latest()
-            ->paginate(5);
+            ->paginate(2);
 
         // lấy danh sách sản phẩm liên quan cùng category nhưng khác id
         $relatedProducts = Products::query()
@@ -354,9 +354,9 @@ class ProductDetail extends Component
         });
     }
 
-    private function whistlistQuery(): Builder
+    private function wishlistQuery(): Builder
     {
-        return Whistlist::query()->where(function (Builder $query): void {
+        return Wishlist::query()->where(function (Builder $query): void {
             if (Auth::check()) {
                 $query->where('user_id', (int) Auth::id());
 
@@ -369,7 +369,7 @@ class ProductDetail extends Component
 
     private function refreshWishlistState(): void
     {
-        $this->isWishlisted = $this->whistlistQuery()
+        $this->isWishlisted = $this->wishlistQuery()
             ->where('product_id', (int) $this->product->id)
             ->exists();
     }

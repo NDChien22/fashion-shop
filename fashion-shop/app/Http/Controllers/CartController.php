@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Categories;
+use App\Models\CustomerMembershipLevel;
 use App\Models\Products;
 use App\Models\ProductSkus;
 use App\Services\VoucherService;
@@ -83,6 +85,20 @@ class CartController extends Controller
         $subtotal = round((float) $selectedItems->sum('line_total'), 2);
         $shipping = $selectedItems->isEmpty() ? 0.0 : ($subtotal >= self::FREE_SHIPPING_THRESHOLD ? 0.0 : self::SHIPPING_FEE);
         $discount = 0.0;
+        $membershipDiscount = 0.0;
+
+        // Calculate membership discount
+        if ($request->user()) {
+            $customerMembership = CustomerMembershipLevel::query()
+                ->where('user_id', (int) $request->user()->id)
+                ->with('membershipLevel')
+                ->first();
+
+            if ($customerMembership?->membershipLevel?->discount_rate > 0) {
+                $discountRate = (float) $customerMembership->membershipLevel->discount_rate;
+                $membershipDiscount = round(($subtotal * $discountRate) / 100, 2);
+            }
+        }
 
         // load vouchers for auth user
         $availableVouchers = [];
@@ -176,8 +192,9 @@ class CartController extends Controller
         }
 
         $gross = round($subtotal + $shipping, 2);
-        $discount = min($discount, $gross);
-        $total = round(max($gross - $discount, 0), 2);
+        $totalDiscount = $discount + $membershipDiscount;
+        $totalDiscount = min($totalDiscount, $gross);
+        $total = round(max($gross - $totalDiscount, 0), 2);
 
         return view('pages.user.cart.index', [
             'cartItems' => $cartItems,
@@ -188,6 +205,7 @@ class CartController extends Controller
             'subtotal' => $subtotal,
             'shipping' => $shipping,
             'discount' => $discount,
+            'membershipDiscount' => $membershipDiscount,
             'total' => $total,
         ]);
     }
@@ -302,6 +320,22 @@ class CartController extends Controller
         return back()->with('success', 'Đã xóa sản phẩm khỏi giỏ hàng.');
     }
 
+    private function getAllChildCategoryIds(int $parentId): array
+    {
+        $ids = [$parentId];
+
+        $children = Categories::where('parent_id', $parentId)->pluck('id');
+
+        foreach ($children as $childId) {
+            $ids = array_merge(
+                $ids,
+                $this->getAllChildCategoryIds($childId)
+            );
+        }
+
+        return $ids;
+    }
+
     public function totals(Request $request)
     {
         $selected = $request->input('selected_cart_ids', []);
@@ -347,6 +381,20 @@ class CartController extends Controller
         $subtotal = round((float) $selectedItems->sum('line_total'), 2);
         $shipping = $selectedItems->isEmpty() ? 0.0 : ($subtotal >= self::FREE_SHIPPING_THRESHOLD ? 0.0 : self::SHIPPING_FEE);
         $discount = 0.0;
+        $membershipDiscount = 0.0;
+
+        // Calculate membership discount
+        if ($request->user()) {
+            $customerMembership = CustomerMembershipLevel::query()
+                ->where('user_id', (int) $request->user()->id)
+                ->with('membershipLevel')
+                ->first();
+
+            if ($customerMembership?->membershipLevel?->discount_rate > 0) {
+                $discountRate = (float) $customerMembership->membershipLevel->discount_rate;
+                $membershipDiscount = round(($subtotal * $discountRate) / 100, 2);
+            }
+        }
 
         $availableVouchers = [];
         if ($request->user()) {
@@ -403,7 +451,14 @@ class CartController extends Controller
                                         $matched = (int) ($selectedVoucher['product_id'] ?? 0) === (int) ($item['product_id'] ?? 0);
                                         break;
                                     case 'category':
-                                        $matched = (int) ($selectedVoucher['category_id'] ?? 0) === (int) ($item['category_id'] ?? 0);
+                                        $categoryIds = $this->getAllChildCategoryIds(
+                                            (int) $selectedVoucher['category_id']
+                                        );
+
+                                        $matched = in_array(
+                                            (int) $item['category_id'],
+                                            $categoryIds
+                                        );
                                         break;
                                     case 'collection':
                                         $matched = (int) ($selectedVoucher['collection_id'] ?? 0) === (int) ($item['collection_id'] ?? 0);
@@ -437,13 +492,15 @@ class CartController extends Controller
         }
 
         $gross = round($subtotal + $shipping, 2);
-        $discount = min($discount, $gross);
-        $total = round(max($gross - $discount, 0), 2);
+        $totalDiscount = $discount + $membershipDiscount;
+        $totalDiscount = min($totalDiscount, $gross);
+        $total = round(max($gross - $totalDiscount, 0), 2);
 
         return response()->json([
             'subtotal' => $subtotal,
             'shipping' => $shipping,
             'discount' => $discount,
+            'membershipDiscount' => $membershipDiscount,
             'total' => $total,
             'availableVouchers' => $availableVouchers,
             'selectedCount' => count($selectedIds),

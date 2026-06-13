@@ -365,6 +365,60 @@ class CheckoutController extends Controller
         return redirect()->route('user.orders')->with('error', 'Bạn đã hủy thanh toán Stripe.');
     }
 
+    public function retryPayment(Request $request, Order $order): RedirectResponse
+    {
+        if ($request->user()) {
+            if ((int) $order->user_id !== (int) $request->user()->id) {
+                abort(403);
+            }
+        } else {
+            $guestOrderCodes = collect($request->session()->get('guest_order_codes', []))
+                ->filter(fn ($code) => is_string($code) && trim($code) !== '')
+                ->map(fn ($code) => strtoupper(trim((string) $code)))
+                ->all();
+
+            if (! in_array(strtoupper((string) $order->order_code), $guestOrderCodes, true)) {
+                abort(403);
+            }
+        }
+
+        $payment = Payment::query()->where('order_id', (int) $order->id)->first();
+        if (! $payment) {
+            return redirect()->route('user.orders')->with('error', 'Không tìm thấy giao dịch thanh toán.');
+        }
+
+        if ((string) $payment->status !== PaymentStatus::PENDING->value) {
+            return redirect()->route('user.orders')->with('error', 'Giao dịch không ở trạng thái chờ thanh toán.');
+        }
+
+        $method = (string) ($order->payment_method ?? '');
+        if ($method === 'vnpay') {
+            try {
+                $paymentUrl = $this->buildVnpayPaymentUrl($request, $order, $payment);
+
+                return redirect()->away($paymentUrl);
+            } catch (Throwable $exception) {
+                report($exception);
+
+                return redirect()->route('user.orders')->with('error', 'Không thể khởi tạo thanh toán VNPay.');
+            }
+        }
+
+        if ($method === 'stripe') {
+            try {
+                $checkoutUrl = $this->createStripeCheckoutUrl($order, $payment);
+
+                return redirect()->away($checkoutUrl);
+            } catch (Throwable $exception) {
+                report($exception);
+
+                return redirect()->route('user.orders')->with('error', 'Không thể khởi tạo thanh toán Stripe.');
+            }
+        }
+
+        return redirect()->route('user.orders')->with('error', 'Phương thức thanh toán không hỗ trợ thanh toán lại.');
+    }
+
     private function calculatePricing(Collection $cartItems, Collection $pricedCartItems, ?string $voucherCode, ?int $userId): array
     {
         $subtotal = round((float) $pricedCartItems->sum(fn (array $item) => (float) ($item['line_total'] ?? 0)), 2);
@@ -606,7 +660,6 @@ class CheckoutController extends Controller
             $order->update(['status' => OrderStatus::PROCESSING->value]);
         }
 
-        // Voucher status already updated when creating the order; no-op here to avoid double-apply.
     }
 
     private function markPaymentAsFailed(Order $order, Payment $payment): void

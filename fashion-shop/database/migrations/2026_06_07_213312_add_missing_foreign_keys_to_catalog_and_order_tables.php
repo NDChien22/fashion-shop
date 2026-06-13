@@ -82,7 +82,7 @@ return new class extends Migration
             ['table' => 'customer_membership_levels', 'column' => 'membership_level_id', 'references' => 'membership_levels', 'on_delete' => 'RESTRICT', 'nullable' => false, 'up_type' => 'BIGINT UNSIGNED', 'down_type' => 'INTEGER UNSIGNED'],
             ['table' => 'order_vouchers', 'column' => 'order_id', 'references' => 'orders', 'on_delete' => 'CASCADE', 'nullable' => false, 'up_type' => 'BIGINT UNSIGNED', 'down_type' => 'BIGINT UNSIGNED'],
             ['table' => 'order_vouchers', 'column' => 'voucher_id', 'references' => 'vouchers', 'on_delete' => 'RESTRICT', 'nullable' => false, 'up_type' => 'BIGINT UNSIGNED', 'down_type' => 'BIGINT UNSIGNED'],
-            ['table' => 'whistlists', 'column' => 'product_id', 'references' => 'products', 'on_delete' => 'CASCADE', 'nullable' => false, 'up_type' => 'BIGINT UNSIGNED', 'down_type' => 'INTEGER UNSIGNED', 'cleanup' => 'delete'],
+            ['table' => 'wishlists', 'column' => 'product_id', 'references' => 'products', 'on_delete' => 'CASCADE', 'nullable' => false, 'up_type' => 'BIGINT UNSIGNED', 'down_type' => 'INTEGER UNSIGNED', 'cleanup' => 'delete'],
         ];
     }
 

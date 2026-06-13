@@ -21,6 +21,9 @@ class ProductListing extends Component
     use WithPagination;
 
     #[Url]
+    public string $category = '';
+
+    #[Url]
     public string $search = '';
 
     #[Url]
@@ -34,6 +37,11 @@ class ProductListing extends Component
 
     #[Url]
     public array $sizes = [];
+
+    public function mount(): void
+    {
+        $this->applyCategoryFilterFromQuery();
+    }
 
     public function updatingSearch()
     {
@@ -108,6 +116,7 @@ class ProductListing extends Component
 
     public function resetFilters()
     {
+        $this->category = '';
         $this->search = '';
         $this->sort = 'newest';
         $this->selectedCategories = [];
@@ -145,11 +154,7 @@ class ProductListing extends Component
 
         // Search
         if (trim($this->search) !== '') {
-            $keyword = trim($this->search);
-            $query->where(function ($builder) use ($keyword): void {
-                $builder->where('name', 'like', '%'.$keyword.'%')
-                    ->orWhere('description', 'like', '%'.$keyword.'%');
-            });
+            $query->search($this->search);
         }
 
         // Category filter
@@ -268,6 +273,24 @@ class ProductListing extends Component
         }
 
         return array_keys($expanded);
+    }
+
+    private function applyCategoryFilterFromQuery(): void
+    {
+        if ($this->category === '' || ! empty($this->selectedCategories)) {
+            return;
+        }
+
+        $categoryId = Categories::query()
+            ->where('slug', $this->category)
+            ->where('is_active', 1)
+            ->value('id');
+
+        if ($categoryId === null) {
+            return;
+        }
+
+        $this->selectedCategories = [(int) $categoryId];
     }
 
     public function saveVoucher(int $voucherId): void

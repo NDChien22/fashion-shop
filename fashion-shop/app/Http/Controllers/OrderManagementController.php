@@ -61,6 +61,17 @@ class OrderManagementController extends Controller
             });
         }
 
+        $returnStatus = (string) $request->query('return_status', '');
+        if ($returnStatus !== '') {
+            if ($returnStatus === 'has_return') {
+                $query->whereHas('returnRequest');
+            } elseif (in_array($returnStatus, OrderReturnRequestStatus::values(), true)) {
+                $query->whereHas('returnRequest', function ($builder) use ($returnStatus): void {
+                    $builder->where('status', $returnStatus);
+                });
+            }
+        }
+
         $orders = $query
             ->orderByRaw(
                 'CASE WHEN status IN (?, ?, ?) THEN 0 ELSE 1 END, id DESC',
@@ -170,10 +181,6 @@ class OrderManagementController extends Controller
     public function updateReturnRequest(Request $request, OrderReturnRequest $returnRequest): RedirectResponse
     {
         $returnRequest->loadMissing('order:id,status,shipping_status,payment_method');
-
-        if ($returnRequest->order && ! $this->isWithinReturnWindow($returnRequest->order)) {
-            return back()->with('error', 'Yêu cầu đổi/trả đã quá hạn xử lý (7 ngày kể từ khi đơn được hoàn thành/giao thành công).');
-        }
 
         if ((string) ($returnRequest->status?->value ?? $returnRequest->status) === OrderReturnRequestStatus::COMPLETED->value) {
             return back()->with('error', 'Yêu cầu đổi/trả đã hoàn tất, không thể cập nhật thêm.');

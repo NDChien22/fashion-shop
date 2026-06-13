@@ -167,9 +167,16 @@
                                         <span id="shipping"
                                             class="font-semibold">{{ number_format($shipping, 0, ',', '.') }}₫</span>
                                     </div>
-                                    <div id="discountRow" class="hidden">
-                                        <div class="flex justify-between">
-                                            <span class="text-gray-600">Giảm giá</span>
+                                    <div id="membershipDiscountRow" class="{{ $membershipDiscount > 0 ? '' : 'hidden' }}">
+                                        <div class="flex justify-between mb-3">
+                                            <span class="text-gray-600">Giảm giá hạng thành viên</span>
+                                            <span id="membershipDiscount"
+                                                class="font-semibold text-green-600">-{{ number_format($membershipDiscount, 0, ',', '.') }}₫</span>
+                                        </div>
+                                    </div>
+                                    <div id="discountRow" class="{{ $discount > 0 ? '' : 'hidden' }}">
+                                        <div class="flex justify-between mb-3">
+                                            <span class="text-gray-600">Giảm giá voucher</span>
                                             <span id="discount"
                                                 class="font-semibold text-green-600">-{{ number_format($discount, 0, ',', '.') }}₫</span>
                                         </div>
@@ -202,9 +209,12 @@
                                         <p class="mt-2 text-xs text-gray-500">Chỉ voucher đã lưu trong ví mới dùng được.
                                         </p>
                                     @else
-                                        <div
-                                            class="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-3 py-2 text-xs text-gray-500">
-                                            Đăng nhập để lưu và sử dụng voucher.</div>
+                                        @guest
+                                            <div
+                                                class="rounded-lg border border-dashed border-gray-300 bg-gray-50 px-3 py-2 text-xs text-gray-500">
+                                                Đăng nhập để lưu và sử dụng voucher.
+                                            </div>
+                                        @endguest
                                     @endif
                                 @else
                                     <div
@@ -251,7 +261,6 @@
                                 class="space-y-3">
                                 @csrf
                                 <input type="hidden" name="voucher_code" value="{{ $selectedVoucherCode }}">
-                                <input type="hidden" name="payment_method" value="{{ $paymentMethod }}">
                                 @foreach ($selectedCartItemIds as $selectedCartId)
                                     <input type="hidden" name="selected_cart_ids[]" value="{{ $selectedCartId }}">
                                 @endforeach
@@ -308,7 +317,7 @@
                                 <button id="checkoutButton" type="submit" @disabled($selectedCount === 0 || ($isLoggedIn && $profileIncomplete))
                                     class="w-full bg-[#bc9c75] text-white py-3 rounded-lg font-semibold hover:bg-[#a88966] transition disabled:opacity-50 disabled:cursor-not-allowed">
                                     <i class="ri-shopping-bag-line mr-2"></i>
-                                    Thanh toán sản phẩm đã chọn
+                                    Đặt hàng
                                 </button>
 
                                 <a href="{{ route('dashboard') }}"
@@ -366,6 +375,14 @@
                         '₫';
                     document.getElementById('shipping').textContent = new Intl.NumberFormat('vi-VN').format(data.shipping) +
                         '₫';
+                    if (data.membershipDiscount > 0) {
+                        document.getElementById('membershipDiscount').textContent = '-' + new Intl.NumberFormat('vi-VN')
+                            .format(data
+                                .membershipDiscount) + '₫';
+                        document.getElementById('membershipDiscountRow').classList.remove('hidden');
+                    } else {
+                        document.getElementById('membershipDiscountRow').classList.add('hidden');
+                    }
                     if (data.discount > 0) {
                         document.getElementById('discount').textContent = '-' + new Intl.NumberFormat('vi-VN').format(data
                             .discount) + '₫';
@@ -452,6 +469,14 @@
                             data.subtotal) + '₫';
                         document.getElementById('shipping').textContent = new Intl.NumberFormat('vi-VN').format(
                             data.shipping) + '₫';
+                        if (data.membershipDiscount > 0) {
+                            document.getElementById('membershipDiscount').textContent = '-' + new Intl
+                                .NumberFormat(
+                                    'vi-VN').format(data.membershipDiscount) + '₫';
+                            document.getElementById('membershipDiscountRow').classList.remove('hidden');
+                        } else {
+                            document.getElementById('membershipDiscountRow').classList.add('hidden');
+                        }
                         if (data.discount > 0) {
                             document.getElementById('discount').textContent = '-' + new Intl.NumberFormat(
                                 'vi-VN').format(data.discount) + '₫';

@@ -3,6 +3,7 @@
 namespace App\Livewire\User;
 
 use App\Models\Cart;
+use App\Models\CustomerMembershipLevel;
 use App\Models\Products;
 use App\Models\UserVoucher;
 use App\Models\Voucher;
@@ -34,6 +35,8 @@ class CartPage extends Component
     public float $shipping = 0.0;
 
     public float $discount = 0.0;
+
+    public float $membershipDiscount = 0.0;
 
     public float $total = 0.0;
 
@@ -262,6 +265,20 @@ class CartPage extends Component
             ? 0.0
             : ($this->subtotal >= self::FREE_SHIPPING_THRESHOLD ? 0.0 : self::SHIPPING_FEE);
         $this->discount = 0.0;
+        $this->membershipDiscount = 0.0;
+
+        // Calculate membership discount
+        if (Auth::check()) {
+            $customerMembership = CustomerMembershipLevel::query()
+                ->where('user_id', (int) Auth::id())
+                ->with('membershipLevel')
+                ->first();
+
+            if ($customerMembership?->membershipLevel?->discount_rate > 0) {
+                $discountRate = (float) $customerMembership->membershipLevel->discount_rate;
+                $this->membershipDiscount = round(($this->subtotal * $discountRate) / 100, 2);
+            }
+        }
 
         if ($this->selectedVoucherCode !== '') {
             $voucher = $this->selectedVoucher();
@@ -271,8 +288,9 @@ class CartPage extends Component
         }
 
         $gross = round($this->subtotal + $this->shipping, 2);
-        $this->discount = min($this->discount, $gross);
-        $this->total = round(max($gross - $this->discount, 0), 2);
+        $totalDiscount = $this->discount + $this->membershipDiscount;
+        $totalDiscount = min($totalDiscount, $gross);
+        $this->total = round(max($gross - $totalDiscount, 0), 2);
     }
 
     private function calculateVoucherDiscount(array $voucher): float

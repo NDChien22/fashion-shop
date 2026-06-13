@@ -161,8 +161,7 @@ class HomePage extends Component
             ->whereNotNull('products.main_image_url')
             ->where('products.main_image_url', '!=', '')
             ->with(['category:id,name,slug', 'collection:id,name,slug'])
-            ->orderByDesc(DB::raw('COALESCE(sold_products.sold_qty, 0)'))
-            ->orderByDesc('products.id')
+            ->orderByRaw(DB::raw('COALESCE(sold_products.sold_qty, 0) DESC'))
             ->limit(8)
             ->get([
                 'products.*',
@@ -171,6 +170,7 @@ class HomePage extends Component
 
         return $products
             ->map(fn (Products $product) => $this->applyBestFlashSalePrice($product, $flashSales))
+            ->sortByDesc('sold_qty')
             ->values();
     }
 

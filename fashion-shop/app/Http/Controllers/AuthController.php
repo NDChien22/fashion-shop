@@ -26,7 +26,7 @@ class AuthController extends Controller
         if ($filedType == 'email') {
             $request->validate([
                 'login_id' => 'required|email|exists:users,email',
-                'password' => 'required|min:5',
+                'password' => 'required|min:8',
             ], [
                 'login_id.required' => 'Vui lòng nhập email hoặc username',
                 'login_id.email' => 'Địa chỉ email không hợp lệ',
@@ -36,7 +36,7 @@ class AuthController extends Controller
         } else {
             $request->validate([
                 'login_id' => 'required|exists:users,username',
-                'password' => 'required|min:5',
+                'password' => 'required|min:8',
             ], [
                 'login_id.required' => 'Vui lòng nhập email hoặc username',
                 'login_id.exists' => 'Tài khoản không tồn tại',
@@ -70,7 +70,7 @@ class AuthController extends Controller
         $request->validate([
             'username' => ['required', 'unique:users,username', 'regex:/^\S+$/'],
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:5|confirmed',
+            'password' => 'required|min:8|confirmed',
             'password_confirmation' => 'required',
         ], [
             'username.required' => 'Vui lòng nhập tên đăng nhập',
@@ -80,7 +80,7 @@ class AuthController extends Controller
             'email.email' => 'Địa chỉ email không hợp lệ',
             'email.unique' => 'Email đã tồn tại',
             'password.required' => 'Vui lòng nhập mật khẩu',
-            'password.min' => 'Mật khẩu phải có ít nhất 5 ký tự',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự',
             'password.confirmed' => 'Mật khẩu xác nhận không khớp',
             'password_confirmation.required' => 'Vui lòng xác nhận mật khẩu',
         ]);
@@ -287,11 +287,11 @@ class AuthController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email|exists:users,email',
-            'password' => 'required|min:5|confirmed',
+            'password' => 'required|min:8|confirmed',
             'password_confirmation' => 'required',
         ], [
             'password.required' => 'Vui lòng nhập mật khẩu mới',
-            'password.min' => 'Mật khẩu phải có ít nhất 5 ký tự',
+            'password.min' => 'Mật khẩu phải có ít nhất 8 ký tự',
             'password.confirmed' => 'Mật khẩu xác nhận không khớp',
             'password_confirmation.required' => 'Vui lòng xác nhận mật khẩu',
         ]);
@@ -310,7 +310,6 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         $user->password = Hash::make($request->password);
-        $user->setRememberToken(Str::random(60));
         $user->save();
 
         DB::table('password_reset_tokens')

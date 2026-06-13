@@ -105,7 +105,7 @@
                 <div class="relative flex-1">
                     <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                     <input type="text" name="q" value="{{ $searchKeyword ?? '' }}"
-                        placeholder="Tìm theo mã đơn hàng, email hoặc số điện thoại"
+                        placeholder="Tìm theo mã đơn hàng"
                         class="w-full rounded-xl border border-gray-300 py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-[#bc9c75] focus:border-[#bc9c75]">
                 </div>
                 <div class="flex gap-2">
@@ -151,7 +151,7 @@
                             ],
                             true,
                         );
-                        $canLeaveFeedback = ($isDelivered || $isClosedOrder) && !$order->feedback;
+                        $canLeaveFeedback = $isDelivered || $isClosedOrder;
                         $canCancelOrder = !$isCancelled && !$isDelivered;
                         $returnRequest = $order->returnRequest;
                         $returnWindowStart = $isClosedOrder || $isDelivered ? $order->updated_at : null;
@@ -253,21 +253,106 @@
                             <p class="text-xs font-bold uppercase tracking-[0.12em] text-gray-400 mb-2">Sản phẩm</p>
 
                             <div class="space-y-2">
-                                @foreach ($order->items->take(3) as $item)
+                                @foreach ($order->items as $item)
+                                    @php
+                                        $productId = $item->productSku?->product_id;
+
+                                        $productFeedback = $order->feedback->where('product_id', $productId)->first();
+                                    @endphp
+
                                     <div
                                         class="flex items-center justify-between gap-3 rounded-xl border border-gray-100 px-3 py-2">
-                                        <div class="min-w-0">
-                                            <p class="text-sm font-semibold text-gray-800 truncate">
-                                                {{ $item->product_name ?: $item->productSku?->product?->name ?: 'Sản phẩm' }}
+                                        <div>
+                                            <p class="font-semibold">
+                                                {{ $item->product_name ?: $item->productSku?->product?->name }}
                                             </p>
-                                            <p class="text-xs text-gray-500">SKU:
-                                                {{ $item->product_sku ?: $item->productSku?->sku ?? 'N/A' }} |
-                                                SL:
-                                                {{ $item->quantity }}</p>
+
+                                            <p class="text-xs text-gray-500">
+                                                SL: {{ $item->quantity }}
+                                            </p>
                                         </div>
-                                        <div class="text-sm font-bold text-gray-800 whitespace-nowrap">
-                                            {{ number_format((float) $item->price, 0, ',', '.') }}đ
+                                    </div>
+
+                                    {{-- FEEDBACK TỪNG SẢN PHẨM --}}
+                                    <div class="mt-3 rounded-xl border border-amber-100 bg-amber-50/40 p-4">
+
+                                        <div class="flex items-center justify-between mb-3">
+                                            <h4 class="font-semibold text-gray-800">
+                                                Đánh giá sản phẩm
+                                            </h4>
+
+                                            @if ($productFeedback)
+                                                <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                                                    Đã đánh giá
+                                                </span>
+                                            @endif
                                         </div>
+
+                                        @if ($productFeedback)
+                                            <div class="bg-white border rounded-xl p-4">
+                                                <div class="flex items-center gap-1 mb-2">
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <i
+                                                            class="ri-star-fill {{ $i <= $productFeedback->rating ? 'text-yellow-400' : 'text-gray-300' }}"></i>
+                                                    @endfor
+
+                                                    <span class="ml-2 text-sm text-gray-600">
+                                                        {{ $productFeedback->rating }}/5
+                                                    </span>
+                                                </div>
+
+                                                <p class="text-gray-700">
+                                                    {{ $productFeedback->content }}
+                                                </p>
+
+                                                <p class="text-xs text-gray-400 mt-3">
+                                                    {{ $productFeedback->created_at?->format('d/m/Y H:i') }}
+                                                </p>
+                                            </div>
+                                        @elseif($canLeaveFeedback)
+                                            <form method="POST" action="{{ route('user.orders.feedback', $order) }}"
+                                                class="space-y-3">
+                                                @csrf
+
+                                                <input type="hidden" name="product_id" value="{{ $productId }}">
+
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                                        Đánh giá sao
+                                                    </label>
+
+                                                    <select name="rating"
+                                                        class="w-full rounded-xl border border-gray-300 p-2">
+                                                        @for ($star = 5; $star >= 1; $star--)
+                                                            <option value="{{ $star }}">
+                                                                {{ $star }} sao
+                                                            </option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                                        Nội dung đánh giá
+                                                    </label>
+
+                                                    <textarea name="content" rows="4" required minlength="10" class="w-full rounded-xl border border-gray-300 p-3"
+                                                        placeholder="Chia sẻ trải nghiệm của bạn về sản phẩm...">{{ old('content') }}</textarea>
+                                                </div>
+
+                                                <button type="submit"
+                                                    class="inline-flex items-center gap-2 rounded-xl bg-[#bc9c75] px-4 py-2 text-white font-semibold hover:bg-[#a88966]">
+                                                    <i class="ri-chat-smile-2-line"></i>
+                                                    Gửi đánh giá
+                                                </button>
+                                            </form>
+                                        @else
+                                            <div
+                                                class="rounded-xl border border-gray-200 bg-white p-4 text-sm text-gray-500">
+                                                Bạn chỉ có thể đánh giá sau khi đơn hàng đã được giao thành công.
+                                            </div>
+                                        @endif
+
                                     </div>
                                 @endforeach
 
@@ -277,76 +362,7 @@
                             </div>
                         </div>
 
-                        <div class="mt-4 rounded-2xl border border-gray-100 bg-[#fcfaf8] p-4">
-                            <div class="flex items-center justify-between gap-3 flex-wrap">
-                                <div>
-                                    <p class="text-xs font-bold uppercase tracking-[0.12em] text-gray-400">Feedback đơn hàng
-                                    </p>
-                                    <p class="mt-1 text-sm text-gray-600">
-                                        {{ $order->feedback ? 'Bạn đã gửi feedback cho đơn hàng này.' : ($canLeaveFeedback ? 'Đơn này đã hoàn tất, bạn có thể gửi feedback ngay bên dưới.' : 'Feedback sẽ mở sau khi đơn hàng hoàn tất hoặc đổi/trả xong.') }}
-                                    </p>
-                                </div>
 
-                                @if ($order->feedback)
-                                    <span
-                                        class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-                                        {{ $order->feedback->rating }}/5
-                                    </span>
-                                @endif
-                            </div>
-
-                            @if ($order->feedback)
-                                <div class="mt-4 rounded-xl border border-emerald-100 bg-white p-4">
-                                    <p class="text-sm font-semibold text-gray-800">{{ $order->feedback->content }}</p>
-                                    <p class="mt-2 text-xs text-gray-500">Đã gửi lúc
-                                        {{ $order->feedback->created_at?->format('d/m/Y H:i') }}</p>
-                                </div>
-                            @elseif ($canLeaveFeedback)
-                                <form method="POST" action="{{ route('user.orders.feedback', $order) }}"
-                                    class="mt-4 space-y-4">
-                                    @csrf
-                                    <input type="hidden" name="feedback_order_id" value="{{ $order->id }}">
-
-                                    @if (old('feedback_order_id') == $order->id && $errors->any())
-                                        <div
-                                            class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">
-                                            {{ $errors->first() }}
-                                        </div>
-                                    @endif
-
-                                    <div class="grid grid-cols-1 gap-4 md:grid-cols-[180px_minmax(0,1fr)]">
-                                        <div>
-                                            <label
-                                                class="mb-2 block text-xs font-bold uppercase tracking-[0.12em] text-gray-400">Số
-                                                sao</label>
-                                            <select name="rating"
-                                                class="w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm focus:border-[#bc9c75] focus:outline-none focus:ring-2 focus:ring-[#bc9c75]/10">
-                                                @for ($star = 5; $star >= 1; $star--)
-                                                    <option value="{{ $star }}" @selected((string) old('rating', '5') === (string) $star)>
-                                                        {{ $star }} sao</option>
-                                                @endfor
-                                            </select>
-                                        </div>
-
-                                        <div>
-                                            <label
-                                                class="mb-2 block text-xs font-bold uppercase tracking-[0.12em] text-gray-400">Nội
-                                                dung feedback</label>
-                                            <textarea name="content" rows="4" placeholder="Chia sẻ trải nghiệm của bạn về đơn hàng này..."
-                                                class="w-full rounded-xl border border-gray-300 px-3 py-2.5 text-sm focus:border-[#bc9c75] focus:outline-none focus:ring-2 focus:ring-[#bc9c75]/10">{{ old('content') }}</textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="flex items-center justify-end">
-                                        <button type="submit"
-                                            class="inline-flex items-center gap-2 rounded-xl bg-[#bc9c75] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#a88966] transition">
-                                            <i class="ri-message-2-line"></i>
-                                            Gửi feedback
-                                        </button>
-                                    </div>
-                                </form>
-                            @endif
-                        </div>
 
                         <div class="mt-4 rounded-2xl border border-violet-100 bg-violet-50/60 p-4">
                             <div class="flex items-center justify-between gap-3 flex-wrap">
@@ -590,10 +606,30 @@
                                     Đơn này không thể thao tác
                                 </span>
                             @endif
+                            @if (
+                                $payment &&
+                                    (string) $payment->status === PaymentStatus::PENDING->value &&
+                                    in_array($order->payment_method, ['vnpay', 'stripe'], true))
+                                <form method="POST" action="{{ route('user.checkout.retry', $order) }}">
+                                    @csrf
+                                    <button type="submit"
+                                        class="inline-flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 hover:bg-amber-100 transition">
+                                        <i class="ri-restart-line"></i>
+                                        Thanh toán lại
+                                    </button>
+                                </form>
+                            @endif
                         </div>
                     </article>
                 @endforeach
             </div>
+
+            <!-- Pagination -->
+            @if ($orders->hasPages())
+                <div class="mt-8 flex justify-center">
+                    {{ $orders->render('pagination::tailwind') }}
+                </div>
+            @endif
         @endif
     </div>
 

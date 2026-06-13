@@ -1,10 +1,19 @@
-<div class="bg-white min-h-screen">
-    <div id="sidebar-overlay" onclick="toggleSidebar(false)"
-        class="fixed inset-0 bg-black/50 z-100 hidden transition-opacity duration-300"></div>
 
+<div class="bg-white min-h-screen">
+    
+    <div id="sidebar-overlay" onclick="toggleSidebar(false)"
+    class="fixed inset-0 bg-black/50 z-100 hidden transition-opacity duration-300"></div>
+    
+    <div class="max-w-[1400px] mx-auto px-4 py-8">
+                    <nav class="text-sm text-gray-600 mb-4">
+                        <a href="{{ route('dashboard') }}" class="hover:text-[#bc9c75] transition">Trang chủ</a>
+                        <span class="mx-2">/</span>
+                        <span class="text-gray-900 font-semibold">Sản phẩm</span>
+                    </nav>
+                </div>
     <div class="max-w-350 mx-auto py-10 px-4 flex flex-col gap-10">
         <livewire:user.voucher-offers :key="'voucher-offers-product-page'" />
-
+        
         <div class="md:hidden mb-2">
             <button onclick="toggleSidebar(true)"
                 class="flex items-center justify-center gap-2 w-full bg-[#fdf2f2] border border-[#f4dfdf] py-3 rounded-xl font-bold text-sm uppercase tracking-wider text-gray-700 active:scale-95 transition-all duration-200 hover:bg-[#fbeaea]">
@@ -219,7 +228,7 @@
                     </div>
 
                     <div id="pagination-container" class="flex justify-center items-center gap-2 mt-12 mb-10">
-                        {{ $products->links('pagination::bootstrap-5') }}
+                        {{ $products->links() }}
                     </div>
                 @else
                     <div class="text-center py-20 border border-dashed border-gray-200 rounded-2xl bg-gray-50/30">

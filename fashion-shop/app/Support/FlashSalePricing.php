@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\Categories;
 use App\Models\FlashSale;
 use App\Models\Products;
 use Carbon\CarbonInterface;
@@ -83,13 +84,46 @@ class FlashSalePricing
         $bestDiscountType = null;
 
         foreach ($flashSales as $sale) {
-            $isApplicable = match ($sale->scope) {
-                'all' => true,
-                'category' => $product->category_id == $sale->category_id,
-                'collection' => $product->collection_id == $sale->collection_id,
-                'product' => $product->id == $sale->product_id,
-                default => false,
-            };
+            $isApplicable = false;
+
+            switch ($sale->scope) {
+                case 'all':
+                    $isApplicable = true;
+                    break;
+                case 'category':
+                    // Check category and all ancestors up to root
+                    // Ensure we have a category model with parent_id available.
+                    if ($product->relationLoaded('category') && isset($product->category->parent_id)) {
+                        $catModel = $product->category;
+                    } else {
+                        $catModel = $product->category()->select('id', 'parent_id')->first();
+                    }
+
+                    while ($catModel) {
+                        if ((int) $catModel->id === (int) $sale->category_id) {
+                            $isApplicable = true;
+                            break;
+                        }
+
+                        if (empty($catModel->parent_id)) {
+                            break;
+                        }
+
+                        $catModel = Categories::query()
+                            ->select('id', 'parent_id')
+                            ->find($catModel->parent_id);
+                    }
+
+                    break;
+                case 'collection':
+                    $isApplicable = (int) $product->collection_id === (int) $sale->collection_id;
+                    break;
+                case 'product':
+                    $isApplicable = (int) $product->id === (int) $sale->product_id;
+                    break;
+                default:
+                    $isApplicable = false;
+            }
 
             if (! $isApplicable) {
                 continue;

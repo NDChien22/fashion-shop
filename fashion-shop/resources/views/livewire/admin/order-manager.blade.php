@@ -1,4 +1,5 @@
 @php
+    use App\Enums\OrderReturnRequestStatus;
     use App\Enums\OrderStatus;
     use App\Enums\ShippingStatus;
     use App\Enums\PaymentStatus;
@@ -97,8 +98,17 @@
                 @endforeach
             </select>
 
+            <select wire:model.live="return_status"
+                class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm focus:outline-none focus:border-[#bc9c75] focus:ring-2 focus:ring-[#bc9c75]/10">
+                <option value="">Tất cả đổi/trả</option>
+                <option value="has_return">Có yêu cầu đổi/trả</option>
+                @foreach (OrderReturnRequestStatus::cases() as $item)
+                    <option value="{{ $item->value }}">{{ $item->label() }}</option>
+                @endforeach
+            </select>
+
             <div class="flex items-center justify-end">
-                <span wire:loading wire:target="q,status,shipping_status,payment_status"
+                <span wire:loading wire:target="q,status,shipping_status,payment_status,return_status"
                     class="rounded-full bg-gray-100 px-3 py-1 text-[11px] font-semibold text-gray-500">Đang
                     lọc...</span>
             </div>
@@ -127,6 +137,12 @@
                 <span
                     class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1 text-[11px] font-semibold text-emerald-700">
                     Thanh toán: {{ $paymentStatusLabel }}
+                </span>
+            @endif
+            @if ($returnStatusLabel)
+                <span
+                    class="inline-flex items-center rounded-full bg-violet-100 px-3 py-1 text-[11px] font-semibold text-violet-700">
+                    Đổi/trả: {{ $returnStatusLabel }}
                 </span>
             @endif
         </div>
@@ -195,9 +211,12 @@
                                         TT:
                                         {{ $order->payment?->status ? PaymentStatus::from($order->payment->status)->label() : 'Chưa tạo giao dịch' }}
                                     </span>
+                                    @php
+                                        $feedback = $order->feedback->first();
+                                    @endphp
                                     <span
-                                        class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold {{ $order->feedback ? 'bg-violet-100 text-violet-700' : 'bg-slate-100 text-slate-600' }}">
-                                        FB: {{ $order->feedback ? $order->feedback->rating . '/5' : 'Chưa có' }}
+                                        class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold {{ $feedback ? 'bg-violet-100 text-violet-700' : 'bg-slate-100 text-slate-600' }}">
+                                        FB: {{ $feedback ? $feedback->rating . '/5' : 'Chưa có' }}
                                     </span>
                                     <span
                                         class="inline-flex rounded-full px-2.5 py-1 text-xs font-semibold {{ $order->returnRequest ? $order->returnRequest->status?->badgeClass() ?? 'bg-violet-100 text-violet-700' : 'bg-slate-100 text-slate-600' }}">
@@ -228,10 +247,10 @@
                                         'payment_status' => $order->payment?->status
                                             ? PaymentStatus::from($order->payment->status)->label()
                                             : 'Chưa tạo giao dịch',
-                                        'feedback' => $order->feedback
+                                        'feedback' => ($feedback = $order->feedback->first())
                                             ? [
-                                                'rating' => (int) $order->feedback->rating,
-                                                'content' => $order->feedback->content,
+                                                'rating' => (int) $feedback->rating,
+                                                'content' => $feedback->content,
                                             ]
                                             : null,
                                         'payment_method' => strtoupper((string) $order->payment_method),

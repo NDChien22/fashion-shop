@@ -58,9 +58,9 @@ class Order extends Model
         return $this->hasOne(Payment::class, 'order_id');
     }
 
-    public function feedback(): HasOne
+    public function feedback(): HasMany
     {
-        return $this->hasOne(OrderFeedback::class, 'order_id');
+        return $this->hasMany(OrderFeedback::class, 'order_id');
     }
 
     public function returnRequest(): HasOne

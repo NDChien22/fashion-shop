@@ -29,10 +29,10 @@
                             class="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center leading-none {{ $headerVoucherCount > 0 ? '' : 'hidden' }}">{{ $headerVoucherCount > 99 ? '99+' : $headerVoucherCount }}</span>
                     </a>
                 @endauth
-                <a wire:navigate href="{{ route('user.whistlist') }}" class="relative p-2">
+                <a wire:navigate href="{{ route('user.wishlist') }}" class="relative p-2">
                     <i class="ri-heart-line cursor-pointer hover-gold transition"></i>
-                    <span id="whistlist-count"
-                        class="absolute top-0 right-0 bg-red-600 text-white text-[10px] w-4 h-4 items-center justify-center rounded-full {{ ($globalWhistlistCount ?? 0) > 0 ? 'flex' : 'hidden' }}">{{ $globalWhistlistCount ?? 0 }}</span>
+                    <span id="wishlist-count"
+                        class="absolute top-0 right-0 bg-red-600 text-white text-[10px] w-4 h-4 items-center justify-center rounded-full {{ ($globalWishlistCount ?? 0) > 0 ? 'flex' : 'hidden' }}">{{ $globalWishlistCount ?? 0 }}</span>
                 </a>
                 <a wire:navigate href="{{ route('user.cart') }}" class="relative p-2">
                     <i class="ri-shopping-cart-line cursor-pointer hover-gold transition"></i>

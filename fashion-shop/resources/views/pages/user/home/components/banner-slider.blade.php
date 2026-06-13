@@ -21,7 +21,7 @@
                         @endphp
                         <a href="{{ $bannerLink }}" class="block">
                             <img src="{{ $resolveBannerImage($banner->image_url) }}" alt="{{ $banner->title }}"
-                                class="w-full h-52 sm:h-64 md:h-72 lg:h-80 object-cover">
+                                class="w-full h-52 sm:h-64 md:h-72 lg:h-80 object-contain">
                         </a>
                     </div>
                 @endforeach

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner;
+use App\Models\Categories;
 use App\Models\Collections;
 use App\Models\FlashSale;
 use App\Models\Products;
@@ -86,11 +87,17 @@ class HomeController extends Controller
             ->where('main_image_url', '!=', '')
             ->with(['category:id,name,slug', 'collection:id,name,slug']);
 
-        if (!$hasAllScopeSale) {
+        if (! $hasAllScopeSale) {
             $productsQuery->where(function ($query) use ($flashSales) {
                 foreach ($flashSales as $sale) {
                     if ($sale->scope === 'category' && $sale->category_id) {
                         $query->orWhere('category_id', $sale->category_id);
+
+                        // include direct children of the sale category
+                        $childIds = Categories::query()->where('parent_id', $sale->category_id)->pluck('id')->toArray();
+                        if (! empty($childIds)) {
+                            $query->orWhereIn('category_id', $childIds);
+                        }
                     }
 
                     if ($sale->scope === 'collection' && $sale->collection_id) {
@@ -145,13 +152,39 @@ class HomeController extends Controller
 
     private function isProductInFlashSaleScope(Products $product, FlashSale $flashSale): bool
     {
-        return match ($flashSale->scope) {
-                'all' => true,
-                'category' => (int) $product->category_id === (int) $flashSale->category_id,
-                'collection' => (int) $product->collection_id === (int) $flashSale->collection_id,
-                'product' => (int) $product->id === (int) $flashSale->product_id,
-                default => false,
-            };
+        switch ($flashSale->scope) {
+            case 'all':
+                return true;
+            case 'category':
+                // Check category and all ancestors
+                $catModel = null;
+                // Ensure we have a category model with parent_id available.
+                if ($product->relationLoaded('category') && isset($product->category->parent_id)) {
+                    $catModel = $product->category;
+                } else {
+                    $catModel = $product->category()->select('id', 'parent_id')->first();
+                }
+
+                while ($catModel) {
+                    if ((int) $catModel->id === (int) $flashSale->category_id) {
+                        return true;
+                    }
+
+                    if (empty($catModel->parent_id)) {
+                        break;
+                    }
+
+                    $catModel = Categories::query()->select('id', 'parent_id')->find($catModel->parent_id);
+                }
+
+                return false;
+            case 'collection':
+                return (int) $product->collection_id === (int) $flashSale->collection_id;
+            case 'product':
+                return (int) $product->id === (int) $flashSale->product_id;
+            default:
+                return false;
+        }
     }
 
     private function calculateSalePrice(float $basePrice, FlashSale $flashSale): float
@@ -169,6 +202,7 @@ class HomeController extends Controller
     {
         if ($flashSales->isEmpty()) {
             $product->setAttribute('sale_price', null);
+
             return $product;
         }
 
@@ -176,7 +210,7 @@ class HomeController extends Controller
         $bestSalePrice = null;
 
         foreach ($flashSales as $flashSale) {
-            if (!$this->isProductInFlashSaleScope($product, $flashSale)) {
+            if (! $this->isProductInFlashSaleScope($product, $flashSale)) {
                 continue;
             }
 

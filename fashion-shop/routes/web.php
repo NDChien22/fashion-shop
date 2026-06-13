@@ -15,7 +15,7 @@ use App\Http\Controllers\OrderManagementController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoucherController;
-use App\Http\Controllers\WhistlistController;
+use App\Http\Controllers\WishlistController;
 use App\Livewire\User\HomePage;
 use App\Livewire\User\ProductDetail;
 use Illuminate\Support\Facades\Broadcast;
@@ -33,9 +33,9 @@ Route::get('/cart', function () {
     return redirect()->route('user.cart');
 })->name('cart');
 
-Route::get('/whistlist', function () {
-    return redirect()->route('user.whistlist');
-})->name('whistlist');
+Route::get('/wishlist', function () {
+    return redirect()->route('user.wishlist');
+})->name('wishlist');
 
 Route::get('/profile', function () {
     return redirect()->route('user.profile');
@@ -78,14 +78,15 @@ Route::prefix('user')->name('user.')->group(function () {
         return view('pages.user.support.index');
     })->name('support');
 
-    Route::get('/whistlist', [WhistlistController::class, 'index'])->name('whistlist');
-    Route::post('/whistlist/items', [WhistlistController::class, 'store'])->name('whistlist.add');
-    Route::delete('/whistlist/items/{productId}', [WhistlistController::class, 'destroy'])->name('whistlist.remove');
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist');
+    Route::post('/wishlist/items', [WishlistController::class, 'store'])->name('wishlist.add');
+    Route::delete('/wishlist/items/{productId}', [WishlistController::class, 'destroy'])->name('wishlist.remove');
 
     Route::post('/vouchers/{voucher}/copy', [VoucherController::class, 'copyVoucherForGuest'])
         ->name('vouchers.copy');
 
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
+    Route::post('/checkout/{order}/retry', [CheckoutController::class, 'retryPayment'])->name('checkout.retry');
     Route::get('/checkout/vnpay/return', [CheckoutController::class, 'vnpayReturn'])->name('checkout.vnpay-return');
     Route::get('/checkout/stripe/success', [CheckoutController::class, 'stripeSuccess'])->name('checkout.stripe-success');
     Route::get('/checkout/stripe/cancel', [CheckoutController::class, 'stripeCancel'])->name('checkout.stripe-cancel');

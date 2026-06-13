@@ -255,7 +255,7 @@
                         @if ($isCompleted || $isRejected)
                             <div
                                 class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
-                                Yêu cầu đã hoàn tất và không thể chỉnh sửa thêm.
+                                Yêu cầu đã hoàn tất.
                             </div>
                         @else
                             <form action="{{ route('admin.orders.return-request.update', $returnRequest) }}"

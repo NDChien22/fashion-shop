@@ -36,7 +36,7 @@ class OrderController extends Controller
             ->orderByDesc('id');
 
         if ($request->user()) {
-            $query->where('user_id', (int) $request->user()->id);
+            $query->where('user_id', auth()->id());
         } else {
             $guestOrderCodes = collect($request->session()->get('guest_order_codes', []))
                 ->filter(fn ($code) => is_string($code) && trim($code) !== '')
@@ -44,7 +44,8 @@ class OrderController extends Controller
                 ->all();
 
             if ($searchKeyword === '' && empty($guestOrderCodes)) {
-                $orders = collect();
+                $query->whereRaw('1 = 0');
+                $orders = $query->paginate(5)->withQueryString();
 
                 return view('pages.user.order.index', [
                     'orders' => $orders,
@@ -80,7 +81,7 @@ class OrderController extends Controller
             }
         }
 
-        $orders = $query->get();
+        $orders = $query->paginate(5)->withQueryString();
 
         return view('pages.user.order.index', [
             'orders' => $orders,
@@ -134,36 +135,41 @@ class OrderController extends Controller
             return back()->with('error', 'Chỉ có thể gửi feedback cho đơn hàng đã hoàn thành.');
         }
 
-        if ($order->feedback) {
-            return back()->with('error', 'Đơn hàng này đã có feedback trước đó.');
-        }
-
-        $productId = (int) ($order->items->first()?->productSku?->product_id ?? 0);
-        if ($productId <= 0) {
-            return back()->with('error', 'Không xác định được sản phẩm để lưu feedback.');
-        }
-
         $validated = $request->validate([
+            'product_id' => ['required', 'integer'],
             'rating' => ['required', 'integer', 'between:1,5'],
-            'content' => ['required', 'string', 'min:10', 'max:2000'],
-        ], [
-            'rating.required' => 'Vui lòng chọn số sao đánh giá.',
-            'rating.integer' => 'Số sao không hợp lệ.',
-            'rating.between' => 'Số sao phải từ 1 đến 5.',
-            'content.required' => 'Vui lòng nhập nội dung feedback.',
-            'content.min' => 'Nội dung feedback phải có ít nhất 10 ký tự.',
-            'content.max' => 'Nội dung feedback không được vượt quá 2000 ký tự.',
+            'content' => ['required', 'string', 'max:2000'],
         ]);
+
+        $productId = (int) $validated['product_id'];
+
+        $existsInOrder = $order->items->contains(function ($item) use ($productId) {
+            return (int) $item->productSku?->product_id === $productId;
+        });
+
+        if (! $existsInOrder) {
+            return back()->with('error', 'Sản phẩm không thuộc đơn hàng.');
+        }
+
+        $feedbackExists = OrderFeedback::query()
+            ->where('order_id', $order->id)
+            ->where('product_id', $productId)
+            ->where('user_id', $request->user()->id)
+            ->exists();
+
+        if ($feedbackExists) {
+            return back()->with('error', 'Bạn đã đánh giá sản phẩm này.');
+        }
 
         OrderFeedback::query()->create([
-            'order_id' => (int) $order->id,
+            'order_id' => $order->id,
             'product_id' => $productId,
             'user_id' => $request->user()?->id,
-            'rating' => (int) $validated['rating'],
-            'content' => trim((string) $validated['content']),
+            'rating' => $validated['rating'],
+            'content' => trim($validated['content']),
         ]);
 
-        return back()->with('success', 'Đã gửi feedback cho đơn hàng. Cảm ơn bạn đã chia sẻ trải nghiệm.');
+        return back()->with('success', 'Đã gửi đánh giá thành công.');
     }
 
     public function storeReturnRequest(Request $request, Order $order): RedirectResponse

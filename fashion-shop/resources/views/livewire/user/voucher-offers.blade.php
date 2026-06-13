@@ -5,6 +5,12 @@
         if (!empty($voucher->category_id) && !empty($voucher->categoryDetail?->name)) {
             return 'Danh mục: ' . $voucher->categoryDetail->name;
         }
+        if (!empty($voucher->product_id) && !empty($voucher->productDetail?->name)) {
+            return 'Sản phẩm: ' . $voucher->productDetail->name;
+        }
+        if (!empty($voucher->collection_id) && !empty($voucher->collectionDetail?->name)) {
+            return 'Bộ sưu tập: ' . $voucher->collectionDetail->name;
+        }
 
         $minimum = (float) ($voucher->min_order_value ?? 0);
 
@@ -35,7 +41,11 @@
                 <div>
                     <h3 class="text-sm md:text-base font-black uppercase tracking-[0.18em] text-gray-900">Ưu đãi voucher
                     </h3>
-                    <p class="mt-1 text-xs text-gray-500">Lưu nhanh voucher để áp dụng khi thanh toán.</p>
+                    @if (!auth()->check())
+                        <p class="text-xs text-gray-500">Đăng nhập để lưu và sử dụng voucher.</p>
+                    @else
+                        <p class="mt-1 text-xs text-gray-500">Lưu nhanh voucher để áp dụng khi thanh toán.</p>
+                    @endif
                 </div>
 
                 @if ($isHomePage)

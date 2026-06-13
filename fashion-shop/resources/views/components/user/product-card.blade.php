@@ -34,13 +34,28 @@
         }
     }
 
+    // Ensure flash sale pricing applied when product does not already have sale attributes
+    if ($product instanceof \App\Models\Products && !isset($product->sale_price)) {
+        try {
+            $product = \App\Support\FlashSalePricing::applyProduct($product);
+        } catch (\Throwable $e) {
+            // ignore failures here to avoid breaking rendering
+        }
+    }
+
     $basePrice = (float) ($product->base_price ?? 0);
     $salePrice = isset($product->sale_price) ? (float) $product->sale_price : null;
     $isOnSale = is_numeric($salePrice) && $salePrice > 0 && $salePrice < $basePrice;
     $displayPrice = $isOnSale ? $salePrice : $basePrice;
-    $isWhistlisted = in_array($productId, $globalWhistlistProductIds ?? [], true);
+    $isWishlisted = in_array($productId, $globalWishlistProductIds ?? [], true);
     $categoryName = (string) ($product->category->name ?? '');
-    $discountPercent = $isOnSale && $basePrice > 0 ? (int) round((($basePrice - $displayPrice) / $basePrice) * 100) : 0;
+    $discountPercent = 0;
+    if (isset($product->sale_discount_percent) && is_numeric($product->sale_discount_percent)) {
+        $discountPercent = (int) $product->sale_discount_percent;
+    } else {
+        $discountPercent =
+            $isOnSale && $basePrice > 0 ? (int) round((($basePrice - $displayPrice) / $basePrice) * 100) : 0;
+    }
 
     $productHref = $href ?: route('user.product-detail', ['product' => $product->slug ?? $product->id]);
 @endphp
@@ -69,7 +84,7 @@
 
         <div
             class="absolute z-20 left-3 right-3 bottom-3 p-2 rounded-2xl bg-white/88 backdrop-blur-md border border-white/80 shadow-lg">
-            <livewire:user.product-quick-actions :product-id="$productId" :wishlisted="$isWhistlisted" :key="'product-quick-actions-' . $productId" />
+            <livewire:user.product-quick-actions :product-id="$productId" :wishlisted="$isWishlisted" :key="'product-quick-actions-' . $productId" />
         </div>
     </div>
 

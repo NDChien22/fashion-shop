@@ -55,6 +55,7 @@ class Product extends Component
 
         if (! $product) {
             session()->flash('error', 'Sản phẩm không tồn tại hoặc đã bị xóa.');
+
             return;
         }
 
@@ -85,6 +86,7 @@ class Product extends Component
 
         if (! $product) {
             session()->flash('error', 'Sản phẩm không tồn tại.');
+
             return;
         }
 
@@ -176,6 +178,7 @@ class Product extends Component
     {
         if (! $this->selectedProduct || ! isset($this->selectedProduct['id'])) {
             session()->flash('error', 'Không tìm thấy sản phẩm để xóa.');
+
             return;
         }
 
@@ -237,13 +240,13 @@ class Product extends Component
                 $keyword = trim($this->search);
 
                 $query->where(function ($subQuery) use ($keyword) {
-                    $subQuery->where('name', 'like', '%' . $keyword . '%')
-                        ->orWhere('product_code', 'like', '%' . $keyword . '%');
+                    $subQuery->where('name', 'like', '%'.$keyword.'%')
+                        ->orWhere('product_code', 'like', '%'.$keyword.'%');
                 });
             })
             ->when($this->categoryId !== '', function ($query) {
-                $selectedCategory = Categories::query()
-                    ->with('children:id,parent_id')
+
+                $selectedCategory = Categories::with('children')
                     ->find($this->categoryId);
 
                 if (! $selectedCategory) {
@@ -251,15 +254,15 @@ class Product extends Component
                 }
 
                 $categoryIds = [$selectedCategory->id];
-                if ($selectedCategory->children->isNotEmpty()) {
-                    $categoryIds = array_merge(
-                        $categoryIds,
-                        $selectedCategory->children->pluck('id')->all()
-                    );
-                }
+
+                $categoryIds = array_merge(
+                    $categoryIds,
+                    $selectedCategory->children->pluck('id')->toArray()
+                );
 
                 $query->whereIn('category_id', $categoryIds);
             })
+
             ->when($this->collectionId !== '', function ($query) {
                 $query->where('collection_id', $this->collectionId);
             })
@@ -268,9 +271,15 @@ class Product extends Component
 
         $categories = Categories::query()
             ->where('is_active', 1)
+            ->whereNull('parent_id')
+            ->with([
+                'children' => function ($query) {
+                    $query->where('is_active', 1)
+                        ->orderBy('name');
+                },
+            ])
             ->orderBy('name')
-            ->get(['id', 'name']);
-
+            ->get();
         $collections = Collections::query()
             ->where('is_active', 1)
             ->orderBy('name')

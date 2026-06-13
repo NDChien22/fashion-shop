@@ -75,13 +75,13 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'current_password' => ['required', 'current_password'],
-            'password' => ['required', 'string', 'min:5', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required'],
         ], [
             'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
             'current_password.current_password' => 'Mật khẩu hiện tại không chính xác.',
             'password.required' => 'Vui lòng nhập mật khẩu mới.',
-            'password.min' => 'Mật khẩu mới phải có ít nhất 5 ký tự.',
+            'password.min' => 'Mật khẩu mới phải có ít nhất 8 ký tự.',
             'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
             'password_confirmation.required' => 'Vui lòng xác nhận mật khẩu mới.',
         ]);
@@ -90,6 +90,6 @@ class UserController extends Controller
         $user->password = Hash::make($validated['password']);
         $user->save();
 
-        return redirect()->route('user.profile.password')->with('success', 'Đổi mật khẩu thành công.');
+        return redirect()->route('dashboard')->with('success', 'Đổi mật khẩu thành công.');
     }
 }

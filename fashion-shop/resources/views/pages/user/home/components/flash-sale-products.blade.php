@@ -11,7 +11,7 @@
                     <h2 class="text-3xl font-black text-gold italic uppercase tracking-tighter">Flash Sale</h2>
                     <div class="h-1 w-20 bg-gold mt-2"></div>
                 </div>
-                <a wire:navigate href="{{ route('user.product') }}"
+                <a wire:navigate href="{{ route('user.product', ['filter' => 'flash-sale']) }}"
                     class="text-sm font-bold text-gray-400 hover:text-gold transition underline uppercase tracking-widest">
                     Xem tất cả <i class="ri-arrow-right-line"></i>
                 </a>

@@ -122,6 +122,7 @@ return [
             'driver' => 'openai',
             'key' => env('OPENAI_API_KEY'),
             'url' => env('OPENAI_URL', 'https://api.openai.com/v1'),
+            'verify' => env('OPENAI_VERIFY_SSL', true),
         ],
 
         'openrouter' => [

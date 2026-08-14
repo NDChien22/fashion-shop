@@ -13,6 +13,7 @@ use App\Models\OrderItem;
 use App\Models\OrderVoucher;
 use App\Models\Payment;
 use App\Models\Products;
+use App\Models\ProductSkus;
 use App\Models\UserVoucher;
 use App\Models\Voucher;
 use App\Support\FlashSalePricing;
@@ -120,6 +121,8 @@ class CheckoutController extends Controller
 
         try {
             DB::transaction(function () use ($user, $cartItems, $pricedCartItems, $validated, $pricing, $request, $customerPayload, &$order, &$payment): void {
+                $this->reserveStockForItems($cartItems);
+
                 $orderData = [
                     'user_id' => $user ? (int) $user->id : null,
                     'order_code' => $this->makeOrderCode(),
@@ -183,6 +186,8 @@ class CheckoutController extends Controller
                     ->whereIn('id', $cartItems->pluck('id')->all())
                     ->delete();
             });
+        } catch (RuntimeException $exception) {
+            return back()->with('error', $exception->getMessage());
         } catch (Throwable $exception) {
             report($exception);
 
@@ -387,8 +392,31 @@ class CheckoutController extends Controller
             return redirect()->route('user.orders')->with('error', 'Không tìm thấy giao dịch thanh toán.');
         }
 
-        if ((string) $payment->status !== PaymentStatus::PENDING->value) {
-            return redirect()->route('user.orders')->with('error', 'Giao dịch không ở trạng thái chờ thanh toán.');
+        if (! in_array((string) $payment->status, [PaymentStatus::PENDING->value, PaymentStatus::FAILED->value], true)) {
+            return redirect()->route('user.orders')->with('error', 'Chỉ có thể thanh toán lại cho giao dịch đang chờ hoặc đã thất bại.');
+        }
+
+        if ((string) $payment->status === PaymentStatus::FAILED->value) {
+            try {
+                DB::transaction(function () use ($order, $payment): void {
+                    $payment->update([
+                        'status' => PaymentStatus::PENDING->value,
+                        'transaction_id' => $this->makeTransactionCode(),
+                    ]);
+
+                    if ((string) $order->status === OrderStatus::PAYMENT_FAILED->value) {
+                        $order->update(['status' => OrderStatus::PENDING->value]);
+                    }
+
+                    $this->reserveStockForItems($order->items()->get());
+                });
+            } catch (RuntimeException $exception) {
+                return redirect()->route('user.orders')->with('error', $exception->getMessage());
+            } catch (Throwable $exception) {
+                report($exception);
+
+                return redirect()->route('user.orders')->with('error', 'Không thể khởi tạo lại thanh toán.');
+            }
         }
 
         $method = (string) ($order->payment_method ?? '');
@@ -399,6 +427,7 @@ class CheckoutController extends Controller
                 return redirect()->away($paymentUrl);
             } catch (Throwable $exception) {
                 report($exception);
+                $this->markPaymentAsFailed($order, $payment);
 
                 return redirect()->route('user.orders')->with('error', 'Không thể khởi tạo thanh toán VNPay.');
             }
@@ -411,6 +440,7 @@ class CheckoutController extends Controller
                 return redirect()->away($checkoutUrl);
             } catch (Throwable $exception) {
                 report($exception);
+                $this->markPaymentAsFailed($order, $payment);
 
                 return redirect()->route('user.orders')->with('error', 'Không thể khởi tạo thanh toán Stripe.');
             }
@@ -664,15 +694,18 @@ class CheckoutController extends Controller
 
     private function markPaymentAsFailed(Order $order, Payment $payment): void
     {
-        if ((string) $payment->status === 'paid') {
+        if ((string) $payment->status === PaymentStatus::PAID->value || (string) $payment->status === PaymentStatus::FAILED->value) {
             return;
         }
 
-        $payment->update(['status' => PaymentStatus::FAILED->value]);
+        DB::transaction(function () use ($order, $payment): void {
+            $payment->update(['status' => PaymentStatus::FAILED->value]);
 
-        if ((string) $order->status === OrderStatus::PENDING->value) {
-            $order->update(['status' => OrderStatus::PAYMENT_FAILED->value]);
-        }
+            if ((string) $order->status === OrderStatus::PENDING->value) {
+                $this->restoreStockForItems($order->items()->get());
+                $order->update(['status' => OrderStatus::PAYMENT_FAILED->value]);
+            }
+        });
     }
 
     private function applyVoucherUsageForOrder(Order $order, ?int $userId): void
@@ -794,5 +827,59 @@ class CheckoutController extends Controller
             ->all();
 
         $request->session()->put('guest_order_codes', $existingCodes);
+    }
+
+    private function reserveStockForItems(Collection $items): void
+    {
+        $this->adjustStockForItems($items, -1);
+    }
+
+    private function restoreStockForItems(Collection $items): void
+    {
+        $this->adjustStockForItems($items, 1);
+    }
+
+    private function adjustStockForItems(Collection $items, int $direction): void
+    {
+        $normalizedItems = $items
+            ->map(function ($item): array {
+                return [
+                    'product_sku_id' => (int) data_get($item, 'product_sku_id', 0),
+                    'quantity' => max(1, (int) data_get($item, 'quantity', 1)),
+                    'product_name' => (string) data_get($item, 'product_name', data_get($item, 'productSku.product.name', 'Sản phẩm')),
+                ];
+            })
+            ->filter(fn (array $item): bool => $item['product_sku_id'] > 0)
+            ->values();
+
+        if ($normalizedItems->isEmpty()) {
+            return;
+        }
+
+        $lockedSkus = ProductSkus::query()
+            ->whereIn('id', $normalizedItems->pluck('product_sku_id')->all())
+            ->lockForUpdate()
+            ->get()
+            ->keyBy('id');
+
+        foreach ($normalizedItems as $item) {
+            $sku = $lockedSkus->get($item['product_sku_id']);
+
+            if (! $sku) {
+                throw new RuntimeException('Không tìm thấy biến thể sản phẩm cho đơn hàng.');
+            }
+
+            $nextStock = (int) $sku->stock + ($direction * $item['quantity']);
+
+            if ($nextStock < 0) {
+                throw new RuntimeException('Sản phẩm '.$item['product_name'].' đã hết hàng hoặc không đủ tồn kho.');
+            }
+
+            if ($direction < 0) {
+                $sku->decrement('stock', $item['quantity']);
+            } elseif ($direction > 0) {
+                $sku->increment('stock', $item['quantity']);
+            }
+        }
     }
 }

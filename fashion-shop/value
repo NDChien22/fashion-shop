@@ -1,0 +1,11 @@
+178:                    'transaction_id' => $this->makeTransactionCode(),
+262:        $payment = Payment::query()->where('transaction_id', $txnRef)->first();
+390:        if (! in_array((string) $payment->status, [PaymentStatus::PENDING->value, PaymentStatus::FAILED->value], true)) {
+394:        if ((string) $payment->status === PaymentStatus::FAILED->value) {
+397:                'transaction_id' => $this->makeTransactionCode(),
+400:            if ((string) $order->status === OrderStatus::PAYMENT_FAILED->value) {
+564:            'vnp_TxnRef' => (string) $payment->transaction_id,
+634:                'transaction_id' => (string) $payment->transaction_id,
+670:        if ((string) $order->status === OrderStatus::PENDING->value || (string) $order->status === OrderStatus::PAYMENT_FAILED->value) {
+682:        $payment->update(['status' => PaymentStatus::FAILED->value]);
+685:            $order->update(['status' => OrderStatus::PAYMENT_FAILED->value]);

@@ -4,6 +4,7 @@ namespace App\Livewire\User;
 
 use App\Enums\VoucherStatus;
 use App\Models\Categories;
+use App\Models\FlashSale;
 use App\Models\Products;
 use App\Models\ProductSkus;
 use App\Models\UserVoucher;
@@ -12,6 +13,7 @@ use App\Services\VoucherService;
 use App\Support\FlashSalePricing;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -37,6 +39,9 @@ class ProductListing extends Component
 
     #[Url]
     public array $sizes = [];
+
+    #[Url]
+    public string $filter = '';
 
     public function mount(): void
     {
@@ -64,6 +69,11 @@ class ProductListing extends Component
     }
 
     public function updatingSizes()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilter()
     {
         $this->resetPage();
     }
@@ -122,6 +132,7 @@ class ProductListing extends Component
         $this->selectedCategories = [];
         $this->priceRange = 'all';
         $this->sizes = [];
+        $this->filter = '';
         $this->resetPage();
     }
 
@@ -150,7 +161,57 @@ class ProductListing extends Component
                 ];
             });
 
-        $query = Products::query()->where('is_active', 1);
+        // Filter: flash-sale — chỉ lấy sản phẩm đang có flash sale đang hoạt động
+        if ($this->filter === 'flash-sale') {
+            $activeFlashSales = FlashSale::query()
+                ->where('is_active', true)
+                ->where('start_date', '<=', now())
+                ->where('end_date', '>=', now())
+                ->get();
+
+            $hasAllScope = $activeFlashSales->contains(fn ($s) => $s->scope === 'all');
+
+            $flashSaleProductIds = null;
+            $flashSaleCategoryIds = [];
+            $flashSaleCollectionIds = [];
+
+            if (! $hasAllScope) {
+                $flashSaleProductIds = $activeFlashSales->where('scope', 'product')->pluck('product_id')->filter()->unique()->all();
+                $flashSaleCategoryIds = $activeFlashSales->where('scope', 'category')->pluck('category_id')->filter()->unique()->all();
+                $flashSaleCollectionIds = $activeFlashSales->where('scope', 'collection')->pluck('collection_id')->filter()->unique()->all();
+            }
+
+            $query = Products::query()->where('is_active', 1);
+
+            if (! $hasAllScope) {
+                $query->where(function ($q) use ($flashSaleProductIds, $flashSaleCategoryIds, $flashSaleCollectionIds): void {
+                    if (! empty($flashSaleProductIds)) {
+                        $q->orWhereIn('id', $flashSaleProductIds);
+                    }
+
+                    if (! empty($flashSaleCategoryIds)) {
+                        $q->orWhereIn('category_id', $flashSaleCategoryIds);
+                    }
+
+                    if (! empty($flashSaleCollectionIds)) {
+                        $q->orWhereIn('collection_id', $flashSaleCollectionIds);
+                    }
+                });
+            }
+        } elseif ($this->filter === 'best-seller') {
+            $soldSubQuery = DB::table('order_items')
+                ->join('product_skuses', 'product_skuses.id', '=', 'order_items.product_sku_id')
+                ->select('product_skuses.product_id', DB::raw('SUM(order_items.quantity) as sold_qty'))
+                ->groupBy('product_skuses.product_id');
+
+            $query = Products::query()
+                ->leftJoinSub($soldSubQuery, 'sold_products', fn ($join) => $join->on('products.id', '=', 'sold_products.product_id'))
+                ->where('products.is_active', 1)
+                ->select('products.*', DB::raw('COALESCE(sold_products.sold_qty, 0) as sold_qty'))
+                ->orderByDesc('sold_qty');
+        } else {
+            $query = Products::query()->where('is_active', 1);
+        }
 
         // Search
         if (trim($this->search) !== '') {
@@ -182,15 +243,17 @@ class ProductListing extends Component
             });
         }
 
-        // Sorting
-        match ($this->sort) {
-            'newest' => $query->latest('created_at'),
-            'name-asc' => $query->orderBy('name'),
-            'price-asc' => $query->orderBy('base_price'),
-            'price-desc' => $query->orderByDesc('base_price'),
-            'popular' => $query->orderByDesc('id'),
-            default => $query->latest('created_at'),
-        };
+        // Sorting (bỏ qua nếu filter best-seller đã tự sắp xếp)
+        if ($this->filter !== 'best-seller') {
+            match ($this->sort) {
+                'newest' => $query->latest('created_at'),
+                'name-asc' => $query->orderBy('name'),
+                'price-asc' => $query->orderBy('base_price'),
+                'price-desc' => $query->orderByDesc('base_price'),
+                'popular' => $query->orderByDesc('id'),
+                default => $query->latest('created_at'),
+            };
+        }
 
         $products = $query
             ->with(['category:id,name', 'collection:id,name'])

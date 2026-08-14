@@ -12,6 +12,7 @@ use App\Models\CustomerMembershipLevel;
 use App\Models\MembershipLevel;
 use App\Models\Order;
 use App\Models\OrderReturnRequest;
+use App\Models\ProductSkus;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -150,6 +151,10 @@ class OrderManagementController extends Controller
             $previousShippingStatus = (string) $order->shipping_status;
             $employeeId = $request->user()?->employee?->id;
 
+            if ($nextOrderStatus === OrderStatus::CANCELLED->value) {
+                $this->restoreStockForOrder($order);
+            }
+
             $order->update([
                 'status' => $nextOrderStatus,
                 'shipping_status' => $nextShippingStatus,
@@ -217,6 +222,8 @@ class OrderManagementController extends Controller
             $returnRequest->loadMissing('order.payment', 'order.returnRequest');
 
             if ($nextStatus === OrderReturnRequestStatus::COMPLETED) {
+                $this->restoreStockForReturnRequest($returnRequest);
+
                 $returnRequest->order?->update([
                     'status' => $this->resolveReturnCompletionOrderStatus($returnRequest),
                 ]);
@@ -431,6 +438,66 @@ class OrderManagementController extends Controller
         return (string) $returnType === OrderReturnRequestType::RETURN->value
             ? OrderStatus::RETURNED->value
             : OrderStatus::EXCHANGED->value;
+    }
+
+    private function restoreStockForOrder(Order $order): void
+    {
+        $orderItems = $order->items()
+            ->select('id', 'order_id', 'product_sku_id', 'quantity')
+            ->get();
+
+        if ($orderItems->isEmpty()) {
+            return;
+        }
+
+        $lockedSkus = ProductSkus::query()
+            ->whereIn('id', $orderItems->pluck('product_sku_id')->all(), 'and', false)
+            ->lockForUpdate()
+            ->get()
+            ->keyBy('id');
+
+        foreach ($orderItems as $item) {
+            $sku = $lockedSkus->get((int) $item->product_sku_id);
+
+            if (! $sku) {
+                continue;
+            }
+
+            $sku->increment('stock', (int) $item->quantity);
+        }
+    }
+
+    private function restoreStockForReturnRequest(OrderReturnRequest $returnRequest): void
+    {
+        $order = $returnRequest->order;
+
+        if (! $order) {
+            return;
+        }
+
+        $orderItems = $order->items()
+            ->select('id', 'order_id', 'product_sku_id', 'quantity')
+            ->get();
+
+        if ($orderItems->isEmpty()) {
+            return;
+        }
+
+        $lockedSkus = ProductSkus::query()
+            ->whereIn('id', $orderItems->pluck('product_sku_id')->all(), 'and', false)
+            ->lockForUpdate()
+            ->get()
+            ->keyBy('id');
+
+        foreach ($orderItems as $item) {
+            $sku = $lockedSkus->get((int) $item->product_sku_id);
+
+            if (! $sku) {
+                continue;
+            }
+
+            $sku->increment('stock', (int) $item->quantity);
+        }
     }
 
     private function isWithinReturnWindow(Order $order): bool

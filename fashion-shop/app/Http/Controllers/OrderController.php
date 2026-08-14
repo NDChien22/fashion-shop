@@ -10,10 +10,12 @@ use App\Mail\OrderStatusNotificationEmail;
 use App\Models\Order;
 use App\Models\OrderFeedback;
 use App\Models\OrderReturnRequest;
+use App\Models\ProductSkus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -36,7 +38,7 @@ class OrderController extends Controller
             ->orderByDesc('id');
 
         if ($request->user()) {
-            $query->where('user_id', auth()->id());
+            $query->where('user_id', $request->user()?->id);
         } else {
             $guestOrderCodes = collect($request->session()->get('guest_order_codes', []))
                 ->filter(fn ($code) => is_string($code) && trim($code) !== '')
@@ -104,10 +106,14 @@ class OrderController extends Controller
             return back()->with('error', 'Chỉ có thể hủy đơn chưa giao.');
         }
 
-        $order->update([
-            'status' => OrderStatus::CANCELLED->value,
-            'shipping_status' => ShippingStatus::CANCELLED->value,
-        ]);
+        DB::transaction(function () use ($order): void {
+            $this->restoreStockForOrder($order);
+
+            $order->update([
+                'status' => OrderStatus::CANCELLED->value,
+                'shipping_status' => ShippingStatus::CANCELLED->value,
+            ]);
+        });
 
         if (is_string($order->customer_email) && trim($order->customer_email) !== '') {
             try {
@@ -203,22 +209,21 @@ class OrderController extends Controller
         $validated = $request->validate([
             'return_order_id' => ['required', 'integer'],
             'request_type' => ['required', Rule::in(OrderReturnRequestType::values())],
-            'reason' => ['required', 'string', 'min:10', 'max:500'],
+            'reason' => ['required', 'string', 'max:500'],
             'details' => ['nullable', 'string', 'max:5000'],
             'evidence_images' => ['nullable', 'array', 'max:5'],
-            'evidence_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'evidence_images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:3072'],
         ], [
             'request_type.required' => 'Vui lòng chọn loại yêu cầu.',
             'request_type.in' => 'Loại yêu cầu không hợp lệ.',
             'reason.required' => 'Vui lòng nhập lý do đổi/trả.',
-            'reason.min' => 'Lý do đổi/trả phải có ít nhất 10 ký tự.',
             'reason.max' => 'Lý do đổi/trả không được vượt quá 500 ký tự.',
             'details.max' => 'Mô tả thêm không được vượt quá 5000 ký tự.',
             'evidence_images.array' => 'Ảnh minh chứng không hợp lệ.',
             'evidence_images.max' => 'Bạn chỉ có thể gửi tối đa 5 ảnh minh chứng.',
             'evidence_images.*.image' => 'Tệp tải lên phải là ảnh.',
             'evidence_images.*.mimes' => 'Ảnh chỉ hỗ trợ jpg, jpeg, png, webp.',
-            'evidence_images.*.max' => 'Mỗi ảnh minh chứng không được vượt quá 2MB.',
+            'evidence_images.*.max' => 'Mỗi ảnh minh chứng không được vượt quá 3MB.',
         ]);
 
         if ((int) $validated['return_order_id'] !== (int) $order->id) {
@@ -292,6 +297,33 @@ class OrderController extends Controller
 
         if ($normalizedPath !== '' && Storage::disk('public')->exists($normalizedPath)) {
             Storage::disk('public')->delete($normalizedPath);
+        }
+    }
+
+    private function restoreStockForOrder(Order $order): void
+    {
+        $orderItems = $order->items()
+            ->select('id', 'order_id', 'product_sku_id', 'quantity')
+            ->get();
+
+        if ($orderItems->isEmpty()) {
+            return;
+        }
+
+        $lockedSkus = ProductSkus::query()
+            ->whereIn('id', $orderItems->pluck('product_sku_id')->all(), 'and', false)
+            ->lockForUpdate()
+            ->get()
+            ->keyBy('id');
+
+        foreach ($orderItems as $item) {
+            $sku = $lockedSkus->get((int) $item->product_sku_id);
+
+            if (! $sku) {
+                continue;
+            }
+
+            $sku->increment('stock', (int) $item->quantity);
         }
     }
 

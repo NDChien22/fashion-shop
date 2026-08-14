@@ -141,7 +141,7 @@ class HomePage extends Component
 
                 return is_numeric($salePrice) && (float) $salePrice < (float) $product->base_price;
             })
-            ->take(10)
+            ->take(5)
             ->values();
     }
 
@@ -162,7 +162,7 @@ class HomePage extends Component
             ->where('products.main_image_url', '!=', '')
             ->with(['category:id,name,slug', 'collection:id,name,slug'])
             ->orderByRaw(DB::raw('COALESCE(sold_products.sold_qty, 0) DESC'))
-            ->limit(8)
+            ->limit(5)
             ->get([
                 'products.*',
                 DB::raw('COALESCE(sold_products.sold_qty, 0) as sold_qty'),

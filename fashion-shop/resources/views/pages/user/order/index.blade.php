@@ -608,7 +608,7 @@
                             @endif
                             @if (
                                 $payment &&
-                                    (string) $payment->status === PaymentStatus::PENDING->value &&
+                                    in_array((string) $payment->status, [PaymentStatus::PENDING->value, PaymentStatus::FAILED->value], true) &&
                                     in_array($order->payment_method, ['vnpay', 'stripe'], true))
                                 <form method="POST" action="{{ route('user.checkout.retry', $order) }}">
                                     @csrf
